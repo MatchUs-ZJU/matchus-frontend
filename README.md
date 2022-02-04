@@ -8,6 +8,8 @@
 
 本项目使用 [Taro](https://docs.taro.zone/docs/version) 跨平台框架开发，使用的版本是v3.4.1。
 
+### 版本管理
+
 Taro各个版本之间兼容性不佳，建议安装正确的版本。
 
 ```shell
@@ -21,6 +23,19 @@ $ taro update project
 $ taro update project [版本号]
 ```
 
+安装Taro命令行工具taro-cli的正确版本：
+
+如果之前有安装其他版本的@tarojs/cli，需要先全局卸载，执行下方命令:
+```
+  npm uninstall -g @tarojs/cli
+  rm -rf node_modules
+
+  选择下列一种
+  npm install -g @tarojs/cli@3.4.1
+  cnpm install -g @tarojs/cli@3.4.1
+  yarn global add @tarojs/cli@3.4.1
+```
+
 ### 安装依赖
 
 ```shell
@@ -30,9 +45,11 @@ npm install
 
 ### 开发与编译
 
+开发目录下的config.js文件指定了服务端的地址和端口，请按需进行修改。
+
 在开发完并需要检查运行时效果时，使用：
 ```shell
-npm run dev:weapp
+(sudo) npm run dev:weapp
 ```
 来获得编译产物，位于./dist文件夹下。Taro将会监听文件修改，会根据代码改动动态更新产物变化。
 
@@ -42,7 +59,7 @@ npm run dev:weapp
 
 在完成所有开发后，使用：
 ```shell
-npm run build:weapp
+(sudo) npm run build:weapp
 ```
 获得产物。Taro将不会监听文件修改，并会对代码进行压缩打包。
 
