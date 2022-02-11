@@ -1,12 +1,12 @@
 import Taro from "@tarojs/taro";
-import {baseUrl} from "../config";
 import {HTTP_STATUS} from "../utils/status";
+import {BASE_URL} from "../config";
 
 let checkHttpStatus = (response: API.Response) => {
   // stop loading
   Taro.stopPullDownRefresh();
   Taro.hideNavigationBarLoading();
-
+  console.log(response)
   if (response.statusCode >= 200 && response.statusCode < 300) {
     return response.data;
   }
@@ -21,12 +21,12 @@ let checkHttpStatus = (response: API.Response) => {
 
 let checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
-
+  console.log(data)
   if (data.success && data.code === 0) {
     return data;
   }
 
-  const message = data.message || '服务器异常，原因未返回';
+  const message = data.msg || '服务器异常，原因未返回';
   const error: any = new Error(message);
   error.data = data;
   error.text = message;
@@ -39,13 +39,14 @@ let checkSuccess = (data: API.ResponseData) => {
  */
 function throwError(err) {
   Taro.hideNavigationBarLoading();
-  // if (process.env.TARO_ENV === 'weapp' && process.env.NODE_ENV === 'development') {
-  //   Taro.atMessage({
-  //     type: 'error',
-  //     message: `${err.message} 状态码: ${err.code}`,
-  //   });
-  // }
-  throw err;
+
+  // show error message
+  console.log("请求失败：" + `${err.code} ${err.text}`)
+  // Taro.showToast({
+  //   title: "网络请求失败: " + `${err.text}`,
+  //   icon: "error",
+  //   duration: 5000
+  // })
 }
 
 export default {
@@ -59,7 +60,7 @@ export default {
     return Taro.request({
       ...options,
       method: method || 'GET',
-      url: `${baseUrl}${url}`,
+      url: `${BASE_URL}${url}`,
       header: {
         'content-type': contentType,
         ...options.header,

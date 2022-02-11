@@ -8,8 +8,9 @@ declare namespace API {
 
   export interface ResponseData {
     success: boolean,
-    message: string,
+    msg: string,
     code: number;
     data: any;
   }
 }
+

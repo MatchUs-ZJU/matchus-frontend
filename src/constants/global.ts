@@ -1,0 +1,1 @@
+export const GLOBAL_SAVE = 'GLOBAL_SAVE_SYSTEM_INFO'
