@@ -6,7 +6,6 @@ let checkHttpStatus = (response: API.Response) => {
   // stop loading
   Taro.stopPullDownRefresh();
   Taro.hideNavigationBarLoading();
-  console.log(response)
   if (response.statusCode >= 200 && response.statusCode < 300) {
     return response.data;
   }
@@ -21,9 +20,8 @@ let checkHttpStatus = (response: API.Response) => {
 
 let checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
-  console.log(data)
   if (data.success && data.code === 0) {
-    return data;
+    return data.data;
   }
 
   const message = data.msg || '服务器异常，原因未返回';
@@ -42,11 +40,12 @@ function throwError(err) {
 
   // show error message
   console.log("请求失败：" + `${err.code} ${err.text}`)
-  // Taro.showToast({
-  //   title: "网络请求失败: " + `${err.text}`,
-  //   icon: "error",
-  //   duration: 5000
-  // })
+  Taro.showToast({
+    title: "网络请求失败: " + `${err.text}`,
+    icon: "error",
+    duration: 5000
+  })
+  throw err
 }
 
 export default {

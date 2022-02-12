@@ -6,9 +6,9 @@ export const logout = () => {
   }
 }
 
-export const saveInfo = (payload) => {
+export const saveUserInfo = (payload) => {
   return {
     type: USER_SAVE,
-    payload: payload
+    payload
   }
 }

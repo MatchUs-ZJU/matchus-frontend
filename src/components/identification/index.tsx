@@ -1,8 +1,9 @@
 import {useDispatch} from "react-redux";
 import {View} from "@tarojs/components";
 import {AtModal} from "taro-ui";
+import './index.scss'
 
-const IndentificationModal = ({opened}) => {
+const IdentificationModal = ({opened}) => {
   const dispatch = useDispatch();
 
   const goToIdentify = () => {
@@ -35,4 +36,4 @@ const IndentificationModal = ({opened}) => {
   );
 };
 
-export default IndentificationModal;
+export default IdentificationModal;

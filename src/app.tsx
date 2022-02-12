@@ -1,47 +1,21 @@
 import {useState} from 'react'
 import {Provider} from 'react-redux'
 import Taro, {useDidShow} from "@tarojs/taro";
-// taro-ui
 import 'taro-ui/dist/style/index.scss'
 
 import configStore from './store'
-import {getUserInfo as fetchUserInfo, login} from "./services/user";
+import {getUserInfo, login, register} from "./services/user";
 import {saveGlobal} from "./actions"
 
 import './app.scss'
 import {getJWT, setJWT} from "./services/jwt";
-import {saveInfo} from "./actions/user";
+import {saveUserInfo} from "./actions/user";
 
 const store = configStore()
 
 function App(props) {
 
   let [sessionValid, setSessionValid] = useState(false)
-
-  //
-  // let getUserInfo = async () => {
-  //   // check JWT
-  //   if (!getJWT()) {
-  //     console.log('JWT missed.')
-  //     login()
-  //     return
-  //   }
-  //
-  //   // fetch user info
-  //   try {
-  //     let data = await fetchUserInfo();
-  //     dispatch({
-  //       type: USER_UPDATE,
-  //       payload: data
-  //     })
-  //   } catch (e) {
-  //     console.log("Fetch UserInfo failed.")
-  //   }
-  // }
-  //
-  // let login = () => {
-  //
-  // }
 
   function relogin() {
     // TODO logout
@@ -60,8 +34,42 @@ function App(props) {
 
             // store the login state: JWT and user info
             console.log('用户登录：发送登录请求成功，存储登录状态')
+            store.dispatch(saveUserInfo({...resp, login: true}))
             setJWT(resp.token)
-            store.dispatch(saveInfo(resp))
+
+            if (!resp.binded) {
+              // if it is a newcomer, get user info by authorizing
+              console.log('用户登录：登录用户未绑定信息，授权获取个人信息')
+              try {
+                const {userInfo} = await Taro.getUserInfo()
+                console.log(userInfo)
+                // store user info
+                store.dispatch(saveUserInfo(userInfo))
+
+                // register
+                await register({
+                  ...userInfo,
+                  'openid': resp.openid
+                })
+              } catch (e) {
+                Taro.showToast({
+                  icon: 'none',
+                  title: '授权失败! 您将无法参加我们的活动',
+                  duration: 5000,
+                });
+              }
+            } else {
+              // or get the user info from server
+              console.log('用户登录：登录用户已经绑定个人信息，从服务器获取个人信息')
+              try {
+                const userInfo = await getUserInfo()
+                console.log(userInfo)
+                // restore user info
+                store.dispatch(saveUserInfo(userInfo))
+              } catch (e) {
+                console.log('用户登录：从服务器获取个人信息失败')
+              }
+            }
           } catch (e) {
             console.log('用户登录：发送登录请求失败')
           }
@@ -80,29 +88,27 @@ function App(props) {
       relogin()
     } else {
       // get current user information from server
-      let resp = fetchUserInfo()
-        .then((res) => {
-          console.log('用户登录：获取用户信息成功')
-          store.dispatch(saveInfo(res))
-          return res
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      console.log('用户登录：从服务器获取用户信息')
+      try {
+        const userInfo = await getUserInfo()
+        console.log('用户登录：获取用户信息成功')
+        store.dispatch(saveUserInfo(userInfo))
+      } catch (e) {
+        console.log('用户登录：从服务器获取个人信息失败')
+      }
     }
   }
 
   useDidShow(async () => {
     try {
       await Taro.checkSession()
-
       // session not timeout
       console.log('用户登录：Session有效');
-      handleSessionValid()
+      await handleSessionValid()
     } catch (e) {
       if (!sessionValid) {
         // session timeout
-        console.log('用户登录：Session失效 => 发起登录');
+        console.log('用户登录：Sessionw无效，发起登录');
         relogin()
       }
     }

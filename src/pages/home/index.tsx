@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 
 import './index.scss'
-import {sugarIcon} from '../../assets/images/index'
+import {sugarIcon} from '../../assets/images'
 import {fetchBanners, fetchRecommends} from "../../actions";
 
 const Home = () => {

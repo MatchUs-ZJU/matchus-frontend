@@ -1,26 +1,28 @@
 import {USER_SAVE, USER_LOGOUT} from "../constants";
 
 export interface IUserState {
-  nickname: string;
+  nickName: string;
   id: string;
   // anonymousAvatar?: string;
-  avatar?: string;
-  login: boolean;
+  avatarUrl?: string;
+  gender?: number;
+
   openid?: string;
   sessionKey?: string;
 
   school?: string;
   role: 'guest' | 'admin' | 'user' | 'root';
-  identified?: boolean; // 是否完成认证
+
+  login: boolean;
+  identified: boolean; // 是否完成认证
   binded: boolean;
 }
 
 const INITIAL_STATE: IUserState = {
-  avatar: "",
   id: "",
   identified: false,
   login: false,
-  nickname: "",
+  nickName: "",
   role: "guest",
   school: "",
   binded: false
@@ -32,7 +34,8 @@ export default function user(state = INITIAL_STATE, action) {
       return INITIAL_STATE
     case USER_SAVE:
       return {
-        ...state, ...action.payload
+        ...state,
+        ...action.payload
       }
     default:
       return state
