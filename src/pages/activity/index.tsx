@@ -1,6 +1,7 @@
 import {View} from "@tarojs/components";
 import {useDidShow} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
 
 import './index.scss'
 import {saveGlobal} from "../../actions";
@@ -13,6 +14,7 @@ const Activity = () => {
 
   useDidShow(() => {
     const { nickName, identified } = user;
+    console.log(user)
     if (!nickName) {
       dispatch(saveGlobal({showLoginModal: true}));
       return;
@@ -21,6 +23,10 @@ const Activity = () => {
       dispatch(saveGlobal({showIdentifyModal: true}));
       return;
     }
+  })
+
+  useEffect(() => {
+
   })
 
   return (

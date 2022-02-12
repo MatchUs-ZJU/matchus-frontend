@@ -42,7 +42,6 @@ function App(props) {
               console.log('用户登录：登录用户未绑定信息，授权获取个人信息')
               try {
                 const {userInfo} = await Taro.getUserInfo()
-                console.log(userInfo)
                 // store user info
                 store.dispatch(saveUserInfo(userInfo))
 
