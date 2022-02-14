@@ -10,7 +10,7 @@ import {fetchBanners, fetchRecommends} from "../../actions";
 const Home = () => {
   // store
   const dispatch = useDispatch()
-  const {user, home, global} = useSelector(state => state)
+  const {user, home, global} = useSelector((state) => state)
   const {recommends, banners} = home
 
   const [ready, setReady] = useState(false);

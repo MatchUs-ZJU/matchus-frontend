@@ -1,79 +1,191 @@
-import { Component } from 'react'
-import { connect } from 'react-redux'
-import { View, Button, Text } from '@tarojs/components'
-
-import { add, minus, asyncAdd } from '../../actions/counter'
-
+import {Picker, View} from "@tarojs/components";
+import {AtButton, AtForm, AtImagePicker, AtInput, AtList, AtListItem, AtMessage} from "taro-ui";
+import Taro from "@tarojs/taro";
+import {useEffect, useState} from "react";
 import './index.scss'
+import {updateUserInfo, uploadIdentificationImages} from "../../services/user";
 
-// #region 书写注意
-//
-// 目前 typescript 版本还无法在装饰器模式下将 Props 注入到 Taro.Component 中的 props 属性
-// 需要显示声明 connect 的参数类型并通过 interface 的方式指定 Taro.Component 子类的 props
-// 这样才能完成类型检查和 IDE 的自动提示
-// 使用函数模式则无此限制
-// ref: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20796
-//
-// #endregion
+const Identify = () => {
 
-type PageStateProps = {
-  counter: {
-    num: number
-  }
-}
-
-type PageDispatchProps = {
-  add: () => void
-  dec: () => void
-  asyncAdd: () => any
-}
-
-type PageOwnProps = {}
-
-type PageState = {}
-
-type IProps = PageStateProps & PageDispatchProps & PageOwnProps
-
-interface Identify {
-  props: IProps;
-}
-
-@connect(({ counter }) => ({
-  counter
-}), (dispatch) => ({
-  add () {
-    dispatch(add())
-  },
-  dec () {
-    dispatch(minus())
-  },
-  asyncAdd () {
-    dispatch(asyncAdd())
-  }
-}))
-class Identify extends Component {
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
+  interface IForm {
+    school: string,
+    faculty: string,
+    phoneNumber: string,
+    images: IImage[]
   }
 
-  componentWillUnmount () { }
+  interface IImage {
+    url: string
+  }
 
-  componentDidShow () { }
+  let [showAddBtn, setShowAddBtn] = useState(true)
+  let [canSubmit, setCanSubmit] = useState(false)
+  let [schools, setSchools] = useState(['浙江大学', '浙江大学软件学院'])
+  let [faculties, setFaculties] = useState(['计算机科学与技术学院', '人文学院'])
+  let [form, setForm] = useState<IForm>({
+    school: '无',
+    faculty: '无',
+    phoneNumber: '',
+    images: [],
+  })
 
-  componentDidHide () { }
+  useEffect(() => {
+    // at most add 2 images
+    if (form.images.length === 2) {
+      setShowAddBtn(false)
+    }
 
-  render () {
-    return (
-      <View className='identify'>
-        <Button className='add_btn' onClick={this.props.add}>+</Button>
-        <Button className='dec_btn' onClick={this.props.dec}>-</Button>
-        <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>
-        <View><Text>{this.props.counter.num}</Text></View>
-        <View><Text>Hello, World</Text></View>
+    if (form.school !== '无' && form.faculty !== '无' && form.phoneNumber !== '' && form.images.length !== 0) {
+      setCanSubmit(true)
+    }
+  }, [form])
+
+  const onSubmitForm = async () => {
+    let hasProblem = checkForm()
+    if (hasProblem) {
+      Taro.atMessage({
+        message: '填写信息有错误哦！',
+        type: 'warning',
+        duration: 3000,
+      });
+    } else {
+      try {
+        // update user info
+        await updateUserInfo(form)
+        // upload images
+        for (const image of form.images) {
+          await uploadIdentificationImages({
+            filePath: image.url,
+            name: image.url,
+          })
+        }
+
+        // success
+        Taro.atMessage({
+          message: '填写成功，工作人员将尽快审核',
+          type: 'success',
+          duration: 3000,
+        });
+
+        // navigate back
+        await Taro.navigateBack()
+      } catch (e) {
+        Taro.atMessage({
+          message: '上传信息失败！',
+          type: 'error',
+          duration: 3000,
+        });
+      }
+    }
+  }
+
+  const checkForm = () => {
+    // TODO check form
+    return false
+  }
+
+  return (
+    <View className='container default'>
+      <AtMessage />
+      <View className='basic'>
+        <View className='section-name'>基本信息</View>
+        <View>
+          <Picker
+            mode='selector'
+            range={schools}
+            onChange={(e) => {
+              setForm({
+                ...form, school: schools[e.detail.value]
+              })
+            }}
+          >
+            <AtList>
+              <AtListItem
+                title='选择学校'
+                extraText={form.school}
+              />
+            </AtList>
+          </Picker>
+        </View>
+        <View>
+          <Picker
+            mode='selector'
+            range={faculties}
+            onChange={(e) => {
+              setForm({
+                ...form, faculty: faculties[e.detail.value]
+              })
+            }}
+          >
+            <AtList>
+              <AtListItem
+                title='选择院系'
+                extraText={form.faculty}
+              />
+            </AtList>
+          </Picker>
+        </View>
+        <View>
+          <AtForm>
+            <AtInput
+              clear
+              name='phoneNumber'
+              title='手机号'
+              type='text'
+              placeholder=''
+              value={form.phoneNumber}
+              onChange={() => {
+              }}
+              className='phone-number'
+            >
+              <AtButton
+                className='button'
+                size='small' type='secondary'
+                circle
+                openType='getPhoneNumber'
+                onGetPhoneNumber={(e) => {
+                  console.log(e.detail)
+                }}
+              >点击获取手机号
+              </AtButton>
+            </AtInput>
+          </AtForm>
+        </View>
       </View>
-    )
-  }
+      <View className='identity'>
+        <View className='section-name'>信息认证</View>
+        <View>
+          <AtImagePicker
+            multiple
+            length={2}
+            count={2}
+            showAddBtn={showAddBtn}
+            files={form.images}
+            onChange={(images) => {
+              console.log(images)
+              setForm({...form, images: images})
+            }}
+            onFail={(e) => {
+              console.log(e)
+            }}
+          />
+        </View>
+      </View>
+      <View className='submit'>
+        <AtButton
+          disabled={!canSubmit}
+          type='primary'
+          circle
+          customStyle={{width: '85%'}}
+          onClick={onSubmitForm}
+          className='submit-button'
+        >
+          完成
+        </AtButton>
+      </View>
+    </View>
+  )
+
 }
 
-export default Identify
-
+export default Identify;

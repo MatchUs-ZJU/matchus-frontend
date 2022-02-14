@@ -1,4 +1,45 @@
-.index {
-  flex-direction: column;
+@import "../../app";
+
+.container {
+  min-height: 100vh;
+  position: relative;
+  color: $title-color;
+
+  :global {
+    .at-search-bar::after {
+      border: 0 solid white;
+    }
+  }
+}
+
+.default {
+  padding: 24px;
+}
+
+.section-name {
+  font-size: 32px;
+  margin: 32px 0 16px;
+  font-weight: bold;
+}
+
+.button.at-button {
+  border-color: #E8EFF6;
+  color: #E8EFF6;
+  margin-left: 15px;
+}
+
+.submit {
+  position: absolute;
+  bottom: 40px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.submit-button {
+  border: none;
+  background: #E8EFF6;
+  color: #000
 }

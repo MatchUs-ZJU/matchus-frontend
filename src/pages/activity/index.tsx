@@ -1,5 +1,5 @@
 import {View} from "@tarojs/components";
-import {useDidShow} from "@tarojs/taro";
+import Taro, {useDidShow} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 
@@ -9,20 +9,21 @@ import {IdentificationModal, LoginModal} from "../../components";
 
 const Activity = () => {
   const dispatch = useDispatch();
-  const { global, user } = useSelector(state => state);
+  const { global, user } = useSelector((state) => state);
   const { showLoginModal, showIdentifyModal } = global;
 
   useDidShow(() => {
-    const { nickName, identified } = user;
-    console.log(user)
-    if (!nickName) {
-      dispatch(saveGlobal({showLoginModal: true}));
-      return;
-    }
-    if (!identified) {
-      dispatch(saveGlobal({showIdentifyModal: true}));
-      return;
-    }
+    Taro.navigateTo({url: '/pages/identify/index'});
+    // const { nickName, identified } = user;
+    // console.log(user)
+    // if (!nickName) {
+    //   dispatch(saveGlobal({showLoginModal: true}));
+    //   return;
+    // }
+    // if (!identified) {
+    //   dispatch(saveGlobal({showIdentifyModal: true}));
+    //   return;
+    // }
   })
 
   useEffect(() => {

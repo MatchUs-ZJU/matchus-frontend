@@ -11,6 +11,7 @@ export interface IUserState {
   sessionKey?: string;
 
   school?: string;
+  faculty?: string;
   role: 'guest' | 'admin' | 'user' | 'root';
 
   login: boolean;

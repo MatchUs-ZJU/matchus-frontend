@@ -3,7 +3,8 @@ export default defineAppConfig({
     'pages/home/index',
     'pages/activity/index',
     'pages/user/index',
-    'pages/about/index'
+    'pages/about/index',
+    'pages/identify/index'
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -25,7 +26,7 @@ export default defineAppConfig({
         text: '活动',
         pagePath: 'pages/activity/index',
         iconPath: 'assets/images/tablist/activity.png',
-        selectedIconPath: 'assets/images/tablist/activity-s.png',
+        selectedIconPath: 'assets/images/tablist/activity.png',
       },
       {
         text: '我的',
