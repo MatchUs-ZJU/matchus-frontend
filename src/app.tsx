@@ -114,7 +114,6 @@ function App(props) {
 
     // store system info
     Taro.getSystemInfo().then((systemInfo) => {
-      console.log(systemInfo)
       store.dispatch(saveGlobal({
         system: systemInfo
       }))

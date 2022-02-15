@@ -10,12 +10,17 @@ const Identify = () => {
   interface IForm {
     school: string,
     faculty: string,
-    phoneNumber: string,
+    phoneNumber: IEncryptedPhoneNumber,
     images: IImage[]
   }
 
   interface IImage {
     url: string
+  }
+
+  interface IEncryptedPhoneNumber {
+    iv: string,
+    encryptedData: string
   }
 
   let [showAddBtn, setShowAddBtn] = useState(true)
@@ -25,7 +30,7 @@ const Identify = () => {
   let [form, setForm] = useState<IForm>({
     school: '无',
     faculty: '无',
-    phoneNumber: '',
+    phoneNumber: { iv:'', encryptedData: ''},
     images: [],
   })
 
@@ -35,7 +40,7 @@ const Identify = () => {
       setShowAddBtn(false)
     }
 
-    if (form.school !== '无' && form.faculty !== '无' && form.phoneNumber !== '' && form.images.length !== 0) {
+    if (form.school !== '无' && form.faculty !== '无' && form.phoneNumber.iv !== '' && form.images.length !== 0) {
       setCanSubmit(true)
     }
   }, [form])
@@ -76,6 +81,19 @@ const Identify = () => {
           duration: 3000,
         });
       }
+    }
+  }
+
+  const onGetPhoneNumber = (e) => {
+    if(e.detail.errMsg === 'getPhoneNumber:ok') {
+      setForm({
+        ...form, phoneNumber: {
+          iv: e.detail.iv,
+          encryptedData: e.detail.encryptedData
+        }
+      })
+    } else {
+      console.log(e.detail.errMsg)
     }
   }
 
@@ -133,9 +151,8 @@ const Identify = () => {
               title='手机号'
               type='text'
               placeholder=''
-              value={form.phoneNumber}
-              onChange={() => {
-              }}
+              value=''
+              onChange={() => {}}
               className='phone-number'
             >
               <AtButton
@@ -143,9 +160,7 @@ const Identify = () => {
                 size='small' type='secondary'
                 circle
                 openType='getPhoneNumber'
-                onGetPhoneNumber={(e) => {
-                  console.log(e.detail)
-                }}
+                onGetPhoneNumber={onGetPhoneNumber}
               >点击获取手机号
               </AtButton>
             </AtInput>

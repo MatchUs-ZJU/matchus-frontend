@@ -22,7 +22,7 @@ const User = () => {
         duration: 3000
       })
     } else {
-      Taro.navigateTo({url: '/pages/user/information'})
+      Taro.navigateTo({url: '/pages/information/index'})
     }
   }
 

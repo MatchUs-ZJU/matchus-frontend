@@ -6,11 +6,13 @@ import {useEffect} from "react";
 import './index.scss'
 import {saveGlobal} from "../../actions";
 import {IdentificationModal, LoginModal} from "../../components";
+import Activity from "./activity";
 
-const Activity = () => {
+const Index = () => {
   const dispatch = useDispatch();
   const { global, user } = useSelector((state) => state);
   const { showLoginModal, showIdentifyModal } = global;
+  const { identified } = user;
 
   useDidShow(() => {
     Taro.navigateTo({url: '/pages/identify/index'});
@@ -20,7 +22,7 @@ const Activity = () => {
     //   dispatch(saveGlobal({showLoginModal: true}));
     //   return;
     // }
-    // if (!identified) {
+    // if (identified !== 1) {
     //   dispatch(saveGlobal({showIdentifyModal: true}));
     //   return;
     // }
@@ -34,8 +36,17 @@ const Activity = () => {
     <View className='container'>
       <LoginModal opened={showLoginModal} />
       <IdentificationModal opened={showIdentifyModal} />
+      {
+        identified === 1 ? (
+          <Activity />
+        ) : (
+          <View>
+            Default
+          </View>
+        )
+      }
     </View>
   )
 }
 
-export default Activity
+export default Index
