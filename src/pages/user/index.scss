@@ -7,6 +7,7 @@
   width: 100%;
   overflow-x: hidden;
   color: $text-color;
+  background: $background-base-color;
 }
 
 .main-info {
@@ -21,7 +22,7 @@
   width: 128px;
   border-radius: 50%;
   overflow: hidden;
-  background: $background-base-color;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,6 +53,16 @@
   color: $text-color;
   font-size: 40px;
   justify-content: center;
+}
+
+.basic-info,
+.help{
+  padding: 16px 32px;
+}
+
+.basic-info-list,
+.help-list{
+  border-radius: 30px;
 }
 
 .list-item {

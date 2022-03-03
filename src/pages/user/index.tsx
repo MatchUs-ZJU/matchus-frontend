@@ -7,7 +7,6 @@ import './index.scss'
 import {LoginModal} from "../../components";
 import {saveGlobal} from "../../actions";
 
-
 const User = () => {
   const dispatch = useDispatch()
   const {user, global} = useSelector((state) => state)
@@ -32,6 +31,31 @@ const User = () => {
         showLoginModal: true
       }))
     }
+  }
+
+  const onClickOpenIdentity = () => {
+    if (!nickName) {
+      Taro.atMessage({
+        type: 'warning',
+        message: '您还没有登录哦！',
+        duration: 3000
+      })
+    } else {
+      // TODO:身份认证页面
+      // Taro.navigateTo({url: '/pages/information/index'})
+    }
+  }
+
+  const onClickOpenRecord = () => {
+    // if (!nickName) {
+    //   Taro.atMessage({
+    //     type: 'warning',
+    //     message: '您还没有登录哦！',
+    //     duration: 3000
+    //   })
+    // } else {
+      Taro.navigateTo({url: '/pages/user/records'})
+    // }
   }
 
   return (
@@ -67,25 +91,58 @@ const User = () => {
           </View>
         </View>
       </View>
-      <View style={{marginTop: '32px'}}>
-        <AtList hasBorder={false}>
+      <View className='basic-info'>
+        <AtList hasBorder={false} className='basic-info-list'>
           <AtListItem
             className='list-item'
             title='个人信息'
             arrow='right'
+            hasBorder={false}
             iconInfo={{value: 'settings', size: 18}}
             onClick={onClickOpenSettings}
           />
           <AtListItem
             className='list-item'
+            title='身份认证'
+            arrow='right'
+            hasBorder={false}
+            iconInfo={{value: 'tags', size: 18}}
+            onClick={onClickOpenIdentity}
+          />
+          <AtListItem
+            className='list-item'
+            title='消费记录'
+            arrow='right'
+            hasBorder={false}
+            iconInfo={{value: 'shopping-cart', size: 18}}
+            onClick={onClickOpenRecord}
+          />
+        </AtList>
+      </View>
+      <View className='help'>
+        <AtList hasBorder={false} className='help-list'>
+          <AtListItem
+            className='list-item'
+            title='帮助与客服'
+            arrow='right'
+            hasBorder={false}
+            iconInfo={{value: 'help', size: 18}}
+            onClick={async () => {
+              await Taro.navigateTo({url: '/pages/user/help'});
+            }}
+          />
+          <AtListItem
+            className='list-item'
             title='关于我们'
             arrow='right'
-            iconInfo={{value: 'help', size: 18}}
+            hasBorder={false}
+            iconInfo={{value: 'alert-circle', size: 18}}
             onClick={async () => {
               await Taro.navigateTo({url: '/pages/about/index'});
             }}
           />
         </AtList>
+
       </View>
       <LoginModal opened={showLoginModal} />
     </View>

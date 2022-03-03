@@ -5,7 +5,9 @@ export default defineAppConfig({
     'pages/user/index',
     'pages/about/index',
     'pages/identify/index',
-    'pages/information/index'
+    'pages/information/index',
+    'pages/user/help',
+    'pages/user/records'
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -14,7 +16,7 @@ export default defineAppConfig({
     navigationBarTextStyle: 'black'
   },
   tabBar: {
-    selectedColor: '#ecbbbb',
+    selectedColor: '#caccef',
     borderStyle: 'white',
     list: [
       {

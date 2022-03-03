@@ -117,7 +117,7 @@ const Identify = () => {
               })
             }}
           >
-            <AtList>
+            <AtList className='basic-choice' hasBorder={false}>
               <AtListItem
                 title='选择学校'
                 extraText={form.school}
@@ -135,7 +135,7 @@ const Identify = () => {
               })
             }}
           >
-            <AtList>
+            <AtList className='basic-choice' hasBorder={false}>
               <AtListItem
                 title='选择院系'
                 extraText={form.faculty}
@@ -161,7 +161,7 @@ const Identify = () => {
                 circle
                 openType='getPhoneNumber'
                 onGetPhoneNumber={onGetPhoneNumber}
-              >点击获取手机号
+              >获取手机号
               </AtButton>
             </AtInput>
           </AtForm>

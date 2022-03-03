@@ -1,0 +1,61 @@
+@import "../../app";
+
+.left{
+  width: 30%;
+  text-align: center;
+  font-size: 24px;
+  float: left;
+  border-style: solid;
+  border-color: rgb(231, 231, 231);
+  border-width: 2px 0 2px;
+  margin: 0 0 -2px;
+}
+  .left-flex{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+.right.at-grid{
+  width: 70%;
+  float: right;
+  border-width: 10px;
+}
+
+.at-grid__flex .content-inner__text{
+  font-size: 24px;
+}
+
+.at-grid__flex{
+  height: 80px;
+  border-style: solid;
+  border-color: rgb(231, 231, 231);
+  border-width: 2px;
+  margin: 0 0 -2px;
+}
+
+.info.at-divider{
+  margin: 2% 5% 2% 5%;
+  width: 90%;
+}
+
+.at-divider__content {
+  font-size: 24px;
+}
+
+.artificial-service {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.artificial-button {
+  border: none;
+  background: #4f54c1;
+  color: white;
+}
