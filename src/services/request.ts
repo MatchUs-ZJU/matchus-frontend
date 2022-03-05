@@ -24,7 +24,7 @@ let checkSuccess = (data: API.ResponseData) => {
     return data.data;
   }
 
-  const message = data.msg || '服务器异常，原因未返回';
+  const message = data.msg || '服务器异常并且没有返回原因';
   const error: any = new Error(message);
   error.data = data;
   error.text = message;

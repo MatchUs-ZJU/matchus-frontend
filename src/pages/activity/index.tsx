@@ -15,17 +15,16 @@ const Index = () => {
   const { identified } = user;
 
   useDidShow(() => {
-    Taro.navigateTo({url: '/pages/identify/index'});
-    // const { nickName, identified } = user;
-    // console.log(user)
-    // if (!nickName) {
-    //   dispatch(saveGlobal({showLoginModal: true}));
-    //   return;
-    // }
-    // if (identified !== 1) {
-    //   dispatch(saveGlobal({showIdentifyModal: true}));
-    //   return;
-    // }
+    const { nickName, identified } = user;
+    console.log(user)
+    if (!nickName) {
+      dispatch(saveGlobal({showLoginModal: true}));
+      return;
+    }
+    if (identified !== 1) {
+      dispatch(saveGlobal({showIdentifyModal: true}));
+      return;
+    }
   })
 
   useEffect(() => {

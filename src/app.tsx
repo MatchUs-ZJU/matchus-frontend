@@ -107,7 +107,7 @@ function App(props) {
     } catch (e) {
       if (!sessionValid) {
         // session timeout
-        console.log('用户登录：Sessionw无效，发起登录');
+        console.log('用户登录：Session无效，发起登录');
         relogin()
       }
     }

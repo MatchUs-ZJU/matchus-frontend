@@ -11,7 +11,9 @@ import {register} from "../../services/user";
 const LoginModal = ({ opened }) => {
   const dispatch = useDispatch();
 
-  const onConfirmRegister = async () => {
+  const onConfirmRegister = async (e) => {
+    console.log(e.detail)
+
     if (!getJWT()) {
       console.log('用户注册：在获取用户信息时缺乏JWT')
     } else {
@@ -23,8 +25,8 @@ const LoginModal = ({ opened }) => {
         // register
         console.log(userInfo)
         await register(userInfo)
-      } catch (e) {
-        Taro.showToast({
+      } catch (_) {
+        await Taro.showToast({
           icon: 'none',
           title: '授权失败! 您将无法参加我们的活动',
           duration: 5000,
