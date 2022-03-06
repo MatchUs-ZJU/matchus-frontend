@@ -45,7 +45,6 @@ function throwError(err) {
     icon: "error",
     duration: 5000
   })
-  throw err
 }
 
 export default {

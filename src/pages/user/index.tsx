@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import './index.scss'
 import {LoginModal} from "../../components";
-import {saveGlobal} from "../../actions";
+import {globalSave} from "../../actions";
 
 const User = () => {
   const dispatch = useDispatch()
@@ -27,7 +27,7 @@ const User = () => {
 
   const onClickMainInfo = () => {
     if (!nickName) {
-      dispatch(saveGlobal({
+      dispatch(globalSave({
         showLoginModal: true
       }))
     }

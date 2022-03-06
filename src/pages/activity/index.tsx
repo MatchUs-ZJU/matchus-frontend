@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 
 import './index.scss'
-import {saveGlobal} from "../../actions";
+import {globalSave} from "../../actions";
 import {IdentificationModal, LoginModal} from "../../components";
 import Activity from "./activity";
 
@@ -12,24 +12,21 @@ const Index = () => {
   const dispatch = useDispatch();
   const { global, user } = useSelector((state) => state);
   const { showLoginModal, showIdentifyModal } = global;
-  const { identified } = user;
 
   useDidShow(() => {
     const { nickName, identified } = user;
     console.log(user)
     if (!nickName) {
-      dispatch(saveGlobal({showLoginModal: true}));
+      dispatch(globalSave({showLoginModal: true}));
       return;
     }
     if (identified !== 1) {
-      dispatch(saveGlobal({showIdentifyModal: true}));
+      dispatch(globalSave({showIdentifyModal: true}));
       return;
     }
   })
 
-  useEffect(() => {
-
-  })
+  const { identified } = user
 
   return (
     <View className='container'>

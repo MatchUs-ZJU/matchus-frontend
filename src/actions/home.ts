@@ -5,7 +5,9 @@ export const fetchBanners = () => {
   return dispatch => {
     getBanners()
       .then((res) => {
-        dispatch(save(res))
+        if (res) {
+          dispatch(save(res))
+        }
       })
       .catch((e) => {
         console.log(e)
@@ -17,7 +19,9 @@ export const fetchRecommends = () => {
   return dispatch => {
     getRecommends()
       .then((res) => {
-        dispatch(save(res))
+        if (res) {
+          dispatch(save(res))
+        }
       })
       .catch((e) => {
         console.log(e)

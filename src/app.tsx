@@ -4,12 +4,12 @@ import Taro, {useDidShow} from "@tarojs/taro";
 import 'taro-ui/dist/style/index.scss'
 
 import configStore from './store'
-import {getUserInfo, login, register} from "./services/user";
-import {saveGlobal} from "./actions"
+import {login, register} from "./services/user";
+import {fetchUserInfo, globalSave, userRegister} from "./actions"
 
 import './app.scss'
 import {getJWT, setJWT} from "./services/jwt";
-import {saveUserInfo} from "./actions/user";
+import {userSave} from "./actions/user";
 
 const store = configStore()
 
@@ -34,40 +34,17 @@ function App(props) {
 
             // store the login state: JWT and user info
             console.log('用户登录：发送登录请求成功，存储登录状态')
-            store.dispatch(saveUserInfo({...resp, login: true}))
+            store.dispatch(userSave({...resp, login: true}))
             setJWT(resp.token)
 
             if (!resp.binded) {
               // if it is a newcomer, get user info by authorizing
-              console.log('用户登录：登录用户未绑定信息，授权获取个人信息')
-              try {
-                const {userInfo} = await Taro.getUserInfo()
-                // store user info
-                store.dispatch(saveUserInfo(userInfo))
-
-                // register
-                await register({
-                  ...userInfo,
-                  'openid': resp.openid
-                })
-              } catch (e) {
-                Taro.showToast({
-                  icon: 'none',
-                  title: '授权失败! 您将无法参加我们的活动',
-                  duration: 5000,
-                });
-              }
+              console.log('用户登录：登录用户未绑定信息，授权获取个人信息并注册')
+              store.dispatch(userRegister(resp.openid))
             } else {
               // or get the user info from server
-              console.log('用户登录：登录用户已经绑定个人信息，从服务器获取个人信息')
-              try {
-                const userInfo = await getUserInfo()
-                console.log(userInfo)
-                // restore user info
-                store.dispatch(saveUserInfo(userInfo))
-              } catch (e) {
-                console.log('用户登录：从服务器获取个人信息失败')
-              }
+              console.log('用户登录：登录用户已经绑定个人信息')
+              store.dispatch(fetchUserInfo())
             }
           } catch (e) {
             console.log('用户登录：发送登录请求失败')
@@ -87,14 +64,7 @@ function App(props) {
       relogin()
     } else {
       // get current user information from server
-      console.log('用户登录：从服务器获取用户信息')
-      try {
-        const userInfo = await getUserInfo()
-        console.log('用户登录：获取用户信息成功')
-        store.dispatch(saveUserInfo(userInfo))
-      } catch (e) {
-        console.log('用户登录：从服务器获取个人信息失败')
-      }
+      store.dispatch(fetchUserInfo())
     }
   }
 
@@ -114,7 +84,7 @@ function App(props) {
 
     // store system info
     Taro.getSystemInfo().then((systemInfo) => {
-      store.dispatch(saveGlobal({
+      store.dispatch(globalSave({
         system: systemInfo
       }))
     });

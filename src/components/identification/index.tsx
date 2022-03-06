@@ -3,19 +3,19 @@ import {Button, View} from "@tarojs/components";
 import {AtModal, AtModalAction, AtModalContent, AtModalHeader} from "taro-ui";
 import Taro from "@tarojs/taro";
 import './index.scss'
-import {saveGlobal} from "../../actions";
+import {globalSave} from "../../actions";
 
 const IdentificationModal = ({opened}) => {
   const dispatch = useDispatch();
 
   const onConfirmIdentification = () => {
     Taro.navigateTo({url: '/pages/identify/index'});
-    dispatch(saveGlobal({showIdentifyModal: false}));
+    dispatch(globalSave({showIdentifyModal: false}));
   };
 
   const onCancel = () => {
     Taro.navigateTo({url: '/pages/home/index'});
-    dispatch(saveGlobal({showIdentifyModal: false}))
+    dispatch(globalSave({showIdentifyModal: false}))
   }
 
   return (
@@ -23,7 +23,7 @@ const IdentificationModal = ({opened}) => {
       <AtModal
         isOpened={opened}
         onConfirm={onConfirmIdentification}
-        onCancel={() => dispatch(saveGlobal({showIdentifyModal: false}))}
+        onCancel={() => dispatch(globalSave({showIdentifyModal: false}))}
       >
         <AtModalHeader>您尚未完成身份认证</AtModalHeader>
         <AtModalContent>
