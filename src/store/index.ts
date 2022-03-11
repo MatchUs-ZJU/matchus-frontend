@@ -1,6 +1,21 @@
 import {applyMiddleware, compose, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from '../reducers'
+import {IUserState} from "../reducers/user";
+import {IGlobalState} from "../reducers/global";
+import {IActivityState} from "../reducers/activity";
+import {IHomeState} from "../reducers/home";
+
+interface IState {
+  user: IUserState,
+  global: IGlobalState,
+  activity: IActivityState,
+  home: IHomeState
+}
+
+declare module "react-redux" {
+  interface DefaultRootState extends IState {}
+}
 
 const composeEnhancers =
   typeof window === 'object' &&

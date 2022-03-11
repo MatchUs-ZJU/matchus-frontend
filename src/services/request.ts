@@ -4,7 +4,6 @@ import {BASE_URL} from "../config";
 
 let checkHttpStatus = (response: API.Response) => {
   // stop loading
-  Taro.stopPullDownRefresh();
   Taro.hideNavigationBarLoading();
   if (response.statusCode >= 200 && response.statusCode < 300) {
     return response.data;
@@ -39,7 +38,7 @@ function throwError(err) {
   Taro.hideNavigationBarLoading();
 
   // show error message
-  console.log("请求失败：" + `${err.code} ${err.text}`)
+  console.log("请求失败：" + `${err.code} - ${err.text}`)
   Taro.showToast({
     title: "网络请求失败: " + `${err.text}`,
     icon: "error",

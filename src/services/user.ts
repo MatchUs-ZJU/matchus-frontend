@@ -41,9 +41,9 @@ export const login = async (data) => {
   });
 };
 
-export const logout = async (id) => {
+export const logout = async (data) => {
   console.log('网络请求：用户登出')
-  return request.post(`/user/logout?id=${id}`, {
+  return request.post(`/user/logout?id=${data.id}`, {
     header: {
       Authorization: getJWT(),
     },

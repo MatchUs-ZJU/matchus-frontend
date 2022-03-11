@@ -1,11 +1,12 @@
 export default defineAppConfig({
   pages: [
     'pages/home/index',
-    'pages/activity/index',
+    'pages/activity/page-1/index',
     'pages/user/index',
     'pages/about/index',
     'pages/identify/index',
     'pages/information/index',
+    'pages/activity/page-2/index',
     'pages/user/help',
     'pages/user/records'
   ],
@@ -27,7 +28,7 @@ export default defineAppConfig({
       },
       {
         text: '活动',
-        pagePath: 'pages/activity/index',
+        pagePath: 'pages/activity/page-2/index',
         iconPath: 'assets/images/tablist/activity.png',
         selectedIconPath: 'assets/images/tablist/activity.png',
       },
@@ -39,4 +40,5 @@ export default defineAppConfig({
       },
     ],
   },
+  navigateToMiniProgramAppIdList: ["wxd947200f82267e58"]
 })

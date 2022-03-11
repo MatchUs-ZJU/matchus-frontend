@@ -6,7 +6,7 @@ export const fetchBanners = () => {
     getBanners()
       .then((res) => {
         if (res) {
-          dispatch(save(res))
+          dispatch(homeSave(res))
         }
       })
       .catch((e) => {
@@ -20,7 +20,7 @@ export const fetchRecommends = () => {
     getRecommends()
       .then((res) => {
         if (res) {
-          dispatch(save(res))
+          dispatch(homeSave(res))
         }
       })
       .catch((e) => {
@@ -29,7 +29,7 @@ export const fetchRecommends = () => {
   }
 }
 
-export const save = (payload) => {
+export const homeSave = (payload) => {
   return {
     type: HOME_SAVE,
     payload: payload

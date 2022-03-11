@@ -34,10 +34,13 @@ export const fetchUserInfo = () => {
 }
 
 export const userRegister = (openid) => {
-  return async dispatch => {
-    try {
-      console.log("用户注册：授权获取个人信息并完成注册")
-      const {userInfo} = await Taro.getUserInfo()
+  return dispatch => {
+    console.log("用户注册：授权获取个人信息并完成注册")
+    // 该方法暂时不支持await异步调用
+    Taro.getUserProfile({
+      desc: "用于完善您的个人资料",
+    }).then(async (res) => {
+      const {userInfo} = res
       // store user info
       dispatch(userSave(userInfo))
 
@@ -46,12 +49,13 @@ export const userRegister = (openid) => {
         ...userInfo,
         'openid': openid
       })
-    } catch (e) {
-      Taro.showToast({
+    }).catch(async e => {
+      console.log(e)
+      await Taro.showToast({
         icon: 'none',
         title: '授权失败! 您将无法参加我们的活动',
         duration: 5000,
       });
-    }
+    })
   }
 }

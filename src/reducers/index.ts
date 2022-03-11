@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import counter from './counter'
 import user from "./user";
 import global from "./global"
 import home from "./home";
+import activity from "./activity";
 
 export default combineReducers({
-  counter, user, global, home
+  user, global, home, activity
 })

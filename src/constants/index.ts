@@ -1,3 +1,11 @@
-export {USER_LOGOUT, USER_SAVE} from "./user";
-export {GLOBAL_SAVE} from "./global"
-export {HOME_SAVE} from "./home"
+const GLOBAL_SAVE = 'GLOBAL_SAVE_SYSTEM_INFO'
+
+const HOME_SAVE = 'HOME_SAVE'
+
+const USER_LOGOUT = 'USER_LOGOUT'
+const USER_SAVE = 'USER_SAVE'
+
+const ACTIVITY_SAVE = 'ACTIVITY_SAVE'
+
+export {ACTIVITY_SAVE, USER_SAVE, USER_LOGOUT, HOME_SAVE, GLOBAL_SAVE}
+
