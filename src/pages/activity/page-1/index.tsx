@@ -4,9 +4,8 @@ import {useEffect, useState} from "react";
 import {AtButton} from "taro-ui";
 
 import './index.scss'
-import {globalSave} from "../../../actions";
+import {globalSave,actionPreJoinActivity, fetchLatestActivityInfo} from "../../../actions";
 import {IdentificationModal, LoginModal} from "../../../components";
-import {actionPreJoinActivity, fetchLatestActivityInfo} from "../../../actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -18,6 +17,32 @@ const Index = () => {
   const currentTime = new Date()
 
   useEffect(() => {
+    function checkUserState() {
+      if (!nickName) {
+        dispatch(globalSave({showLoginModal: true}));
+        return;
+      }
+      if (identified !== 3) {
+        dispatch(globalSave({showIdentifyModal: true}));
+        return;
+      }
+    }
+
+    function checkCanJoin() {
+      const checkUser = () => {
+        return nickName && (identified === 3)
+      }
+      const checkJoinTime = (current: Date) => {
+        return current > activity.signUpStartTime! && current < activity.signUpEndTime!
+      }
+      // TODO check has paid
+      if (checkUser() && checkJoinTime(currentTime)) {
+        setCanJoin(true)
+      } else {
+        setCanJoin(false)
+      }
+    }
+
     // 获取活动信息和用户参与情况
     dispatch(fetchLatestActivityInfo())
     // 检查昵称和验证状态
@@ -25,32 +50,6 @@ const Index = () => {
     // 检查是否能够参与
     checkCanJoin()
   }, [])
-
-  function checkUserState() {
-    if (!nickName) {
-      dispatch(globalSave({showLoginModal: true}));
-      return;
-    }
-    if (identified !== 3) {
-      dispatch(globalSave({showIdentifyModal: true}));
-      return;
-    }
-  }
-
-  function checkCanJoin() {
-    const checkUser = () => {
-      return nickName && (identified === 3)
-    }
-    const checkJoinTime = (current: Date) => {
-      return current > activity.signUpStartTime! && current < activity.signUpEndTime!
-    }
-    // TODO check has paid
-    if (checkUser() && checkJoinTime(currentTime)) {
-      setCanJoin(true)
-    } else {
-      setCanJoin(false)
-    }
-  }
 
   function onJoinActivity() {
     // 发起参与活动，购买请求

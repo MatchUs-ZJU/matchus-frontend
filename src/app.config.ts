@@ -7,6 +7,8 @@ export default defineAppConfig({
     'pages/identify/index',
     'pages/information/index',
     'pages/activity/page-2/index',
+    'pages/activity/page-3/index',
+    'pages/activity/index/index',
     'pages/user/help',
     'pages/user/records'
   ],
@@ -28,7 +30,7 @@ export default defineAppConfig({
       },
       {
         text: '活动',
-        pagePath: 'pages/activity/page-2/index',
+        pagePath: 'pages/activity/page-1/index',
         iconPath: 'assets/images/tablist/activity.png',
         selectedIconPath: 'assets/images/tablist/activity.png',
       },

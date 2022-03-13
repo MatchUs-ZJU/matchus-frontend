@@ -39,3 +39,59 @@ export const postFilledOverSurvey = async (data) => {
   });
 }
 
+export const getMatchResult = async (data) => {
+  console.log('网络请求：获取匹配结果')
+  return request.get(`/activity/match`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const postSatisfiedFeedback = async (data) => {
+  console.log('网络请求：上传匹配满意程度')
+  return request.post(`/activity/match/feedback`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const postFeedback = async (data) => {
+  console.log('网络请求：上传匹配后反馈')
+  return request.post(`/activity/match/feedback`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const getFeedbackContent = async () => {
+  console.log('网络请求：获取反馈问题内容')
+  return request.get(`/activity/match/feedback`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const postSendTwcResult = async (data) => {
+  console.log('网络请求：发送用户双选结果')
+  return request.post(`/activity/twc`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const getTwcResult = async () => {
+  console.log('网络请求：获取双选结果')
+  return request.get(`/activity/twc`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}

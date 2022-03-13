@@ -1,0 +1,13 @@
+@import "../../../app";
+
+.container {
+  min-height: 100vh;
+  position: relative;
+  color: $title-color;
+
+  :global {
+    .at-search-bar::after {
+      border: 0 solid white;
+    }
+  }
+}

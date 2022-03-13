@@ -1,6 +1,6 @@
+import Taro from "@tarojs/taro";
 import {USER_LOGOUT, USER_SAVE} from "../constants";
 import {getUserInfo, register} from "../services/user";
-import Taro from "_@tarojs_taro@3.4.1@@tarojs/taro";
 
 export const logout = () => {
   return {

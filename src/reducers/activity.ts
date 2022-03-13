@@ -1,4 +1,4 @@
-import {ACTIVITY_SAVE} from "../constants";
+import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "../constants";
 
 export interface IActivityState {
   // basic
@@ -24,6 +24,7 @@ export interface IActivityState {
 
   // resource
   imageUrl: string
+  feedbackContent?: {}
 
   // participate information
   participate: IParticipateState
@@ -31,10 +32,23 @@ export interface IActivityState {
 
 export interface IParticipateState {
   participate: boolean,
-  // TODO
-  // phase
   paid: boolean
   filledSurvey: boolean,
+  filledSatisfiedFeedback: boolean
+  twcValue: '成功' | '失败' | '未选择'
+
+  match?: IMatchState
+  twc?: ITwoWayChooseState
+}
+
+export interface IMatchState {
+  matched: boolean
+  info?: {}
+}
+
+export interface ITwoWayChooseState {
+  success: boolean
+  info?: {}
 }
 
 const INITIAL_STATE: IActivityState = {
@@ -44,6 +58,7 @@ const INITIAL_STATE: IActivityState = {
     participate: false,
     paid: false,
     filledSurvey: false,
+    filledSatisfiedFeedback: false
   },
   term: 0,
   imageUrl: "",
@@ -59,6 +74,16 @@ export default function activity(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
+    case ACTIVITY_MATCH_STATE_SAVE: {
+      let newState: IActivityState = state
+      state.participate.match = action.payload
+      return newState
+    }
+    case ACTIVITY_TWC_STATE_SAVE: {
+      let newState: IActivityState = state
+      state.participate.twc = action.payload
+      return newState
+    }
     default:
       return state
   }
