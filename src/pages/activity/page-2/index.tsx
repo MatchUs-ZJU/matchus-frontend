@@ -44,13 +44,6 @@ const Index = () => {
         dispatch(fetchMatchResult())
         dispatch(fetchFeedbackContent())
       }
-
-      // 根据时间和获取到的匹配结果信息，判断是否可以查看匹配结果
-      if (currentTime > activity.matchResultShowTime! && activity.participate.match) {
-        setCanViewMatchResult(true)
-      } else {
-        setCanViewMatchResult(false)
-      }
     }
 
     // 由于该页面可能通过问卷星跳转，所以需要检查是否有当前页面权限
@@ -73,7 +66,7 @@ const Index = () => {
   }
 
   function onFilledSurvey() {
-    dispatch(actionFilledOverSurvey(user.openid, activity.term))
+    dispatch(actionFilledOverSurvey(user.openid, activity.id))
   }
 
   function onViewContacts() {

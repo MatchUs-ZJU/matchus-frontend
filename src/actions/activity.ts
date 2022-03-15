@@ -6,7 +6,7 @@ import {
   getLatestActivityInfo,
   postPreJoinActivity,
   getMatchResult,
-  postSatisfiedFeedback, getFeedbackContent, postSendTwcResult, getTwcResult
+  postSatisfiedFeedback, getFeedbackContent, postSendTwcResult, getTwcResult, getPaymentResult, postRefundRequest
 } from "../services/activity";
 
 export const activitySave = (payload) => {
@@ -31,33 +31,35 @@ export const twcStateSave = (payload) => {
 }
 
 export const fetchLatestActivityInfo = () => {
-  return dispatch => {
-    console.log("活动页面：获取活动信息和用户参与情况")
-    getLatestActivityInfo()
-      .then((res) => {
-        if (res) {
-          dispatch(activitySave(res))
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+  return async dispatch => {
+    console.log("活动页面：获取最新活动信息和用户参与情况")
+    try {
+      const res = await getLatestActivityInfo()
+      if (res && res.code === 0) {
+        console.log("活动页面：获取最新活动信息和用户参与情况成功")
+        dispatch(activitySave(res.data))
+      } else {
+        console.log("活动页面：获取最新活动信息和用户参与情况失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
-export const actionPreJoinActivity = ({openid, term}, setCanJoin: React.Dispatch<any>) => {
+export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Dispatch<any>) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
       let preJoinRes = await postPreJoinActivity({
         "openid": openid,
-        "term": term
+        "activityId": activityId
       })
 
-      if (preJoinRes) {
+      if (preJoinRes && preJoinRes.code === 0) {
         // 只有相应数据不为空才能继续操作
         console.log("活动页面：发起预处理请求成功，发起支付请求")
-        let {timeStamp, nonceStr, prepayId, signType, paySign} = preJoinRes
+        let {orderId, timeStamp, nonceStr, prepayId, signType, paySign} = preJoinRes.data
         let payRes = await Taro.requestPayment({
           timeStamp,
           nonceStr,
@@ -69,22 +71,32 @@ export const actionPreJoinActivity = ({openid, term}, setCanJoin: React.Dispatch
         if (payRes && payRes.errMsg === 'requestPayment:ok') {
           console.log(payRes)
           console.log("活动页面：支付成功")
-          await Taro.showModal({
-            title: '操作提示',
-            content: '支付成功',
-            showCancel: false,
-            confirmText: '确定'
-          })
-          setCanJoin(false)
-          // TODO 检查是否完成支付？
-          await Taro.navigateTo({url: '/pages/activity/page-2'});
+
+          // 检查是否完成支付
+          const res = await getPaymentResult({orderId})
+          if(res && res.code === 0 && res.data.success) {
+            console.log("活动页面：查询后台成功，订单已完成")
+            await Taro.showModal({
+              title: '操作提示',
+              content: '支付成功',
+              showCancel: false,
+              confirmText: '确定'
+            })
+            setCanJoin(false)
+            await Taro.navigateTo({url: '/pages/activity/page-2'});
+          } else {
+            await Taro.showToast({
+              title: '网络缓慢请刷新',
+              duration: 5000,
+              icon: 'loading'
+            })
+          }
         } else {
           console.log(payRes)
-          await Taro.showModal({
-            title: '操作提示',
-            content: '支付失败，请重新尝试',
-            showCancel: false,
-            confirmText: '确定'
+          await Taro.showToast({
+            title: '支付失败',
+            duration: 5000,
+            icon: 'error'
           })
         }
       } else {
@@ -101,32 +113,48 @@ export const actionPreJoinActivity = ({openid, term}, setCanJoin: React.Dispatch
   }
 }
 
-export const actionFillSurvey = ({appId, path}) => {
-  return async dispatch => {
-    console.log("活动页面：用户填写问卷星")
+export const actionRequestRefund = () => {
+  return async () => {
+    console.log("活动页面：用户申请退款")
     try {
-      let cb = await Taro.navigateToMiniProgram({
-        appId: appId,
-        path: path,
-        success: (_) => {
-          console.log("活动页面：跳转小程序成功")
-        },
-      })
+      const res = await postRefundRequest({})
+      if (res && res.code === 0) {
+        console.log("活动页面：用户申请退款成功")
+      } else {
+        console.log("活动页面：用户申请退款失败")
+      }
     } catch (e) {
       console.log(e)
     }
   }
 }
 
-export const actionFilledOverSurvey = (openid, term) => {
-  return async dispatch => {
+export const actionFillSurvey = ({appId, path}) => {
+  return async () => {
+    console.log("活动页面：用户填写问卷星")
+    try {
+      await Taro.navigateToMiniProgram({
+        appId: appId,
+        path: path,
+        success: (_) => {
+          console.log("活动页面：跳转小程序成功")
+        },
+      });
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const actionFilledOverSurvey = (openid, activityId) => {
+  return async () => {
     console.log("活动页面：用户完成填写问卷")
     try {
       let res = await postFilledOverSurvey({
-        openid, term
+        openid, activityId
       })
 
-      if (res) {
+      if (res && res.code === 0) {
         console.log("活动页面：填写问卷结束状态变更成功")
         //TODO 改变状态
       } else {
@@ -143,9 +171,9 @@ export const fetchMatchResult = () => {
     console.log("活动页面：获取匹配结果")
     try {
       let res = await getMatchResult({})
-      if (res) {
+      if (res && res.code === 0) {
         console.log("活动页面：获取匹配结果成功")
-        dispatch(matchStateSave(res))
+        dispatch(matchStateSave(res.data))
       } else {
         console.log("活动页面：获取匹配结果失败")
       }
@@ -160,10 +188,10 @@ export const fetchFeedbackContent = () => {
     console.log("活动页面：获取反馈信息内容")
     try {
       let res = await getFeedbackContent()
-      if (res) {
+      if (res && res.code === 0) {
         console.log("活动页面：获取反馈信息内容成功")
         dispatch(activitySave({
-          feedBackContent: res
+          feedBackContent: res.data
         }))
       } else {
         console.log("活动页面：获取反馈信息内容失败")
@@ -182,7 +210,7 @@ export const sendSatisfiedFeedback = (statisfied, setShowContactModal: React.Dis
         satisfied: statisfied
       })
 
-      if (res) {
+      if (res && res.code === 0) {
         console.log("活动页面：发送满意度调查结果成功")
         setShowContactModal(true)
       } else {
@@ -200,9 +228,9 @@ export const fetchTwcResult = () => {
     try {
       let res = await getTwcResult()
 
-      if (res) {
+      if (res && res.code === 0) {
         console.log("活动页面：获取双选结果成功")
-        dispatch(twcStateSave(res))
+        dispatch(twcStateSave(res.data))
       } else {
         console.log("活动页面：获取双选结果失败")
       }
@@ -220,7 +248,7 @@ export const sendTwcResult = (value) => {
         success: value
       })
 
-      if (res) {
+      if (res && res.code === 0) {
         console.log("活动页面：发送双选选择结果成功")
       } else {
         console.log("活动页面：发送双选选择结果失败")

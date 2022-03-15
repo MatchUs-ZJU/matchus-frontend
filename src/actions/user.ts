@@ -1,12 +1,7 @@
 import Taro from "@tarojs/taro";
-import {USER_LOGOUT, USER_SAVE} from "../constants";
-import {getUserInfo, register} from "../services/user";
-
-export const logout = () => {
-  return {
-    type: USER_LOGOUT
-  }
-}
+import {USER_SAVE} from "../constants";
+import {getUserInfo, login, register, updateUserInfo} from "../services/user";
+import {removeJWT, setJWT} from "../services/jwt";
 
 export const userSave = (payload) => {
   return {
@@ -16,39 +11,73 @@ export const userSave = (payload) => {
 }
 
 export const fetchUserInfo = () => {
-  return dispatch => {
-    console.log('用户登录：从服务器获取用户信息')
-    getUserInfo()
-      .then((res) => {
-        if (res) {
-          console.log('用户登录：获取用户信息成功')
-          dispatch(userSave(res))
-        } else {
-          console.log('用户登录：从服务器获取个人信息失败')
-        }
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+  return async dispatch => {
+    try {
+      console.log('用户登录：从服务器获取用户信息')
+      const res = await getUserInfo()
+      if (res && res.code === 0) {
+        console.log('用户登录：获取用户信息成功')
+        dispatch(userSave(res.data))
+      } else {
+        console.log('用户登录：从服务器获取个人信息失败')
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
-export const userRegister = (openid) => {
+// 初始化进入小程序的用户数据
+export const initRegister = (openid) => {
+  return async dispatch => {
+    console.log("用户注册：初始化进入小程序的用户，完成注册工作")
+    try {
+      const res = await register({
+        'openid': openid
+      })
+
+      if (res && res.code === 0) {
+        console.log("注册成功")
+        dispatch(userSave({
+          binded: true
+        }))
+      } else {
+        console.log("注册失败")
+      }
+    } catch (e) {
+      console.log(e)
+      await Taro.showToast({
+        icon: 'none',
+        title: '注册失败，请稍后再试',
+        duration: 5000,
+      });
+
+      setTimeout(async () => {
+        await Taro.exitMiniProgram()
+      }, 3000)
+    }
+  }
+}
+
+export const fetchUserProfile = (openid) => {
   return dispatch => {
-    console.log("用户注册：授权获取个人信息并完成注册")
+    console.log("用户注册：授权获取个人信息并更新用户信息")
     // 该方法暂时不支持await异步调用
     Taro.getUserProfile({
       desc: "用于完善您的个人资料",
-    }).then(async (res) => {
-      const {userInfo} = res
-      // store user info
-      dispatch(userSave(userInfo))
-
-      // register
-      await register({
+    }).then(async (e) => {
+      const {userInfo} = e
+      const res = await updateUserInfo({
         ...userInfo,
         'openid': openid
       })
+
+      if (res && res.code === 0) {
+        console.log("用户注册：更新用户信息成功")
+        dispatch(userSave(userInfo))
+      } else {
+        console.log("用户注册：更新用户信息失败")
+      }
     }).catch(async e => {
       console.log(e)
       await Taro.showToast({
@@ -57,5 +86,43 @@ export const userRegister = (openid) => {
         duration: 5000,
       });
     })
+  }
+}
+
+export const relogin = () => {
+  return async dispatch => {
+    removeJWT()
+
+    try {
+      console.log("用户登录：用户重新登录")
+      const res = await Taro.login()
+      if (res.code) {
+        console.log('用户登录：小程序登录成功，向服务器发送登录请求')
+        let resp = await login({
+          code: res.code
+        })
+
+        if (resp && resp.code === 0) {
+          console.log('用户登录：向服务器发送登录请求成功，存储登录状态')
+          dispatch(userSave({...resp.data, login: true}))
+          setJWT(resp.data.token)
+
+          if (resp.data.binded) {
+            // 用户已经注册，直接获取个人信息
+            console.log('用户登录：登录用户已经绑定个人信息')
+            dispatch(fetchUserInfo())
+          } else {
+            console.log('用户登录：登录用户未注册和绑定信息，进行初始化注册')
+            dispatch(initRegister(resp.data.openid))
+          }
+        } else {
+          console.log('用户登录：向服务器发送登录请求失败')
+        }
+      } else {
+        console.log('用户登录：小程序登录失败')
+      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 }

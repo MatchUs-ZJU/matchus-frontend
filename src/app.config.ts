@@ -2,15 +2,15 @@ export default defineAppConfig({
   pages: [
     'pages/home/index',
     'pages/activity/page-1/index',
-    'pages/user/index',
-    'pages/about/index',
+    'pages/user/index/index',
+    'pages/user/about/index',
     'pages/identify/index',
-    'pages/information/index',
+    'pages/user/information/index',
     'pages/activity/page-2/index',
     'pages/activity/page-3/index',
     'pages/activity/index/index',
-    'pages/user/help',
-    'pages/user/records'
+    'pages/user/help/index',
+    'pages/user/record/index'
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -36,7 +36,7 @@ export default defineAppConfig({
       },
       {
         text: '我的',
-        pagePath: 'pages/user/index',
+        pagePath: 'pages/user/index/index',
         iconPath: 'assets/images/tablist/my.png',
         selectedIconPath: 'assets/images/tablist/my-s.png',
       },

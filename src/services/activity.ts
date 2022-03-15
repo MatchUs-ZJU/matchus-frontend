@@ -11,17 +11,38 @@ export const getLatestActivityInfo = async () => {
 }
 
 export const getActivityInfoId = async (data) => {
-  console.log('网络请求：获取最新一期活动信息')
-  return request.get(`/activity/info?term=${data.term}`, {
+  console.log('网络请求：获取某一期活动信息')
+  return request.get(`/activity/info?id=${data.id}`, {
     header: {
       Authorization: getJWT(),
     },
   });
 }
 
+// 生成订单
 export const postPreJoinActivity = async (data) => {
   console.log('网络请求：加入活动预处理')
   return request.post(`/activity/join`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}
+
+// 检查支付是否成功
+export const getPaymentResult = async (data) => {
+  console.log('网络请求：获取支付结果')
+  return request.get(`/activity/pay/receipt?orderId=${data.orderId}`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}
+
+export const postRefundRequest = async (data) => {
+  console.log('网络请求：用户申请退款')
+  return request.post(`/activity/pay/refund`, {
     data,
     header: {
       Authorization: getJWT(),

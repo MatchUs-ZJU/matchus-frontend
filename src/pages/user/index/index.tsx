@@ -4,8 +4,8 @@ import Taro from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 
 import './index.scss'
-import {LoginModal} from "../../components";
-import {globalSave} from "../../actions";
+import {LoginModal} from "../../../components";
+import {globalSave} from "../../../actions";
 
 const User = () => {
   const dispatch = useDispatch()
@@ -21,7 +21,7 @@ const User = () => {
         duration: 3000
       })
     } else {
-      Taro.navigateTo({url: '/pages/information/index'})
+      Taro.navigateTo({url: '/pages/user/information/index'})
     }
   }
 
@@ -42,7 +42,7 @@ const User = () => {
       })
     } else {
       // TODO:身份认证页面
-      // Taro.navigateTo({url: '/pages/information/index'})
+      // Taro.navigateTo({url: '/pages/user/index'})
     }
   }
 
@@ -54,7 +54,7 @@ const User = () => {
     //     duration: 3000
     //   })
     // } else {
-      Taro.navigateTo({url: '/pages/user/records'})
+      Taro.navigateTo({url: '/pages/user/record/index'})
     // }
   }
 
@@ -128,7 +128,7 @@ const User = () => {
             hasBorder={false}
             iconInfo={{value: 'help', size: 18}}
             onClick={async () => {
-              await Taro.navigateTo({url: '/pages/user/help'});
+              await Taro.navigateTo({url: '/pages/user/help/index'});
             }}
           />
           <AtListItem
@@ -138,7 +138,7 @@ const User = () => {
             hasBorder={false}
             iconInfo={{value: 'alert-circle', size: 18}}
             onClick={async () => {
-              await Taro.navigateTo({url: '/pages/about/index'});
+              await Taro.navigateTo({url: '/pages/user/about/index'});
             }}
           />
         </AtList>

@@ -4,7 +4,6 @@ export interface IActivityState {
   // basic
   id: string,
   name: string,
-  term: number,
 
   // about activity content
   price: number,
@@ -15,15 +14,16 @@ export interface IActivityState {
   startTime?: Date,
   signUpStartTime?: Date,
   signUpEndTime?: Date,
-  matchStartTime?: Date,
-  matchEndTime?: Date,
+  surveyEndTime?: Date,
   matchResultShowTime?: Date,
   twoWayChooseStartTime?: Date,
-  twoWayChooseEndTime?: Date
+  twoWayChooseEndTime?: Date,
+  twoWayChooseResultShowTime?: Date,
   endTime?: Date
 
   // resource
   imageUrl: string
+
   feedbackContent?: {}
 
   // participate information
@@ -42,7 +42,7 @@ export interface IParticipateState {
 }
 
 export interface IMatchState {
-  matched: boolean
+  success: boolean
   info?: {}
 }
 
@@ -58,9 +58,9 @@ const INITIAL_STATE: IActivityState = {
     participate: false,
     paid: false,
     filledSurvey: false,
-    filledSatisfiedFeedback: false
+    filledSatisfiedFeedback: false,
+    twcValue: '未选择'
   },
-  term: 0,
   imageUrl: "",
   id: "",
   name: "",

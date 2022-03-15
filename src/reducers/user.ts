@@ -1,4 +1,4 @@
-import {USER_SAVE, USER_LOGOUT} from "../constants";
+import {USER_SAVE} from "../constants";
 
 export interface IUserState {
   nickName: string;
@@ -9,18 +9,16 @@ export interface IUserState {
   country: string;
   province: string;
   language:string;
+  identified: number;
+  school?: string;
+  faculty?: string;
+  createTime?: Date;
 
   openid?: string;
   sessionKey?: string;
   binded?: boolean;
 
-  school?: string;
-  faculty?: string;
-  role: 'guest' | 'admin' | 'user' | 'root';
-
   login: boolean;
-  identified: number; // 是否完成认证
-  createTime?: Date;
 }
 
 const INITIAL_STATE: IUserState = {
@@ -34,14 +32,11 @@ const INITIAL_STATE: IUserState = {
   identified: 3,
   login: false,
   nickName: "",
-  role: "guest",
   school: ""
 }
 
 export default function user(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case USER_LOGOUT:
-      return INITIAL_STATE
     case USER_SAVE:
       return {
         ...state,

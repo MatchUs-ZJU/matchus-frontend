@@ -1,7 +1,7 @@
 import {View} from "@tarojs/components";
-import './records.scss'
+import './index.scss'
 
-const Records = () => {
+const Index = () => {
 
   return (
     <View>
@@ -10,4 +10,4 @@ const Records = () => {
   )
 }
 
-export default Records;
+export default Index;

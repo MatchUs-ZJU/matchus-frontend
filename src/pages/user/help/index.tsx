@@ -1,7 +1,7 @@
 import {View} from "@tarojs/components";
 import {AtButton, AtDivider, AtGrid, AtIcon, AtToast} from "taro-ui";
 import {useState} from "react";
-import './help.scss'
+import './index.scss'
 
 const test_data = [
   {value:"喜欢、超级喜欢后可以取消吗？", answer:"111111"},
@@ -11,7 +11,7 @@ const test_data = [
   {value:"喜欢、超级？", answer:"55555"}
 ]
 
-const Help = () => {
+const Index = () => {
 
   let [isOpen, setIsOpen] = useState(false);
   let [text, setText] = useState('')
@@ -76,4 +76,4 @@ const Help = () => {
   )
 }
 
-export default Help;
+export default Index;

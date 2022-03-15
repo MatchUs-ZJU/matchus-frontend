@@ -10,22 +10,22 @@ import {IdentificationModal, LoginModal} from "../../../components";
 const Index = () => {
   const dispatch = useDispatch();
   const {global, user, activity} = useSelector((state) => state);
-  const {nickName, identified} = user;
-  const {showLoginModal, showIdentifyModal} = global;
+  const {nickName, avatarUrl, identified} = user;
+  const {showLoginModal} = global;
 
   const [canJoin, setCanJoin] = useState(true)
   const currentTime = new Date()
 
   useEffect(() => {
     function checkUserState() {
-      if (!nickName) {
+      if (!nickName && !avatarUrl) {
         dispatch(globalSave({showLoginModal: true}));
         return;
       }
-      if (identified !== 3) {
-        dispatch(globalSave({showIdentifyModal: true}));
-        return;
-      }
+      // if (identified !== 3) {
+      //   dispatch(globalSave({showIdentifyModal: true}));
+      //   return;
+      // }
     }
 
     function checkCanJoin() {
@@ -55,7 +55,7 @@ const Index = () => {
     // 发起参与活动，购买请求
     const payload = {
       openid: user.openid,
-      term: activity.term
+      activityId: activity.id
     }
     dispatch(actionPreJoinActivity(payload, setCanJoin))
   }
@@ -63,7 +63,7 @@ const Index = () => {
   return (
     <View className='container'>
       <LoginModal opened={showLoginModal}/>
-      <IdentificationModal opened={showIdentifyModal}/>
+      {/*<IdentificationModal opened={showIdentifyModal}/>*/}
       <View>
         活动介绍和规则
       </View>

@@ -1,6 +1,8 @@
 import Taro from "@tarojs/taro";
 import {HTTP_STATUS} from "../utils/status";
 import {BASE_URL} from "../config";
+import {relogin} from "../actions";
+import {store} from "../store";
 
 let checkHttpStatus = (response: API.Response) => {
   // stop loading
@@ -19,8 +21,11 @@ let checkHttpStatus = (response: API.Response) => {
 
 let checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
-  if (data.success && data.code === 0) {
-    return data.data;
+  if (data.success) {
+    return data
+  } else if(!data.success && data.code === 2) {
+    handleJWTExpired()
+    return data
   }
 
   const message = data.msg || '服务器异常并且没有返回原因';
@@ -29,6 +34,11 @@ let checkSuccess = (data: API.ResponseData) => {
   error.text = message;
   error.code = data.code;
   throw error;
+}
+
+async function handleJWTExpired() {
+  store.dispatch(relogin())
+  await Taro.navigateTo({url: '/pages/home/index'})
 }
 
 /**

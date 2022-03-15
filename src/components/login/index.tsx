@@ -1,25 +1,18 @@
 import {View, Button} from "@tarojs/components";
 import {AtModal, AtModalHeader, AtModalContent, AtModalAction} from "taro-ui";
 import {useDispatch, useSelector} from "react-redux";
-import Taro from "@tarojs/taro";
 import './index.scss'
-import {globalSave, userRegister, userSave} from "../../actions";
-import {getJWT} from "../../services/jwt";
-import {register} from "../../services/user";
+import {globalSave, fetchUserProfile} from "../../actions";
 
 const LoginModal = ({opened}) => {
   const dispatch = useDispatch();
   const {openid} = useSelector(state => state.user)
 
   const onConfirmRegister = () => {
-    if (!getJWT()) {
-      console.log('用户注册：在获取用户信息时缺乏JWT')
-    } else {
-      dispatch(userRegister(openid))
-    }
+    dispatch(fetchUserProfile(openid))
   };
 
-  const onClose = () => {
+  const onClose = async () => {
     dispatch(globalSave({showLoginModal: false}))
   }
 
