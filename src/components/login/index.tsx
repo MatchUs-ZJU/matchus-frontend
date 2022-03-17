@@ -6,10 +6,9 @@ import {globalSave, fetchUserProfile} from "../../actions";
 
 const LoginModal = ({opened}) => {
   const dispatch = useDispatch();
-  const {openid} = useSelector(state => state.user)
 
   const onConfirmRegister = () => {
-    dispatch(fetchUserProfile(openid))
+    dispatch(fetchUserProfile())
   };
 
   const onClose = async () => {
@@ -18,10 +17,10 @@ const LoginModal = ({opened}) => {
 
   return (
     <View>
-      <AtModal isOpened={opened} onClose={onClose}>
+      <AtModal isOpened={opened} onClose={onClose} closeOnClickOverlay={false}>
         <AtModalHeader>您尚未注册</AtModalHeader>
         <AtModalContent>
-          <View className='content'>立即注册Match Us身份信息！</View>
+          <View className='content'>立即注册Match Us！</View>
         </AtModalContent>
         <AtModalAction>
           <Button openType='getUserInfo' onClick={onConfirmRegister} className='button'>

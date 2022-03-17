@@ -1,16 +1,22 @@
 export default defineAppConfig({
   pages: [
     'pages/home/index',
-    'pages/activity/page-1/index',
+    'pages/activity/index/index',
     'pages/user/index/index',
-    'pages/user/about/index',
-    'pages/identify/index',
-    'pages/user/information/index',
+
+    'pages/introduction/index',
+    //'pages/introduction/privacy/index',
+
+    'pages/activity/page-1/index',
     'pages/activity/page-2/index',
     'pages/activity/page-3/index',
-    'pages/activity/index/index',
+
     'pages/user/help/index',
-    'pages/user/record/index'
+    'pages/user/record/index',
+    'pages/user/about/index',
+    'pages/user/information/index',
+
+    'pages/identify/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -30,7 +36,7 @@ export default defineAppConfig({
       },
       {
         text: '活动',
-        pagePath: 'pages/activity/page-1/index',
+        pagePath: 'pages/activity/index/index',
         iconPath: 'assets/images/tablist/activity.png',
         selectedIconPath: 'assets/images/tablist/activity.png',
       },

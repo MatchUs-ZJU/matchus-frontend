@@ -4,8 +4,8 @@ import {useEffect, useState} from "react";
 import {AtButton} from "taro-ui";
 
 import './index.scss'
-import {globalSave,actionPreJoinActivity, fetchLatestActivityInfo} from "../../../actions";
-import {IdentificationModal, LoginModal} from "../../../components";
+import {actionPreJoinActivity, fetchLatestActivityInfo} from "../../../actions";
+import {LoginModal} from "../../../components";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -17,17 +17,6 @@ const Index = () => {
   const currentTime = new Date()
 
   useEffect(() => {
-    function checkUserState() {
-      if (!nickName && !avatarUrl) {
-        dispatch(globalSave({showLoginModal: true}));
-        return;
-      }
-      // if (identified !== 3) {
-      //   dispatch(globalSave({showIdentifyModal: true}));
-      //   return;
-      // }
-    }
-
     function checkCanJoin() {
       const checkUser = () => {
         return nickName && (identified === 3)
@@ -45,8 +34,6 @@ const Index = () => {
 
     // 获取活动信息和用户参与情况
     dispatch(fetchLatestActivityInfo())
-    // 检查昵称和验证状态
-    checkUserState()
     // 检查是否能够参与
     checkCanJoin()
   }, [])
@@ -63,7 +50,6 @@ const Index = () => {
   return (
     <View className='container'>
       <LoginModal opened={showLoginModal}/>
-      {/*<IdentificationModal opened={showIdentifyModal}/>*/}
       <View>
         活动介绍和规则
       </View>

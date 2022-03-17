@@ -4,7 +4,7 @@ const ROOT_URL = process.env.NODE_ENV === 'development' ?
     // 测试地址
     'https://api.qianxu.run:80' :
     // 线上开发地址
-    'https://api.matchuszju.com:80');
+    'https://matchuszju.com:80');
 
 const ROOT_URI = '/app'
 

@@ -113,7 +113,6 @@ const Home = () => {
           {/* activity */}
           <View>
             <View className='section-name'>活动进行中</View>
-
           </View>
           {/* recommend contents */}
           <View>

@@ -13,6 +13,14 @@ const User = () => {
   const {nickName, avatarUrl, school, faculty} = user
   const {showLoginModal} = global
 
+  const onClickMainInfo = () => {
+    if (!nickName) {
+      dispatch(globalSave({
+        showLoginModal: true
+      }))
+    }
+  }
+
   const onClickOpenSettings = () => {
     if (!nickName) {
       Taro.atMessage({
@@ -22,14 +30,6 @@ const User = () => {
       })
     } else {
       Taro.navigateTo({url: '/pages/user/information/index'})
-    }
-  }
-
-  const onClickMainInfo = () => {
-    if (!nickName) {
-      dispatch(globalSave({
-        showLoginModal: true
-      }))
     }
   }
 
@@ -46,16 +46,20 @@ const User = () => {
     }
   }
 
-  const onClickOpenRecord = () => {
-    // if (!nickName) {
-    //   Taro.atMessage({
-    //     type: 'warning',
-    //     message: '您还没有登录哦！',
-    //     duration: 3000
-    //   })
-    // } else {
-      Taro.navigateTo({url: '/pages/user/record/index'})
-    // }
+  const onClickOpenRecord = async () => {
+    if (!nickName) {
+      Taro.atMessage({
+        type: 'warning',
+        message: '您还没有登录哦！',
+        duration: 3000
+      })
+    } else {
+      await Taro.showToast({
+        title: "程序猿小哥哥正在开发该功能～",
+        duration: 5000,
+        icon: 'none'
+      })
+    }
   }
 
   return (

@@ -2,6 +2,7 @@ import Taro from "@tarojs/taro";
 import {USER_SAVE} from "../constants";
 import {getUserInfo, login, register, updateUserInfo} from "../services/user";
 import {removeJWT, setJWT} from "../services/jwt";
+import {globalSave} from "./global";
 
 export const userSave = (payload) => {
   return {
@@ -17,6 +18,7 @@ export const fetchUserInfo = () => {
       const res = await getUserInfo()
       if (res && res.code === 0) {
         console.log('用户登录：获取用户信息成功')
+        console.log(res)
         dispatch(userSave(res.data))
       } else {
         console.log('用户登录：从服务器获取个人信息失败')
@@ -37,12 +39,12 @@ export const initRegister = (openid) => {
       })
 
       if (res && res.code === 0) {
-        console.log("注册成功")
+        console.log("用户注册：注册成功")
         dispatch(userSave({
           binded: true
         }))
       } else {
-        console.log("注册失败")
+        console.log("用户注册：注册失败")
       }
     } catch (e) {
       console.log(e)
@@ -59,7 +61,7 @@ export const initRegister = (openid) => {
   }
 }
 
-export const fetchUserProfile = (openid) => {
+export const fetchUserProfile = () => {
   return dispatch => {
     console.log("用户注册：授权获取个人信息并更新用户信息")
     // 该方法暂时不支持await异步调用
@@ -69,17 +71,17 @@ export const fetchUserProfile = (openid) => {
       const {userInfo} = e
       const res = await updateUserInfo({
         ...userInfo,
-        'openid': openid
       })
 
       if (res && res.code === 0) {
         console.log("用户注册：更新用户信息成功")
         dispatch(userSave(userInfo))
+        dispatch(globalSave({showLoginModal: false}))
       } else {
         console.log("用户注册：更新用户信息失败")
       }
-    }).catch(async e => {
-      console.log(e)
+    }).catch(async () => {
+      console.log("用户注册：用户拒绝授权")
       await Taro.showToast({
         icon: 'none',
         title: '授权失败! 您将无法参加我们的活动',

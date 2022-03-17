@@ -1,9 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
 import {View} from "@tarojs/components";
-import {AtButton, AtActionSheet, AtActionSheetItem} from "_taro-ui@3.0.0-alpha.10@taro-ui";
+import { AtButton, AtActionSheetItem, AtActionSheet } from "taro-ui";
 import {useEffect, useState} from "react";
-import {actionFilledOverSurvey, actionFillSurvey, fetchMatchResult} from "../../../actions";
-import {fetchFeedbackContent, sendSatisfiedFeedback} from "../../../actions/activity";
+import {actionFilledOverSurvey, actionFillSurvey, fetchMatchResult, fetchFeedbackContent, sendSatisfiedFeedback} from "../../../actions";
 
 const Index = () => {
   const dispatch = useDispatch();

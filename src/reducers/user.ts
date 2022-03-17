@@ -29,7 +29,7 @@ const INITIAL_STATE: IUserState = {
   province: "",
   realName: "",
   id: "",
-  identified: 3,
+  identified: 0,
   login: false,
   nickName: "",
   school: ""
