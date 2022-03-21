@@ -5,17 +5,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: $primary-color-1;
-  border-color: $primary-color-1;
+  background: $primary-color;
+  border-color: $primary-color;
   color: white;
 }
 
 .content {
-  color: $text-second-color;
+  color: $text-color;
 }
 
 .text {
   margin-left: 8px;
-  color: $primary-color-1;
+  color: $primary-color;
 }
 
