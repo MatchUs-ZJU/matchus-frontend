@@ -28,19 +28,21 @@ $gradient-red: linear-gradient(to right, #ff6034, #ee0a24);
 $gradient-orange: linear-gradient(to right, #ffd01e, #ff8917);
 
 // Component Colors
-$primary-color: var(--blue, $blue);
+$primary-color: #918AE3;
 $info-color: var(--cyan, $cyan);
 $success-color: var(--green, $green);
 $warning-color: var(--orange, $orange);
 $danger-color: var(--red, $red);
+$title-color: var(--gray-8, $gray-8); // add
 $text-color: var(--gray-8, $gray-8);
 $text-color-2: var(--gray-6, $gray-6);
 $text-color-3: var(--gray-5, $gray-5);
+$note-color: var(--gray-6, $gray-6); // add
 $text-link-color: #576b95;
 $active-color: var(--gray-2, $gray-2);
 $active-opacity: 0.7;
 $disabled-opacity: 0.5;
-$background-color: var(--gray-1, $gray-1);
+$background-color: #f3f4fb;
 $background-color-light: var(--white, $white);
 $text-link-color: #576b95;
 

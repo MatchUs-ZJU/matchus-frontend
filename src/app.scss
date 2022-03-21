@@ -1,79 +1,19 @@
 /* 引入 Taro UI 默认样式 */
-@import '~taro-ui/dist/style/index.scss';
+@import '~taro-ui/dist/style/index.scss'; // TODO 删除
 /* 改变主题样式，具体命名见 taro-ui/dist/style/variables/default.scss 文件 */
 @import './theme/custom_variables';
 
-$primary-color-1: #F2DEDB;
-$primary-color-2: #D8E2F1;
-
-$background-base-color: #f6f8fe;
-$background-option-color: #4f54c1;
-$title-color : #060633;
-$text-color : #53566B;
-$text-second-color : #525666;
-$note-color : #A1A4B8;
-$wechat-color: #44b549;
-$success-color: #3dd451;
-$success-color-bg: #bed4c1;
-$error-color: #fa543e;
-$red-color: #fa543e;
-$red-color-deep: #dc2f1a;
-$red-color-bg: #facec8;
-$shadow-base: 0 0 8px rgba(0, 0, 0, 0.05);
-$shadow-base-2: 0 0 32px rgba(0, 0, 0, 0.05);
-$shadow-1: 0 4px 8px rgba(0, 0, 0, 0.05);
-$shadow-2: 0 8px 16px rgba(0, 0, 0, 0.05);
-$shadow-3: 0 16px 32px rgba(0, 0, 0, 0.05);
-
 page {
   height: 100%;
-
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.at-tabs__item--active {
-  color: $primary-color-1;
+.container {
+  min-height: 100vh;
+  position: relative;
+  color: $text-color;
+  background:$background-color;
 }
 
-.at-tabs__item-underline {
-  background-color: $primary-color-1;
-}
-
-.flex {
-  display: flex;
-  display: -webkit-flex;
-}
-
-.flex-item {
-  flex: 1;
-}
-
-.flex-align-center {
-  align-items: center;
-}
-
-.flex-between {
-  justify-content: space-between;
-}
-
-.flex-between {
-  justify-content: space-between;
-}
-
-.flex-row {
-  flex-direction: row;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-@mixin text-ellipsis {
-  overflow: hidden;
-  /*文本不会换行*/
-  white-space: nowrap;
-  /*当文本溢出包含元素时，以省略号表示超出的文本*/
-  text-overflow: ellipsis;
-}

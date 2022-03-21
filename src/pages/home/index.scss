@@ -1,33 +1,5 @@
 @import "../../app";
 
-.container {
-  min-height: 100vh;
-  position: relative;
-  color: $title-color;
-  background:$background-base-color;
-  :global {
-    .at-search-bar::after {
-      border: 0 solid white;
-    }
-  }
-}
-
-.background {
-  // background: linear-gradient(0deg, $primary-color-1, $primary-color-2);
-  background: #797bb2;
-  height: 500px;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  clip-path: circle(74.2% at 50% 0);
-  z-index: 0;
-}
-
-.wrapper {
-  min-height: 100vh;
-  position: relative;
-}
-
 .header {
   color: white;
   display: flex;
@@ -44,7 +16,7 @@
 }
 
 .banners {
-  background: $background-base-color;
+  background: $background-color;
   border-radius: 24px !important;
   overflow: hidden !important;
 }

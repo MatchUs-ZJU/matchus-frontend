@@ -20,13 +20,13 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
+    navigationBarBackgroundColor: '#918AE3',
     navigationBarTitleText: 'MatchUs',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'white'
   },
   tabBar: {
-    selectedColor: '#caccef',
-    borderStyle: 'white',
+    selectedColor: '#918AE3',
+    borderStyle: 'black',
     list: [
       {
         text: '首页',
@@ -38,7 +38,7 @@ export default defineAppConfig({
         text: '活动',
         pagePath: 'pages/activity/index/index',
         iconPath: 'assets/images/tablist/activity.png',
-        selectedIconPath: 'assets/images/tablist/activity.png',
+        selectedIconPath: 'assets/images/tablist/activity-s.png',
       },
       {
         text: '我的',

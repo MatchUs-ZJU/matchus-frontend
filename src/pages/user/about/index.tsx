@@ -1,7 +1,7 @@
-import { View, Button, Text } from '@tarojs/components'
+import {View} from '@tarojs/components'
 
 import './index.scss'
 
 export default () => (
-  <View className='index'>Match Us</View>
+  <View className='container'></View>
 );
