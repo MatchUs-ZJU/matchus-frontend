@@ -9,7 +9,7 @@ export interface IUserState {
   country: string;
   province: string;
   language:string;
-  identified: number;
+  identified: '未认证' | '已认证' | '认证失败' | '认证中';
   school?: string;
   faculty?: string;
   createTime?: Date;
@@ -29,7 +29,7 @@ const INITIAL_STATE: IUserState = {
   province: "",
   realName: "",
   id: "",
-  identified: 0,
+  identified: '未认证',
   login: false,
   nickName: "",
   school: ""

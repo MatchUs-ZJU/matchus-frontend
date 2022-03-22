@@ -33,7 +33,7 @@ const Information = () => {
           <View className='title'>认证状态</View>
           <AtList hasBorder={false}>
             {
-              identified === 0 ? (
+              identified === '未认证' ? (
                 <View>
                   <AtListItem
                     title='身份认证'
