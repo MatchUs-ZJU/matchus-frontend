@@ -4,9 +4,6 @@ export default defineAppConfig({
     'pages/activity/index/index',
     'pages/user/index/index',
 
-    'pages/introduction/index',
-    //'pages/introduction/privacy/index',
-
     'pages/activity/page-1/index',
     'pages/activity/page-2/index',
     'pages/activity/page-3/index',
@@ -15,8 +12,12 @@ export default defineAppConfig({
     'pages/user/record/index',
     'pages/user/about/index',
     'pages/user/information/index',
+    'pages/user/privacy/index',
+    'pages/user/agreement/index',
 
     'pages/identify/index',
+
+    'pages/introduction/index',
   ],
   window: {
     backgroundTextStyle: 'light',

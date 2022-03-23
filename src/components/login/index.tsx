@@ -24,7 +24,7 @@ const LoginModal = ({opened}) => {
         </AtModalContent>
         <AtModalAction>
           <Button openType='getUserInfo' onClick={onConfirmRegister} className='button'>
-            <View className='text'>点击注册</View>
+            <View className='text-1'>点击注册</View>
           </Button>
         </AtModalAction>
       </AtModal>

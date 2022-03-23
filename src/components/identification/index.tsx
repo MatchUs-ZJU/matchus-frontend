@@ -31,10 +31,10 @@ const IdentificationModal = ({opened}) => {
         </AtModalContent>
         <AtModalAction>
           <Button onClick={onCancel} className='button'>
-            <View className='text'>待会再去</View>
+            <View className='text-1'>待会再去</View>
           </Button>
           <Button onClick={onConfirmIdentification} className='button'>
-            <View className='text'>前往认证</View>
+            <View className='text-1'>前往认证</View>
           </Button>
         </AtModalAction>
       </AtModal>

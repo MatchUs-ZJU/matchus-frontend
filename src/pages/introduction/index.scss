@@ -1,4 +1,102 @@
-.index {
-  flex-direction: column;
-  width: 100%;
+@import "../../app";
+
+page {
+  --radio-checked-icon-cbackground-color: #918AE3;
+  --radio-checked-icon-border-color: #918AE3;
+}
+
+.wrapper {
+  padding: 48px
+}
+
+.layout {
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  width: 680px;
+  height: 480px;
+
+  margin-bottom: 140px;
+}
+
+.slogan {
+  width: 580px;
+  height: 180px;
+}
+
+.register-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 600px;
+  height: 88px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  background: $gradient-purple-light;
+  color: $white;
+
+  border-radius: 60px;
+  margin-bottom: 24px;
+}
+
+.text-1 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  color: $text-color-2;
+
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.text-2 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  color: $text-color-3;
+
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.agree {
+  width: 588px;
+  height: 96px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.agree .radio {
+  width: 40px;
+  padding-top: 8px;
+
+  .taroify-checkbox__icon--checked {
+    .taroify-icon {
+      border-color: $primary-color;
+      background: $primary-color;
+    }
+  }
+
+  .taroify-checkbox__icon {
+    .taroify-icon {
+      border: 1px solid $primary-color;
+    }
+  }
+}
+
+.agree .text {
+  padding-top: 16px;
+  margin-left: 20px;
+  color:$text-color-2
+}
+
+.agree .text .purple {
+  color: $primary-color;
 }

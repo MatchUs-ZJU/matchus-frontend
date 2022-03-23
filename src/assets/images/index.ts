@@ -17,7 +17,6 @@ import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
 
-
 export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon}
 export {FeedBackImage, HeaderImage, SloganImage}
 export const commonquestionsIcon  = commonqustions;
