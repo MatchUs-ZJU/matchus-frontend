@@ -1,3 +1,4 @@
+const path = require('path')
 const config = {
   projectName: 'matchus-frontend',
   date: '2022-2-4',
@@ -11,6 +12,19 @@ const config = {
   outputRoot: 'dist',
   plugins: [],
   defineConstants: {
+  },
+  alias: {
+    '@': path.resolve(__dirname, '../src'),
+    '@/actions': path.resolve(__dirname, '../src/actions'),
+    '@/reducers': path.resolve(__dirname, '../src/reducers'),
+    '@/constants': path.resolve(__dirname, '../src/constants'),
+    '@/store': path.resolve(__dirname, '../src/store'),
+    '@/components': path.resolve(__dirname, '../src/components'),
+    '@/pages': path.resolve(__dirname, '../src/pages'),
+    '@/services': path.resolve(__dirname, '../src/services'),
+    '@/utils': path.resolve(__dirname, '../src/utils'),
+    '@/assets': path.resolve(__dirname, '../src/assets'),
+    '@/theme': path.resolve(__dirname, '../src/theme'),
   },
   copy: {
     patterns: [

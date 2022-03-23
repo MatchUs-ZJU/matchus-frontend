@@ -4,10 +4,10 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Progress, Image} from "@taroify/core"
 import { Like } from "@taroify/icons"
+import {fetchBanners, fetchRecommends} from "@/actions";
+import {FeedBackImage, HeartsIcon, PlaceholderIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/images";
 
 import './index.scss'
-import {fetchBanners, fetchRecommends} from "../../actions";
-import {FeedBackImage, HeartsIcon, PlaceHolderIcon, TrumpetIcon, TwoPeopleIcon} from "../../assets/images";
 
 const Home = () => {
   // store
@@ -158,7 +158,7 @@ const Home = () => {
           <View className='row article-card'>
             <Image
               lazyLoad
-              src={PlaceHolderIcon}
+              src={PlaceholderIcon}
               className='img'
               mode='center'
             />
@@ -177,7 +177,7 @@ const Home = () => {
           <View className='row article-card'>
             <Image
               lazyLoad
-              src={PlaceHolderIcon}
+              src={PlaceholderIcon}
               className='img'
               mode='center'
             />
@@ -196,7 +196,7 @@ const Home = () => {
           <View className='row article-card'>
             <Image
               lazyLoad
-              src={PlaceHolderIcon}
+              src={PlaceholderIcon}
               className='img'
               mode='center'
             />
