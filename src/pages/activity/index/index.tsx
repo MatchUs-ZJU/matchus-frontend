@@ -16,7 +16,7 @@ const Index = () => {
       if (!nickName && !avatarUrl) {
         dispatch(globalSave({showLoginModal: true}));
       }
-      if (identified !== 3) {
+      if (identified !== '已认证') {
         Taro.navigateTo({url: '/pages/introduction/index'})
       }
     }

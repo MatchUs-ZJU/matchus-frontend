@@ -19,7 +19,7 @@ const Index = () => {
   useEffect(() => {
     function checkCanJoin() {
       const checkUser = () => {
-        return nickName && (identified === 3)
+        return nickName && (identified === '已认证')
       }
       const checkJoinTime = (current: Date) => {
         return current > activity.signUpStartTime! && current < activity.signUpEndTime!
