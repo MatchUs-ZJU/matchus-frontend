@@ -1,5 +1,7 @@
-import {View, Image} from "@tarojs/components";
-import {AtIcon, AtList, AtListItem, AtMessage} from "taro-ui";
+import {View} from "@tarojs/components";
+import {Cell,Image, Tag} from "@taroify/core"
+import { Arrow } from "@taroify/icons"
+import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon} from "../../../assets/images";
 import Taro from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -10,8 +12,9 @@ import {globalSave} from "../../../actions";
 const User = () => {
   const dispatch = useDispatch()
   const {user, global} = useSelector((state) => state)
-  const {nickName, avatarUrl, school, faculty} = user
+  const {nickName, avatarUrl, school, faculty, identified} = user
   const {showLoginModal} = global
+  const identitydict = {0:"审核失败",1:'认证中',2:'审核失败',3:'已认证'}
 
   const onClickMainInfo = () => {
     if (!nickName) {
@@ -64,7 +67,6 @@ const User = () => {
 
   return (
     <View className='container'>
-      <AtMessage />
       <View className='main-info' onClick={onClickMainInfo}>
         <View className='at-row'>
           <View className='at-col-3'>
@@ -96,57 +98,52 @@ const User = () => {
         </View>
       </View>
       <View className='basic-info'>
-        <AtList hasBorder={false} className='basic-info-list'>
-          <AtListItem
-            className='list-item'
-            title='个人信息'
-            arrow='right'
-            hasBorder={false}
-            iconInfo={{value: 'settings', size: 18}}
-            onClick={onClickOpenSettings}
-          />
-          <AtListItem
-            className='list-item'
-            title='身份认证'
-            arrow='right'
-            hasBorder={false}
-            iconInfo={{value: 'tags', size: 18}}
-            onClick={onClickOpenIdentity}
-          />
-          <AtListItem
-            className='list-item'
-            title='消费记录'
-            arrow='right'
-            hasBorder={false}
-            iconInfo={{value: 'shopping-cart', size: 18}}
-            onClick={onClickOpenRecord}
-          />
-        </AtList>
+        <Cell.Group inset>
+          <Cell
+            icon={<Image src={personalinfoIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
+            title="&nbsp;&nbsp;个人信息"
+            rightIcon={<Arrow size='1.5rem'/>}
+            clickable
+            onClick={onClickOpenSettings}>
+            {identitydict[identified]}
+          </Cell>
+          <Cell
+            icon={<Image src={identityIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
+            title="&nbsp;&nbsp;身份记录"
+            rightIcon={<Arrow />}
+            clickable
+            onClick={onClickOpenIdentity}>
+          </Cell>
+          <Cell
+            icon={<Image src={consumeIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
+            title="&nbsp;&nbsp;消费记录"
+            rightIcon={<Arrow />}
+            clickable
+            onClick={onClickOpenRecord}>
+          </Cell>
+        </Cell.Group>
       </View>
       <View className='help'>
-        <AtList hasBorder={false} className='help-list'>
-          <AtListItem
-            className='list-item'
-            title='帮助与客服'
-            arrow='right'
-            hasBorder={false}
-            iconInfo={{value: 'help', size: 18}}
+        <Cell.Group inset>
+          <Cell
+            icon={<Image src={helpIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
+            title="&nbsp;&nbsp;帮助与客服"
+            rightIcon={<Arrow />}
+            clickable
             onClick={async () => {
               await Taro.navigateTo({url: '/pages/user/help/index'});
-            }}
-          />
-          <AtListItem
-            className='list-item'
-            title='关于我们'
-            arrow='right'
-            hasBorder={false}
-            iconInfo={{value: 'alert-circle', size: 18}}
+            }}>
+          </Cell>
+          <Cell
+            icon={<Image src={aboutusIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
+            title="&nbsp;&nbsp;关于我们"
+            rightIcon={<Arrow />}
+            clickable
             onClick={async () => {
               await Taro.navigateTo({url: '/pages/user/about/index'});
-            }}
-          />
-        </AtList>
-
+            }}>
+          </Cell>
+        </Cell.Group>
       </View>
       <LoginModal opened={showLoginModal} />
     </View>

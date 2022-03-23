@@ -21,26 +21,33 @@
     }
   }
 }
-.title {
-  font-size: 24px;
-  margin-left: 24px;
-  margin-bottom: 16px;
-  color: $note-color;
+
+
+.info{
+  margin: 32px 0px;
 }
 
-.detail {
-  :global {
-    .at-list__item .item-extra__info {
-      padding-right: 0;
-    }
-
-    .item-extra__image {
-      margin-right: 45px;
-
-      width: 80px;
-      height: 80px;
-      border-radius: 100px;
-      overflow: hidden;
-    }
-  }
-}
+//
+//.title {
+//  font-size: 24px;
+//  margin-left: 24px;
+//  margin-bottom: 16px;
+//  color: $note-color;
+//}
+//
+//.detail {
+//  :global {
+//    .at-list__item .item-extra__info {
+//      padding-right: 0;
+//    }
+//
+//    .item-extra__image {
+//      margin-right: 45px;
+//
+//      width: 80px;
+//      height: 80px;
+//      border-radius: 100px;
+//      overflow: hidden;
+//    }
+//  }
+//}

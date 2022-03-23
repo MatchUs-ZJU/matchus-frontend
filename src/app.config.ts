@@ -20,9 +20,9 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
+    navigationBarBackgroundColor: '#918AE3',
     navigationBarTitleText: 'MatchUs',
-    navigationBarTextStyle: 'black'
+    navigationBarTextStyle: 'white'
   },
   tabBar: {
     selectedColor: '#918AE3',

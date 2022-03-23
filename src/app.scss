@@ -1,7 +1,7 @@
 /* 引入 Taro UI 默认样式 */
 @import '~taro-ui/dist/style/index.scss'; // TODO 删除
-@import './theme/custom_variables.scss';
-@import './theme/font.scss';
+/* 改变主题样式，具体命名见 taro-ui/dist/style/variables/default.scss 文件 */
+@import './theme/custom_variables';
 
 page {
   height: 100%;
@@ -16,15 +16,4 @@ page {
   color: $text-color;
   background:$background-color;
 }
-
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.col {
-  display: flex;
-  flex-direction: column;
-}
-
 
