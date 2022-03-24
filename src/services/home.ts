@@ -18,3 +18,12 @@ export const getRecommends = async () => {
     },
   });
 }
+
+export const getHomeData = async () => {
+  console.log('网络请求：获取推荐文章')
+  return request.get(`/activity/data`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}

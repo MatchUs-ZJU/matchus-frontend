@@ -4,6 +4,8 @@ export default defineAppConfig({
     'pages/activity/index/index',
     'pages/user/index/index',
 
+    'pages/home/article-view/index',
+
     'pages/activity/page-1/index',
     'pages/activity/page-2/index',
     'pages/activity/page-3/index',

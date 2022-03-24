@@ -1,7 +1,7 @@
+import Taro from "@tarojs/taro";
+import {BASE_URL} from "@/config";
 import request from "./request";
 import {getJWT} from "./jwt";
-import Taro from "@tarojs/taro";
-import {BASE_URL} from "../config";
 
 export const getUserInfo = async () => {
   console.log('网络请求：获取用户信息')

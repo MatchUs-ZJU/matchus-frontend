@@ -1,0 +1,69 @@
+@import '../../app.scss';
+
+.article-card {
+  justify-content: flex-start;
+  align-items: center;
+
+  background: $white;
+
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.article-card .detail {
+  height: 210px;
+  align-items: flex-start;
+  margin: 0 0 0 24px;
+}
+
+.article-card .img {
+  width: 270px;
+  height: 210px;
+
+  border-radius: 16px;
+}
+
+.article-card .title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  color: $text-color;
+
+  margin-bottom: 16px;
+}
+
+.article-card .desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  color: $text-color-2;
+
+  margin-bottom: 24px;
+}
+
+.article-card .tag {
+  width: 100px;
+  height: 36px;
+
+  background: #F5F4FF;
+  border-radius: 4px;
+
+  text-align: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  color: $primary-color;
+}
+
+.article-card .date {
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 8px;
+
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  color: $note-color
+}

@@ -1,5 +1,5 @@
-import {HOME_SAVE} from "../constants";
-import {getBanners, getRecommends} from "../services/home";
+import {HOME_SAVE} from "@/constants";
+import {getBanners, getHomeData, getRecommends} from "@/services/home";
 
 export const fetchBanners = () => {
   return async dispatch => {
@@ -20,6 +20,25 @@ export const fetchBanners = () => {
   }
 }
 
+export const fetchHomeData = () => {
+  return async dispatch => {
+    console.log("首页：获取首页数据")
+    try {
+      let res = await getHomeData()
+      if(res && res.code === 0) {
+        console.log("首页：获取首页数据成功")
+        dispatch(homeSave({
+          data: res.data
+        }))
+      } else {
+        console.log("首页：获取首页数据失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 export const fetchRecommends = () => {
   return async dispatch => {
     console.log("首页：获取推荐内容")
@@ -28,7 +47,7 @@ export const fetchRecommends = () => {
       if(res && res.code === 0) {
         console.log("首页：获取推荐内容成功")
         dispatch(homeSave({
-          recommends: res.data
+          articles: res.data
         }))
       } else {
         console.log("首页：获取推荐内容失败")
