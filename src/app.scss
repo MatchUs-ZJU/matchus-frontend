@@ -17,6 +17,8 @@ page {
   background:$background-color;
 }
 
+// flex
+
 .row {
   display: flex;
   flex-direction: row;
@@ -25,4 +27,86 @@ page {
 .col {
   display: flex;
   flex-direction: column;
+}
+
+// article
+
+.h1 {
+  text-align: left;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+
+  display: flex;
+  align-items: center;
+
+  color: $primary-color;
+
+  margin-bottom: 20px;
+}
+
+.h2 {
+  text-align: left;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+
+  display: flex;
+  align-items: center;
+}
+
+.h3 {
+  text-align: left;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+
+  display: flex;
+  align-items: center;
+}
+
+.p1 {
+  text-align: left;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 48px;
+
+  white-space: pre-wrap;
+  word-break:break-all;
+
+  color: $text-color;
+}
+
+.p2 {
+  text-align: left;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 48px;
+
+  white-space: pre-wrap;
+  word-break:break-all;
+
+  color: $text-color-2
+}
+
+.margin-bottom-12 {
+  margin-bottom: 12px;
+}
+
+.margin-bottom-24 {
+  margin-bottom: 24px;
+}
+
+.margin-bottom-48 {
+  margin-bottom: 48px;
+}
+
+.purple {
+  color: $primary-color
+}
+
+.bold {
+  font-weight: 500;
 }
