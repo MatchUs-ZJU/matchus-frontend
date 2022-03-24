@@ -6,6 +6,7 @@ import TwoPeopleIcon from './icons/people.png'
 import FeedBackImage from './feedback.png'
 import HeaderImage from './header.png'
 import SloganImage from './slogan.png'
+import AnonymousImage from './anonymous.png'
 
 import commonqustions from './mine-help-commonquestions.svg';
 import artiservice from './mine-help-service.svg';
@@ -18,7 +19,7 @@ import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
 
 export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon}
-export {FeedBackImage, HeaderImage, SloganImage}
+export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;
 export const assitantIcon = qrcode;

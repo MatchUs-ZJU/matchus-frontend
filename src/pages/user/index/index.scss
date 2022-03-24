@@ -1,63 +1,73 @@
 @import "../../../app";
 
-.container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden;
-  color: $text-color;
-  background: $background-color;
+.wrapper {
+  padding: 40px 40px 0 40px
 }
 
-.main-info {
-  padding: 16px 32px;
+.header {
   width: 600px;
   margin: 0 auto;
   z-index: 100;
 }
 
-.avatar {
-  height: 128px;
-  width: 128px;
+.header .avatar {
+  height: 144px;
+  width: 144px;
+
   border-radius: 50%;
   overflow: hidden;
-  background: white;
+  background: $white;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.avatar-img {
+.header .avatar .avatar-img {
   width: 100%;
   height: 100%;
 }
 
-.avatar-anonymous {
-  font-size: 100px !important;
-  color: $text-color;
-}
-
-.nickname {
-  font-size: 44px;
-  color: $title-color;
-}
-
-.note {
-  color: $note-color;
-  font-size: 28px;
-}
-
-.login-text {
-  margin-left: 16px;
-  color: $text-color;
-  font-size: 40px;
+.header .info {
   justify-content: center;
+  align-items: left;
+
+  margin-left: 48px;
 }
 
-.basic-info,
-.help{
-  padding: 16px 0px;
+.header .info .nickname {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+
+  color: $text-color-1
+}
+
+.header .info .faculty {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+
+  color: $text-color-1
+}
+
+.header .info .login-text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+
+  color: $text-color-1
+}
+
+.main {
+  margin: 32px 0;
+}
+
+.main .left-icon {
+  width: 48px;
+  height: 48px;
+
+  margin-right: 24px;
 }
 
 .van-icon-arrow{

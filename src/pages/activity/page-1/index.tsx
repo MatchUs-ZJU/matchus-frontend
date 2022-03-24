@@ -2,10 +2,10 @@ import {View} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {AtButton} from "taro-ui";
+import {actionPreJoinActivity, fetchLatestActivityInfo} from "@/actions";
+import {LoginModal} from "../../../components";
 
 import './index.scss'
-import {actionPreJoinActivity, fetchLatestActivityInfo} from "../../../actions";
-import {LoginModal} from "../../../components";
 
 const Index = () => {
   const dispatch = useDispatch();

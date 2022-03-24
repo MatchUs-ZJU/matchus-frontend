@@ -1,4 +1,5 @@
-const path = require('path')
+import path from "path";
+
 const config = {
   projectName: 'matchus-frontend',
   date: '2022-2-4',

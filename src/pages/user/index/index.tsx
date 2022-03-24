@@ -1,61 +1,49 @@
 import {View} from "@tarojs/components";
-import {Cell,Image, Tag} from "@taroify/core"
-import { Arrow } from "@taroify/icons"
-import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon} from "../../../assets/images";
+import {Cell, Image, Notify} from "@taroify/core"
+import {Arrow} from "@taroify/icons"
+import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon, AnonymousImage} from "@/assets/images";
 import Taro from "@tarojs/taro";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
+import {useState} from "react";
 
 import './index.scss'
-import {LoginModal} from "../../../components";
-import {globalSave} from "../../../actions";
 
 const User = () => {
-  const dispatch = useDispatch()
-  const {user, global} = useSelector((state) => state)
+  const {user} = useSelector((state) => state)
   const {nickName, avatarUrl, school, faculty, identified} = user
-  const {showLoginModal} = global
-  const identitydict = {0:"审核失败",1:'认证中',2:'审核失败',3:'已认证'}
 
-  const onClickMainInfo = () => {
-    if (!nickName) {
-      dispatch(globalSave({
-        showLoginModal: true
-      }))
+  const [notifyContent, ] = useState('您还没有登录哦')
+  const [notifyOpen, setNotifyOpen] = useState(false)
+
+  const onClickMainInfo = async () => {
+    if (!nickName || !avatarUrl || !avatarUrl.length) {
+      await Taro.navigateTo({url: '/pages/introduction/index'})
     }
   }
 
-  const onClickOpenSettings = () => {
-    if (!nickName) {
-      Taro.atMessage({
-        type: 'warning',
-        message: '您还没有登录哦！',
-        duration: 3000
-      })
+  const onClickOpenPersonalInformation = async () => {
+    if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyOpen(true)
     } else {
-      Taro.navigateTo({url: '/pages/user/information/index'})
+      await Taro.navigateTo({url: '/pages/user/information/index'})
     }
   }
 
-  const onClickOpenIdentity = () => {
-    if (!nickName) {
-      Taro.atMessage({
-        type: 'warning',
-        message: '您还没有登录哦！',
-        duration: 3000
-      })
+  const onClickOpenPersonalIdentity = async () => {
+    if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyOpen(true)
     } else {
-      // TODO:身份认证页面
-      // Taro.navigateTo({url: '/pages/user/index'})
+      await Taro.showToast({
+        title: "程序猿小哥哥正在开发该功能，本期活动采用人工认证～",
+        duration: 5000,
+        icon: 'none'
+      })
     }
   }
 
   const onClickOpenRecord = async () => {
-    if (!nickName) {
-      Taro.atMessage({
-        type: 'warning',
-        message: '您还没有登录哦！',
-        duration: 3000
-      })
+    if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyOpen(true)
     } else {
       await Taro.showToast({
         title: "程序猿小哥哥正在开发该功能～",
@@ -66,86 +54,99 @@ const User = () => {
   }
 
   return (
-    <View className='container'>
-      <View className='main-info' onClick={onClickMainInfo}>
-        <View className='at-row'>
-          <View className='at-col-3'>
-            <View className='avatar'>
-              {nickName ? (
-                <Image
-                  src={avatarUrl}
-                  className='avatar-img'
-                  style={{width: '100%', height: '100%'}}
-                />
-              ) : (
-                <AtIcon value='anonymous' prefixClass='kf' className='avatar-anonymous' />
-              )}
-            </View>
-          </View>
-          <View className='at-col-9' style={{display: 'flex', alignItems: 'center'}}>
-            {nickName ? (
-              <View>
-                <View className='nickname'>{nickName}</View>
-                <View className='at-row note' style={{marginTop: '4px'}}>
-                  <View style={{marginRight: '4px'}}>{school}</View>
-                  <View className='at-col-auto'>{faculty}</View>
-                </View>
+    <View className='container wrapper'>
+      <View className='row header' onClick={onClickMainInfo}>
+        <View className='col avatar'>
+          {avatarUrl && avatarUrl.length ? (
+            <Image
+              shape='circle'
+              mode='aspectFit'
+              lazyLoad
+              src={avatarUrl}
+              className='avatar-img'
+            />
+          ) : (
+            <Image
+              shape='circle'
+              mode='aspectFit'
+              lazyLoad
+              src={AnonymousImage}
+              className='avatar-img'
+            />
+          )}
+        </View>
+        <View className='col info'>
+          {nickName ? (
+            <>
+              <View className='row nickname'>
+                {nickName}
               </View>
-            ) : (
-              <View className='login-text'>登录/注册</View>
-            )}
-          </View>
+              <View className='row faculty' style={{marginTop: '4px'}}>
+                学院：{faculty ? faculty : '暂无信息'}
+              </View>
+            </>
+          ) : (
+            <View className='login-text'>登录/注册</View>
+          )}
         </View>
       </View>
-      <View className='basic-info'>
+
+      <View className='main'>
         <Cell.Group inset>
           <Cell
-            icon={<Image src={personalinfoIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
-            title="&nbsp;&nbsp;个人信息"
-            rightIcon={<Arrow size='1.5rem'/>}
+            icon={<Image src={personalinfoIcon} className='left-icon'/>}
+            title='个人信息'
+            rightIcon={<Arrow size='16'/>}
             clickable
-            onClick={onClickOpenSettings}>
-            {identitydict[identified]}
+            align='center'
+            onClick={onClickOpenPersonalInformation}>
+            {identified}
           </Cell>
           <Cell
-            icon={<Image src={identityIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
-            title="&nbsp;&nbsp;身份记录"
-            rightIcon={<Arrow />}
+            icon={<Image src={identityIcon} className='left-icon'/>}
+            title='身份认证'
+            rightIcon={<Arrow size='16'/>}
+            align='center'
             clickable
-            onClick={onClickOpenIdentity}>
+            onClick={onClickOpenPersonalIdentity}>
           </Cell>
           <Cell
-            icon={<Image src={consumeIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
-            title="&nbsp;&nbsp;消费记录"
-            rightIcon={<Arrow />}
+            icon={<Image src={consumeIcon} className='left-icon'/>}
+            title='消费记录'
+            rightIcon={<Arrow size='16'/>}
+            align='center'
             clickable
             onClick={onClickOpenRecord}>
           </Cell>
         </Cell.Group>
       </View>
-      <View className='help'>
+
+      <View className='main'>
         <Cell.Group inset>
           <Cell
-            icon={<Image src={helpIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
-            title="&nbsp;&nbsp;帮助与客服"
-            rightIcon={<Arrow />}
+            icon={<Image src={helpIcon} className='left-icon'/>}
+            title='帮助与客服'
+            rightIcon={<Arrow size='16'/>}
+            align='center'
             clickable
             onClick={async () => {
               await Taro.navigateTo({url: '/pages/user/help/index'});
             }}>
           </Cell>
           <Cell
-            icon={<Image src={aboutusIcon} style={{ width: "1.5rem", height: "1.5rem" }} />}
-            title="&nbsp;&nbsp;关于我们"
-            rightIcon={<Arrow />}
+            icon={<Image src={aboutusIcon} className='left-icon'/>}
+            title='关于我们'
+            rightIcon={<Arrow size='16'/>}
             clickable
+            align='center'
             onClick={async () => {
               await Taro.navigateTo({url: '/pages/user/about/index'});
-            }}>
+            }}
+          >
           </Cell>
         </Cell.Group>
       </View>
-      <LoginModal opened={showLoginModal} />
+      <Notify id='notify' open={notifyOpen} duration={2000} color='warning' onClose={() => setNotifyOpen(false)}>{notifyContent}</Notify>
     </View>
 
   )

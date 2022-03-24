@@ -2,8 +2,10 @@ import {View} from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {globalSave} from "../../../actions";
+import {globalSave} from "@/actions";
 import {LoginModal} from "../../../components";
+
+import './index.scss'
 
 const Index = () => {
   const dispatch = useDispatch()

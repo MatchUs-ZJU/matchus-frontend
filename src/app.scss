@@ -1,6 +1,3 @@
-/* 引入 Taro UI 默认样式 */
-@import '~taro-ui/dist/style/index.scss'; // TODO 删除
-/* 改变主题样式，具体命名见 taro-ui/dist/style/variables/default.scss 文件 */
 @import './theme/custom_variables';
 
 page {

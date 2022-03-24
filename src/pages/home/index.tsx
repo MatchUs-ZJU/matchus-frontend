@@ -1,5 +1,5 @@
 import {Swiper, SwiperItem, Text, View} from "@tarojs/components";
-import {useDidShow, usePullDownRefresh} from "@tarojs/taro";
+import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Progress, Image} from "@taroify/core"
@@ -16,7 +16,7 @@ const Home = () => {
   const {home} = useSelector((state) => state)
   const {articles, banners, data} = home
 
-  const [_, setReady] = useState(false);
+  const [, setReady] = useState(false);
   const [sighUpEndTimeStr, setSighUpEndTimeStr] = useState('')
 
   useDidShow(() => {
@@ -58,6 +58,12 @@ const Home = () => {
     dispatch(fetchBanners())
     dispatch(fetchRecommends())
     dispatch(fetchHomeData())
+  }
+
+  async function goToSignUp() {
+    await Taro.navigateTo({
+      url: 'pages/activity/index/index'
+    })
   }
 
   return (
@@ -149,11 +155,16 @@ const Home = () => {
                 <Text className='title-big' style={{marginLeft: '8px'}}>{data.currentParticipant}</Text>
                 <Text className='title-small'>/{data.totalParticipant}</Text>
               </View>
-              <Progress percent={20} label={false} className='progress-color' style={{marginBottom: '4px'}} />
+              <Progress
+                percent={data.totalParticipant === 0 ? 0 : data.currentParticipant / data.totalParticipant * 100}
+                label={false}
+                className='progress-color'
+                style={{marginBottom: '4px'}}
+              />
               <View className='note'>报名截止 {sighUpEndTimeStr}</View>
             </View>
           </View>
-          <View className='col button'>
+          <View className='col button' onClick={goToSignUp}>
             <Text className='button-text'>去报名</Text>
           </View>
         </View>
