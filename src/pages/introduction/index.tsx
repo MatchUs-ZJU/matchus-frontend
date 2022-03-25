@@ -1,14 +1,16 @@
 import {View, Text} from "@tarojs/components";
-import {useSelector} from "react-redux";
+import classnames from 'classnames';
 import {Checkbox, Image} from "@taroify/core"
 import {useState} from "react";
 import Taro from "@tarojs/taro";
 import {HeaderImage, SloganImage} from "@/assets/images";
 import './index.scss'
+import {useDispatch, useSelector} from "react-redux";
+import {fetchUserProfile} from "@/actions";
 
 const Introduction = () => {
-
-  const {showLoginModal} = useSelector(state => state.global)
+  const dispatch = useDispatch()
+  const {user} = useSelector(state => state)
   const [agree, setAgree] = useState<boolean>(false)
 
   function onAgreePrivacy(e: boolean) {
@@ -27,9 +29,28 @@ const Introduction = () => {
     })
   }
 
-  return(
+  async function navToHome() {
+    await Taro.switchTab({
+      url: '/pages/home/index'
+    })
+  }
+
+  async function onClickRegister() {
+    if (agree) {
+      if (user.nickName && user.avatarUrl) {
+        // 用户已经上传基本信息
+        await Taro.navigateTo({
+          url: '/pages/user/register/index'
+        })
+      } else {
+        // 用户未上传基本信息
+        dispatch(fetchUserProfile())
+      }
+    }
+  }
+
+  return (
     <View className='container wrapper'>
-      {/*<LoginModal opened={showLoginModal} />*/}
       <View className='col layout' style={{marginBottom: '80px'}}>
         <Image
           lazyLoad
@@ -43,10 +64,18 @@ const Introduction = () => {
         />
       </View>
       <View className='col layout' style={{marginTop: '80px'}}>
-        <View className='register-button'>
+        <View
+          className={classnames(
+            'register-button',
+            {
+              'register-button-not-agree': !agree,
+              'register-button-agree': agree,
+            })}
+          onClick={onClickRegister}
+        >
           立即注册
         </View>
-        <View className='text-1'>我先逛逛</View>
+        <View className='text-1' onClick={navToHome}>我先逛逛</View>
         <View className='text-2'>您尚未注册，注册后用户资料将会同步</View>
         <View className='row agree'>
           <Checkbox

@@ -1,13 +1,13 @@
 import Taro from "@tarojs/taro";
 import React from "react";
-import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "../constants";
+import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "@/constants";
 import {
   postFilledOverSurvey,
   getLatestActivityInfo,
   postPreJoinActivity,
   getMatchResult,
   postSatisfiedFeedback, getFeedbackContent, postSendTwcResult, getTwcResult, getPaymentResult, postRefundRequest
-} from "../services/activity";
+} from "@/services/activity";
 
 export const activitySave = (payload) => {
   return {
@@ -48,7 +48,7 @@ export const fetchLatestActivityInfo = () => {
 }
 
 export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Dispatch<any>) => {
-  return async dispatch => {
+  return async _ => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
       let preJoinRes = await postPreJoinActivity({

@@ -1,4 +1,4 @@
-import {GLOBAL_SAVE} from "../constants";
+import {GLOBAL_SAVE} from "@/constants";
 
 export const globalSave = (payload) => {
   return {
