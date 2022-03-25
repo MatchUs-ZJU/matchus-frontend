@@ -10,16 +10,16 @@ export const resourceSave = (payload) => {
 
 export const fetchHelpsInfo = () => {
   return async dispatch => {
-    console.log("资源：获取常见帮助信息")
+    console.log("用户页面：获取常见帮助信息")
     try {
       let res = await getHelpsInfo()
       if(res && res.code === 0) {
-        console.log("首页：获取常见帮助信息成功")
+        console.log("用户页面：获取常见帮助信息成功")
         dispatch(resourceSave({
           help: res.data
         }))
       } else {
-        console.log("首页：获取常见帮助信息失败")
+        console.log("用户页面：获取常见帮助信息失败")
       }
     } catch (e) {
       console.log(e)

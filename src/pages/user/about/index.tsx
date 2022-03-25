@@ -1,11 +1,11 @@
 import {View} from '@tarojs/components'
 import {Image} from "@taroify/core";
-import {aboutUs} from "@/assets/images";
+import {AboutUsTopImage} from "@/assets/images";
 import './index.scss'
 
 export default () => (
   <View className='container wrapper'>
-    <Image src={aboutUs} className='img'/>
+    <Image src={AboutUsTopImage} className='img' />
     <View className='content'>
       <View className='p1 margin-bottom-12 margin-top-12'>你好👋，感谢你参与到MatchUs匹配计划！️</View>
       <View className='p1 margin-bottom-12'><View className='highlight'>「我们是谁 👀」</View>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;我们是纯纯浙大背景的创业团队，这里有产品大佬，也有算法大神，还有数院运筹学团队加持，我们来自学生会、创赛先锋、投行、CAD实验室、竺院……总之是一群有趣的人，我们既研究现实主义的条件匹配和算法流程，也在探索着浪漫主义的交友心理和性格玄学。️</View>

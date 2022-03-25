@@ -7,7 +7,7 @@ export interface IFaculty {
 
 export interface IQuestion {
   id: string
-  question: {},
+  question: string,
   answer: string,
 }
 

@@ -25,8 +25,9 @@ const ArticleCard = (props: ArticleCardProps) => {
   }, [article])
 
   async function onOpenArticleView() {
+    Taro.setStorageSync('webViewSrc', article.url)
     await Taro.navigateTo({
-      url: `/pages/home/article-view/index?src=${article.url}`
+      url: `/pages/home/article-view/index`
     })
   }
 

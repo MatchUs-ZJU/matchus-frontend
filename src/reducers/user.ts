@@ -10,8 +10,11 @@ export interface IUserState {
   province: string;
   language:string;
   identified: '未认证' | '已认证' | '认证失败' | '认证中';
-  school?: string;
-  faculty?: string;
+  school: string;
+  studentNumber: string;
+  phoneNumber: string;
+
+  faculty: string;
   createTime?: number;
 
   openid?: string;
@@ -22,6 +25,9 @@ export interface IUserState {
 }
 
 const INITIAL_STATE: IUserState = {
+  faculty: "",
+  phoneNumber: "",
+  studentNumber: "",
   avatarUrl: "",
   country: "",
   gender: 0,

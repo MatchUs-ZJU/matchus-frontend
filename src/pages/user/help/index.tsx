@@ -1,24 +1,20 @@
 import {Text, View} from "@tarojs/components";
-import {useState} from "react";
 import {Cell, Collapse, Image} from "@taroify/core"
 import "@taroify/core/collapse/style"
+import {useSelector} from "react-redux";
+import {commonquestionsIcon, artiserviceIcon, assitantIcon} from '@/assets/images'
+import {IQuestion} from "@/reducers/resource";
 import './index.scss'
-import {commonquestionsIcon, artiserviceIcon, assitantIcon} from '../../../assets/images'
-
-const test_data = [
-  {value:"喜欢、超级喜欢后可以取消吗？", answer:"111111"},
-  {value:"超级喜欢后可以取消吗？", answer:"222222"},
-  {value:"喜取消吗？", answer:"33333"},
-  {value:"喜欢可以取消吗？", answer:"44444"},
-  {value:"喜欢、超级？", answer:"55555"}
-]
 
 const Index = () => {
+
+  const { help } = useSelector(state => state.resource)
+
   var list = (data) => {
     var res = []
-    data.forEach((item) => {
+    data.forEach((item: IQuestion) => {
       res.push(
-        <Collapse.Item title={item.value}>{item.answer}</Collapse.Item>
+        <Collapse.Item title={item.question}>{item.answer}</Collapse.Item>
       )
     })
     return res
@@ -33,7 +29,7 @@ const Index = () => {
         </View>
         <Cell.Group inset>
           <Collapse accordion>
-            {list(test_data)}
+            {list(help)}
           </Collapse>
         </Cell.Group>
       </View>

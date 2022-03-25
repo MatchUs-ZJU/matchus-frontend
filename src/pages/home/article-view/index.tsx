@@ -3,13 +3,9 @@ import Taro from "@tarojs/taro";
 
 import './index.scss'
 
-interface ArticleViewProps {
-  src: string
-}
+const Index = () => {
 
-const Index = (props: ArticleViewProps) => {
-
-  const {src} = props
+  const src = Taro.getStorageSync('webViewSrc')
 
   async function onSuccess() {
     console.log('浏览文章：打开文章成功')
@@ -28,7 +24,7 @@ const Index = (props: ArticleViewProps) => {
 
   return (
     <View className='container'>
-      <WebView src={src} onError={onFail} onLoad={onSuccess}/>
+      <WebView src={src} onError={onFail} onLoad={onSuccess} />
     </View>
   )
 }

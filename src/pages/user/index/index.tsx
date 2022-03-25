@@ -3,17 +3,36 @@ import {Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon, AnonymousImage} from "@/assets/images";
 import Taro from "@tarojs/taro";
-import {useSelector} from "react-redux";
-import {useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {fetchHelpsInfo, fetchUserInfo} from "@/actions";
 
 import './index.scss'
 
-const User = () => {
-  const {user} = useSelector((state) => state)
-  const {nickName, avatarUrl, school, faculty, identified} = user
+const notifyLoginMessage = '您还没有登录哦'
+const notifyIdentifyMessage = '请您先完成用户认证'
 
-  const [notifyContent, ] = useState('您还没有登录哦')
+const User = () => {
+  const dispatch = useDispatch()
+  const {user} = useSelector((state) => state)
+  const {nickName, avatarUrl, school, faculty, identified, login} = user
+
+  // 通知
+  const [notifyContent, setNotifyContent] = useState('')
   const [notifyOpen, setNotifyOpen] = useState(false)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  function fetchData() {
+    dispatch(fetchHelpsInfo())
+
+    // 如果没有个人信息，先尝试获取
+    if(login) {
+      dispatch(fetchUserInfo())
+    }
+  }
 
   const onClickMainInfo = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
@@ -23,7 +42,12 @@ const User = () => {
 
   const onClickOpenPersonalInformation = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
+    } else if (identified !== '已认证'){
+      setNotifyContent(notifyIdentifyMessage)
+      setNotifyOpen(true)
+      await Taro.navigateTo({url: '/pages/introduction/index'})
     } else {
       await Taro.navigateTo({url: '/pages/user/information/index'})
     }
@@ -31,6 +55,7 @@ const User = () => {
 
   const onClickOpenPersonalIdentity = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
     } else {
       await Taro.showToast({
@@ -43,6 +68,7 @@ const User = () => {
 
   const onClickOpenRecord = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
     } else {
       await Taro.showToast({
