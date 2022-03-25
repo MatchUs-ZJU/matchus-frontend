@@ -11,7 +11,7 @@ import AnonymousImage from './anonymous.png'
 import commonqustions from './mine-help-commonquestions.svg';
 import artiservice from './mine-help-service.svg';
 import qrcode from './wechat-qrcode.png'
-import aboutusimg from './aboutus.png'
+import aboutusimg from './aboutus-top.png'
 import personalinfo from './mine-personalinfo.svg'
 import identity from './mine-identity.svg'
 import consume from './mine-consume.svg'
