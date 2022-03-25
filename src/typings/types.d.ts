@@ -1,8 +1,9 @@
 export interface IArticle {
+  id: number
   title: string,
   description: string,
   tag: string,
-  date: Date,
+  date: number,
   image: string,
 
   url: string
@@ -13,9 +14,9 @@ export interface IBanner {
 }
 
 export interface IHomeData {
-  startTime: Date,
-  endTime: Date,
-  signUpEndTime: Date,
+  startTime: number,
+  endTime: number,
+  signUpEndTime: number,
 
   currentParticipant: number,
   totalParticipant: number,

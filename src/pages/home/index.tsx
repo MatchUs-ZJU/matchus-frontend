@@ -18,10 +18,16 @@ const Home = () => {
 
   const [, setReady] = useState(false);
   const [sighUpEndTimeStr, setSighUpEndTimeStr] = useState('')
+  const [startTime, setStartTime] = useState(new Date())
+  const [endTime, setEndTime] = useState(new Date())
 
   useDidShow(() => {
     setReady(true);
   });
+
+  usePullDownRefresh(() => {
+    fetchData()
+  })
 
   // invoke once
   useEffect(() => {
@@ -30,11 +36,15 @@ const Home = () => {
 
   useEffect(() => {
     // 处理时间字符串
-    if (data && data.signUpEndTime) {
-      let year = data.signUpEndTime.getFullYear()
-      let month = data.signUpEndTime.getMonth()
-      let day = data.signUpEndTime.getDate()
-      let hour = data.signUpEndTime.getHours()
+    if (data) {
+      setStartTime(new Date(data.startTime))
+      setEndTime(new Date(data.endTime))
+
+      let signUpEndTime = new Date(data.signUpEndTime)
+      let year = signUpEndTime.getFullYear()
+      let month = signUpEndTime.getMonth()
+      let day = signUpEndTime.getDate()
+      let hour = signUpEndTime.getHours()
       let period
 
       if (6 <= hour && hour < 12) {
@@ -48,11 +58,9 @@ const Home = () => {
       let processed: string = `${year}.${month}.${day}${period}${hour}点`;
       setSighUpEndTimeStr(processed)
     }
-  }, [data.signUpEndTime])
+  }, [data])
 
-  usePullDownRefresh(() => {
-    fetchData()
-  })
+
 
   function fetchData() {
     dispatch(fetchBanners())
@@ -62,7 +70,7 @@ const Home = () => {
 
   async function goToSignUp() {
     await Taro.navigateTo({
-      url: 'pages/activity/index/index'
+      url: '/pages/activity/index/index'
     })
   }
 
@@ -142,7 +150,7 @@ const Home = () => {
           <View className='row main'>
             <View className='col time'>
               <View className='title'>本期活动</View>
-              <View className='content'>{data.startTime.getMonth()}.{data.startTime.getDate()}-{data.endTime.getMonth()}.{data.endTime.getDate()}</View>
+              <View className='content'>{startTime.getMonth()}.{startTime.getDate()}-{endTime.getMonth()}.{endTime.getDate()}</View>
             </View>
             <View style='
               border: 1px solid #D9D9D9;
@@ -173,7 +181,7 @@ const Home = () => {
             <Image src={TrumpetIcon} shape='circle' className='icon' />
             <View style={{marginLeft: '12px'}}>
               <View className='title'>
-                {data.term}<Text className='title-small'>期</Text>
+                {!data.term ? 4 : data.term}<Text className='title-small'>期</Text>
               </View>
               <View className='content'>已举办配对活动</View>
             </View>
@@ -181,14 +189,14 @@ const Home = () => {
           <View className='col data-card yellow'>
             <Image src={TwoPeopleIcon} shape='circle' className='icon' />
             <View style={{marginLeft: '12px'}}>
-              <View className='title'>{data.matched}+</View>
+              <View className='title'>{!data.matched ? 1800 : data.matched}+</View>
               <View className='content'>配对成功人数</View>
             </View>
           </View>
           <View className='col data-card pink'>
             <Image src={HeartsIcon} shape='circle' className='icon' />
             <View style={{marginLeft: '12px'}}>
-              <View className='title'>{data.unavailable}+</View>
+              <View className='title'>{!data.unavailable ? 90 : data.unavailable}+</View>
               <View className='content'>成功脱单人数</View>
             </View>
           </View>

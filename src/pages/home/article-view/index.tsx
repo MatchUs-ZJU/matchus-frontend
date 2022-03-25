@@ -1,47 +1,36 @@
-import {Text, View} from "@tarojs/components";
-import {Image} from "@taroify/core";
-import {Like} from "@taroify/icons";
-import {IArticle} from "@/typings/types";
+import {View, WebView} from "@tarojs/components";
 import Taro from "@tarojs/taro";
 
 import './index.scss'
 
-interface ArticleCardProps {
-  article: IArticle
-  key: number
+interface ArticleViewProps {
+  src: string
 }
 
-const ArticleCard = (props: ArticleCardProps) => {
+const Index = (props: ArticleViewProps) => {
 
-  const {article} = props
+  const {src} = props
 
-  async function onOpenArticleView() {
-    await Taro.navigateTo({
-      url: `pages/home/article-view?src=${article.url}`
+  async function onSuccess() {
+    console.log('浏览文章：打开文章成功')
+  }
+
+  async function onFail() {
+    console.log('浏览文章：打开文章失败')
+    await Taro.showToast({
+      title: '打开文章失败',
+      icon: 'error',
+      duration: 3000
     })
+
+    await Taro.navigateBack()
   }
 
   return (
-    <View className='row article-card' onClick={onOpenArticleView}>
-      <Image
-        lazyLoad
-        src={article.image}
-        className='img'
-        mode='center'
-      />
-      <View className='col detail'>
-        <View className='title'>{article.title}</View>
-        <View className='desc'>{article.description}</View>
-        <View className='row' style='align-item: center; width: 100%'>
-          <Text className='col tag'>#{article.tag}</Text>
-          <View className='row date'>
-            <Like style={{ color: "#FF6C90", margin: "0 8px 0 0"}} />
-            <Text>{article.date.getFullYear()}.{article.date.getMonth()}.{article.date.getDate()}</Text>
-          </View>
-        </View>
-      </View>
+    <View className='container'>
+      <WebView src={src} onError={onFail} onLoad={onSuccess}/>
     </View>
   )
 }
 
-export default ArticleCard;
+export default Index;

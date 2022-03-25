@@ -1,4 +1,4 @@
-import {USER_SAVE} from "../constants";
+import {USER_SAVE} from "@/constants";
 
 export interface IUserState {
   nickName: string;
@@ -12,7 +12,7 @@ export interface IUserState {
   identified: '未认证' | '已认证' | '认证失败' | '认证中';
   school?: string;
   faculty?: string;
-  createTime?: Date;
+  createTime?: number;
 
   openid?: string;
   sessionKey?: string;

@@ -13,12 +13,15 @@
 
 .article-card .detail {
   height: 210px;
+  width: 100%;
+  position: relative;
+
   align-items: flex-start;
   margin: 0 0 0 24px;
 }
 
 .article-card .img {
-  width: 270px;
+  width: 45%;
   height: 210px;
 
   border-radius: 16px;
@@ -40,6 +43,14 @@
   color: $text-color-2;
 
   margin-bottom: 24px;
+}
+
+.article-card .note {
+  align-items: center;
+  width: 100%;
+
+  position: absolute;
+  bottom: 16px;
 }
 
 .article-card .tag {

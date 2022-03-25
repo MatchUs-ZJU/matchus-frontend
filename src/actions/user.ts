@@ -18,7 +18,6 @@ export const fetchUserInfo = () => {
       const res = await getUserInfo()
       if (res && res.code === 0) {
         console.log('用户登录：获取用户信息成功')
-        console.log(res)
         dispatch(userSave(res.data))
       } else {
         console.log('用户登录：从服务器获取个人信息失败')
@@ -76,7 +75,11 @@ export const fetchUserProfile = () => {
       if (res && res.code === 0) {
         console.log("用户注册：更新用户信息成功")
         dispatch(userSave(userInfo))
-        dispatch(globalSave({showLoginModal: false}))
+
+        // 完成注册工作
+        await Taro.navigateTo({
+          url: '/pages/user/register/index'
+        })
       } else {
         console.log("用户注册：更新用户信息失败")
       }

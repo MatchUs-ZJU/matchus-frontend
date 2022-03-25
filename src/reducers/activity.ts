@@ -11,15 +11,15 @@ export interface IActivityState {
   wjxAppId: string,
 
   // time
-  startTime?: Date,
-  signUpStartTime?: Date,
-  signUpEndTime?: Date,
-  surveyEndTime?: Date,
-  matchResultShowTime?: Date,
-  twoWayChooseStartTime?: Date,
-  twoWayChooseEndTime?: Date,
-  twoWayChooseResultShowTime?: Date,
-  endTime?: Date
+  startTime?: number,
+  signUpStartTime?: number,
+  signUpEndTime?: number,
+  surveyEndTime?: number,
+  matchResultShowTime?: number,
+  twoWayChooseStartTime?: number,
+  twoWayChooseEndTime?: number,
+  twoWayChooseResultShowTime?: number,
+  endTime?: number
 
   // resource
   imageUrl: string

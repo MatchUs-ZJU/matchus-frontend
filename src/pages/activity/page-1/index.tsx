@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {AtButton} from "taro-ui";
 import {actionPreJoinActivity, fetchLatestActivityInfo} from "@/actions";
-import {LoginModal} from "../../../components";
 
 import './index.scss'
 
@@ -11,7 +10,6 @@ const Index = () => {
   const dispatch = useDispatch();
   const {global, user, activity} = useSelector((state) => state);
   const {nickName, avatarUrl, identified} = user;
-  const {showLoginModal} = global;
 
   const [canJoin, setCanJoin] = useState(true)
   const currentTime = new Date()
@@ -49,7 +47,6 @@ const Index = () => {
 
   return (
     <View className='container'>
-      <LoginModal opened={showLoginModal}/>
       <View>
         活动介绍和规则
       </View>

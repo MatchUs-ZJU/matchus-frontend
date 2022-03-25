@@ -37,11 +37,18 @@ page {
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
-  background: $gradient-purple-light;
+
   color: $white;
 
   border-radius: 60px;
   margin-bottom: 24px;
+}
+
+.register-button-not-agree {
+  background: $gradient-purple-light;
+}
+.register-button-agree {
+  background: $gradient-purple-dark;
 }
 
 .text-1 {

@@ -9,9 +9,9 @@ export interface IHomeState {
 
 const INITIAL_STATE: IHomeState = {
   data: {
-    startTime: new Date(),
-    endTime: new Date(),
-    signUpEndTime: new Date(),
+    startTime: new Date().getTime(),
+    endTime: new Date().getTime(),
+    signUpEndTime: new Date().getTime(),
 
     currentParticipant: 0,
     totalParticipant: 0,

@@ -1,4 +1,4 @@
-import {RESOURCE_SAVE} from "../constants";
+import {RESOURCE_SAVE} from "@/constants";
 
 export interface IFaculty {
   id: string,

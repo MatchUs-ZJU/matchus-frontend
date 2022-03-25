@@ -1,11 +1,8 @@
 import Taro from "@tarojs/taro";
 
-import {GLOBAL_SAVE} from "../constants";
+import {GLOBAL_SAVE} from "@/constants";
 
 export interface IGlobalState {
-  showLoginModal: boolean;
-  showIdentifyModal: boolean;
-
   page: number;
   pageStack: number;
 
@@ -13,9 +10,6 @@ export interface IGlobalState {
 }
 
 const INITIAL_STATE: IGlobalState = {
-  showLoginModal: false,
-  showIdentifyModal: false,
-
   pageStack: 0,
   page: 0,
 }

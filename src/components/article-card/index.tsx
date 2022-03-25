@@ -3,6 +3,7 @@ import {Image} from "@taroify/core";
 import {Like} from "@taroify/icons";
 import {IArticle} from "@/typings/types";
 import Taro from "@tarojs/taro";
+import {useEffect, useState} from "react";
 
 import './index.scss'
 
@@ -14,10 +15,18 @@ interface ArticleCardProps {
 const ArticleCard = (props: ArticleCardProps) => {
 
   const {article} = props
+  const [date, setDate] = useState(new Date())
+
+  useEffect(() => {
+    // 处理文章的时间
+    if (article) {
+      setDate(new Date(article.date))
+    }
+  }, [article])
 
   async function onOpenArticleView() {
     await Taro.navigateTo({
-      url: `pages/home/article-view?src=${article.url}`
+      url: `/pages/home/article-view/index?src=${article.url}`
     })
   }
 
@@ -32,11 +41,11 @@ const ArticleCard = (props: ArticleCardProps) => {
       <View className='col detail'>
         <View className='title'>{article.title}</View>
         <View className='desc'>{article.description}</View>
-        <View className='row' style='align-item: center; width: 100%'>
+        <View className='row note' >
           <Text className='col tag'>#{article.tag}</Text>
           <View className='row date'>
-            <Like style={{ color: "#FF6C90", margin: "0 8px 0 0"}} />
-            <Text>{article.date.getFullYear()}.{article.date.getMonth()}.{article.date.getDate()}</Text>
+            <Like style={{color: "#FF6C90", margin: "0 8px 0 0"}} />
+            <Text>{date.getFullYear()}.{date.getMonth()}.{date.getDate()}</Text>
           </View>
         </View>
       </View>
