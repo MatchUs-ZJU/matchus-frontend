@@ -26,6 +26,11 @@ page {
   flex-direction: column;
 }
 
+.center-center {
+  justify-content: center;
+  align-items: center;
+}
+
 // article
 
 .h1 {
@@ -106,6 +111,10 @@ page {
 
 .purple {
   color: $primary-color
+}
+
+.danger {
+  color: $danger-color
 }
 
 .bold {

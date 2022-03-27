@@ -3,6 +3,7 @@ import PlaceholderIcon from './placeholder.png'
 import HeartsIcon from './icons/hearts.png'
 import TrumpetIcon from './icons/trumpet.png'
 import TwoPeopleIcon from './icons/people.png'
+import UploadIcon from './icons/upload.png'
 import FeedBackImage from './feedback.png'
 import HeaderImage from './header.png'
 import SloganImage from './slogan.png'
@@ -18,7 +19,7 @@ import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
 
-export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon}
+export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon}
 export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;

@@ -69,7 +69,7 @@ const Home = () => {
   }
 
   async function goToSignUp() {
-    await Taro.navigateTo({
+    await Taro.switchTab({
       url: '/pages/activity/index/index'
     })
   }

@@ -32,12 +32,13 @@ $primary-color: #918AE3;
 $info-color: var(--cyan, $cyan);
 $success-color: var(--green, $green);
 $warning-color: var(--orange, $orange);
-$danger-color: var(--red, $red);
+$danger-color: #E82B2B;
 $title-color: var(--gray-8, $gray-8); // add
 $text-color: #333333;
 $text-color-1: rgba(0, 0, 0, 0.7);
 $text-color-2: rgba(0, 0, 0, 0.5);
 $text-color-3: #C5C5C5;
+$text-color-light: #EFF3FF;
 $note-color: rgba(0, 0, 0, 0.3); // add
 $text-link-color: #576b95;
 $active-color: var(--gray-2, $gray-2);
