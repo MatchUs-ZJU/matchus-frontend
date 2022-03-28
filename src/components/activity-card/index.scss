@@ -1,0 +1,84 @@
+@import '../../app.scss';
+
+.activity-card {
+  justify-content: flex-start;
+  align-items: center;
+
+  background: $white;
+
+  margin-bottom: 40px;
+  padding: 16px 32px;
+  border-radius: 16px;
+}
+
+.activity-card .index{
+  position: relative;
+  align-items: center;
+}
+
+.activity-card .img {
+  width: 56px;
+  height: 56px;
+  margin-top: -52px;
+}
+
+.activity-card .idx {
+  color: white;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 48px;
+  text-align: center;
+  z-index: 100;
+}
+
+.activity-card .intro{
+  height: 166px;
+  position: relative;
+  align-items: flex-start;
+  margin: 0 0 0 32px;
+}
+
+.activity-card .title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  color: $text-color-1;
+  height: 62px;
+}
+
+.activity-card .detail {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  color: #737373;
+
+  margin-bottom: 16px;
+}
+
+.activity-card .add {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: $primary-color;
+}
+
+.activity-card .click {
+  position: relative;
+  //width: 264px;
+  align-items: center;
+  margin: 0 0 0 32px;
+
+}
+
+.activity-card .click .button{
+  height: 72px;
+  width: 200px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 48px;
+}
