@@ -1,37 +1,85 @@
 import {Button, Text, View} from "@tarojs/components";
-import {useSelector} from "react-redux";
-import {Field, Form, Image, Input, Picker, Popup, Uploader} from "@taroify/core";
+import {useDispatch, useSelector} from "react-redux";
+import {Dialog, Field, Form, Image, Input, Picker, Popup, Uploader} from "@taroify/core";
 import {AnonymousImage, UploadIcon} from "@/assets/images";
-import {useState} from "react";
-import {ArrowDown} from "@taroify/icons";
+import {useEffect, useState} from "react";
+import {ArrowDown, Plus} from "@taroify/icons";
 import Taro from "@tarojs/taro";
+import {fetchFaculties} from "@/actions";
+import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
+import classnames from "classnames";
 
 import './index.scss'
 
 const Index = () => {
-
-  const {user} = useSelector(state => state)
-  const {nickName, avatarUrl} = user
+  const dispatch = useDispatch()
+  const {user, resource} = useSelector(state => state)
+  const {nickName, avatarUrl, phoneNumber, countryCode, purePhoneNumber} = user
+  const {faculties} = resource
 
   const [schoolPickerOpen, setSchoolPickerOpen] = useState(false)
   const [facultyPickerOpen, setFacultyPickerOpen] = useState(false)
-  const [phoneNumberPrefixPickerOpen, setPhoneNumberPrefixPickerOpen] = useState(false)
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
-  const [realName, setRealName] = useState('')
-  const [studentNumber, setStudentNumber] = useState('')
-  const [school, setSchool] = useState('浙江大学')
-  const [faculty, setFaculty] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const [form, setForm] = useState({
+    realName: '',
+    studentNumber: '',
+    school: '浙江大学',
+    faculty: '',
+    phoneNumber: ''
+  })
+  const [canRegister, setCanRegister] = useState(false)
 
-  function onSubmitRegisterInfo(e) {
+  useEffect(() => {
+    fetchData()
+  }, [])
 
+  useEffect(() => {
+    // 校验是否可以提交表单
+    if (form.realName && form.studentNumber && form.school && form.faculty && form.phoneNumber) {
+      setCanRegister(true)
+    }
+  }, [form])
+
+  useEffect(() => {
+    // 修改表单的phoneNumber状态
+    if (phoneNumber) {
+      setForm({
+        ...form,
+        phoneNumber: phoneNumber
+      })
+    }
+  }, [phoneNumber])
+
+  const fetchData = () => {
+    dispatch(fetchFaculties())
   }
 
-  function onGetPhoneNumber(e) {
+  function onSubmitRegister() {
+    if (canRegister) {
+      // 调出确认窗口
+      setConfirmDialogOpen(true)
+    }
+  }
+
+  function onConfirmRegister() {
+    // 确认并提交表单信息
+    dispatch(submitIdentificationInfo(form))
+  }
+
+  async function onGetPhoneNumber(e) {
     if (e.detail.errMsg === 'getPhoneNumber:ok') {
-      console.log(e.detail.errMsg)
+      dispatch(fetchPhoneNumber({
+        iv: e.detail.iv,
+        encryptedData: e.detail.encryptedData
+      }))
     } else {
       console.log(e.detail.errMsg)
+      await Taro.showToast({
+        icon: 'none',
+        title: '获取手机号失败，您将无法参与活动',
+        duration: 5000,
+      });
     }
   }
 
@@ -45,10 +93,6 @@ const Index = () => {
     await Taro.navigateTo({
       url: '/pages/user/privacy/index'
     })
-  }
-
-  function finishRegister() {
-
   }
 
   return (
@@ -84,51 +128,70 @@ const Index = () => {
             <View className='text-bottom'>先介绍一下你自己吧👇</View>
           </View>
           <View className='form-container'>
-            <Form onSubmit={onSubmitRegisterInfo} className='form'>
+            <Form onSubmit={onSubmitRegister} className='form'>
               <View className='item'>
-                <View className='label'>真实姓名</View>
+                <Text className='label'>真实姓名</Text>
                 <Field className='field'>
-                  <Input placeholder='请输入真实姓名' value={realName} onChange={(e) => setRealName(e.detail.value)}/>
+                  <Input
+                    placeholder='请输入真实姓名' value={form.realName}
+                    onChange={(e) => setForm({
+                      ...form,
+                      realName: e.detail.value,
+                    })}
+                  />
                 </Field>
               </View>
               <View className='item'>
-                <View className='label'>学号</View>
+                <Text className='label'>学号</Text>
                 <Field className='field'>
-                  <Input placeholder='请输入学号' value={studentNumber} onChange={(e) => setStudentNumber(e.detail.value)}/>
+                  <Input
+                    placeholder='请输入学号' value={form.studentNumber}
+                    onChange={(e) => {
+                      const numRegExp = /^\d+$/
+                      if (!numRegExp.test(e.detail.value)) {
+                        return
+                      }
+                      setForm({
+                        ...form,
+                        studentNumber: e.detail.value,
+                      })
+                    }}
+                  />
                 </Field>
               </View>
               <View className='item'>
-                <View className='label'>学校</View>
+                <Text className='label'>学校</Text>
                 <Field className='field' rightIcon={<ArrowDown/>} onClick={() => setSchoolPickerOpen(true)}>
-                  <Input readonly placeholder='请选择学校' value={school}/>
+                  <Input readonly placeholder='请选择学校' value={form.school}/>
                 </Field>
               </View>
               <View className='item'>
-                <View className='label'>学院</View>
+                <Text className='label'>学院</Text>
                 <Field className='field' rightIcon={<ArrowDown/>} onClick={() => setFacultyPickerOpen(true)}>
-                  <Input readonly placeholder='请选择学院' value={faculty}/>
+                  <Input readonly placeholder='请选择学院' value={form.faculty}/>
                 </Field>
               </View>
               <View className='item row item-border'>
-                <View className='label'>
-                  手机号
-                </View>
-                <Field className='field pnb' rightIcon={<ArrowDown/>}
-                       onClick={() => setPhoneNumberPrefixPickerOpen(true)}>
-                  <Input readonly placeholder='+86' value={`+86`}/>
+                <Text className='label'>手机号</Text>
+                <Field className='field pnb' rightIcon={<Plus/>}>
+                  <Input readonly value={`+${countryCode ? countryCode : 86}`}/>
                 </Field>
                 <View className='btn-container'>
-                  <Button
-                    openType='getPhoneNumber'
-                    onGetPhoneNumber={onGetPhoneNumber}
-                    className='btn'
-                  >
-                    点击自动获取手机号
-                  </Button>
+                  {purePhoneNumber && purePhoneNumber.length ?
+                    <Text className='text'>{purePhoneNumber}</Text>
+                    :
+                    <Button
+                      openType='getPhoneNumber'
+                      onGetPhoneNumber={onGetPhoneNumber}
+                      className='btn'
+                    >
+                      点击自动获取手机号
+                    </Button>
+                  }
                 </View>
               </View>
-              <View className='item item-border-solid'>
-                <View className='label'>学生证照片</View>
+              <View className='item item-border-solid' style={{marginBottom: 0}}>
+                <Text className='label'>学生证照片</Text>
                 <Uploader className='col uploader'>
                   <View className='row center-center'>
                     <Image src={UploadIcon} className='uploader-img'/>
@@ -150,7 +213,12 @@ const Index = () => {
           </View>
         </View>
         <View className='row register-btn-container'>
-          <View className='register-btn' onClick={finishRegister}>
+          <View
+            className={classnames(
+              'register-btn',
+              {'register-btn-submit': canRegister}
+            )}
+            onClick={onSubmitRegister}>
             注册
           </View>
         </View>
@@ -159,8 +227,11 @@ const Index = () => {
         <Popup.Backdrop/>
         <Picker
           onCancel={() => setSchoolPickerOpen(false)}
-          onConfirm={(values) => {
-            setSchool(values)
+          onConfirm={(value) => {
+            setForm({
+              ...form,
+              school: value,
+            })
             setSchoolPickerOpen(false)
           }}
           defaultValue='浙江大学'
@@ -179,8 +250,11 @@ const Index = () => {
         <Popup.Backdrop/>
         <Picker
           onCancel={() => setFacultyPickerOpen(false)}
-          onConfirm={(values) => {
-            setFaculty(values)
+          onConfirm={(value) => {
+            setForm({
+              ...form,
+              faculty: value,
+            })
             setFacultyPickerOpen(false)
           }}
         >
@@ -190,28 +264,26 @@ const Index = () => {
             <Picker.Button>确认</Picker.Button>
           </Picker.Toolbar>
           <Picker.Column>
-            <Picker.Option>计算机科学与技术学院</Picker.Option>
+            {faculties && faculties.length ?
+              faculties.map((item) => (
+                <Picker.Option>{item.name}</Picker.Option>
+              )) : <></>
+            }
           </Picker.Column>
         </Picker>
       </Popup>
-      <Popup open={phoneNumberPrefixPickerOpen} rounded placement='bottom' onClose={setPhoneNumberPrefixPickerOpen}>
-        <Popup.Backdrop/>
-        <Picker
-          onCancel={() => setPhoneNumberPrefixPickerOpen(false)}
-          onConfirm={(values) => {
-            set(values)
-            setPhoneNumberPrefixPickerOpen(false)
+      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
+        <Dialog.Header className='dialog-header'>确认提交</Dialog.Header>
+        <Dialog.Actions>
+          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
+          <Button className='dialog-btn' onClick={() => {
+            setConfirmDialogOpen(false)
+            onConfirmRegister()
           }}
-        >
-          <Picker.Toolbar>
-            <Picker.Button>取消</Picker.Button>
-            <Picker.Button>确认</Picker.Button>
-          </Picker.Toolbar>
-          <Picker.Column>
-            <Picker.Option>计算机科学与技术学院</Picker.Option>
-          </Picker.Column>
-        </Picker>
-      </Popup>
+          >确认
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   )
 }

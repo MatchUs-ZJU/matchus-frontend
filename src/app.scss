@@ -16,6 +16,10 @@ page {
 
 // flex
 
+.flex {
+  display: flex;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -119,4 +123,35 @@ page {
 
 .bold {
   font-weight: 500;
+}
+
+// update taroify dialog
+
+.dialog-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+
+  border: none;
+  background: transparent;
+}
+
+.dialog-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $primary-color;
+
+  border: none;
+  background: transparent;
+
+}
+
+.dialog-btn:after {
+  border: none;
+}
+
+.taroify-dialog__footer .taroify-dialog__confirm, .taroify-dialog__footer .taroify-dialog__confirm:active {
+  color: $primary-color;
 }

@@ -151,6 +151,13 @@ page {
   background: $white;
 }
 
+.main .form-container .form .field:hover {
+  border: 2px solid $primary-color;
+  box-sizing: border-box;
+  filter: drop-shadow(0px 0px 4px $primary-color);
+  border-radius: 6px;
+}
+
 .main .form-container .form .label{
   position: absolute;
   left: 32px;
@@ -180,11 +187,20 @@ page {
   background: $white;
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 28px;
   color: $gray-5;
 
   padding-left: 30px;
 }
+
+.main .form-container .form .item .btn-container .text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 28px;
+
+  color: $text-color-1
+}
+
 
 .main .form-container .form .item .btn-container .btn{
   border: none;
@@ -293,10 +309,14 @@ page {
   width: 600px;
   height: 80px;
 
-  background: $primary-color;
+  background: $disabled-color;
   font-style: normal;
   font-weight: 500;
   font-size: 36px;
   color: $white;
   border-radius: 60px;
+}
+
+.register-btn-submit {
+  background: $primary-color;
 }

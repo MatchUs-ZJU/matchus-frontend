@@ -12,7 +12,10 @@ export interface IUserState {
   identified: '未认证' | '已认证' | '认证失败' | '认证中';
   school: string;
   studentNumber: string;
+
+  purePhoneNumber: string;
   phoneNumber: string;
+  countryCode: string;
 
   faculty: string;
   createTime?: number;
@@ -25,8 +28,10 @@ export interface IUserState {
 }
 
 const INITIAL_STATE: IUserState = {
-  faculty: "",
+  countryCode: "",
+  purePhoneNumber: "",
   phoneNumber: "",
+  faculty: "",
   studentNumber: "",
   avatarUrl: "",
   country: "",

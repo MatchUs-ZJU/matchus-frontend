@@ -29,16 +29,16 @@ export const fetchHelpsInfo = () => {
 
 export const fetchFaculties = () => {
   return async dispatch => {
-    console.log("资源：获取院系信息")
+    console.log("用户信息：获取院系信息")
     try {
       let res = await getFaculties()
       if(res && res.code === 0) {
-        console.log("首页：获取院系信息成功")
+        console.log("用户信息：获取院系信息成功")
         dispatch(resourceSave({
           faculties: res.data
         }))
       } else {
-        console.log("首页：获取院系信息失败")
+        console.log("用户信息：获取院系信息失败")
       }
     } catch (e) {
       console.log(e)

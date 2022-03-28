@@ -18,8 +18,6 @@ export default defineAppConfig({
     'pages/user/agreement/index',
     'pages/user/register/index',
 
-    'pages/identify/index',
-
     'pages/introduction/index',
   ],
   window: {

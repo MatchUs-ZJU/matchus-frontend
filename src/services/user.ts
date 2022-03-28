@@ -59,3 +59,13 @@ export const register = async (data) => {
     },
   });
 };
+
+export const decodePhoneNumber = async (data) => {
+  console.log('网络请求：获取用户手机号')
+  return request.post(`/user/phone`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+};
