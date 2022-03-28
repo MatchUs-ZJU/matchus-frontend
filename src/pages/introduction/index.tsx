@@ -4,9 +4,9 @@ import {Checkbox, Image} from "@taroify/core"
 import {useState} from "react";
 import Taro from "@tarojs/taro";
 import {HeaderImage, SloganImage} from "@/assets/images";
-import './index.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {fetchUserProfile} from "@/actions";
+import './index.scss'
 
 const Introduction = () => {
   const dispatch = useDispatch()
@@ -31,7 +31,7 @@ const Introduction = () => {
 
   async function navToHome() {
     await Taro.switchTab({
-      url: '/pages/home/index'
+      url: '/pages/home/index/index'
     })
   }
 

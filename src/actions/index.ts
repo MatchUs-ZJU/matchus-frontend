@@ -1,5 +1,5 @@
 export {globalSave} from './global'
-export {userSave, fetchUserInfo, fetchUserProfile, relogin, initRegister} from './user'
+export {userSave, fetchUserInfo, fetchUserProfile, relogin, initRegister, submitIdentificationInfo, fetchPhoneNumber} from './user'
 export {fetchBanners, fetchRecommends} from './home'
 export {
   sendSatisfiedFeedback,
@@ -13,6 +13,7 @@ export {
   fetchTwcResult,
   activitySave,
   matchStateSave,
-  twcStateSave
+  twcStateSave,
+  actionRequestRefund,
 } from './activity'
 export {resourceSave, fetchHelpsInfo, fetchFaculties} from './resource'

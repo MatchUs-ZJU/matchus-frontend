@@ -1,6 +1,6 @@
 export default defineAppConfig({
   pages: [
-    'pages/home/index',
+    'pages/home/index/index',
     'pages/activity/index/index',
     'pages/user/index/index',
 
@@ -9,6 +9,8 @@ export default defineAppConfig({
     'pages/activity/page-1/index',
     'pages/activity/page-2/index',
     'pages/activity/page-3/index',
+    'pages/activity/match-result/index',
+    'pages/activity/choose-result/index',
 
     'pages/user/help/index',
     'pages/user/record/index',
@@ -32,7 +34,7 @@ export default defineAppConfig({
     list: [
       {
         text: '首页',
-        pagePath: 'pages/home/index',
+        pagePath: 'pages/home/index/index',
         iconPath: 'assets/images/tablist/home.png',
         selectedIconPath: 'assets/images/tablist/home-s.png',
       },

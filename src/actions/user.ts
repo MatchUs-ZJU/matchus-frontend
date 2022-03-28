@@ -1,8 +1,7 @@
 import Taro from "@tarojs/taro";
-import {USER_SAVE} from "../constants";
-import {decodePhoneNumber, getUserInfo, login, register, updateUserInfo} from "../services/user";
-import {removeJWT, setJWT} from "../services/jwt";
-import {globalSave} from "./global";
+import {USER_SAVE} from "@/constants";
+import {decodePhoneNumber, getUserInfo, login, register, updateUserInfo} from "@/services/user";
+import {removeJWT, setJWT} from "@/services/jwt";
 
 export const userSave = (payload) => {
   return {

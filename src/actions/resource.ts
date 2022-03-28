@@ -1,5 +1,5 @@
-import {RESOURCE_SAVE} from "../constants";
-import {getFaculties, getHelpsInfo} from "../services/resource";
+import {RESOURCE_SAVE} from "@/constants";
+import {getFaculties, getHelpsInfo} from "@/services/resource";
 
 export const resourceSave = (payload) => {
   return {
