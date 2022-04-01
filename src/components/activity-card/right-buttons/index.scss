@@ -1,0 +1,73 @@
+@import '../index.scss';
+
+.btn-active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 72px;
+  width: 200px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  color: $white;
+
+  background-color: $primary-color;
+  border-radius: 100px;
+}
+
+.btn-disable {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 72px;
+  width: 200px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 48px;
+  color: $primary-color;
+}
+
+.btn-finished {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 72px;
+  width: 200px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  color: $primary-color;
+
+  background-color: $white;
+  border: 2px solid $primary-color;
+  box-sizing: border-box;
+  border-radius: 100px;
+}
+
+.btn-failed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 72px;
+  width: 200px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  color: $text-color-2;
+
+  background-color: $white;
+  border: 2px solid $text-color-2;
+  box-sizing: border-box;
+  border-radius: 100px;
+}
+

@@ -61,7 +61,6 @@ const Home = () => {
   }, [data])
 
 
-
   function fetchData() {
     dispatch(fetchBanners())
     dispatch(fetchRecommends())
@@ -87,7 +86,9 @@ const Home = () => {
         >
           {banners && banners.length ? (
               <>
-                {banners.map((banner, index) => (
+                {banners.filter(banner => {
+                  return banner.shows
+                }).map((banner, index) => (
                   <SwiperItem
                     key={index}
                     style={{
@@ -96,11 +97,10 @@ const Home = () => {
                     }}
                   >
                     <View
-                      style={{backgroundImage: `url("${banner.url}")`}}
+                      style={{backgroundImage: `url("${banner.image}")`}}
                       className='banner'
                     />
                   </SwiperItem>))
-
                 }
               </>
             ) :
@@ -150,7 +150,8 @@ const Home = () => {
           <View className='row main'>
             <View className='col time'>
               <View className='title'>本期活动</View>
-              <View className='content'>{startTime.getMonth()}.{startTime.getDate()}-{endTime.getMonth()}.{endTime.getDate()}</View>
+              <View
+                className='content'>{startTime.getMonth()}.{startTime.getDate()}-{endTime.getMonth()}.{endTime.getDate()}</View>
             </View>
             <View style='
               border: 1px solid #D9D9D9;
@@ -178,7 +179,7 @@ const Home = () => {
         </View>
         <View className='row data-section'>
           <View className='col data-card purple'>
-            <Image src={TrumpetIcon} shape='circle' className='icon' />
+            <Image src={TrumpetIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px'}}>
               <View className='title'>
                 {!data.term ? 4 : data.term}<Text className='title-small'>期</Text>
@@ -187,14 +188,14 @@ const Home = () => {
             </View>
           </View>
           <View className='col data-card yellow'>
-            <Image src={TwoPeopleIcon} shape='circle' className='icon' />
+            <Image src={TwoPeopleIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px'}}>
               <View className='title'>{!data.matched ? 1800 : data.matched}+</View>
               <View className='content'>配对成功人数</View>
             </View>
           </View>
           <View className='col data-card pink'>
-            <Image src={HeartsIcon} shape='circle' className='icon' />
+            <Image src={HeartsIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px'}}>
               <View className='title'>{!data.unavailable ? 90 : data.unavailable}+</View>
               <View className='content'>成功脱单人数</View>
@@ -209,7 +210,7 @@ const Home = () => {
         <View className='articles'>
           {
             articles.map((article, index) => (
-              <ArticleCard key={index} article={article} />
+              <ArticleCard key={index} article={article}/>
             ))
           }
         </View>

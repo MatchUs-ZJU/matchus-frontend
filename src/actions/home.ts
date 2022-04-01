@@ -8,9 +8,12 @@ export const fetchBanners = () => {
       let res = await getBanners()
       if(res && res.code === 0) {
         console.log("首页：获取广告横幅成功")
-        dispatch(homeSave({
-          banners: res.data
-        }))
+        // TODO 完善获取逻辑
+        if(res.data.records) {
+          dispatch(homeSave({
+            banners: res.data.records
+          }))
+        }
       } else {
         console.log("首页：获取广告横幅失败")
       }

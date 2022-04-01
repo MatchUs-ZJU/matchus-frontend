@@ -10,7 +10,10 @@ export interface IArticle {
 }
 
 export interface IBanner {
-  url: string;
+  id: number,
+  image: string,
+  shows: boolean,
+  createTime: number
 }
 
 export interface IHomeData {

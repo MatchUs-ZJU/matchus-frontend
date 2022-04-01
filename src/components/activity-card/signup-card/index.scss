@@ -1,0 +1,17 @@
+@import '../index.scss';
+
+.btn-disable .date {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 36px;
+  color: $primary-color;
+}
+
+.btn-disable .desc {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 48px;
+  color: $primary-color;
+}

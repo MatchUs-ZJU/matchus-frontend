@@ -1,17 +1,13 @@
 export default defineAppConfig({
   pages: [
     'pages/home/index/index',
-    'pages/activity/index/index',
-    'pages/user/index/index',
-
     'pages/home/article-view/index',
 
-    'pages/activity/page-1/index',
-    'pages/activity/page-2/index',
-    'pages/activity/page-3/index',
+    'pages/activity/index/index',
     'pages/activity/match-result/index',
     'pages/activity/choose-result/index',
 
+    'pages/user/index/index',
     'pages/user/help/index',
     'pages/user/record/index',
     'pages/user/about/index',

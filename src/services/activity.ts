@@ -20,9 +20,9 @@ export const getActivityInfoId = async (data) => {
 }
 
 // 生成订单
-export const postPreJoinActivity = async (data) => {
+export const postPreJoinActivity = async (id, data) => {
   console.log('网络请求：加入活动预处理')
-  return request.post(`/activity/join`, {
+  return request.post(`/activity/join?id=${id}`, {
     data,
     header: {
       Authorization: getJWT(),
@@ -50,7 +50,7 @@ export const postRefundRequest = async (data) => {
   });
 }
 
-export const postFilledOverSurvey = async (data) => {
+export const postFilledForm = async (data) => {
   console.log('网络请求：用户完成问卷')
   return request.post(`/activity/survey/finish`, {
     data,

@@ -2,12 +2,13 @@ import Taro from "@tarojs/taro";
 import React from "react";
 import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "@/constants";
 import {
-  postFilledOverSurvey,
+  postFilledForm,
   getLatestActivityInfo,
   postPreJoinActivity,
   getMatchResult,
   postSatisfiedFeedback, getFeedbackContent, postSendTwcResult, getTwcResult, getPaymentResult, postRefundRequest
 } from "@/services/activity";
+import {globalSave} from "@/actions/global";
 
 export const activitySave = (payload) => {
   return {
@@ -47,23 +48,23 @@ export const fetchLatestActivityInfo = () => {
   }
 }
 
-export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Dispatch<any>) => {
-  return async _ => {
+export const preJoinActivity = ({id, price, body, attach}) => {
+  return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
-      let preJoinRes = await postPreJoinActivity({
-        "openid": openid,
-        "activityId": activityId
+      let preJoinRes = await postPreJoinActivity(id, {
+        'price': price,
+        'body': body,
+        'attach': attach
       })
 
       if (preJoinRes && preJoinRes.code === 0) {
-        // 只有相应数据不为空才能继续操作
         console.log("活动页面：发起预处理请求成功，发起支付请求")
-        let {orderId, timeStamp, nonceStr, prepayId, signType, paySign} = preJoinRes.data
+        let {orderId, timeStamp, nonceStr, signType, paySign} = preJoinRes.data
         let payRes = await Taro.requestPayment({
           timeStamp,
           nonceStr,
-          package: 'prepay_id=' + prepayId,
+          package: 'prepay_id=' + preJoinRes.data.package,
           signType,
           paySign
         })
@@ -73,7 +74,10 @@ export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Di
           console.log("活动页面：支付成功")
 
           // 检查是否完成支付
-          const res = await getPaymentResult({orderId})
+          const res = await getPaymentResult({
+            'id': id,
+            'orderId': orderId
+          })
           if(res && res.code === 0 && res.data.success) {
             console.log("活动页面：查询后台成功，订单已完成")
             await Taro.showModal({
@@ -82,11 +86,13 @@ export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Di
               showCancel: false,
               confirmText: '确定'
             })
-            setCanJoin(false)
-            await Taro.navigateTo({url: '/pages/activity/page-2'});
+            // 改变状态，主动让用户填写表单
+            dispatch(globalSave({
+              pushFillForm: true
+            }))
           } else {
             await Taro.showToast({
-              title: '网络缓慢请刷新',
+              title: '网络缓慢，请刷新页面',
               duration: 5000,
               icon: 'loading'
             })
@@ -129,7 +135,7 @@ export const actionRequestRefund = () => {
   }
 }
 
-export const actionFillSurvey = ({appId, path}) => {
+export const fillForm = ({appId, path}) => {
   return async () => {
     console.log("活动页面：用户填写问卷星")
     try {
@@ -146,12 +152,12 @@ export const actionFillSurvey = ({appId, path}) => {
   }
 }
 
-export const actionFilledOverSurvey = (openid, activityId) => {
+export const finishFillForm = (id) => {
   return async () => {
     console.log("活动页面：用户完成填写问卷")
     try {
-      let res = await postFilledOverSurvey({
-        openid, activityId
+      let res = await postFilledForm({
+        'id': id
       })
 
       if (res && res.code === 0) {

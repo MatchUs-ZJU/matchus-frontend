@@ -1,0 +1,41 @@
+@import '../index.scss';
+
+.fill-form-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 200px;
+
+  background-color: transparent;
+}
+
+.fill-form-btn .icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 64px;
+  height: 64px;
+
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  box-sizing: border-box;
+  border-radius: 100%;
+}
+
+.fill-form-btn .icon-container:hover {
+  color: $white;
+  background: $primary-color;
+}
+
+.fill-form-btn .text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  color: $primary-color;
+
+  margin-top: 8px;
+}

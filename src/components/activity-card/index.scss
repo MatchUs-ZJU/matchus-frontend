@@ -1,84 +1,146 @@
 @import '../../app.scss';
 
+$activity-card-height: 180px;
+$activity-card-divider-height: 40px;
+$activity-card-id-height: 56px;
+
 .activity-card {
+  position: relative;
+  height: $activity-card-height;
+
   justify-content: flex-start;
   align-items: center;
 
   background: $white;
 
-  margin-bottom: 40px;
   padding: 16px 32px;
   border-radius: 16px;
+
+  margin-bottom: $activity-card-divider-height;
+  overflow: hidden;
 }
 
-.activity-card .index{
-  position: relative;
+.activity-card-success {
+  background: rgba(145, 138, 227, 0.1);
+}
+
+.activity-card-fail {
+  background: rgba(170, 171, 176, 0.1);
+}
+
+.activity-card-sheltered {
+  opacity: 0.5;
+}
+
+.activity-card .left {
+  justify-content: center;
   align-items: center;
 }
 
-.activity-card .img {
+.activity-card .left .img {
   width: 56px;
-  height: 56px;
-  margin-top: -52px;
+  height: $activity-card-id-height;
 }
 
-.activity-card .idx {
-  color: white;
+.activity-card .left .connector-down {
+  position: absolute;
+  top: ($activity-card-divider-height + $activity-card-height) / 2 + $activity-card-id-height;
+  width: ($activity-card-divider-height + $activity-card-height);
+  height: 0;
+
+  border: 1.5px dashed #D3D0F4;
+  transform: rotate(90deg);
+}
+
+.activity-card .left .connector-down-short {
+  position: absolute;
+  top: ($activity-card-divider-height + $activity-card-height) / 2 + $activity-card-id-height;
+  width: ($activity-card-divider-height + $activity-card-height);
+  height: 0;
+
+  border: 1.5px dashed #D3D0F4;
+  transform: rotate(90deg);
+}
+
+.activity-card .left .id {
+  position: absolute;
+
   font-size: 30px;
   font-style: normal;
   font-weight: 500;
-  line-height: 48px;
+  color: white;
+
   text-align: center;
-  z-index: 100;
+  z-index: 1;
 }
 
-.activity-card .intro{
-  height: 166px;
-  position: relative;
+.activity-card .main {
+  justify-content: center;
   align-items: flex-start;
-  margin: 0 0 0 32px;
+  width: 344px;
+
+  margin-left: 32px;
 }
 
-.activity-card .title {
+.activity-card .main .title {
   font-style: normal;
   font-weight: 500;
   font-size: 34px;
   line-height: 48px;
   color: $text-color-1;
-  height: 62px;
+
+  margin-bottom: 8px;
 }
 
-.activity-card .detail {
+.activity-card .main .detail {
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
-  line-height: 32px;
   color: #737373;
 
   margin-bottom: 16px;
 }
 
-.activity-card .add {
+.activity-card .main .note {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 19px;
   line-height: 24px;
+
   color: $primary-color;
 }
 
-.activity-card .click {
-  position: relative;
-  //width: 264px;
+.activity-card .right {
+  justify-content: center;
   align-items: center;
-  margin: 0 0 0 32px;
 
+  margin-left: 32px;
 }
 
-.activity-card .click .button{
-  height: 72px;
+.activity-card .right .choose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width: 200px;
+
+  //font-style: normal;
+  //font-weight: 500;
+  //font-size: 30px;
+  //color: $text-color-2;
+
+  //background-color: $white;
+  //border: 2px solid $text-color-2;
+  //box-sizing: border-box;
+  //border-radius: 100px;
+}
+
+.activity-card .right .choose .note {
   font-style: normal;
-  font-weight: 500;
-  font-size: 30px;
-  line-height: 48px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: $primary-color;
+
+  margin-top: 16px;
 }

@@ -1,0 +1,19 @@
+@import '../index.scss';
+
+.btn-disable .time {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 40px;
+  color: $primary-color;
+}
+
+.btn-disable .note {
+  width: 90px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: $note-color;
+}

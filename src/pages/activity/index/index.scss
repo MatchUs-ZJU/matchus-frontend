@@ -1,14 +1,27 @@
-.act-img{
-  position: relative;
-  width: 100%;
-  height: 380px;
-  mix-blend-mode: darken;
-  margin-left: 46px;
-  margin-top: -32px;
+@import '../../../app.scss';
+
+$activity-card-height: 180px;
+$activity-card-divider-height: 40px;
+$activity-card-id-height: 56px;
+
+page {
+  --switch-background-color: rgba(120, 120, 128, 0.16);
+  --switch-checked-background-color: #918AE3;
+  --switch-checked-color: #918AE3;
 }
 
-.wrapper{
+.header {
+  position: relative;
+  top: -32px;
+
+  height: 380px;
+  mix-blend-mode: darken;
+
+  margin-left: 32px;
+}
+
+.wrapper {
+  position: relative;
   padding: 0 26px 0 26px;
-  position: absolute;
-  top: 300px;
+  top: -70px;
 }
