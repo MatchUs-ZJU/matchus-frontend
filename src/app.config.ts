@@ -36,7 +36,7 @@ export default defineAppConfig({
       },
       {
         text: '活动',
-        pagePath: 'pages/activity/index/index',
+        pagePath: 'pages/activity/choose-result/index',
         iconPath: 'assets/images/tablist/activity.png',
         selectedIconPath: 'assets/images/tablist/activity-s.png',
       },
