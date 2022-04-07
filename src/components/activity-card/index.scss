@@ -3,6 +3,12 @@
 $activity-card-height: 180px;
 $activity-card-divider-height: 40px;
 $activity-card-id-height: 56px;
+$feedback-card-height: 160px;
+$message-board-height: 360px;
+
+.card-container {
+  margin-bottom: $activity-card-divider-height;
+}
 
 .activity-card {
   position: relative;
@@ -13,11 +19,13 @@ $activity-card-id-height: 56px;
 
   background: $white;
 
-  padding: 16px 32px;
+  padding: 16px 0;
   border-radius: 16px;
-
-  margin-bottom: $activity-card-divider-height;
   overflow: hidden;
+}
+
+.divider {
+  margin-bottom: $activity-card-divider-height;
 }
 
 .activity-card-success {
@@ -33,6 +41,8 @@ $activity-card-id-height: 56px;
 }
 
 .activity-card .left {
+  width: 16%;
+
   justify-content: center;
   align-items: center;
 }
@@ -75,14 +85,21 @@ $activity-card-id-height: 56px;
 }
 
 .activity-card .main {
-  justify-content: center;
-  align-items: flex-start;
-  width: 344px;
+  flex: 1;
+  height: 100%;
 
-  margin-left: 32px;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .activity-card .main .title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  height: 62px;
+
   font-style: normal;
   font-weight: 500;
   font-size: 34px;
@@ -111,36 +128,7 @@ $activity-card-id-height: 56px;
 }
 
 .activity-card .right {
+  width: 36%;
   justify-content: center;
   align-items: center;
-
-  margin-left: 32px;
-}
-
-.activity-card .right .choose {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 200px;
-
-  //font-style: normal;
-  //font-weight: 500;
-  //font-size: 30px;
-  //color: $text-color-2;
-
-  //background-color: $white;
-  //border: 2px solid $text-color-2;
-  //box-sizing: border-box;
-  //border-radius: 100px;
-}
-
-.activity-card .right .choose .note {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 24px;
-  color: $primary-color;
-
-  margin-top: 16px;
 }

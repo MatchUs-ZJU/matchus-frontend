@@ -57,48 +57,50 @@ const SignupCard = (props: SignupCardProps) => {
   }
 
   return (
-    <View
-      className={classnames(
-        'row',
-        'activity-card',
-        {'activity-card-sheltered': state && state !== 'ACTIVE'}
-      )}
-    >
-      <View className='col left'>
-        <View className='id'>1</View>
-        <Image lazyLoad src={StepIcon} className='img'/>
-      </View>
-      <View className='col main'>
-        <View className='title'>遇见·活动报名</View>
-        <View className='detail'>参与活动需支付报名费{price}元，请珍惜每一次遇见！</View>
-        <View className='note' onClick={() => {
-          console.log("test")
-        }}
-        >点击查看详细活动规则</View>
-      </View>
-      <View className='col right'>
-        {state === 'NOT_START' ? (
-          <SignUpNotStartBtn time={time}/>
-        ) : state === 'ACTIVE' && !participated ? (
-          <ActiveBtn type='signup' onClick={goToSignUp}/>
-        ) : state === 'ACTIVE' && participated ? (
-          <FinishedBtn type='signup'/>
-        ) : (
-          <DisableBtn type='disable'/>
+    <View className='card-container'>
+      <View
+        className={classnames(
+          'row',
+          'activity-card',
+          {'activity-card-sheltered': state && state !== 'ACTIVE'}
         )}
-      </View>
-      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
-        <Dialog.Header className='dialog-header'>确认活动规则并参与活动</Dialog.Header>
-        <Dialog.Actions>
-          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
-          <Button className='dialog-btn' onClick={() => {
-            setConfirmDialogOpen(false)
-            confirmJoin()
+      >
+        <View className='col left'>
+          <View className='id'>1</View>
+          <Image lazyLoad src={StepIcon} className='img'/>
+        </View>
+        <View className='col main'>
+          <View className='title'>遇见·活动报名</View>
+          <View className='detail'>参与活动需支付报名费{price}元，请珍惜每一次遇见！</View>
+          <View className='note' onClick={() => {
+            console.log("test")
           }}
-          >参加活动
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
+          >点击查看详细活动规则</View>
+        </View>
+        <View className='col right'>
+          {state === 'NOT_START' ? (
+            <SignUpNotStartBtn time={time}/>
+          ) : state === 'ACTIVE' && !participated ? (
+            <ActiveBtn type='signup' onClick={goToSignUp}/>
+          ) : state === 'ACTIVE' && participated ? (
+            <FinishedBtn type='signup'/>
+          ) : (
+            <DisableBtn type='disable'/>
+          )}
+        </View>
+        <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
+          <Dialog.Header className='dialog-header'>确认活动规则并参与活动</Dialog.Header>
+          <Dialog.Actions>
+            <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
+            <Button className='dialog-btn' onClick={() => {
+              setConfirmDialogOpen(false)
+              confirmJoin()
+            }}
+            >参加活动
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </View>
     </View>
   )
 }

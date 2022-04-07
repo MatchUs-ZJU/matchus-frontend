@@ -1,0 +1,128 @@
+@import '../index.scss';
+
+.btn-failed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 72px;
+  width: 200px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  color: $text-color-2;
+
+  background-color: $white;
+  border: 2px solid $text-color-2;
+  box-sizing: border-box;
+  border-radius: 100px;
+}
+
+.choose {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 200px;
+}
+
+.choose .note {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: $note-color;
+
+  margin-top: 16px;
+}
+
+.choose .note .checked {
+  color: $primary-color;
+}
+
+.message-board-container {
+  position: relative;
+  height: $message-board-height;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  background: $white;
+
+  padding: 16px 10% 16px 16%;
+  border-radius: 16px;
+}
+
+.message-board-container .message-board {
+  height: 100%;
+  width: 100%;
+}
+
+.message-board-container .message-board .title {
+  height: 48px;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  color: $text-color-1;
+
+  margin-bottom: 12px;
+}
+
+.message-board-container .message-board .desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: $note-color;
+
+  margin-bottom: 20px;
+}
+
+.message-board-container .message-board .textarea {
+  height: 160px;
+  width: auto;
+
+  background: #F5F4FF;
+  border-radius: 16px;
+  padding: 18px;
+
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: $text-color-2;
+}
+
+.message-board-container .message-board .textarea:hover {
+  border: 1px solid $primary-color;
+  box-shadow: 0 0 4px rgba(145, 138, 227, 0.5);
+}
+
+.message-board-container .message-board .confirm-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 56px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+
+  color: $white;
+
+  border-radius: 100px;
+  background: #D3D0F4;
+
+  margin-top: 16px;
+}
+
+.message-board-container .message-board .confirm-btn-click {
+  background: $primary-color;
+}

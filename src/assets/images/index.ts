@@ -4,6 +4,8 @@ import HeartsIcon from './icons/hearts.png'
 import TrumpetIcon from './icons/trumpet.png'
 import TwoPeopleIcon from './icons/people.png'
 import UploadIcon from './icons/upload.png'
+import HeartBeatIcon from './icons/heart-beat.png'
+
 import FeedBackImage from './feedback.png'
 import HeaderImage from './header.png'
 import SloganImage from './slogan.png'
@@ -22,8 +24,15 @@ import aboutus from './mine-aboutus.svg'
 import ActivityHeaderPlaceholderImage from './activity-top.png'
 import StepIcon from './activity-icon.svg'
 
-export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon}
+import Emoji1 from './emojis/1.png'
+import Emoji2 from './emojis/2.png'
+import Emoji3 from './emojis/3.png'
+import Emoji4 from './emojis/4.png'
+import Emoji5 from './emojis/5.png'
+
+export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, HeartBeatIcon}
 export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage}
+export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;
 export const assitantIcon = qrcode;

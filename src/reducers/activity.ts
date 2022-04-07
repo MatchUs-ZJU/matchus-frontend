@@ -44,7 +44,7 @@ export interface IParticipateState {
     state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
     matchResult: boolean,
     favor: number,
-    lastChoose: boolean,
+    lastChoose: number,
     left: number,
     info: {
 
@@ -80,7 +80,7 @@ const INITIAL_STATE: IActivityState = {
       state: 'NOT_START',
       matchResult: false,
       favor: 0,
-      lastChoose: false,
+      lastChoose: 0,
       left: 0, // TODO
       info: {
 

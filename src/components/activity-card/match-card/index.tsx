@@ -1,9 +1,7 @@
-import {useDispatch} from "react-redux";
-import {useState} from "react";
 import {View, ViewProps} from "@tarojs/components";
 import classnames from "classnames";
 import {Image} from "@taroify/core";
-import {StepIcon} from "@/assets/images";
+import {HeartBeatIcon, StepIcon} from "@/assets/images";
 import {
   ActiveBtn,
   DisableBtn,
@@ -12,17 +10,18 @@ import {
 } from "@/components/activity-card/right-buttons";
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
+import EmojiRater from "@/components/activity-card/emoji-rater";
 
 import './index.scss';
 
 interface MatchCardProps extends ViewProps {
   activity: number | string
-  time: string
+  resultShowTime: string
 
   state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
   matchResult: boolean,
   favor: number,
-  lastChoose: boolean,
+  lastChoose: number,
   left: number,
 
   filled: boolean
@@ -44,10 +43,8 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 }
 
 const MatchCard = (props: MatchCardProps) => {
-  const dispatch = useDispatch()
-  const {filled, activity, time, state, matchResult, favor, lastChoose, left, ...restProps} = props
+  const {filled, activity, resultShowTime, state, matchResult, favor, lastChoose, left, ...restProps} = props
   const leftTime = formatLeftTime(left)
-  const [favorNumber, setFavorNumber] = useState(favor)
 
   // 申请退款组件
   const RefundBtn = () => {
@@ -86,10 +83,8 @@ const MatchCard = (props: MatchCardProps) => {
           {'activity-card-fail': state && state === 'ACTIVE' && !matchResult}
         )}
       >
-        {state === 'ACTIVE' ? (
-          <Watermark success={matchResult} type='match' />
-        ) : (
-          <></>
+        {state === 'ACTIVE' && (
+          <Watermark success={matchResult} type='match'/>
         )}
         <View className='col left'>
           <View className='id'>3</View>
@@ -97,7 +92,7 @@ const MatchCard = (props: MatchCardProps) => {
         </View>
         <View className='col main'>
           <View className='title'>相识·智能匹配</View>
-          <View className='detail'>匹配结果会在{time}前公布，请耐心等待</View>
+          <View className='detail'>匹配结果会在{resultShowTime}前公布，请耐心等待</View>
           <View className='note'>若匹配失败，100%退全款</View>
         </View>
         <View className='col right'>
@@ -114,6 +109,25 @@ const MatchCard = (props: MatchCardProps) => {
           )}
         </View>
       </View>
+      {
+        // state === "ACTIVE" && matchResult &&
+        <View className='row feedback-card'>
+          <View className='col feedback'>
+            <View className='row title'>
+              <Image src={HeartBeatIcon} className='icon'/>
+              每日反馈
+            </View>
+            <View className='desc'>今天对对方的印象有何变化？</View>
+            <View className='emojis'>
+              <EmojiRater initChoose={lastChoose}/>
+            </View>
+          </View>
+          <View className='favor'>
+            <View className='number'>{favor}%</View>
+            <View className='note'>心动值</View>
+          </View>
+        </View>
+      }
     </View>
   )
 }

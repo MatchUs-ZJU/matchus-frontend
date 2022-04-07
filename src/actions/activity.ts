@@ -208,6 +208,46 @@ export const fetchFeedbackContent = () => {
   }
 }
 
+export const sendFavorFeedback = (choose) => {
+  return async () => {
+    console.log("活动页面：发送每日反馈")
+    // try {
+    //   let res = await postSatisfiedFeedback({
+    //     satisfied: statisfied
+    //   })
+    //
+    //   if (res && res.code === 0) {
+    //     console.log("活动页面：发送每日反馈成功")
+    //     setShowContactModal(true)
+    //   } else {
+    //     console.log("活动页面：发送每日反馈失败")
+    //   }
+    // } catch (e) {
+    //   console.log(e)
+    // }
+  }
+}
+
+export const sendMessage = (message) => {
+  return async () => {
+    console.log("活动页面：发送留言")
+    // try {
+    //   let res = await postSatisfiedFeedback({
+    //     satisfied: statisfied
+    //   })
+    //
+    //   if (res && res.code === 0) {
+    //     console.log("活动页面：发送每日反馈成功")
+    //     setShowContactModal(true)
+    //   } else {
+    //     console.log("活动页面：发送每日反馈失败")
+    //   }
+    // } catch (e) {
+    //   console.log(e)
+    // }
+  }
+}
+
 export const sendSatisfiedFeedback = (statisfied, setShowContactModal: React.Dispatch<any>) => {
   return async () => {
     console.log("活动页面：发送满意度调查结果")
