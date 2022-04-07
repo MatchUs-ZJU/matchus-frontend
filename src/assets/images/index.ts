@@ -10,6 +10,10 @@ import SloganImage from './slogan.png'
 import AnonymousImage from './anonymous.png'
 import AboutUsTopImage from './aboutus-top.png'
 
+import MaleIcon from './male.svg'
+import FemaleIcon from './female.svg'
+import CopyIcon from './copy.svg'
+
 import commonqustions from './mine-help-commonquestions.svg';
 import artiservice from './mine-help-service.svg';
 import qrcode from './wechat-qrcode.png'
@@ -21,9 +25,14 @@ import aboutus from './mine-aboutus.svg'
 
 import ActivityHeaderPlaceholderImage from './activity-top.png'
 import StepIcon from './activity-icon.svg'
+import ChooseResultTopImageSuccess from './activity-chooseresult-success-top.png'
+import ChooseResultFootImageSuccess from './activity-chooseresult-success-footer.png'
+import ChooseResultFootImageFailure from './activity-chooseresult-failure-footer.png'
+import ChooseResultTopImageFalure from './activity-chooseresult-failure-top.png'
+import MatchRsultTopImage from './activity-matchresult-top.png'
 
-export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon}
-export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage}
+export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, MaleIcon, FemaleIcon, CopyIcon}
+export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage,ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFalure, ChooseResultFootImageFailure, MatchRsultTopImage}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;
 export const assitantIcon = qrcode;
