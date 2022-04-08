@@ -30,9 +30,10 @@ import ChooseResultFootImageSuccess from './activity-chooseresult-success-footer
 import ChooseResultFootImageFailure from './activity-chooseresult-failure-footer.png'
 import ChooseResultTopImageFalure from './activity-chooseresult-failure-top.png'
 import MatchRsultTopImage from './activity-matchresult-top.png'
+import Rules from './activity-rules.png'
 
 export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, MaleIcon, FemaleIcon, CopyIcon}
-export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage,ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFalure, ChooseResultFootImageFailure, MatchRsultTopImage}
+export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage,ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFalure, ChooseResultFootImageFailure, MatchRsultTopImage,Rules}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;
 export const assitantIcon = qrcode;

@@ -8,6 +8,7 @@ import {ActiveBtn, DisableBtn, FinishedBtn} from "@/components/activity-card/rig
 import {useState} from "react";
 
 import './index.scss'
+import Taro from "@tarojs/taro";
 
 interface SignupCardProps extends ViewProps {
   activity: number | string, // 活动ID
@@ -71,8 +72,8 @@ const SignupCard = (props: SignupCardProps) => {
       <View className='col main'>
         <View className='title'>遇见·活动报名</View>
         <View className='detail'>参与活动需支付报名费{price}元，请珍惜每一次遇见！</View>
-        <View className='note' onClick={() => {
-          console.log("test")
+        <View className='note' onClick={async () => {
+          await Taro.navigateTo({url: '/pages/activity/rules/index'});
         }}
         >点击查看详细活动规则</View>
       </View>

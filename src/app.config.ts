@@ -6,6 +6,7 @@ export default defineAppConfig({
     'pages/activity/index/index',
     'pages/activity/match-result/index',
     'pages/activity/choose-result/index',
+    'pages/activity/rules/index',
 
     'pages/user/index/index',
     'pages/user/help/index',
@@ -36,7 +37,7 @@ export default defineAppConfig({
       },
       {
         text: '活动',
-        pagePath: 'pages/activity/choose-result/index',
+        pagePath: 'pages/activity/index/index',
         iconPath: 'assets/images/tablist/activity.png',
         selectedIconPath: 'assets/images/tablist/activity-s.png',
       },
