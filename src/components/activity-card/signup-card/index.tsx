@@ -6,6 +6,7 @@ import {preJoinActivity} from "@/actions";
 import {useDispatch} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn} from "@/components/activity-card/right-buttons";
 import {useState} from "react";
+import Taro from "@tarojs/taro";
 
 import './index.scss'
 
@@ -72,8 +73,8 @@ const SignupCard = (props: SignupCardProps) => {
         <View className='col main'>
           <View className='title'>遇见·活动报名</View>
           <View className='detail'>参与活动需支付报名费{price}元，请珍惜每一次遇见！</View>
-          <View className='note' onClick={() => {
-            console.log("test")
+          <View className='note' onClick={async () => {
+            await Taro.navigateTo({url: '/pages/activity/rules/index'});
           }}
           >点击查看详细活动规则</View>
         </View>
