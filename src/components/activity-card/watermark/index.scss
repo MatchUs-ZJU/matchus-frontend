@@ -1,0 +1,42 @@
+@import '../index.scss';
+
+.watermark {
+  position: absolute;
+  left: 80%;
+  top: -48px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 158px;
+  height: 158px;
+
+  border: 10px solid rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  border-radius: 100%;
+  transform: rotate(-25.26deg);
+
+  color: rgba(0, 0, 0, 0.1);
+
+}
+
+.watermark-success {
+  position: absolute;
+  left: 80%;
+  top: -48px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 158px;
+  height: 158px;
+
+  border: 10px solid rgba(145, 138, 227, 0.3);
+  box-sizing: border-box;
+  border-radius: 100%;
+  transform: rotate(-25.26deg);
+
+  color: rgba(145, 138, 227, 0.3);
+}

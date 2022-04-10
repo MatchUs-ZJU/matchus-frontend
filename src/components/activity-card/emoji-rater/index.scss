@@ -1,0 +1,40 @@
+@import '../index.scss';
+
+.emoji-container {
+  width: 100%;
+  height: 100%;
+
+  justify-content: space-between;
+}
+
+.emoji-container .item {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 52px;
+  height: 52px;
+  border-radius: 100%;
+
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.emoji-container .item:active {
+  top: 2px;
+}
+
+.emoji-container .item-last-choose {
+  background: rgba(145, 138, 227, 0.5);
+}
+
+.emoji-container .item-chosen {
+  background: $primary-color;
+}
+
+.emoji-container .item .emoji {
+  width: 100%;
+  height: 100%;
+}

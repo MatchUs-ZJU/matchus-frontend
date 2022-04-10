@@ -1,13 +1,17 @@
 import Taro from "@tarojs/taro";
-import React from "react";
-import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "../constants";
+import {ACTIVITY_SAVE, CHOOSE_SAVE, MATCH_SAVE} from "@/constants";
 import {
-  postFilledOverSurvey,
+  postFilledForm,
   getLatestActivityInfo,
   postPreJoinActivity,
   getMatchResult,
-  postSatisfiedFeedback, getFeedbackContent, postSendTwcResult, getTwcResult, getPaymentResult, postRefundRequest
-} from "../services/activity";
+  postSatisfiedFeedback,
+  postSendTwcResult,
+  getTwcResult,
+  getPaymentResult,
+  postSendFeedback
+} from "@/services/activity";
+import {globalSave} from "@/actions/global";
 
 export const activitySave = (payload) => {
   return {
@@ -18,14 +22,14 @@ export const activitySave = (payload) => {
 
 export const matchStateSave = (payload) => {
   return {
-    type: ACTIVITY_MATCH_STATE_SAVE,
+    type: MATCH_SAVE,
     payload
   }
 }
 
 export const twcStateSave = (payload) => {
   return {
-    type: ACTIVITY_TWC_STATE_SAVE,
+    type: CHOOSE_SAVE,
     payload
   }
 }
@@ -47,23 +51,23 @@ export const fetchLatestActivityInfo = () => {
   }
 }
 
-export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Dispatch<any>) => {
+export const preJoinActivity = ({id, price, body, attach}) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
-      let preJoinRes = await postPreJoinActivity({
-        "openid": openid,
-        "activityId": activityId
+      let preJoinRes = await postPreJoinActivity(id, {
+        'price': price,
+        'body': body,
+        'attach': attach
       })
 
       if (preJoinRes && preJoinRes.code === 0) {
-        // 只有相应数据不为空才能继续操作
         console.log("活动页面：发起预处理请求成功，发起支付请求")
-        let {orderId, timeStamp, nonceStr, prepayId, signType, paySign} = preJoinRes.data
+        let {orderId, timeStamp, nonceStr, signType, paySign} = preJoinRes.data
         let payRes = await Taro.requestPayment({
           timeStamp,
           nonceStr,
-          package: 'prepay_id=' + prepayId,
+          package: 'prepay_id=' + preJoinRes.data.package,
           signType,
           paySign
         })
@@ -73,7 +77,10 @@ export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Di
           console.log("活动页面：支付成功")
 
           // 检查是否完成支付
-          const res = await getPaymentResult({orderId})
+          const res = await getPaymentResult({
+            'id': id,
+            'orderId': orderId
+          })
           if(res && res.code === 0 && res.data.success) {
             console.log("活动页面：查询后台成功，订单已完成")
             await Taro.showModal({
@@ -82,11 +89,13 @@ export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Di
               showCancel: false,
               confirmText: '确定'
             })
-            setCanJoin(false)
-            await Taro.navigateTo({url: '/pages/activity/page-2'});
+            // 改变状态，主动让用户填写表单
+            dispatch(globalSave({
+              pushFillForm: true
+            }))
           } else {
             await Taro.showToast({
-              title: '网络缓慢请刷新',
+              title: '网络缓慢，请刷新页面',
               duration: 5000,
               icon: 'loading'
             })
@@ -113,23 +122,7 @@ export const actionPreJoinActivity = ({openid, activityId}, setCanJoin: React.Di
   }
 }
 
-export const actionRequestRefund = () => {
-  return async () => {
-    console.log("活动页面：用户申请退款")
-    try {
-      const res = await postRefundRequest({})
-      if (res && res.code === 0) {
-        console.log("活动页面：用户申请退款成功")
-      } else {
-        console.log("活动页面：用户申请退款失败")
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-export const actionFillSurvey = ({appId, path}) => {
+export const fillForm = ({appId, path}) => {
   return async () => {
     console.log("活动页面：用户填写问卷星")
     try {
@@ -146,12 +139,12 @@ export const actionFillSurvey = ({appId, path}) => {
   }
 }
 
-export const actionFilledOverSurvey = (openid, activityId) => {
+export const finishFillForm = (id) => {
   return async () => {
     console.log("活动页面：用户完成填写问卷")
     try {
-      let res = await postFilledOverSurvey({
-        openid, activityId
+      let res = await postFilledForm({
+        id: id
       })
 
       if (res && res.code === 0) {
@@ -166,11 +159,75 @@ export const actionFilledOverSurvey = (openid, activityId) => {
   }
 }
 
-export const fetchMatchResult = () => {
+export const sendFavor = ({id, level}) => {
+  return async () => {
+    console.log("活动页面：发送每日好感度反馈")
+    try {
+      let res = await postSendFeedback({
+        activityId: id,
+        level: level
+      })
+
+      if (res && res.code === 0) {
+        console.log("活动页面：发送每日好感度反馈成功")
+      } else {
+        console.log("活动页面：发送每日好感度反馈失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const sendMessage = ({message, id}) => {
+  return async () => {
+    console.log("活动页面：发送留言")
+    try {
+      let res = await postSendFeedback({
+        activityId: id,
+        message: message
+      })
+
+      if (res && res.code === 0) {
+        console.log("活动页面：发送留言成功")
+      } else {
+        console.log("活动页面：发送留言失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const sendSatisfiedFeedback = ({id, level}) => {
+  return async dispatch => {
+    console.log("活动页面：发送满意度调查结果")
+    try {
+      let res = await postSatisfiedFeedback({
+        id: id,
+        level: level
+      })
+
+      if (res && res.code === 0) {
+        console.log("活动页面：发送满意度调查结果成功")
+        dispatch(matchStateSave({
+          hasFavor: true,
+          favor: level
+        }))
+      } else {
+        console.log("活动页面：发送满意度调查结果失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const fetchMatchResult = (id) => {
   return async dispatch => {
     console.log("活动页面：获取匹配结果")
     try {
-      let res = await getMatchResult({})
+      let res = await getMatchResult(id)
       if (res && res.code === 0) {
         console.log("活动页面：获取匹配结果成功")
         dispatch(matchStateSave(res.data))
@@ -183,75 +240,36 @@ export const fetchMatchResult = () => {
   }
 }
 
-export const fetchFeedbackContent = () => {
-  return async dispatch => {
-    console.log("活动页面：获取反馈信息内容")
-    try {
-      let res = await getFeedbackContent()
-      if (res && res.code === 0) {
-        console.log("活动页面：获取反馈信息内容成功")
-        dispatch(activitySave({
-          feedBackContent: res.data
-        }))
-      } else {
-        console.log("活动页面：获取反馈信息内容失败")
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-export const sendSatisfiedFeedback = (statisfied, setShowContactModal: React.Dispatch<any>) => {
-  return async () => {
-    console.log("活动页面：发送满意度调查结果")
-    try {
-      let res = await postSatisfiedFeedback({
-        satisfied: statisfied
-      })
-
-      if (res && res.code === 0) {
-        console.log("活动页面：发送满意度调查结果成功")
-        setShowContactModal(true)
-      } else {
-        console.log("活动页面：发送满意度调查结果失败")
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-export const fetchTwcResult = () => {
-  return async dispatch => {
-    console.log("活动页面：获取双选结果")
-    try {
-      let res = await getTwcResult()
-
-      if (res && res.code === 0) {
-        console.log("活动页面：获取双选结果成功")
-        dispatch(twcStateSave(res.data))
-      } else {
-        console.log("活动页面：获取双选结果失败")
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-export const sendTwcResult = (value) => {
+export const sendTwcResult = ({id, choose}) => {
   return async () => {
     console.log("活动页面：发送双选选择结果")
     try {
       let res = await postSendTwcResult({
-        success: value
+        id: id,
+        choose: choose
       })
 
       if (res && res.code === 0) {
         console.log("活动页面：发送双选选择结果成功")
       } else {
         console.log("活动页面：发送双选选择结果失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const fetchTwcResult = (id) => {
+  return async dispatch => {
+    console.log("活动页面：获取双选结果")
+    try {
+      let res = await getTwcResult(id)
+      if (res && res.code === 0) {
+        console.log("活动页面：获取双选结果成功")
+        dispatch(twcStateSave(res.data))
+      } else {
+        console.log("活动页面：获取双选结果失败")
       }
     } catch (e) {
       console.log(e)

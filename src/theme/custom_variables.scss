@@ -1,0 +1,101 @@
+// Color Palette
+$black: #000;
+$white: #fff;
+
+$gray-1: #f7f8fa;
+$gray-2: #f2f3f5;
+$gray-3: #ebedf0;
+$gray-4: #dcdee0;
+$gray-5: #c8c9cc;
+$gray-6: #969799;
+$gray-7: #646566;
+$gray-8: #323233;
+
+$red: #ee0a24;
+$blue: #1989fa;
+$cyan: #2db7f5;
+$green: #07c160;
+$orange: #F6A151;
+$pink: #F36E8A;
+
+$orange-dark: #F6A151;
+$orange-light: #FDF7E9;
+$purple-dark: #918AE3;
+$purple-light: rgba(97, 96, 251, 0.2);
+$pink-dark: #FF6C90;
+$pink-light: #FAECEF;
+
+// Base Unit
+$hd: 2 !default;
+
+// Component Colors
+$primary-color: #918AE3;
+$info-color: var(--cyan, $cyan);
+$success-color: var(--green, $green);
+$warning-color: var(--orange, $orange);
+$danger-color: #E82B2B;
+$title-color: var(--gray-8, $gray-8); // add
+$text-color: #333333;
+$text-color-1: rgba(0, 0, 0, 0.7);
+$text-color-2: rgba(0, 0, 0, 0.5);
+$text-color-3: #C5C5C5;
+$text-color-light: #EFF3FF;
+$note-color: rgba(0, 0, 0, 0.3); // add
+$text-link-color: #576b95;
+$active-color: var(--gray-2, $gray-2);
+$active-opacity: 0.7;
+$disabled-opacity: 0.5;
+$disabled-color: #D3D0F4;
+$background-color: #F3F4FB;
+$background-color-light: rgba(255, 255, 255, 0.9);
+
+// Gradient Colors
+$gradient-purple-light: linear-gradient(90deg, rgba(145, 138, 227, 0.6) -2.05%, rgba(251, 168, 177, 0.2) 104.81%);
+$gradient-purple-dark: linear-gradient(90deg, #918AE3 -2.05%, rgba(251, 168, 177, 0.5) 104.81%);
+
+// Padding
+$padding-base: 4px * $hd;
+$padding-xs: $padding-base * 2;
+$padding-sm: $padding-base * 3;
+$padding-md: $padding-base * 4;
+$padding-lg: $padding-base * 6;
+$padding-xl: $padding-base * 8;
+
+// Height
+$height-xs: 16px * $hd;
+$height-sm: 18px * $hd;
+$height-md: 20px * $hd;
+$height-lg: 22px * $hd;
+
+$font-weight-bold: 500;
+
+// Font
+$font-size-xs: 10px * $hd;
+$font-size-sm: 12px * $hd;
+$font-size-md: 14px * $hd;
+$font-size-lg: 16px * $hd;
+// Line Height
+$line-height-xs: 14px * $hd;
+$line-height-sm: 18px * $hd;
+$line-height-md: 20px * $hd;
+$line-height-lg: 22px * $hd;
+
+$base-font-family: -apple-system, blinkmacsystemfont, 'Helvetica Neue',
+helvetica, segoe ui, arial, roboto, 'PingFang SC', 'miui', 'Hiragino Sans GB',
+'Microsoft Yahei', sans-serif;
+
+$price-integer-font-family: avenir-heavy, pingfang sc, helvetica neue, arial, sans-serif;
+
+// Animation
+$animation-duration-base: 0.3s;
+$animation-duration-fast: 0.2s;
+$animation-timing-function-enter: ease-out;
+$animation-timing-function-exit: ease-in;
+
+// Border
+$border-color: var(--gray-3, $gray-3);
+$border-width-base: 1px * $hd;
+$border-radius-sm: 2px * $hd;
+$border-radius-md: 4px * $hd;
+$border-radius-lg: 8px * $hd;
+$border-radius-max: 999px;

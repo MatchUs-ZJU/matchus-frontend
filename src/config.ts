@@ -1,12 +1,12 @@
 const ROOT_URL = process.env.NODE_ENV === 'development' ?
     // 线下开发地址
-    'http://120.26.60.116:80' : (process.env.TEST === 1 ?
+    'https://120.26.60.116' : (process.env.TEST === 1 ?
     // 测试地址
-    'https://api.qianxu.run:80' :
+    'https://matchuszju.com' :
     // 线上开发地址
-    'https://api.matchuszju.com:80');
+    'https://matchuszju.com');
 
-const ROOT_URI = '/app'
+const APP_URI = '/app'
 
-export const BASE_URL = `${ROOT_URL}${ROOT_URI}`
+export const BASE_URL = `${ROOT_URL}${APP_URI}`
 

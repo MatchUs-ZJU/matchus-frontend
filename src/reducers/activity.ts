@@ -1,4 +1,5 @@
-import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "../constants";
+import {ACTIVITY_SAVE} from "@/constants";
+import {IParticipateState} from "@/typings/types";
 
 export interface IActivityState {
   // basic
@@ -11,60 +12,56 @@ export interface IActivityState {
   wjxAppId: string,
 
   // time
-  startTime?: Date,
-  signUpStartTime?: Date,
-  signUpEndTime?: Date,
-  surveyEndTime?: Date,
-  matchResultShowTime?: Date,
-  twoWayChooseStartTime?: Date,
-  twoWayChooseEndTime?: Date,
-  twoWayChooseResultShowTime?: Date,
-  endTime?: Date
+  signUpStartTime?: number,
+  matchResultShowTime?: number,
+  twoWayChooseStartTime?: number,
+  twoWayChooseEndTime?: number,
+  twoWayChooseResultShowTime?: number,
 
   // resource
   imageUrl: string
-
-  feedbackContent?: {}
 
   // participate information
   participate: IParticipateState
 }
 
-export interface IParticipateState {
-  participate: boolean,
-  paid: boolean
-  filledSurvey: boolean,
-  filledSatisfiedFeedback: boolean
-  twcValue: '成功' | '失败' | '未选择'
-
-  match?: IMatchState
-  twc?: ITwoWayChooseState
-}
-
-export interface IMatchState {
-  success: boolean
-  info?: {}
-}
-
-export interface ITwoWayChooseState {
-  success: boolean
-  info?: {}
-}
-
 const INITIAL_STATE: IActivityState = {
+  participate: {
+    state: 'NOT_ACTIVE',
+
+    signUp: {
+      state: 'NOT_START',
+      paid: false,
+      participated: false
+    },
+
+    fillForm: {
+      state: 'NOT_START',
+      filled: false
+    },
+
+    match: {
+      state: 'NOT_START',
+      matchResult: false,
+      favor: 0,
+      lastChoose: 0,
+      left: 0, // TODO
+    },
+
+    choose: {
+      state: 'NOT_START',
+      choice: false,
+      message: '',
+      hasResult: false,
+      chooseResult: false,
+    },
+  },
   wjxAppId: "wxd947200f82267e58",
   wjxPath: "pages/wjxqList/wjxqList?activityId=PfjBWtQ",
-  participate: {
-    participate: false,
-    paid: false,
-    filledSurvey: false,
-    filledSatisfiedFeedback: false,
-    twcValue: '未选择'
-  },
   imageUrl: "",
   id: "",
   name: "",
-  price: 0
+  price: 0,
 }
 
 export default function activity(state = INITIAL_STATE, action) {
@@ -74,16 +71,6 @@ export default function activity(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
-    case ACTIVITY_MATCH_STATE_SAVE: {
-      let newState: IActivityState = state
-      state.participate.match = action.payload
-      return newState
-    }
-    case ACTIVITY_TWC_STATE_SAVE: {
-      let newState: IActivityState = state
-      state.participate.twc = action.payload
-      return newState
-    }
     default:
       return state
   }
