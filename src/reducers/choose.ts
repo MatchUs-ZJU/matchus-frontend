@@ -14,7 +14,7 @@ export interface IChooseState {
   success: boolean,
   message: string,
   sanguan: {
-    id: number
+    index: number,
     question: string,
     answer: string
   }[],

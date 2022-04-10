@@ -200,7 +200,7 @@ export const sendMessage = ({message, id}) => {
 }
 
 export const sendSatisfiedFeedback = ({id, level}) => {
-  return async () => {
+  return async dispatch => {
     console.log("活动页面：发送满意度调查结果")
     try {
       let res = await postSatisfiedFeedback({
@@ -210,6 +210,10 @@ export const sendSatisfiedFeedback = ({id, level}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送满意度调查结果成功")
+        dispatch(matchStateSave({
+          hasFavor: true,
+          favor: level
+        }))
       } else {
         console.log("活动页面：发送满意度调查结果失败")
       }

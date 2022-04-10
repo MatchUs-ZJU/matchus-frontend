@@ -20,6 +20,7 @@ export interface IMatchState {
   major: string,
 
   characteristic: {
+    index: number,
     question: string,
     answer: string
   }[],
