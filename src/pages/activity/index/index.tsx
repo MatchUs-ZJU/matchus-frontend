@@ -9,13 +9,14 @@ import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/activi
 
 import './index.scss'
 import {Like} from "@taroify/icons";
+import classnames from "classnames";
 
 const Index = () => {
   const dispatch = useDispatch()
   const {user, activity} = useSelector(state => state)
   const {nickName, avatarUrl, identified} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
-  const {signUp, match, choose, fillForm} = participate
+  const {signUp, match, choose, fillForm, state} = participate
 
   const [payBodyPrefix, setPayBodyPrefix] = useState('')
   const [signUpStartTime, setSignUpStartTime] = useState('')
@@ -74,7 +75,7 @@ const Index = () => {
       setTwoWayChooseEndTime(`${t.getMonth()}.${t.getDate()}日${t.getHours()}时`)
     }
 
-    if(activity.id && user.openid) {
+    if (activity.id && user.openid) {
       setPayBodyPrefix(`${activity.id}-${user.openid}`)
     }
   }, [activity])
@@ -116,19 +117,33 @@ const Index = () => {
           filled={fillForm.filled}
         />
 
-        <ChooseCard
-          activity={id}
-          startTime={twoWayChooseStartTime}
-          endTime={twoWayChooseEndTime}
-          state={choose.state}
-          choice={choose.choice}
-          message={choose.message}
-          hasResult={choose.hasResult}
-          chooseResult={choose.chooseResult}
-        />
+        {
+          (match.state === 'NOT_START' || (match.state === 'ACTIVE' && !match.matchResult)) &&
+          <ChooseCard
+            activity={id}
+            startTime={twoWayChooseStartTime}
+            endTime={twoWayChooseEndTime}
+            state={choose.state}
+            choice={choose.choice}
+            message={choose.message}
+            hasResult={choose.hasResult}
+            chooseResult={choose.chooseResult}
+          />
+        }
 
-        <View>
-          <Like />
+        <View
+          className={classnames(
+            'row',
+            'footer',
+            {'footer-failed': state === 'FAILED'},
+            {'footer-success': state === 'SUCCESS'}
+          )}
+        >
+          <Like
+            style={{marginRight: '8px'}}
+            size='18px'
+          />
+          {state !== 'FAILED' ? '祝你度过一段愉快的MatchUs旅程！' : '很遗憾，没能帮你找到合适的Ta ！'}
         </View>
       </View>
     </View>

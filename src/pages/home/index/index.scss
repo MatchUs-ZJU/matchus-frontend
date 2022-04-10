@@ -39,63 +39,74 @@
   align-items: center;
   background: $white;
 
+  color: $primary-color;
   border-radius: 16px;
   margin: 24px 0 0 0;
 }
 
 .enroll-card .main {
+  height: 100%;
+
   padding: 0 24px;
   flex: 1;
 }
 
-.enroll-card .time {
-  width: 300px;
-
-  padding-top: 8px;
-  margin-right: 8px;
+.enroll-card .main .time {
+  width: 35%;
+  justify-content: space-between;
+  margin: 16px 0;
 }
 
-.enroll-card .data {
-  width: 100%;
-
-  margin-left: 24px;
+.enroll-card .main .data {
+  margin: 16px 16px 16px 20px;
+  justify-content: space-between;
 }
 
-.enroll-card .progress-color {
-  &:not(.taroify-progress--inactive) {
-    .taroify-progress__portion {
-      background: $primary-color
-    }
-  }
+.enroll-card .main .divider {
+  position: relative;
+  top: 25px;
+  width: 2px;
+  height: 90px;
+  background: #D9D9D9;
 }
+
+.enroll-card .countdown {
+  display: flex;
+  flex-direction: row;
+}
+
+.enroll-card .countdown-block {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 24px;
+  color: #918AE3;
+}
+
+.enroll-card .countdown-colon {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: $note-color;
+
+  margin: 0 8px
+}
+
 
 .enroll-card .title {
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
+  line-height: 24px;
   color: $text-color-2;
-
-  margin-bottom: 4px;
-}
-
-.enroll-card .title-big {
-  font-style: normal;
-  font-weight: 600;
-  font-size: 28px;
-  color: $primary-color
-}
-
-.enroll-card .title-small {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  color: $primary-color
 }
 
 .enroll-card .content {
   font-style: normal;
   font-weight: 600;
   font-size: 28px;
+  line-height: 24px;
   color: $primary-color
 }
 
@@ -112,7 +123,6 @@
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 
-  float: right;
   background: $primary-color;
 
   justify-content: center;

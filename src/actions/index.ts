@@ -9,11 +9,11 @@ export {
   preJoinActivity,
   fillForm,
   finishFillForm,
-  fetchFeedbackContent,
   fetchTwcResult,
   activitySave,
   matchStateSave,
   twcStateSave,
-  actionRequestRefund,
+  sendMessage,
+  sendFavor,
 } from './activity'
 export {resourceSave, fetchHelpsInfo, fetchFaculties} from './resource'

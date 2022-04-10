@@ -1,5 +1,7 @@
 import {View, ViewProps} from "@tarojs/components";
 import {Success} from "@taroify/icons";
+import classnames from "classnames";
+import Taro from "@tarojs/taro";
 
 import './index.scss'
 
@@ -11,7 +13,7 @@ export const hasSignedUpText = '已报名'
 export const hasFilledFormText = '已填写'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
-export const goToRefundText = '去退款'
+export const hasRefundedText = '已退款'
 
 interface ActiveBtnProps extends ViewProps {
   type: 'signup' | 'fillForm' | 'seeResult'
@@ -48,17 +50,34 @@ export const DisableBtn = (props: DisableBtnProps) => {
 export const NotStartBtn = DisableBtn
 
 interface FinishedBtnProps {
-  type: 'signup' | 'fillForm'
+  type: 'signup' | 'fillForm' | 'refund'
 }
 
 export const FinishedBtn = (props: FinishedBtnProps) => {
   const {type} = props
 
-  const content = (type === 'signup' ? hasSignedUpText : type === 'fillForm' ? hasFilledFormText : defaultText)
+  const content = (type === 'signup' ? hasSignedUpText : type === 'fillForm' ? hasFilledFormText : type === 'refund' ? hasRefundedText : defaultText)
+  const fail = (type === 'refund')
+
+  async function onClickBtn() {
+    if(type === 'refund') {
+      await Taro.showToast({
+        icon: 'none',
+        title: '退款将在3个工作日内到账，有问题请联系小助手～',
+        duration: 3000
+      })
+    }
+  }
 
   return (
-    <View className='btn-finished'>
-      <Success size='20px' style={{color: '#918AE3', marginRight: '8px'}}/>
+    <View
+      className={classnames(
+        'btn-finished',
+        {'btn-finished-failed': fail}
+      )}
+      onClick={onClickBtn}
+    >
+      <Success size='20px' style={{marginRight: '8px'}}/>
       <View>{content}</View>
     </View>
   )

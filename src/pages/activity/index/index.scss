@@ -25,3 +25,25 @@ page {
   padding: 0 26px 0 26px;
   top: -70px;
 }
+
+.footer {
+  align-items: center;
+  padding-left: 6%;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+
+  letter-spacing: 0.05em;
+
+  color: #D3D0F4;
+}
+
+.footer-failed {
+  color: $note-color;
+}
+
+.footer-success {
+  color: $primary-color;
+}

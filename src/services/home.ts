@@ -3,7 +3,7 @@ import {getJWT} from "./jwt";
 
 export const getBanners = async () => {
   console.log('网络请求：获取广告')
-  return await request.get(`/banners`, {
+  return await request.get(`/banner`, {
     header: {
       Authorization: getJWT(),
     },

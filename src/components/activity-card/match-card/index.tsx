@@ -4,7 +4,7 @@ import {Image} from "@taroify/core";
 import {HeartBeatIcon, StepIcon} from "@/assets/images";
 import {
   ActiveBtn,
-  DisableBtn,
+  DisableBtn, FinishedBtn,
   goToRefundText,
   NotStartBtn
 } from "@/components/activity-card/right-buttons";
@@ -46,24 +46,11 @@ const MatchCard = (props: MatchCardProps) => {
   const {filled, activity, resultShowTime, state, matchResult, favor, lastChoose, left, ...restProps} = props
   const leftTime = formatLeftTime(left)
 
-  // 申请退款组件
-  const RefundBtn = () => {
-    return (
-      <View className='btn-failed' onClick={goToRefund}>
-        {goToRefundText}
-      </View>
-    )
-  }
-
   function formatLeftTime(leftMss: number) {
     const day = leftMss / (1000 * 60 * 60 * 24);
     const hour = (leftMss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
     const minute = (leftMss % (1000 * 60 * 60)) / (1000 * 60);
     return day === 0 ? `${hour}小时${minute}分` : `${day}天${hour}小时`
-  }
-
-  async function goToRefund() {
-
   }
 
   async function goToSeeResult() {
@@ -96,21 +83,21 @@ const MatchCard = (props: MatchCardProps) => {
           <View className='note'>若匹配失败，100%退全款</View>
         </View>
         <View className='col right'>
-          {state === 'NOT_START' && !filled ? (
-            <NotStartBtn type='notStart'/>
-          ) : state === 'NOT_START' && filled ? (
-            <LeftTimeBtn time={leftTime}/>
-          ) : state === 'ACTIVE' && matchResult ? (
+          {/*{state === 'NOT_START' && !filled ? (*/}
+          {/*  <NotStartBtn type='notStart'/>*/}
+          {/*) : state === 'NOT_START' && filled ? (*/}
+          {/*  <LeftTimeBtn time={leftTime}/>*/}
+          {/*) : state === 'ACTIVE' && matchResult ? (*/}
             <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
-          ) : state === 'ACTIVE' && !matchResult ? (
-            <RefundBtn/>
-          ) : (
-            <DisableBtn type='disable'/>
-          )}
+          {/*) : state === 'ACTIVE' && !matchResult ? (*/}
+          {/*  <FinishedBtn type='refund'/>*/}
+          {/*) : (*/}
+          {/*  <DisableBtn type='disable'/>*/}
+          {/*)}*/}
         </View>
       </View>
       {
-        // state === "ACTIVE" && matchResult &&
+        state === "ACTIVE" && matchResult &&
         <View className='row feedback-card'>
           <View className='col feedback'>
             <View className='row title'>

@@ -2,7 +2,7 @@ import {Swiper, SwiperItem, Text, View} from "@tarojs/components";
 import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Progress, Image} from "@taroify/core"
+import {Image, Countdown} from "@taroify/core"
 import {fetchBanners, fetchRecommends} from "@/actions";
 import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/images";
 import {fetchHomeData} from "@/actions/home";
@@ -16,10 +16,11 @@ const Home = () => {
   const {home} = useSelector((state) => state)
   const {articles, banners, data} = home
 
+  const currentTime = new Date().getTime()
   const [, setReady] = useState(false);
-  const [sighUpEndTimeStr, setSighUpEndTimeStr] = useState('')
-  const [startTime, setStartTime] = useState(new Date())
-  const [endTime, setEndTime] = useState(new Date())
+  const [activityTime, setActivityTime] = useState('')
+  const [countDownTime, setCountDownTime] = useState(0)
+  const [countDownType, setCountDownType] = useState<'NOT_START' | 'ACTIVE' | 'FINISHED'>('NOT_START')
 
   useDidShow(() => {
     setReady(true);
@@ -36,27 +37,30 @@ const Home = () => {
 
   useEffect(() => {
     // 处理时间字符串
-    if (data) {
-      setStartTime(new Date(data.startTime))
-      setEndTime(new Date(data.endTime))
-
-      let signUpEndTime = new Date(data.signUpEndTime)
-      let year = signUpEndTime.getFullYear()
-      let month = signUpEndTime.getMonth()
-      let day = signUpEndTime.getDate()
-      let hour = signUpEndTime.getHours()
-      let period
-
-      if (6 <= hour && hour < 12) {
-        period = '早上'
-      } else if (hour >= 12 && hour < 18) {
-        period = '下午'
-      } else {
-        period = '晚'
+    if (data && data.startTime && data.endTime) {
+      const getFormatTime = (time: Date) => {
+        return `${time.getMonth() < 10 ? `0${time.getMonth()}` : time.getMonth()}.${time.getDate() < 10 ? `0${time.getDate()}` : time.getDate()}`
       }
+      let startTime = new Date(data.startTime)
+      let endTime = new Date(data.endTime)
+      let start = getFormatTime(startTime)
+      let end = getFormatTime(endTime)
+      let processed: string = `${start}～${end}`;
+      setActivityTime(processed)
+    }
 
-      let processed: string = `${year}.${month}.${day}${period}${hour}点`;
-      setSighUpEndTimeStr(processed)
+    // 处理是否能报名，计算剩余时间
+    if(data && data.signUpStartTime && data.signUpEndTime) {
+      if(currentTime <= data.signUpStartTime) {
+        setCountDownType('NOT_START')
+        setCountDownTime(data.signUpStartTime - currentTime)
+      } else if(currentTime > data.signUpStartTime && currentTime < data.signUpEndTime) {
+        setCountDownType('ACTIVE')
+        setCountDownTime(data.signUpEndTime - currentTime)
+      } else {
+        setCountDownType('FINISHED')
+        setCountDownTime(0)
+      }
     }
   }, [data])
 
@@ -149,32 +153,36 @@ const Home = () => {
         <View className='row enroll-card'>
           <View className='row main'>
             <View className='col time'>
-              <View className='title'>本期活动</View>
-              <View
-                className='content'>{startTime.getMonth()}.{startTime.getDate()}-{endTime.getMonth()}.{endTime.getDate()}</View>
+              <View className='title'>本期活动时间</View>
+              <View className='content'>{activityTime}</View>
+              <View className='note' style={{color: '#918AE3'}}>第{data.currentTerm}期</View>
             </View>
-            <View style='
-              border: 1px solid #D9D9D9;
-              width: 0px;
-              '
-            />
+            <View className='divider' />
             <View className='col data'>
-              <View className='title' style={{marginBottom: '4px'}}>
-                已报名
-                <Text className='title-big' style={{marginLeft: '8px'}}>{data.currentParticipant}</Text>
-                <Text className='title-small'>/{data.totalParticipant}</Text>
+              <View className='title'>
+                {countDownType === 'NOT_START' ? '距离报名开始还有' : countDownType === 'ACTIVE' ? '距离报名结束还有' : '本期活动报名已结束'}
               </View>
-              <Progress
-                percent={data.totalParticipant === 0 ? 0 : data.currentParticipant / data.totalParticipant * 100}
-                label={false}
-                className='progress-color'
-                style={{marginBottom: '4px'}}
-              />
-              <View className='note'>报名截止 {sighUpEndTimeStr}</View>
+              <Countdown
+                value={countDownTime}
+              >
+                {(current) => (
+                  <View className='countdown'>
+                    <View className='countdown-block'>{current.days < 10 ? `0${current.days}` : current.days}</View>
+                    <View className='countdown-colon'>天</View>
+                    <View className='countdown-block'>{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
+                    <View className='countdown-colon'>时</View>
+                    <View className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
+                    <View className='countdown-colon'>分</View>
+                    <View className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
+                    <View className='countdown-colon'>秒</View>
+                  </View>
+                )}
+              </Countdown>
+              <View className='note'>已有<Text className='purple'>{data.currentParticipant}+</Text>人报名</View>
             </View>
           </View>
           <View className='col button' onClick={goToSignUp}>
-            <Text className='button-text'>去报名</Text>
+            <Text className='button-text'>{countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}</Text>
           </View>
         </View>
         <View className='row data-section'>
@@ -182,7 +190,7 @@ const Home = () => {
             <Image src={TrumpetIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px'}}>
               <View className='title'>
-                {!data.term ? 4 : data.term}<Text className='title-small'>期</Text>
+                {!data.totalTerm ? 4 : data.totalTerm}<Text className='title-small'>期</Text>
               </View>
               <View className='content'>已举办配对活动</View>
             </View>

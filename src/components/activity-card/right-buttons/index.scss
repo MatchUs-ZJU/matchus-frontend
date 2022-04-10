@@ -52,6 +52,13 @@
   border-radius: 100px;
 }
 
+.btn-finished-failed {
+  color: $text-color-2;
+
+  background-color: $white;
+  border: 2px solid $text-color-2;
+}
+
 .btn-failed {
   display: flex;
   justify-content: center;

@@ -31,7 +31,7 @@ import ChooseResultTopImageSuccess from './activity-chooseresult-success-top.png
 import ChooseResultFootImageSuccess from './activity-chooseresult-success-footer.png'
 import ChooseResultFootImageFailure from './activity-chooseresult-failure-footer.png'
 import ChooseResultTopImageFalure from './activity-chooseresult-failure-top.png'
-import MatchRsultTopImage from './activity-matchresult-top.png'
+import MatchResultTopImage from './match-result-top.png'
 import Rules from './activity-rules.png'
 
 import Emoji1 from './emojis/1.png'
@@ -41,7 +41,7 @@ import Emoji4 from './emojis/4.png'
 import Emoji5 from './emojis/5.png'
 
 export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
-export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFalure, ChooseResultFootImageFailure, MatchRsultTopImage, Rules}
+export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFalure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;

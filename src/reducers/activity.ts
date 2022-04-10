@@ -1,4 +1,5 @@
-import {ACTIVITY_MATCH_STATE_SAVE, ACTIVITY_SAVE, ACTIVITY_TWC_STATE_SAVE} from "@/constants";
+import {ACTIVITY_SAVE} from "@/constants";
+import {IParticipateState} from "@/typings/types";
 
 export interface IActivityState {
   // basic
@@ -11,15 +12,11 @@ export interface IActivityState {
   wjxAppId: string,
 
   // time
-  startTime?: number,
   signUpStartTime?: number,
-  signUpEndTime?: number,
-  surveyEndTime?: number,
   matchResultShowTime?: number,
   twoWayChooseStartTime?: number,
   twoWayChooseEndTime?: number,
   twoWayChooseResultShowTime?: number,
-  endTime?: number
 
   // resource
   imageUrl: string
@@ -28,43 +25,10 @@ export interface IActivityState {
   participate: IParticipateState
 }
 
-export interface IParticipateState {
-  signUp: {
-    state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-    paid: boolean,
-    participated: boolean
-  };
-
-  fillForm: {
-    state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-    filled: boolean
-  };
-
-  match: {
-    state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-    matchResult: boolean,
-    favor: number,
-    lastChoose: number,
-    left: number,
-    info: {
-
-    }
-  }
-
-  choose: {
-    state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-    choice: boolean,
-    message: string,
-    hasResult: boolean,
-    chooseResult: boolean
-    info: {
-
-    }
-  }
-}
-
 const INITIAL_STATE: IActivityState = {
   participate: {
+    state: 'NOT_ACTIVE',
+
     signUp: {
       state: 'NOT_START',
       paid: false,
@@ -82,9 +46,6 @@ const INITIAL_STATE: IActivityState = {
       favor: 0,
       lastChoose: 0,
       left: 0, // TODO
-      info: {
-
-      }
     },
 
     choose: {
@@ -93,9 +54,6 @@ const INITIAL_STATE: IActivityState = {
       message: '',
       hasResult: false,
       chooseResult: false,
-      info: {
-
-      }
     },
   },
   wjxAppId: "wxd947200f82267e58",
@@ -113,16 +71,6 @@ export default function activity(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
-    case ACTIVITY_MATCH_STATE_SAVE: {
-      let newState: IActivityState = state
-      state.participate.match.info = action.payload
-      return newState
-    }
-    case ACTIVITY_TWC_STATE_SAVE: {
-      let newState: IActivityState = state
-      state.participate.choose.info = action.payload
-      return newState
-    }
     default:
       return state
   }

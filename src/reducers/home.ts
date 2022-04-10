@@ -11,12 +11,13 @@ const INITIAL_STATE: IHomeState = {
   data: {
     startTime: new Date().getTime(),
     endTime: new Date().getTime(),
+    signUpStartTime: new Date().getTime(),
     signUpEndTime: new Date().getTime(),
 
     currentParticipant: 0,
-    totalParticipant: 0,
+    currentTerm: 0,
 
-    term: 0,
+    totalTerm: 0,
     matched: 0,
     unavailable: 0,
   },

@@ -3,15 +3,14 @@ import {ActiveBtn, DisableBtn, NotStartBtn} from "@/components/activity-card/rig
 import Taro from "@tarojs/taro";
 import classnames from "classnames";
 import Watermark from "@/components/activity-card/watermark";
-import {Collapse, Image, Switch, Textarea} from "@taroify/core";
+import {Image, Switch, Textarea} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {sendTwcResult} from "@/actions";
+import {sendTwcResult, sendMessage} from "@/actions";
+import {Records} from "@taroify/icons";
 
 import './index.scss'
-import {ArrowDown, ArrowUp, Records} from "@taroify/icons";
-import {sendMessage} from "@/actions/activity";
 
 interface ChooseCardProps extends ViewProps {
   activity: number | string
@@ -41,7 +40,7 @@ const ChooseCard = (props: ChooseCardProps) => {
 
   function onChooseChange(value: boolean) {
     setThisChoose(value)
-    dispatch(sendTwcResult(value))
+    dispatch(sendTwcResult({id: activity, choose: value}))
   }
 
   function onTextAreaChange(e) {
@@ -53,9 +52,9 @@ const ChooseCard = (props: ChooseCardProps) => {
     setTextAreaContent(e.detail.value)
   }
 
-  function onConfirmCommit() {
+  function onConfirmCommitMessage() {
     if(textAreaContent && textAreaContent.length) {
-      dispatch(sendMessage(textAreaContent))
+      dispatch(sendMessage({message: textAreaContent, id: activity}))
     }
   }
 
@@ -129,7 +128,7 @@ const ChooseCard = (props: ChooseCardProps) => {
                 {
                   'confirm-btn-click': textAreaFilled,
                 })}
-              onClick={onConfirmCommit}
+              onClick={onConfirmCommitMessage}
             >
               确认
             </View>

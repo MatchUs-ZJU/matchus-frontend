@@ -1,6 +1,6 @@
 @import '../../../app.scss';
 
-.container{
+.container {
   background: $background-color;
   min-height: 100vh;
   display: flex;
@@ -10,30 +10,140 @@
   justify-content: stretch;
 }
 
+.back {
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  color: white;
+  position: fixed;
+  height: 44px;
+  left: 26px;
+  top: 98px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+}
+
 .header {
   background: $primary-color;
   height: 828px;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   border-radius: 0 0 80px 80px;
-  //z-index: 0;
+
+  z-index: 0;
   display: flex;
   align-items: center;
 }
 
-.top-img{
+.header .content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  top: 400px;
+
+  width: 504px;
+  background: transparent;
+  z-index: 100;
+}
+
+.header .content .male {
+  justify-content: center;
+  align-items: center;
+}
+
+.header .content .male .nickName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  bottom: 16px;
+
+  width: 160px;
+  height: 60px;
+
+  background: $white;
+  border-radius: 16px;
+
+  color: $primary-color;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+
+  padding: 4px;
+}
+
+.header .content .male .male-avatar {
+  height: 192px;
+  width: 192px;
+  border-radius: 50%;
+  background: $white;
+}
+
+.header .content .female {
+  justify-content: center;
+  align-items: center;
+}
+
+.header .content .female .nickName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  bottom: 16px;
+
+  width: 160px;
+  height: 60px;
+
+  background: #FBA8B1;
+  border-radius: 16px;
+
+  color: rgba(255, 255, 255, 0.9);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+}
+
+.header .content .female .female-avatar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  height: 192px;
+  width: 192px;
+  border-radius: 50%;
+  background: #FBA8B1;
+}
+
+.header .content .avatar {
+  width: 180px;
+  height: 180px;
+  background: #FFFFFF;
+}
+
+.header .top-img {
   position: absolute;
   width: 100%;
   height: 1200px;
+  z-index: 50;
 }
 
-.wrapper{
+.wrapper {
   margin: 720px 40px 0 40px;
   z-index: 100;
 }
 
-.content{
+.content {
   display: flex;
   flex-direction: column;
 
@@ -41,11 +151,11 @@
   border-radius: 16px;
 }
 
-.wrapper-insider{
+.wrapper-insider {
   margin: 36px 40px 36px 52px;
 }
 
-.divider{
+.divider {
   font-style: normal;
   font-weight: 500;
   font-size: 34px;
@@ -53,7 +163,7 @@
   color: $primary-color;
 }
 
-.line{
+.line {
   width: 70%;
   height: 0;
   border-bottom: thin solid $primary-color;
@@ -61,7 +171,7 @@
 }
 
 
-.subtitle{
+.subtitle {
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -73,7 +183,7 @@
   color: rgba(0, 0, 0, 0.3);
 }
 
-.subanswer{
+.subanswer {
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -85,30 +195,30 @@
   color: rgba(0, 0, 0, 0.7);
 }
 
-.left{
+.left {
   margin-top: 28px;
 }
 
-.right{
+.right {
   margin-left: 264px;
   margin-top: -64px;
 }
 
-.margin-bottom-16{
+.margin-bottom-16 {
   margin-bottom: 32px;
 }
 
-.margin-bottom-20{
+.margin-bottom-20 {
   margin-bottom: 40px;
 }
 
-.copy-icon{
+.copy-icon {
   height: 40px;
   width: 40px;
   margin-left: 10px;
 }
 
-.text{
+.text {
   margin-top: 16px;
   font-style: normal;
   font-weight: 500;
@@ -116,16 +226,16 @@
   line-height: 24px;
 }
 
-.gray{
+.gray {
   color: rgba(0, 0, 0, 0.3);
 }
 
-.first-check{
+.first-check {
   margin-top: 8px;
   align-items: center;
 }
 
-.heart-value{
+.heart-value {
   font-style: normal;
   font-weight: 500;
   font-size: 28px;
@@ -135,7 +245,7 @@
   color: #F36E8A;
 }
 
-.heart-text{
+.heart-text {
   margin-top: -8px;
   font-style: normal;
   font-weight: 400;
@@ -151,7 +261,7 @@
   margin-left: 24px;
 }
 
-.check-button{
+.check-button {
   width: 140px;
   height: 60px;
 
@@ -166,7 +276,7 @@
   margin-left: 32px;
 }
 
-.check-button-clicked{
+.check-button-clicked {
   width: 160px;
   height: 60px;
 
@@ -182,71 +292,13 @@
   margin-left: 32px;
 }
 
-.image-show{
+.image-show {
   margin-top: 8px;
 }
 
-.img{
+.img {
   background: #f5f4ff;
   height: 240px;
   padding-right: 20px;
 }
 
-.boy-name{
-  color: $primary-color;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-  margin-top: 565px;
-  margin-right: 335px;
-  z-index: 100;
-}
-
-.girl-name{
-  color: white;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-  margin-top: -48px;
-  margin-left: 260px;
-  z-index: 100;
-}
-
-.avatar-img-boy{
-  margin-top: -230px;
-  margin-right: 295px;
-  height: 185px;
-  z-index: 100;
-}
-
-.avatar-img-girl{
-  margin-top: -185px;
-  margin-left: 300px;
-  height: 185px;
-  z-index: 100;
-}
-
-.back{
-  z-index: 100;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  color: white;
-  position: absolute;
-  height: 44px;
-  left: 26px;
-  top: 98px;
-
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-}
-
-.back-img{
-  margin-top: 8px;
-  width: 40px;
-  height: 40px;
-}
