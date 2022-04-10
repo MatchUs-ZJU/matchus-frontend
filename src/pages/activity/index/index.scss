@@ -1,4 +1,49 @@
-.index {
-  flex-direction: column;
-  width: 100%;
+@import '../../../app.scss';
+
+$activity-card-height: 180px;
+$activity-card-divider-height: 40px;
+$activity-card-id-height: 56px;
+
+page {
+  --switch-background-color: rgba(120, 120, 128, 0.16);
+  --switch-checked-background-color: #918AE3;
+  --switch-checked-color: #918AE3;
+}
+
+.header {
+  position: relative;
+  top: -32px;
+
+  height: 380px;
+  mix-blend-mode: darken;
+
+  margin-left: 32px;
+}
+
+.wrapper {
+  position: relative;
+  padding: 0 26px 0 26px;
+  top: -70px;
+}
+
+.footer {
+  align-items: center;
+  padding-left: 6%;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+
+  letter-spacing: 0.05em;
+
+  color: #D3D0F4;
+}
+
+.footer-failed {
+  color: $note-color;
+}
+
+.footer-success {
+  color: $primary-color;
 }

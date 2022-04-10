@@ -1,76 +1,55 @@
-import {View} from "@tarojs/components";
-import {AtButton, AtDivider, AtGrid, AtIcon, AtToast} from "taro-ui";
-import {useState} from "react";
+import {Text, View} from "@tarojs/components";
+import {Cell, Collapse, Image} from "@taroify/core"
+import "@taroify/core/collapse/style"
+import {useSelector} from "react-redux";
+import {commonquestionsIcon, artiserviceIcon, assitantIcon} from '@/assets/images'
+import {IQuestion} from "@/reducers/resource";
 import './index.scss'
-
-const test_data = [
-  {value:"喜欢、超级喜欢后可以取消吗？", answer:"111111"},
-  {value:"超级喜欢后可以取消吗？", answer:"222222"},
-  {value:"喜取消吗？", answer:"33333"},
-  {value:"喜欢可以取消吗？", answer:"44444"},
-  {value:"喜欢、超级？", answer:"55555"}
-]
 
 const Index = () => {
 
-  let [isOpen, setIsOpen] = useState(false);
-  let [text, setText] = useState('')
+  const { help } = useSelector(state => state.resource)
 
-  const onClickQuestionItem = (item: object, index: number):void => {
-    setText("A:"+item.answer)
-    setIsOpen(!isOpen)
-  }
-
-  const onclose = ():void => {
-    setIsOpen(!isOpen)
-  }
-
-  const onClickArtificialService = ():void => {
-  //  TODO:唤起人工服务的接口
+  var list = (data) => {
+    var res = []
+    data.forEach((item: IQuestion) => {
+      res.push(
+        <Collapse.Item title={item.question}>{item.answer}</Collapse.Item>
+      )
+    })
+    return res
   }
 
   return (
     <View className='container'>
-      <AtToast isOpened={isOpen}
-               text={text}
-               onClose={onclose.bind(this)}
-      >
-      </AtToast>
-      <View className='basic-question'
-            // style={"height:"+(test_data.length*40.5+1)+"px"}
-      >
-        <View className='left left-flex'
-              style={"height:"+(test_data.length*80+8)+"rpx"}
-        >
-          <AtIcon value='help' size='20' color='$text-color'/>
-          常见问题
+      <View className='common_qustions'>
+        <View className='help-title'>
+          <Image lazyLoad src={commonquestionsIcon} className='help-img'/>
+          <Text className='help-text'>常见问题</Text>
         </View>
-        <AtGrid className='right'
-                mode="rect"
-                columnNum={1}
-                hasBorder={true}
-                data={test_data}
-                onClick={onClickQuestionItem.bind(this)}
-        >
-        </AtGrid>
+        <Cell.Group inset>
+          <Collapse accordion>
+            {list(help)}
+          </Collapse>
+        </Cell.Group>
       </View>
-      <AtDivider className='info'
-        content='^_^需要其他的帮助请联系人工客服'
-        lineColor='rgb(231, 231, 231)'
-        fontColor='rgb(231, 231, 231)'
-      >
-      </AtDivider>
-      <View className='artificial-service'>
-          <AtButton
-            type='primary'
-            circle={false}
-            customStyle={{width: '100%'}}
-            onClick={onClickArtificialService.bind(this)}
-            className='artificial-button'
-          >
-            <AtIcon value='bell' size='20' color='$text-color'/>
-            &nbsp;联系人工客服
-          </AtButton>
+      <View className='artificial_service'>
+        <View className='help-title'>
+          <Image lazyLoad src={artiserviceIcon} className='help-img'/>
+          <Text className='help-text'>人工客服</Text>
+        </View>
+        <Cell.Group inset>
+          <View className='arti_service'>
+            <View className='arti-text'>
+              <Text>其他问题请扫码添加客服微信️咨询</Text>
+              <Text>人工客服在线时间：</Text>
+              <Text className='arti-text-color'>工作日：9:00-21:00</Text>
+            </View>
+            <View className='arti-wechat'>
+              <Image lazyLoad src={assitantIcon} className='arti-img'/>
+            </View>
+          </View>
+        </Cell.Group>
       </View>
     </View>
   )

@@ -1,13 +1,10 @@
 import {useState} from 'react'
 import {Provider} from 'react-redux'
 import Taro, {useDidShow} from "@tarojs/taro";
-import 'taro-ui/dist/style/index.scss'
-
-import {fetchUserInfo, globalSave} from "./actions"
+import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"
 
 import './app.scss'
 import {getJWT} from "./services/jwt";
-import {relogin, userSave} from "./actions";
 import {store} from "./store";
 
 function App(props) {

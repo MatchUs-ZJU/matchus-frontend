@@ -1,3 +1,6 @@
 export default definePageConfig({
-  navigationBarTitleText: '关于'
+  navigationStyle: 'default',
+  navigationBarBackgroundColor: "#918AE3",
+  navigationBarTitleText: '关于我们',
+  navigationBarTextStyle: 'white'
 })

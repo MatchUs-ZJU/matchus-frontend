@@ -1,16 +1,22 @@
 import {applyMiddleware, compose, createStore} from 'redux'
 import thunkMiddleware from 'redux-thunk'
+import {IUserState} from "@/reducers/user";
+import {IGlobalState} from "@/reducers/global";
+import {IActivityState} from "@/reducers/activity";
+import {IHomeState} from "@/reducers/home";
+import {IMyState} from "@/reducers/resource";
+import {IMatchState} from "@/reducers/match";
+import {IChooseState} from "@/reducers/choose";
 import rootReducer from '../reducers'
-import {IUserState} from "../reducers/user";
-import {IGlobalState} from "../reducers/global";
-import {IActivityState} from "../reducers/activity";
-import {IHomeState} from "../reducers/home";
 
 interface IState {
   user: IUserState,
   global: IGlobalState,
   activity: IActivityState,
   home: IHomeState
+  resource: IMyState
+  match: IMatchState
+  choose: IChooseState
 }
 
 declare module "react-redux" {

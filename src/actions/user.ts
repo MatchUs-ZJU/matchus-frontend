@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
-import {USER_SAVE} from "../constants";
-import {getUserInfo, login, register, updateUserInfo} from "../services/user";
-import {removeJWT, setJWT} from "../services/jwt";
+import {USER_SAVE} from "@/constants";
+import {decodePhoneNumber, getUserInfo, login, register, updateUserInfo} from "@/services/user";
+import {removeJWT, setJWT} from "@/services/jwt";
 
 export const userSave = (payload) => {
   return {
@@ -37,12 +37,12 @@ export const initRegister = (openid) => {
       })
 
       if (res && res.code === 0) {
-        console.log("注册成功")
+        console.log("用户注册：注册成功")
         dispatch(userSave({
           binded: true
         }))
       } else {
-        console.log("注册失败")
+        console.log("用户注册：注册失败")
       }
     } catch (e) {
       console.log(e)
@@ -59,7 +59,7 @@ export const initRegister = (openid) => {
   }
 }
 
-export const fetchUserProfile = (openid) => {
+export const fetchUserProfile = () => {
   return dispatch => {
     console.log("用户注册：授权获取个人信息并更新用户信息")
     // 该方法暂时不支持await异步调用
@@ -69,17 +69,21 @@ export const fetchUserProfile = (openid) => {
       const {userInfo} = e
       const res = await updateUserInfo({
         ...userInfo,
-        'openid': openid
       })
 
       if (res && res.code === 0) {
         console.log("用户注册：更新用户信息成功")
         dispatch(userSave(userInfo))
+
+        // 完成注册工作
+        await Taro.navigateTo({
+          url: '/pages/user/register/index'
+        })
       } else {
         console.log("用户注册：更新用户信息失败")
       }
-    }).catch(async e => {
-      console.log(e)
+    }).catch(async () => {
+      console.log("用户注册：用户拒绝授权")
       await Taro.showToast({
         icon: 'none',
         title: '授权失败! 您将无法参加我们的活动',
@@ -123,6 +127,61 @@ export const relogin = () => {
       }
     } catch (e) {
       console.log(e)
+    }
+  }
+}
+
+export const fetchPhoneNumber = (data: {iv: string, encryptedData: string}) => {
+  return async dispatch => {
+    console.log("用户信息：获取用户解密的手机号")
+    try {
+      const res = await decodePhoneNumber(data)
+      if (res && res.code === 0) {
+        console.log("用户信息：获取用户解密的手机号成功")
+        dispatch(userSave(res.data))
+      } else {
+        console.log("用户信息：获取用户解密的手机号失败")
+      }
+    } catch (e) {
+      console.log(e)
+      await Taro.showToast({
+        icon: 'none',
+        title: '获取手机号失败',
+        duration: 5000,
+      });
+    }
+  }
+}
+
+export const submitIdentificationInfo = (data) => {
+  return async dispatch => {
+    console.log("用户信息：提交用户身份验证信息")
+    try {
+      const res = await updateUserInfo(data)
+      if (res && res.code === 0) {
+        console.log("用户信息：提交用户身份验证信息成功")
+        dispatch(userSave({
+          ...data,
+          identified: '已认证'
+        }))
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交个人信息成功',
+          duration: 5000,
+        });
+        await Taro.switchTab({
+          url: '/pages/activity/index/index'
+        })
+      } else {
+        console.log("用户信息：提交用户身份验证信息失败")
+      }
+    } catch (e) {
+      console.log(e)
+      await Taro.showToast({
+        icon: 'none',
+        title: '提交个人信息失败，请重新尝试',
+        duration: 5000,
+      });
     }
   }
 }

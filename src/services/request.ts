@@ -1,8 +1,8 @@
 import Taro from "@tarojs/taro";
-import {HTTP_STATUS} from "../utils/status";
-import {BASE_URL} from "../config";
-import {relogin} from "../actions";
-import {store} from "../store";
+import {HTTP_STATUS} from "@/utils/status";
+import {BASE_URL} from "@/config";
+import {relogin} from "@/actions";
+import {store} from "@/store";
 
 let checkHttpStatus = (response: API.Response) => {
   // stop loading
@@ -38,7 +38,7 @@ let checkSuccess = (data: API.ResponseData) => {
 
 async function handleJWTExpired() {
   store.dispatch(relogin())
-  await Taro.navigateTo({url: '/pages/home/index'})
+  await Taro.navigateTo({url: '/pages/home/index/index'})
 }
 
 /**

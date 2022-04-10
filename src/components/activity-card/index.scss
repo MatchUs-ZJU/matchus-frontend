@@ -1,0 +1,134 @@
+@import '../../app.scss';
+
+$activity-card-height: 180px;
+$activity-card-divider-height: 40px;
+$activity-card-id-height: 56px;
+$feedback-card-height: 160px;
+$message-board-height: 360px;
+
+.card-container {
+  margin-bottom: $activity-card-divider-height;
+}
+
+.activity-card {
+  position: relative;
+  height: $activity-card-height;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  background: $white;
+
+  padding: 16px 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.divider {
+  margin-bottom: $activity-card-divider-height;
+}
+
+.activity-card-success {
+  background: rgba(145, 138, 227, 0.1);
+}
+
+.activity-card-fail {
+  background: rgba(170, 171, 176, 0.1);
+}
+
+.activity-card-sheltered {
+  opacity: 0.5;
+}
+
+.activity-card .left {
+  width: 16%;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.activity-card .left .img {
+  width: 56px;
+  height: $activity-card-id-height;
+}
+
+.activity-card .left .connector-down {
+  position: absolute;
+  top: ($activity-card-divider-height + $activity-card-height) / 2 + $activity-card-id-height;
+  width: ($activity-card-divider-height + $activity-card-height);
+  height: 0;
+
+  border: 1.5px dashed #D3D0F4;
+  transform: rotate(90deg);
+}
+
+.activity-card .left .connector-down-short {
+  position: absolute;
+  top: ($activity-card-divider-height + $activity-card-height) / 2 + $activity-card-id-height;
+  width: ($activity-card-divider-height + $activity-card-height);
+  height: 0;
+
+  border: 1.5px dashed #D3D0F4;
+  transform: rotate(90deg);
+}
+
+.activity-card .left .id {
+  position: absolute;
+
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  color: white;
+
+  text-align: center;
+  z-index: 1;
+}
+
+.activity-card .main {
+  flex: 1;
+  height: 100%;
+
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.activity-card .main .title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  height: 62px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  color: $text-color-1;
+
+  margin-bottom: 8px;
+}
+
+.activity-card .main .detail {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  color: #737373;
+
+  margin-bottom: 16px;
+}
+
+.activity-card .main .note {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 24px;
+
+  color: $primary-color;
+}
+
+.activity-card .right {
+  width: 36%;
+  justify-content: center;
+  align-items: center;
+}

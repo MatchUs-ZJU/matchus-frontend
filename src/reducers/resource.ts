@@ -1,4 +1,4 @@
-import {RESOURCE_SAVE} from "../constants";
+import {RESOURCE_SAVE} from "@/constants";
 
 export interface IFaculty {
   id: string,
@@ -7,7 +7,7 @@ export interface IFaculty {
 
 export interface IQuestion {
   id: string
-  question: {},
+  question: string,
   answer: string,
 }
 

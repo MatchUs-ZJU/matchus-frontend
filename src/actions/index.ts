@@ -1,18 +1,19 @@
 export {globalSave} from './global'
-export {userSave, fetchUserInfo, fetchUserProfile, relogin, initRegister} from './user'
+export {userSave, fetchUserInfo, fetchUserProfile, relogin, initRegister, submitIdentificationInfo, fetchPhoneNumber} from './user'
 export {fetchBanners, fetchRecommends} from './home'
 export {
   sendSatisfiedFeedback,
   sendTwcResult,
   fetchLatestActivityInfo,
   fetchMatchResult,
-  actionPreJoinActivity,
-  actionFillSurvey,
-  actionFilledOverSurvey,
-  fetchFeedbackContent,
+  preJoinActivity,
+  fillForm,
+  finishFillForm,
   fetchTwcResult,
   activitySave,
   matchStateSave,
-  twcStateSave
+  twcStateSave,
+  sendMessage,
+  sendFavor,
 } from './activity'
 export {resourceSave, fetchHelpsInfo, fetchFaculties} from './resource'

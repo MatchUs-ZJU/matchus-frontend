@@ -1,4 +1,4 @@
-import {USER_SAVE} from "../constants";
+import {USER_SAVE} from "@/constants";
 
 export interface IUserState {
   nickName: string;
@@ -9,10 +9,16 @@ export interface IUserState {
   country: string;
   province: string;
   language:string;
-  identified: number;
-  school?: string;
-  faculty?: string;
-  createTime?: Date;
+  identified: '未认证' | '已认证' | '认证失败' | '认证中';
+  school: string;
+  studentNumber: string;
+
+  purePhoneNumber: string;
+  phoneNumber: string;
+  countryCode: string;
+
+  faculty: string;
+  createTime?: number;
 
   openid?: string;
   sessionKey?: string;
@@ -22,6 +28,11 @@ export interface IUserState {
 }
 
 const INITIAL_STATE: IUserState = {
+  countryCode: "",
+  purePhoneNumber: "",
+  phoneNumber: "",
+  faculty: "",
+  studentNumber: "",
   avatarUrl: "",
   country: "",
   gender: 0,
@@ -29,7 +40,7 @@ const INITIAL_STATE: IUserState = {
   province: "",
   realName: "",
   id: "",
-  identified: 3,
+  identified: '未认证',
   login: false,
   nickName: "",
   school: ""

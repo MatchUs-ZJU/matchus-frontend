@@ -1,7 +1,7 @@
+import Taro from "@tarojs/taro";
+import {BASE_URL} from "@/config";
 import request from "./request";
 import {getJWT} from "./jwt";
-import Taro from "@tarojs/taro";
-import {BASE_URL} from "../config";
 
 export const getUserInfo = async () => {
   console.log('网络请求：获取用户信息')
@@ -53,6 +53,16 @@ export const logout = async (data) => {
 export const register = async (data) => {
   console.log('网络请求：用户注册')
   return request.post(`/user/register`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+};
+
+export const decodePhoneNumber = async (data) => {
+  console.log('网络请求：获取用户手机号')
+  return request.post(`/user/phone`, {
     data,
     header: {
       Authorization: getJWT(),

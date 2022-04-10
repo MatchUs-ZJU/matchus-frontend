@@ -20,9 +20,9 @@ export const getActivityInfoId = async (data) => {
 }
 
 // 生成订单
-export const postPreJoinActivity = async (data) => {
+export const postPreJoinActivity = async (id, data) => {
   console.log('网络请求：加入活动预处理')
-  return request.post(`/activity/join`, {
+  return request.post(`/activity/join?id=${id}`, {
     data,
     header: {
       Authorization: getJWT(),
@@ -50,7 +50,7 @@ export const postRefundRequest = async (data) => {
   });
 }
 
-export const postFilledOverSurvey = async (data) => {
+export const postFilledForm = async (data) => {
   console.log('网络请求：用户完成问卷')
   return request.post(`/activity/survey/finish`, {
     data,
@@ -60,9 +60,9 @@ export const postFilledOverSurvey = async (data) => {
   });
 }
 
-export const getMatchResult = async (data) => {
+export const getMatchResult = async (id) => {
   console.log('网络请求：获取匹配结果')
-  return request.get(`/activity/match`, {
+  return request.get(`/activity/match?id=${id}`, {
     header: {
       Authorization: getJWT(),
     },
@@ -71,7 +71,7 @@ export const getMatchResult = async (data) => {
 
 export const postSatisfiedFeedback = async (data) => {
   console.log('网络请求：上传匹配满意程度')
-  return request.post(`/activity/match/feedback`, {
+  return request.post(`/activity/match/satisfied`, {
     data,
     header: {
       Authorization: getJWT(),
@@ -79,8 +79,8 @@ export const postSatisfiedFeedback = async (data) => {
   })
 }
 
-export const postFeedback = async (data) => {
-  console.log('网络请求：上传匹配后反馈')
+export const postSendFeedback = async (data) => {
+  console.log('网络请求：上传匹配后每日反馈')
   return request.post(`/activity/match/feedback`, {
     data,
     header: {
@@ -108,9 +108,9 @@ export const postSendTwcResult = async (data) => {
   })
 }
 
-export const getTwcResult = async () => {
+export const getTwcResult = async (id) => {
   console.log('网络请求：获取双选结果')
-  return request.get(`/activity/twc`, {
+  return request.get(`/activity/twc?id=${id}`, {
     header: {
       Authorization: getJWT(),
     },

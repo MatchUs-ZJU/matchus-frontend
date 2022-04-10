@@ -1,0 +1,179 @@
+@import '../../../app.scss';
+
+.container{
+  background: $background-color;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.bg{
+  position: relative;
+  width: 100%;
+  height: 1000px;
+
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, #918AE3 7.81%, rgba(182, 148, 210, 0.5) 57.29%, rgba(251, 168, 177, 0) 100%);
+}
+
+.bg-fail{
+  position: relative;
+  width: 100%;
+  height: 1000px;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, #4A4588 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.boy-name{
+  color: $primary-color;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  margin-top: 560px;
+  margin-right: 240px;
+  z-index: 100;
+}
+
+.boy-name-fail{
+  color: $primary-color;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  margin-top: 611px;
+  margin-right: 240px;
+  z-index: 100;
+}
+
+.girl-name{
+  color: white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  margin-top: -48px;
+  margin-left: 160px;
+  z-index: 100;
+}
+
+.girl-name-fail{
+  color: white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  margin-top: -48px;
+  margin-left: 160px;
+  z-index: 100;
+}
+
+.top-img{
+  position: absolute;
+  width: 100%;
+  height: 1000px;
+}
+
+.top-img-fail{
+  position: absolute;
+  height: 642px;
+  margin-top: 208px;
+  width: 688px;
+}
+
+.wrapper{
+  margin: -200px 40px 0 40px;
+  z-index: 100;
+}
+
+.wrapper-fail{
+  margin: -100px 40px 0 40px;
+  z-index: 100;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+
+  background: #FFFFFF;
+  border-radius: 16px;
+}
+
+.subtitle{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.margin-left-26{
+  margin-left: 52px;
+}
+
+.margin-right-22{
+  margin-right: 44px;
+}
+
+.margin-top-28{
+  margin-top: 28px;
+}
+
+.margin-bottom-20{
+  margin-bottom: 40px;
+}
+
+.subanswer{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.footer{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.footer-img{
+  height: 442px;
+  width: 100%;
+}
+
+.back{
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  color: white;
+  position: absolute;
+  height: 44px;
+  left: 26px;
+  top: 98px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+}
+
+.back-img{
+  margin-top: 8px;
+  width: 40px;
+  height: 40px;
+}

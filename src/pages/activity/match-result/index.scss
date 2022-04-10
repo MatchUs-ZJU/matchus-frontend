@@ -1,0 +1,401 @@
+@import '../../../app.scss';
+
+.container {
+  background: $background-color;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.back {
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  color: white;
+  position: fixed;
+  height: 44px;
+  left: 26px;
+  top: 98px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+}
+
+.header {
+  background: $primary-color;
+  height: 828px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  border-radius: 0 0 80px 80px;
+
+  z-index: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header .content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  top: 400px;
+
+  width: 504px;
+  background: transparent;
+  z-index: 100;
+}
+
+.header .content .male {
+  justify-content: center;
+  align-items: center;
+}
+
+.header .content .male .nickName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  bottom: 16px;
+
+  width: 160px;
+  height: 60px;
+
+  background: $white;
+  border-radius: 16px;
+
+  color: $primary-color;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+
+  padding: 4px;
+}
+
+.header .content .male .male-avatar {
+  height: 192px;
+  width: 192px;
+  border-radius: 50%;
+  background: $white;
+}
+
+.header .content .female {
+  justify-content: center;
+  align-items: center;
+}
+
+.header .content .female .nickName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  bottom: 16px;
+
+  width: 160px;
+  height: 60px;
+
+  background: #FBA8B1;
+  border-radius: 16px;
+
+  color: rgba(255, 255, 255, 0.9);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+}
+
+.header .content .female .female-avatar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  height: 192px;
+  width: 192px;
+  border-radius: 50%;
+  background: #FBA8B1;
+}
+
+.header .content .avatar {
+  width: 180px;
+  height: 180px;
+  background: #FFFFFF;
+}
+
+.header .top-img {
+  position: absolute;
+  width: 100%;
+  height: 1200px;
+  z-index: 50;
+}
+
+.wrapper {
+  margin: 720px 40px 0 40px;
+  z-index: 100;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+
+  background: #FFFFFF;
+  border-radius: 16px;
+}
+
+.content .basic-info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  margin-bottom: 32px;
+}
+
+.content .basic-info .item {
+  width: 50%;
+  margin-bottom: 28px;
+}
+
+.content .basic-info .item .title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content .basic-info .item .answer {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.content .character-info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.content .character-info .item {
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.content .character-info .item .title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content .character-info .item .answer {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.content .contact-info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
+
+.content .contact-info .item {
+  width: 100%;
+}
+
+.content .contact-info .item .title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content .contact-info .item .answer {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.content .contact-info .item .answer .icon {
+  height: 40px;
+  width: 40px;
+  margin-left: 10px;
+}
+
+.content .contact-info .tips {
+  margin-top: 16px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.content .image-info {
+
+}
+
+.content .image-info .text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content .image-info .first-check {
+  margin-top: 8px;
+  align-items: center;
+}
+
+.content .image-info .first-check .heart-value {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 48px;
+
+  text-align: center;
+  color: #F36E8A;
+}
+
+.content .image-info .first-check .heart-text {
+  margin-top: -8px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content .image-info .image-show {
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 16px;
+}
+
+.content .image-info .image-show .img {
+  background: #f5f4ff;
+  width: 30%;
+  height: 240px;
+  border-radius: 16px;
+}
+
+.content .image-info .image-show .img-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #f5f4ff;
+  width: 30%;
+  height: 240px;
+  border-radius: 16px;
+
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  color:$black
+}
+
+
+.wrapper-insider {
+  margin: 36px 40px ;
+}
+
+.divider {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+  color: $primary-color;
+}
+
+.line {
+  width: 70%;
+  height: 0;
+  border-bottom: thin solid $primary-color;
+  margin: 24px 10px;
+}
+
+.custom-color {
+  --rate-icon-empty-color: #eee;
+  --rate-icon-full-color: #f36e8a;
+  margin-left: 24px;
+}
+
+.check-button {
+  width: 140px;
+  height: 60px;
+
+  background: $primary-color;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 40px;
+  color: white;
+  border-radius: 50px;
+
+  margin-left: 32px;
+}
+
+.check-button-clicked {
+  width: 160px;
+  height: 60px;
+
+  background: white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 40px;
+  color: $primary-color;
+  border-radius: 50px;
+  border: 2px solid $primary-color;
+
+  margin-left: 32px;
+}
