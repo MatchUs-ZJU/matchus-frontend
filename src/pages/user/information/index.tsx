@@ -13,7 +13,7 @@ const Information = () => {
       <View className='info'>
         <Cell.Group inset>
           <Cell title='真实姓名'>{realName}</Cell>
-          <Cell title='性别'>{gender}</Cell>
+          <Cell title='性别'>{gender ? '女' : '男'}</Cell>
           <Cell title='学院'>{faculty}</Cell>
           <Cell title='学号'>{studentNumber}</Cell>
           <Cell title='手机号'>{phoneNumber}</Cell>

@@ -36,7 +36,7 @@ const Index = () => {
 
   useEffect(() => {
     // 校验是否可以提交表单
-    if (form.realName && form.studentNumber && form.school && form.faculty && form.phoneNumber) {
+    if (form.realName && form.studentNumber && form.school && selectedFacultyName && form.phoneNumber) {
       setCanRegister(true)
     }
   }, [form])
@@ -64,6 +64,7 @@ const Index = () => {
 
   function onConfirmRegister() {
     // 确认并提交表单信息
+    console.log(form)
     dispatch(submitIdentificationInfo(form))
   }
 
@@ -230,7 +231,7 @@ const Index = () => {
           onConfirm={(value) => {
             setForm({
               ...form,
-              school: value,
+              school: value[0],
             })
             setSchoolPickerOpen(false)
           }}
@@ -253,7 +254,7 @@ const Index = () => {
           onConfirm={(value) => {
             setForm({
               ...form,
-              faculty: value,
+              faculty: value[0],
             })
             setFacultyPickerOpen(false)
           }}
