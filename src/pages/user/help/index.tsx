@@ -1,23 +1,22 @@
 import {Text, View} from "@tarojs/components";
 import {Cell, Collapse, Image} from "@taroify/core"
 import "@taroify/core/collapse/style"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {commonquestionsIcon, artiserviceIcon, assitantIcon} from '@/assets/images'
-import {IQuestion} from "@/reducers/resource";
+import {fetchHelpsInfo} from "@/actions";
+import {useEffect} from "react";
 import './index.scss'
 
 const Index = () => {
+  const dispatch = useDispatch()
+  const {help} = useSelector(state => state.resource)
 
-  const { help } = useSelector(state => state.resource)
+  useEffect(() => {
+    fetchData()
+  }, [])
 
-  var list = (data) => {
-    var res = []
-    data.forEach((item: IQuestion) => {
-      res.push(
-        <Collapse.Item title={item.question}>{item.answer}</Collapse.Item>
-      )
-    })
-    return res
+  function fetchData() {
+    dispatch(fetchHelpsInfo())
   }
 
   return (
@@ -29,7 +28,13 @@ const Index = () => {
         </View>
         <Cell.Group inset>
           <Collapse accordion>
-            {list(help)}
+            {help &&
+              help.map((item, _) => {
+                return (
+                  <Collapse.Item title={item.question}>{item.answer}</Collapse.Item>
+                )
+              })
+            }
           </Collapse>
         </Cell.Group>
       </View>

@@ -34,7 +34,7 @@ const ChooseCard = (props: ChooseCardProps) => {
 
   async function goToSeeResult() {
     await Taro.navigateTo({
-      url: '/pages/activity/match-result/index'
+      url: '/pages/activity/choose-result/index'
     })
   }
 
@@ -89,27 +89,27 @@ const ChooseCard = (props: ChooseCardProps) => {
           </View>
         </View>
         <View className='col right'>
-          {state === 'NOT_START' ? (
-            <NotStartBtn type='notStart'/>
-          ) : state === 'ACTIVE' && !hasResult ? (
-            <View className='col choose'>
-              <Switch size='30px' onChange={onChooseChange}/>
-              <View
-                className={classnames(
-                  'note',
-                  {'checked': thisChoose}
-                )}
-              >{thisChoose ? '' : '不'}选Ta</View>
-            </View>
-          ) : state === 'ACTIVE' && hasResult && chooseResult ? (
+          {/*{state === 'NOT_START' ? (*/}
+          {/*  <NotStartBtn type='notStart'/>*/}
+          {/*) : state === 'ACTIVE' && !hasResult ? (*/}
+          {/*  <View className='col choose'>*/}
+          {/*    <Switch size='30px' onChange={onChooseChange}/>*/}
+          {/*    <View*/}
+          {/*      className={classnames(*/}
+          {/*        'note',*/}
+          {/*        {'checked': thisChoose}*/}
+          {/*      )}*/}
+          {/*    >{thisChoose ? '' : '不'}选Ta</View>*/}
+          {/*  </View>*/}
+          {/*) : state === 'ACTIVE' && hasResult && chooseResult ? (*/}
             <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
-          ) : state === 'ACTIVE' && hasResult && !chooseResult ? (
-            <View className='btn-failed'>
-              查看结果
-            </View>
-          ) : (
-            <DisableBtn type='disable'/>
-          )}
+          {/*) : state === 'ACTIVE' && hasResult && !chooseResult ? (*/}
+          {/*  <View className='btn-failed'>*/}
+          {/*    查看结果*/}
+          {/*  </View>*/}
+          {/*) : (*/}
+          {/*  <DisableBtn type='disable'/>*/}
+          {/*)}*/}
         </View>
       </View>
       {

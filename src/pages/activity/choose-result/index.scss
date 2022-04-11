@@ -10,7 +10,7 @@
   justify-content: stretch;
 }
 
-.bg{
+.background-success{
   position: relative;
   width: 100%;
   height: 1000px;
@@ -18,65 +18,28 @@
   display: flex;
   align-items: center;
   background: linear-gradient(180deg, #918AE3 7.81%, rgba(182, 148, 210, 0.5) 57.29%, rgba(251, 168, 177, 0) 100%);
+
+  z-index: 0;
 }
 
-.bg-fail{
+.background-fail{
   position: relative;
   width: 100%;
   height: 1000px;
+
   display: flex;
   align-items: center;
   background: linear-gradient(180deg, #4A4588 0%, rgba(255, 255, 255, 0) 100%);
+
+  z-index: 0;
 }
 
-.boy-name{
-  color: $primary-color;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-  margin-top: 560px;
-  margin-right: 240px;
-  z-index: 100;
-}
-
-.boy-name-fail{
-  color: $primary-color;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-  margin-top: 611px;
-  margin-right: 240px;
-  z-index: 100;
-}
-
-.girl-name{
-  color: white;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-  margin-top: -48px;
-  margin-left: 160px;
-  z-index: 100;
-}
-
-.girl-name-fail{
-  color: white;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-  margin-top: -48px;
-  margin-left: 160px;
-  z-index: 100;
-}
-
-.top-img{
+.top-img-success{
   position: absolute;
   width: 100%;
   height: 1000px;
+
+  z-index: 0;
 }
 
 .top-img-fail{
@@ -84,27 +47,97 @@
   height: 642px;
   margin-top: 208px;
   width: 688px;
+
+  z-index: 0;
+}
+
+.background-success .content-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  top: 550px;
+
+  width: 346px;
+  height: 60px;
+  background: transparent;
+  z-index: 100;
+}
+
+.background-fail .content-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  top: 600px;
+
+  width: 346px;
+  height: 60px;
+  background: transparent;
+  z-index: 100;
+}
+
+.content-top .nickName {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 140px;
+  height: 100%;
+  border-radius: 16px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+
+  padding: 4px;
+}
+
+.content-top .male {
+  color: $primary-color;
+  background: $white;
+}
+
+.content-top .female {
+  color: $white;
+  background: #FBA8B1;
 }
 
 .wrapper{
-  margin: -200px 40px 0 40px;
-  z-index: 100;
+  position: relative;
+  bottom: 220px;
+
+  margin: 0 40px;
 }
 
 .wrapper-fail{
-  margin: -100px 40px 0 40px;
-  z-index: 100;
+  position: relative;
+  bottom: 60px;
+
+  margin: 0 40px ;
 }
 
 .content{
   display: flex;
   flex-direction: column;
 
-  background: #FFFFFF;
+  background: $white;
   border-radius: 16px;
+
+  padding: 32px 40px;
 }
 
-.subtitle{
+.content .item {
+  width: 100%;
+  margin: 14px 0;
+}
+
+.content .item .title{
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -116,23 +149,7 @@
   color: rgba(0, 0, 0, 0.3);
 }
 
-.margin-left-26{
-  margin-left: 52px;
-}
-
-.margin-right-22{
-  margin-right: 44px;
-}
-
-.margin-top-28{
-  margin-top: 28px;
-}
-
-.margin-bottom-20{
-  margin-bottom: 40px;
-}
-
-.subanswer{
+.content .item .answer{
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -153,27 +170,4 @@
 .footer-img{
   height: 442px;
   width: 100%;
-}
-
-.back{
-  z-index: 100;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  color: white;
-  position: absolute;
-  height: 44px;
-  left: 26px;
-  top: 98px;
-
-  font-style: normal;
-  font-weight: 500;
-  font-size: 34px;
-  line-height: 48px;
-}
-
-.back-img{
-  margin-top: 8px;
-  width: 40px;
-  height: 40px;
 }

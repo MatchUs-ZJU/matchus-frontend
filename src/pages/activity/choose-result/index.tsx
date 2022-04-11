@@ -1,110 +1,163 @@
 import {View, Image} from "@tarojs/components";
-import {ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFalure, ChooseResultFootImageFailure} from "@/assets/images";
+import {
+  ChooseResultTopImageSuccess,
+  ChooseResultFootImageSuccess,
+  ChooseResultTopImageFailure,
+  ChooseResultFootImageFailure
+} from "@/assets/images";
 import {Divider} from "@taroify/core";
-import './index.scss';
 import {ArrowLeft} from "@taroify/icons";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {fetchTwcResult} from "@/actions";
+import {getFormatNickname} from "@/utils/fstring";
+import Taro from "@tarojs/taro";
+import './index.scss';
 
-const test = {
-  'boy_name' : '吴桐',
-  'girl_name': '533',
-  'QandAs': [
-    {'question':'不希望对方有的点','answer':'坚持己见听不进别人的'},
-    {'question':'异性缘如何处理','answer':'正常交流'},
-    {'question':'Ta觉得自己单身的原因','answer':'性格比较内向，社交圈很小且大部分都是女孩子，也不怎么参与社交活动，即使参加了也不会和异性有过多接触。除此之外，比较注重精神灵魂的契合，遇到的异性感觉都不太能谈的起来，虽然不存在滥的可能性但也很认真地宁缺毋滥。'}
-  ],
-  'message': '1223'
+interface SuccessPageProps {
+  male: {
+    nickName: string,
+    avatarUrl: string
+  },
+  female: {
+    nickName: string,
+    avatarUrl: string
+  },
+  message: string,
+  sanguan: {
+    index: number,
+    question: string,
+    answer: string
+  }[]
 }
 
-const Success = (boy_name, girl_name, QandAs, message) => {
-  var list = () => {
-    var res = []
-    QandAs.forEach((item,i) => {
-      if(i==0){
-        res.push(
-          <View className='margin-left-26 margin-right-22'>
-            <View className='subtitle'>{item.question}</View>
-            <View className='subanswer'>{item.answer}</View>
-          </View>
-        )
-      }else{
-        res.push(
-          <View className='margin-left-26 margin-right-22 margin-top-28'>
-            <View className='subtitle'>{item.question}</View>
-            <View className='subanswer'>{item.answer}</View>
-          </View>
-        )
-      }
-    })
-    return res
-  }
+interface FailurePageProps {
+  male: {
+    nickName: string,
+    avatarUrl: string
+  },
+  female: {
+    nickName: string,
+    avatarUrl: string
+  },
+  message: string,
+}
 
-  return(
-    <View className='container'>
-      <View className='back'>
-        <ArrowLeft className='back-img' onClick={null}></ArrowLeft>
-        双选结果
-      </View>
-      <View className='bg col'>
-        <Image src={ChooseResultTopImageSuccess} className='top-img'/>
-        <View className='boy-name'>{boy_name}</View>
-        <View className='girl-name'>{girl_name}</View>
+const SuccessPage = (props: SuccessPageProps) => {
+
+  const {male, female, message, sanguan} = props
+
+  return (
+    <>
+      <View className='background-success col'>
+        <Image src={ChooseResultTopImageSuccess} className='top-img-success'/>
+        <View className='content-top'>
+          <View className='nickName male'>{getFormatNickname(male.nickName)} </View>
+          <View className='nickName female'>{getFormatNickname(female.nickName)}</View>
+        </View>
       </View>
       <View className='wrapper col'>
         <View className='content'>
-          <Divider style={{ color: "#918AE3", borderColor: "#918AE3", padding: "0 16px" }}>Ta的三观</Divider>
-          {list()}
-          <Divider style={{ color: "#918AE3", borderColor: "#918AE3", padding: "0 16px" }}>Ta的留言</Divider>
-          <View className='margin-left-26 margin-right-22 margin-bottom-20'>
-            {message==''
-              ?(<View className='subtitle'>Ta没有留言...</View>)
-              :(<View className='subanswer'>{message}</View>)}
+          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的三观</Divider>
+          {sanguan && sanguan.length ?
+            sanguan
+              .sort((o1, o2) => {
+                return o1.index - o2.index
+              })
+              .map((item, _) => {
+                return (
+                  <View className='item'>
+                    <View className='title'>{item.question}</View>
+                    <View className='answer'>{item.answer}</View>
+                  </View>
+                )
+              })
+            : <></>
+          }
+          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的留言</Divider>
+          <View className='item'>
+            {(!message || message === '')
+              ? (<View className='title'>Ta没有留言...</View>)
+              : (<View className='answer'>{message}</View>)}
           </View>
         </View>
-        <View className='footer margin-bottom-20'>
+        <View className='footer'>
           <Image src={ChooseResultFootImageSuccess} className='footer-img' mode='aspectFit'/>
         </View>
       </View>
-    </View>
+    </>
   )
 }
 
-const Failure = (boy_name, girl_name, QandAs, message) => {
-  return(
-    <View className='container'>
-      <View className='back'>
-        <ArrowLeft className='back-img' onClick={null}></ArrowLeft>
-        双选结果
-      </View>
-      <View className='bg-fail col'>
-        <Image src={ChooseResultTopImageFalure} className='top-img-fail'/>
-        <View className='boy-name-fail'>{boy_name}</View>
-        <View className='girl-name-fail'>{girl_name}</View>
+const FailurePage = (props: FailurePageProps) => {
+
+  const {male, female, message} = props
+
+  return (
+    <>
+      <View className='background-fail col'>
+        <Image src={ChooseResultTopImageFailure} className='top-img-fail'/>
+        <View className='content-top'>
+          <View className='nickName male'>{getFormatNickname(male.nickName)} </View>
+          <View className='nickName female'>{getFormatNickname(female.nickName)}</View>
+        </View>
       </View>
       <View className='wrapper-fail col'>
         <View className='content'>
-          <Divider style={{ color: "#918AE3", borderColor: "#918AE3", padding: "0 16px" }}>Ta的留言</Divider>
-          <View className='margin-left-26 margin-right-22 margin-bottom-20'>
-            {message==''
-              ?(<View className='subtitle'>Ta没有留言...</View>)
-              :(<View className='subanswer'>{message}</View>)}
+          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的留言</Divider>
+          <View className='item'>
+            {(!message || message === '')
+              ? (<View className='title'>Ta没有留言...</View>)
+              : (<View className='answer'>{message}</View>)}
           </View>
         </View>
-        <View className='footer margin-bottom-20'>
-          <Image src={ChooseResultFootImageFailure} className='footer-img' mode='aspectFit'/>
+        <View className='footer'>
+          <Image src={ChooseResultFootImageFailure} className='footer-img' mode='aspectFit' />
         </View>
       </View>
-    </View>
+    </>
   )
 }
 
 const Index = () => {
-  const choose_result = false
-  const {boy_name, girl_name, QandAs, message} = test
-  if(choose_result)
-    return Success(boy_name, girl_name, QandAs, message)
-  else
-    return Failure(boy_name, girl_name, QandAs, message)
+  const dispatch = useDispatch()
+  const {activity, choose} = useSelector(state => state)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  function fetchData() {
+    dispatch(fetchTwcResult(activity.id))
+  }
+
+  async function navigateBack() {
+    await Taro.navigateBack()
+  }
+
+  return (
+    <View className='container'>
+      <View className='custom-back' onClick={navigateBack}>
+        <ArrowLeft size='24px' style={{marginRight: '8px'}}/>
+        双选结果
+      </View>
+      {
+        choose.success ?
+          <SuccessPage
+            male={choose.male}
+            female={choose.female}
+            message={choose.message}
+            sanguan={choose.sanguan}
+          /> :
+          <FailurePage
+            male={choose.male}
+            female={choose.female}
+            message={choose.message}
+          />
+      }
+    </View>
+  )
 }
 
-export default Index
+export default Index;
 
