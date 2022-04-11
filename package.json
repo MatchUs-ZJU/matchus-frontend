@@ -73,7 +73,6 @@
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "stylelint": "9.3.0",
-    "taro-ui": "^3.0.0-alpha",
     "typescript": "^4.1.0"
   }
 }

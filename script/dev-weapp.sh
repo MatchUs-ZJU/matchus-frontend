@@ -1,3 +1,3 @@
 #!/bin/bash
 
-npm run dev:weapp
+NODE_OPTIONS=--openssl-legacy-provider npm run dev:weapp

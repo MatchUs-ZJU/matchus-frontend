@@ -1,15 +1,15 @@
 import {View} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
-import {Image} from "@taroify/core";
+import {Button, Dialog, Image} from "@taroify/core";
 import {ActivityHeaderPlaceholderImage} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
 import Taro, {useDidShow} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/activity-card";
-
-import './index.scss'
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
+
+import './index.scss'
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -41,11 +41,7 @@ const Index = () => {
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
-    // await checkUserState()
-
-    /**
-     * 检查活动当前状态
-     */
+    await checkUserState()
   })
 
   useEffect(() => {
@@ -79,6 +75,10 @@ const Index = () => {
       setPayBodyPrefix(`${activity.id}-${user.openid}`)
     }
   }, [activity])
+
+  useEffect(() => {
+
+  }, [signUp, fillForm, match, choose])
 
   function fetchData() {
     dispatch(fetchLatestActivityInfo())

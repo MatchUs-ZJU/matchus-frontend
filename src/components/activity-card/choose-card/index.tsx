@@ -27,7 +27,7 @@ interface ChooseCardProps extends ViewProps {
 const ChooseCard = (props: ChooseCardProps) => {
   const dispatch = useDispatch()
   const {activity, startTime, endTime, state, choice, message, hasResult, chooseResult, ...restProps} = props
-  const [thisChoose, setThisChoose] = useState(false)
+  const [thisChoose, setThisChoose] = useState(choice)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState(message)
   const [expand, setExpand] = useState(false)
@@ -89,27 +89,27 @@ const ChooseCard = (props: ChooseCardProps) => {
           </View>
         </View>
         <View className='col right'>
-          {/*{state === 'NOT_START' ? (*/}
-          {/*  <NotStartBtn type='notStart'/>*/}
-          {/*) : state === 'ACTIVE' && !hasResult ? (*/}
-          {/*  <View className='col choose'>*/}
-          {/*    <Switch size='30px' onChange={onChooseChange}/>*/}
-          {/*    <View*/}
-          {/*      className={classnames(*/}
-          {/*        'note',*/}
-          {/*        {'checked': thisChoose}*/}
-          {/*      )}*/}
-          {/*    >{thisChoose ? '' : '不'}选Ta</View>*/}
-          {/*  </View>*/}
-          {/*) : state === 'ACTIVE' && hasResult && chooseResult ? (*/}
+          {state === 'NOT_START' ? (
+            <NotStartBtn type='notStart'/>
+          ) : state === 'ACTIVE' && !hasResult ? (
+            <View className='col choose'>
+              <Switch size='30px' onChange={onChooseChange} checked={thisChoose}/>
+              <View
+                className={classnames(
+                  'note',
+                  {'checked': thisChoose}
+                )}
+              >{thisChoose ? '' : '不'}选Ta</View>
+            </View>
+          ) : state === 'ACTIVE' && hasResult && chooseResult ? (
             <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
-          {/*) : state === 'ACTIVE' && hasResult && !chooseResult ? (*/}
-          {/*  <View className='btn-failed'>*/}
-          {/*    查看结果*/}
-          {/*  </View>*/}
-          {/*) : (*/}
-          {/*  <DisableBtn type='disable'/>*/}
-          {/*)}*/}
+          ) : state === 'ACTIVE' && hasResult && !chooseResult ? (
+            <View className='btn-failed'>
+              查看结果
+            </View>
+          ) : (
+            <DisableBtn type='disable'/>
+          )}
         </View>
       </View>
       {

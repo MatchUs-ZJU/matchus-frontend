@@ -23,7 +23,7 @@ let checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
   if (data.success) {
     return data
-  } else if(!data.success && data.code === 2) {
+  } else if(!data.success && data.code === 3) {
     handleJWTExpired()
     return data
   }
@@ -38,7 +38,7 @@ let checkSuccess = (data: API.ResponseData) => {
 
 async function handleJWTExpired() {
   store.dispatch(relogin())
-  await Taro.navigateTo({url: '/pages/home/index/index'})
+  await Taro.switchTab({url: '/pages/home/index/index'})
 }
 
 /**
