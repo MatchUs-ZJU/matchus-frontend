@@ -27,14 +27,14 @@ interface ChooseCardProps extends ViewProps {
 const ChooseCard = (props: ChooseCardProps) => {
   const dispatch = useDispatch()
   const {activity, startTime, endTime, state, choice, message, hasResult, chooseResult, ...restProps} = props
-  const [thisChoose, setThisChoose] = useState(false)
+  const [thisChoose, setThisChoose] = useState(choice)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState(message)
   const [expand, setExpand] = useState(false)
 
   async function goToSeeResult() {
     await Taro.navigateTo({
-      url: '/pages/activity/match-result/index'
+      url: '/pages/activity/choose-result/index'
     })
   }
 
@@ -93,7 +93,7 @@ const ChooseCard = (props: ChooseCardProps) => {
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !hasResult ? (
             <View className='col choose'>
-              <Switch size='30px' onChange={onChooseChange}/>
+              <Switch size='30px' onChange={onChooseChange} checked={thisChoose}/>
               <View
                 className={classnames(
                   'note',

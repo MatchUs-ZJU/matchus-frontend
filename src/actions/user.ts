@@ -157,7 +157,11 @@ export const submitIdentificationInfo = (data) => {
   return async dispatch => {
     console.log("用户信息：提交用户身份验证信息")
     try {
-      const res = await updateUserInfo(data)
+      const res = await updateUserInfo({
+        ...data,
+        // faculty这里传的是id，不是名字
+        faculty: data.facultyId
+      })
       if (res && res.code === 0) {
         console.log("用户信息：提交用户身份验证信息成功")
         dispatch(userSave({

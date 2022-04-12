@@ -77,6 +77,12 @@ const Home = () => {
     })
   }
 
+  async function goToHelp() {
+    await Taro.navigateTo({
+      url: '/pages/user/help/index'
+    })
+  }
+
   return (
     <View className='container default'>
       <View>
@@ -230,6 +236,7 @@ const Home = () => {
           src={FeedBackImage}
           className='feedback'
           mode='aspectFit'
+          onClick={goToHelp}
         />
       </View>
     </View>

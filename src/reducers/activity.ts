@@ -1,4 +1,10 @@
-import {ACTIVITY_SAVE} from "@/constants";
+import {
+  ACTIVITY_FILL_FORM_SAVE,
+  ACTIVITY_CHOOSE_SAVE,
+  ACTIVITY_MATCH_SAVE,
+  ACTIVITY_SAVE,
+  ACTIVITY_SIGN_UP_SAVE
+} from "@/constants";
 import {IParticipateState} from "@/typings/types";
 
 export interface IActivityState {
@@ -71,6 +77,38 @@ export default function activity(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
+    case ACTIVITY_SIGN_UP_SAVE: {
+      let newState = state
+      newState.participate.signUp = {
+        ...newState.participate.signUp,
+        ...action.payload
+      }
+      return newState
+    }
+    case ACTIVITY_FILL_FORM_SAVE: {
+      let newState = state
+      newState.participate.fillForm = {
+        ...newState.participate.fillForm,
+        ...action.payload
+      }
+      return newState
+    }
+    case ACTIVITY_CHOOSE_SAVE: {
+      let newState = state
+      newState.participate.choose = {
+        ...newState.participate.choose,
+        ...action.payload
+      }
+      return newState
+    }
+    case ACTIVITY_MATCH_SAVE: {
+      let newState = state
+      newState.participate.match = {
+        ...newState.participate.match,
+        ...action.payload
+      }
+      return newState
+    }
     default:
       return state
   }
