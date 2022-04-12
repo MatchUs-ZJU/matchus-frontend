@@ -27,7 +27,7 @@ export interface IActivityState {
   // resource
   imageUrl: string
 
-  // participate information
+  // participated information
   participate: IParticipateState
 }
 

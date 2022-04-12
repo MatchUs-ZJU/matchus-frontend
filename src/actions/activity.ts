@@ -90,9 +90,9 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
-      let subscribeRes = await Taro.requestSubscribeMessage({
-        tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
-      })
+      // let subscribeRes = await Taro.requestSubscribeMessage({
+      //   tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
+      // })
 
       // console.log(subscribeRes)
       // if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
@@ -114,18 +114,18 @@ export const preJoinActivity = ({id, price, body, attach}) => {
       })
 
       if (preJoinRes && preJoinRes.code === 0) {
+        console.log(preJoinRes)
         console.log("活动页面：发起预处理请求成功，发起支付请求")
         let {orderId, timeStamp, nonceStr, signType, paySign} = preJoinRes.data
         let payRes = await Taro.requestPayment({
           timeStamp,
           nonceStr,
-          package: 'prepay_id=' + preJoinRes.data.package,
+          package: preJoinRes.data.package, // package是'prepay_id=xxx'
           signType,
           paySign
         })
 
         if (payRes && payRes.errMsg === 'requestPayment:ok') {
-          console.log(payRes)
           console.log("活动页面：支付成功")
 
           // 检查是否完成支付

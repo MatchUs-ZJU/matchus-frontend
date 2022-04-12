@@ -53,12 +53,12 @@ const Index = () => {
     // 处理时间等数据
     if (activity.signUpStartTime) {
       let t = new Date(activity.signUpStartTime)
-      setSignUpStartTime(`${t.getMonth()}.${t.getDate()}`)
+      setSignUpStartTime(`${t.getMonth() + 1}.${t.getDate()}`)
     }
 
     if (activity.matchResultShowTime) {
       let t = new Date(activity.matchResultShowTime)
-      setMatchResultShowTime(`${t.getMonth()}.${t.getDate()}日${t.getHours()}点`)
+      setMatchResultShowTime(`${t.getMonth() + 1}.${t.getDate()}日${t.getHours()}点`)
     }
 
     if (activity.twoWayChooseStartTime) {
@@ -68,7 +68,7 @@ const Index = () => {
 
     if (activity.twoWayChooseEndTime) {
       let t = new Date(activity.twoWayChooseEndTime)
-      setTwoWayChooseEndTime(`${t.getMonth()}.${t.getDate()}日${t.getHours()}时`)
+      setTwoWayChooseEndTime(`${t.getMonth() + 1}.${t.getDate()}日${t.getHours()}时`)
     }
 
     if (activity.id && user.openid) {

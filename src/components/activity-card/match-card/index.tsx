@@ -47,9 +47,9 @@ const MatchCard = (props: MatchCardProps) => {
   const leftTime = formatLeftTime(left)
 
   function formatLeftTime(leftMss: number) {
-    const day = leftMss / (1000 * 60 * 60 * 24);
-    const hour = (leftMss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-    const minute = (leftMss % (1000 * 60 * 60)) / (1000 * 60);
+    const day = Math.floor(leftMss / (1000 * 60 * 60 * 24));
+    const hour = Math.floor((leftMss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minute = Math.floor((leftMss % (1000 * 60 * 60)) / (1000 * 60));
     return day === 0 ? `${hour}小时${minute}分` : `${day}天${hour}小时`
   }
 
