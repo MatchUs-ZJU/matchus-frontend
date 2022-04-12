@@ -10,6 +10,7 @@ import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
 import classnames from "classnames";
 
 import './index.scss'
+import {getFaculties} from "@/services/resource";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ const Index = () => {
     studentNumber: '',
     school: '浙江大学',
     faculty: '',
+    facultyId: '',
     phoneNumber: ''
   })
   const [canRegister, setCanRegister] = useState(false)
@@ -36,7 +38,7 @@ const Index = () => {
 
   useEffect(() => {
     // 校验是否可以提交表单
-    if (form.realName && form.studentNumber && form.school && selectedFacultyName && form.phoneNumber) {
+    if (form.realName && form.studentNumber && form.school && form.faculty && form.facultyId && form.phoneNumber) {
       setCanRegister(true)
     }
   }, [form])
@@ -94,6 +96,15 @@ const Index = () => {
     await Taro.navigateTo({
       url: '/pages/user/privacy/index'
     })
+  }
+
+  function getFacultyIdByName(name: string) {
+    for(let i = 0; i < faculties.length; i++) {
+      if(faculties[i].name === name) {
+        return faculties[i].id
+      }
+    }
+    return ''
   }
 
   return (
@@ -255,6 +266,7 @@ const Index = () => {
             setForm({
               ...form,
               faculty: value[0],
+              facultyId: getFacultyIdByName(value[0])
             })
             setFacultyPickerOpen(false)
           }}

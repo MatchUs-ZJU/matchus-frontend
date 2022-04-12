@@ -45,8 +45,6 @@
     "@tarojs/react": "3.4.1",
     "@tarojs/runtime": "3.4.1",
     "@tarojs/taro": "3.4.1",
-    "antd": "^4.19.3",
-    "axios": "^0.26.1",
     "babel-plugin-import": "^1.13.3",
     "classname": "^0.0.0",
     "qs": "^6.10.3",

@@ -1,5 +1,5 @@
 import {View} from "@tarojs/components";
-import {Cell, Image, Notify} from "@taroify/core"
+import {Badge, Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon, AnonymousImage} from "@/assets/images";
 import Taro from "@tarojs/taro";

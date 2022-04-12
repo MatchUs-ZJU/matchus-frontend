@@ -118,7 +118,7 @@ const Index = () => {
         />
 
         {
-          (match.state === 'NOT_START' || (match.state === 'ACTIVE' && !match.matchResult)) &&
+          (!(match.state === 'ACTIVE' && !match.matchResult)) &&
           <ChooseCard
             activity={id}
             startTime={twoWayChooseStartTime}
