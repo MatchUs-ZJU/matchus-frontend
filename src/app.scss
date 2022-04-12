@@ -14,6 +14,23 @@ page {
   background:$background-color;
 }
 
+.custom-back {
+  z-index: 100;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  color: white;
+  position: fixed;
+  height: 44px;
+  left: 26px;
+  top: 98px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 48px;
+}
+
 // flex
 
 .flex {

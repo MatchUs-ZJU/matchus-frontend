@@ -5,7 +5,7 @@ import classnames from "classnames";
 import {preJoinActivity} from "@/actions";
 import {useDispatch} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn} from "@/components/activity-card/right-buttons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Taro from "@tarojs/taro";
 
 import './index.scss'
@@ -44,6 +44,7 @@ const SignupCard = (props: SignupCardProps) => {
 
   function goToSignUp() {
     setConfirmDialogOpen(true)
+    // confirmJoin()
   }
 
   function confirmJoin() {
@@ -89,19 +90,19 @@ const SignupCard = (props: SignupCardProps) => {
             <DisableBtn type='disable'/>
           )}
         </View>
-        <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
-          <Dialog.Header className='dialog-header'>确认活动规则并参与活动</Dialog.Header>
-          <Dialog.Actions>
-            <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
-            <Button className='dialog-btn' onClick={() => {
-              setConfirmDialogOpen(false)
-              confirmJoin()
-            }}
-            >参加活动
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
       </View>
+      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
+        <Dialog.Header className='dialog-header'>确认活动规则并参与活动</Dialog.Header>
+        <Dialog.Actions>
+          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
+          <Button className='dialog-btn' onClick={() => {
+            setConfirmDialogOpen(false)
+            confirmJoin()
+          }}
+          >参加活动
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   )
 }

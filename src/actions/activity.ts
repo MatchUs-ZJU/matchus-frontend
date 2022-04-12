@@ -1,5 +1,12 @@
 import Taro from "@tarojs/taro";
-import {ACTIVITY_SAVE, CHOOSE_SAVE, MATCH_SAVE} from "@/constants";
+import {
+  ACTIVITY_FILL_FORM_SAVE,
+  ACTIVITY_CHOOSE_SAVE,
+  ACTIVITY_MATCH_SAVE,
+  ACTIVITY_SAVE,
+  CHOOSE_SAVE,
+  MATCH_SAVE, ACTIVITY_SIGN_UP_SAVE
+} from "@/constants";
 import {
   postFilledForm,
   getLatestActivityInfo,
@@ -16,6 +23,34 @@ import {globalSave} from "@/actions/global";
 export const activitySave = (payload) => {
   return {
     type: ACTIVITY_SAVE,
+    payload
+  }
+}
+
+export const activitySignUpSave = (payload) => {
+  return {
+    type: ACTIVITY_SIGN_UP_SAVE,
+    payload
+  }
+}
+
+export const activityMatchSave = (payload) => {
+  return {
+    type: ACTIVITY_MATCH_SAVE,
+    payload
+  }
+}
+
+export const activityChooseSave = (payload) => {
+  return {
+    type: ACTIVITY_CHOOSE_SAVE,
+    payload
+  }
+}
+
+export const activityFillFormSave = (payload) => {
+  return {
+    type: ACTIVITY_FILL_FORM_SAVE,
     payload
   }
 }
@@ -55,6 +90,23 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
+      let subscribeRes = await Taro.requestSubscribeMessage({
+        tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
+      })
+
+      // console.log(subscribeRes)
+      // if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
+      //   console.log('活动页面：用户订阅消息成功')
+      // } else {
+      //   console.log('活动页面：用户订阅消息失败')
+      //   await Taro.showToast({
+      //     icon: 'none',
+      //     title: '消息订阅失败，您将无法参与活动',
+      //     duration: 5000,
+      //   });
+      //   return
+      // }
+
       let preJoinRes = await postPreJoinActivity(id, {
         'price': price,
         'body': body,
@@ -92,6 +144,10 @@ export const preJoinActivity = ({id, price, body, attach}) => {
             // 改变状态，主动让用户填写表单
             dispatch(globalSave({
               pushFillForm: true
+            }))
+            dispatch(activitySignUpSave({
+              paid: true,
+              participated: true
             }))
           } else {
             await Taro.showToast({
@@ -140,7 +196,7 @@ export const fillForm = ({appId, path}) => {
 }
 
 export const finishFillForm = (id) => {
-  return async () => {
+  return async dispatch => {
     console.log("活动页面：用户完成填写问卷")
     try {
       let res = await postFilledForm({
@@ -149,7 +205,9 @@ export const finishFillForm = (id) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：填写问卷结束状态变更成功")
-        //TODO 改变状态
+        dispatch(activityFillFormSave({
+          filled: true
+        }))
       } else {
         console.log("活动页面：填写问卷结束状态变更失败")
       }
@@ -160,7 +218,7 @@ export const finishFillForm = (id) => {
 }
 
 export const sendFavor = ({id, level}) => {
-  return async () => {
+  return async dispatch => {
     console.log("活动页面：发送每日好感度反馈")
     try {
       let res = await postSendFeedback({
@@ -170,6 +228,11 @@ export const sendFavor = ({id, level}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送每日好感度反馈成功")
+        if(res.data.favor) {
+          dispatch(matchStateSave({
+            favor: res.data.favor
+          }))
+        }
       } else {
         console.log("活动页面：发送每日好感度反馈失败")
       }
@@ -180,7 +243,7 @@ export const sendFavor = ({id, level}) => {
 }
 
 export const sendMessage = ({message, id}) => {
-  return async () => {
+  return async dispatch => {
     console.log("活动页面：发送留言")
     try {
       let res = await postSendFeedback({
@@ -190,6 +253,9 @@ export const sendMessage = ({message, id}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送留言成功")
+        dispatch(activityChooseSave({
+          message: message
+        }))
       } else {
         console.log("活动页面：发送留言失败")
       }
@@ -241,7 +307,7 @@ export const fetchMatchResult = (id) => {
 }
 
 export const sendTwcResult = ({id, choose}) => {
-  return async () => {
+  return async dispatch => {
     console.log("活动页面：发送双选选择结果")
     try {
       let res = await postSendTwcResult({
@@ -251,6 +317,9 @@ export const sendTwcResult = ({id, choose}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送双选选择结果成功")
+        dispatch(activityChooseSave({
+          choice: choose
+        }))
       } else {
         console.log("活动页面：发送双选选择结果失败")
       }

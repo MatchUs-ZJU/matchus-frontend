@@ -1,3 +1,24 @@
+export interface IFaculty {
+  id: string,
+  name: string
+}
+
+export interface IQuestion {
+  id: string
+  question: string,
+  answer: string,
+}
+
+export interface IResourceImages {
+  aboutUsTopImageUrl: string,
+  matchResultTopImageUrl: string,
+  chooseResultSuccessTopImageUrl: string,
+  chooseResultFailTopImageUrl: string
+
+  contactUsUrl: string
+  followUsUrl: string
+}
+
 export interface IArticle {
   id: number
   title: string,

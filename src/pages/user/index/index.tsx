@@ -1,11 +1,11 @@
 import {View} from "@tarojs/components";
-import {Cell, Image, Notify} from "@taroify/core"
+import {Badge, Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon, AnonymousImage} from "@/assets/images";
 import Taro from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {fetchHelpsInfo, fetchUserInfo} from "@/actions";
+import {fetchUserInfo} from "@/actions";
 
 import './index.scss'
 
@@ -26,10 +26,8 @@ const User = () => {
   }, [])
 
   function fetchData() {
-    dispatch(fetchHelpsInfo())
-
     // 如果没有个人信息，先尝试获取
-    if(login) {
+    if (login) {
       dispatch(fetchUserInfo())
     }
   }
@@ -44,7 +42,7 @@ const User = () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
       setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
-    } else if (identified !== '已认证'){
+    } else if (identified !== '已认证') {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
       await Taro.navigateTo({url: '/pages/introduction/index'})
@@ -125,7 +123,8 @@ const User = () => {
             rightIcon={<Arrow size='16'/>}
             clickable
             align='center'
-            onClick={onClickOpenPersonalInformation}>
+            onClick={onClickOpenPersonalInformation}
+          >
             {identified}
           </Cell>
           <Cell
@@ -134,7 +133,8 @@ const User = () => {
             rightIcon={<Arrow size='16'/>}
             align='center'
             clickable
-            onClick={onClickOpenPersonalIdentity}>
+            onClick={onClickOpenPersonalIdentity}
+          >
           </Cell>
           <Cell
             icon={<Image src={consumeIcon} className='left-icon'/>}
@@ -142,7 +142,8 @@ const User = () => {
             rightIcon={<Arrow size='16'/>}
             align='center'
             clickable
-            onClick={onClickOpenRecord}>
+            onClick={onClickOpenRecord}
+          >
           </Cell>
         </Cell.Group>
       </View>
@@ -157,7 +158,8 @@ const User = () => {
             clickable
             onClick={async () => {
               await Taro.navigateTo({url: '/pages/user/help/index'});
-            }}>
+            }}
+          >
           </Cell>
           <Cell
             icon={<Image src={aboutusIcon} className='left-icon'/>}
@@ -172,7 +174,13 @@ const User = () => {
           </Cell>
         </Cell.Group>
       </View>
-      <Notify id='notify' open={notifyOpen} duration={2000} color='warning' onClose={() => setNotifyOpen(false)}>{notifyContent}</Notify>
+      <Notify
+        id='notify'
+        open={notifyOpen}
+        duration={2000}
+        color='warning'
+        onClose={() => setNotifyOpen(false)}
+      >{notifyContent}</Notify>
     </View>
 
   )

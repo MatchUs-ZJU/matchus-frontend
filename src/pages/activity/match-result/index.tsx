@@ -61,12 +61,12 @@ const Index = () => {
 
   return (
     <View className='container'>
-      <View className='back' onClick={navigateBack}>
+      <View className='custom-back' onClick={navigateBack}>
         <ArrowLeft size='24px' style={{marginRight: '8px'}}/>
         匹配结果
       </View>
       <View className='header col'>
-        <Image src={MatchResultTopImage} className='top-img'/>
+        <Image src={MatchResultTopImage} className='top-img-success'/>
         <View className='content'>
           <View className='col male'>
             <View className='male-avatar'>
