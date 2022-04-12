@@ -39,7 +39,7 @@ const Home = () => {
     // 处理时间字符串
     if (data && data.startTime && data.endTime) {
       const getFormatTime = (time: Date) => {
-        return `${time.getMonth() < 10 ? `0${time.getMonth()}` : time.getMonth()}.${time.getDate() < 10 ? `0${time.getDate()}` : time.getDate()}`
+        return `${time.getMonth() < 9 ? `0${time.getMonth() + 1}` : time.getMonth() + 1}.${time.getDate() < 10 ? `0${time.getDate()}` : time.getDate()}`
       }
       let startTime = new Date(data.startTime)
       let endTime = new Date(data.endTime)

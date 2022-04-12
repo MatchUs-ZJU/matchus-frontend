@@ -46,7 +46,7 @@ const ArticleCard = (props: ArticleCardProps) => {
           <Text className='col tag'>#{article.tag}</Text>
           <View className='row date'>
             <Like style={{color: "#FF6C90", margin: "0 8px 0 0"}} />
-            <Text>{date.getFullYear()}.{date.getMonth()}.{date.getDate()}</Text>
+            <Text>{date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}</Text>
           </View>
         </View>
       </View>
