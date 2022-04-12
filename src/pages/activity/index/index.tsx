@@ -1,11 +1,11 @@
 import {View} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Dialog, Image} from "@taroify/core";
+import {Image} from "@taroify/core";
 import {ActivityHeaderPlaceholderImage} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
 import Taro, {useDidShow} from "@tarojs/taro";
-import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/activity-card";
+import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
 

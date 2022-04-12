@@ -218,7 +218,7 @@ export const finishFillForm = (id) => {
 }
 
 export const sendFavor = ({id, level}) => {
-  return async () => {
+  return async dispatch => {
     console.log("活动页面：发送每日好感度反馈")
     try {
       let res = await postSendFeedback({
@@ -228,6 +228,11 @@ export const sendFavor = ({id, level}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送每日好感度反馈成功")
+        if(res.data.favor) {
+          dispatch(matchStateSave({
+            favor: res.data.favor
+          }))
+        }
       } else {
         console.log("活动页面：发送每日好感度反馈失败")
       }

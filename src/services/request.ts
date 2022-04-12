@@ -23,7 +23,7 @@ let checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
   if (data.success) {
     return data
-  } else if(!data.success && data.code === 3) {
+  } else if(data.code === 3) {
     handleJWTExpired()
     return data
   }
