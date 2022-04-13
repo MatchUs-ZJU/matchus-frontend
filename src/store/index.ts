@@ -4,7 +4,7 @@ import {IUserState} from "@/reducers/user";
 import {IGlobalState} from "@/reducers/global";
 import {IActivityState} from "@/reducers/activity";
 import {IHomeState} from "@/reducers/home";
-import {IMyState} from "@/reducers/resource";
+import {IResourceState} from "@/reducers/resource";
 import {IMatchState} from "@/reducers/match";
 import {IChooseState} from "@/reducers/choose";
 import rootReducer from '../reducers'
@@ -14,7 +14,7 @@ interface IState {
   global: IGlobalState,
   activity: IActivityState,
   home: IHomeState
-  resource: IMyState
+  resource: IResourceState
   match: IMatchState
   choose: IChooseState
 }

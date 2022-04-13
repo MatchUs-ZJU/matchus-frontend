@@ -1,13 +1,13 @@
 import {RESOURCE_SAVE} from "@/constants";
 import {IFaculty, IQuestion, IResourceImages} from "@/typings/types";
 
-export interface IMyState {
+export interface IResourceState {
   help: IQuestion[],
   faculties: IFaculty[]
   images: IResourceImages
 }
 
-const INITIAL_STATE: IMyState = {
+const INITIAL_STATE: IResourceState = {
   images: {
     aboutUsTopImageUrl: '',
     matchResultTopImageUrl: '',

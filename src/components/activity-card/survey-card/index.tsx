@@ -5,7 +5,7 @@ import classnames from "classnames";
 import {fillForm, finishFillForm as actionFinishFillForm} from "@/actions";
 import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn, NotStartBtn} from "@/components/activity-card/right-buttons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Edit, Success} from "@taroify/icons";
 
 import './index.scss';
@@ -14,15 +14,14 @@ interface SurveyCardProps extends ViewProps {
   activity: number | string,
   wjxAppId: string,
   wjxPath: string,
-
-  state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-  filled: boolean
 }
 
 const SurveyCard = (props: SurveyCardProps) => {
   const dispatch = useDispatch()
-  const {wjxAppId, wjxPath, state, activity, filled, ...restProps} = props
+  const {wjxAppId, wjxPath, activity} = props
+  const {state, filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {pushFillForm} = useSelector(rootState => rootState.global)
+  console.log(state, filled)
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 

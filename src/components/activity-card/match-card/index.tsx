@@ -11,20 +11,13 @@ import {
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
 import EmojiRater from "@/components/activity-card/emoji-rater";
+import {useSelector} from "react-redux";
 
 import './index.scss';
 
 interface MatchCardProps extends ViewProps {
   activity: number | string
   resultShowTime: string
-
-  state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-  matchResult: boolean,
-  favor: number,
-  lastChoose: number,
-  left: number,
-
-  filled: boolean
 }
 
 interface LeftTimeBtnProps {
@@ -43,7 +36,9 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 }
 
 const MatchCard = (props: MatchCardProps) => {
-  const {filled, activity, resultShowTime, state, matchResult, favor, lastChoose, left, ...restProps} = props
+  const {activity, resultShowTime} = props
+  const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
+  const {state, matchResult, favor, lastChoose, left} = useSelector(rootState => rootState.activity.participate.match)
   const leftTime = formatLeftTime(left)
 
   function formatLeftTime(leftMss: number) {
