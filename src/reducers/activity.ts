@@ -77,38 +77,50 @@ export default function activity(state = INITIAL_STATE, action) {
         ...state,
         ...action.payload
       }
-    case ACTIVITY_SIGN_UP_SAVE: {
-      let newState = state
-      newState.participate.signUp = {
-        ...newState.participate.signUp,
-        ...action.payload
+    case ACTIVITY_SIGN_UP_SAVE:
+      return {
+        ...state,
+        participate: {
+          ...state.participate,
+          signUp: {
+            ...state.participate.signUp,
+            ...action.payload
+          }
+        }
       }
-      return newState
-    }
-    case ACTIVITY_FILL_FORM_SAVE: {
-      let newState = state
-      newState.participate.fillForm = {
-        ...newState.participate.fillForm,
-        ...action.payload
+    case ACTIVITY_FILL_FORM_SAVE:
+      return {
+        ...state,
+        participate: {
+          ...state.participate,
+          fillForm: {
+            ...state.participate.fillForm,
+            ...action.payload
+          }
+        }
       }
-      return newState
-    }
-    case ACTIVITY_CHOOSE_SAVE: {
-      let newState = state
-      newState.participate.choose = {
-        ...newState.participate.choose,
-        ...action.payload
+    case ACTIVITY_CHOOSE_SAVE:
+      return {
+        ...state,
+        participate: {
+          ...state.participate,
+          choose: {
+            ...state.participate.choose,
+            ...action.payload
+          }
+        }
       }
-      return newState
-    }
-    case ACTIVITY_MATCH_SAVE: {
-      let newState = state
-      newState.participate.match = {
-        ...newState.participate.match,
-        ...action.payload
+    case ACTIVITY_MATCH_SAVE:
+      return {
+        ...state,
+        participate: {
+          ...state.participate,
+          match: {
+            ...state.participate.match,
+            ...action.payload
+          }
+        }
       }
-      return newState
-    }
     default:
       return state
   }

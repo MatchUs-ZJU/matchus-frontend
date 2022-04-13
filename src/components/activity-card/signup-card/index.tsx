@@ -3,9 +3,9 @@ import {Dialog, Image} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import classnames from "classnames";
 import {preJoinActivity} from "@/actions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn} from "@/components/activity-card/right-buttons";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Taro from "@tarojs/taro";
 
 import './index.scss'
@@ -13,10 +13,6 @@ import './index.scss'
 interface SignupCardProps extends ViewProps {
   activity: number | string, // 活动ID
   price: number,
-
-  state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-  paid: boolean,
-  participated: boolean
 
   time: string
   bodyPrefix: string
@@ -38,7 +34,8 @@ const SignUpNotStartBtn = (props: SignUpNotStartBtnProps) => {
 
 const SignupCard = (props: SignupCardProps) => {
   const dispatch = useDispatch()
-  const {price, state, paid, participated, time, activity, bodyPrefix, ...restProps} = props
+  const {price, time, activity, bodyPrefix} = props
+  const {state, paid, participated} = useSelector(rootState => rootState.activity.participate.signUp)
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 

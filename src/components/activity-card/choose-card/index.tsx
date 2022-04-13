@@ -6,7 +6,7 @@ import Watermark from "@/components/activity-card/watermark";
 import {Image, Switch, Textarea} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {sendTwcResult, sendMessage} from "@/actions";
 import {Records} from "@taroify/icons";
 
@@ -16,17 +16,12 @@ interface ChooseCardProps extends ViewProps {
   activity: number | string
   startTime: string
   endTime: string
-
-  state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-  choice: boolean,
-  message: string,
-  hasResult: boolean,
-  chooseResult: boolean
 }
 
 const ChooseCard = (props: ChooseCardProps) => {
   const dispatch = useDispatch()
-  const {activity, startTime, endTime, state, choice, message, hasResult, chooseResult, ...restProps} = props
+  const {activity, startTime, endTime} = props
+  const {state, choice, message, hasResult, chooseResult} = useSelector(rootState => rootState.activity.participate.choose)
   const [thisChoose, setThisChoose] = useState(choice)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState(message)

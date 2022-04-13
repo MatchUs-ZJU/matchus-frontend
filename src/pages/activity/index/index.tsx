@@ -90,9 +90,6 @@ const Index = () => {
       <View className='container wrapper'>
         <SignUpCard
           price={price}
-          state={signUp.state}
-          paid={signUp.paid}
-          participated={signUp.participated}
           time={signUpStartTime}
           activity={id}
           bodyPrefix={payBodyPrefix}
@@ -100,8 +97,6 @@ const Index = () => {
 
         <SurveyCard
           activity={id}
-          filled={fillForm.filled}
-          state={fillForm.state}
           wjxAppId={wjxAppId}
           wjxPath={wjxPath}
         />
@@ -109,12 +104,6 @@ const Index = () => {
         <MatchCard
           activity={id}
           resultShowTime={matchResultShowTime}
-          state={match.state}
-          matchResult={match.matchResult}
-          favor={match.favor}
-          lastChoose={match.lastChoose}
-          left={match.left}
-          filled={fillForm.filled}
         />
 
         {
@@ -123,11 +112,6 @@ const Index = () => {
             activity={id}
             startTime={twoWayChooseStartTime}
             endTime={twoWayChooseEndTime}
-            state={choose.state}
-            choice={choose.choice}
-            message={choose.message}
-            hasResult={choose.hasResult}
-            chooseResult={choose.chooseResult}
           />
         }
 
