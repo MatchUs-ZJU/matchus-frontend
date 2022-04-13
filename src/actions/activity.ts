@@ -15,7 +15,6 @@ import {
   postSatisfiedFeedback,
   postSendTwcResult,
   getTwcResult,
-  getPaymentResult,
   postSendFeedback
 } from "@/services/activity";
 import {globalSave} from "@/actions/global";
@@ -114,7 +113,6 @@ export const preJoinActivity = ({id, price, body, attach}) => {
       })
 
       if (preJoinRes && preJoinRes.code === 0) {
-        console.log(preJoinRes)
         console.log("活动页面：发起预处理请求成功，发起支付请求")
         let {orderId, timeStamp, nonceStr, signType, paySign} = preJoinRes.data
         let payRes = await Taro.requestPayment({
@@ -129,33 +127,49 @@ export const preJoinActivity = ({id, price, body, attach}) => {
           console.log("活动页面：支付成功")
 
           // 检查是否完成支付
-          const res = await getPaymentResult({
-            'id': id,
-            'orderId': orderId
+          // const res = await getPaymentResult({
+          //   'id': id,
+          //   'orderId': orderId
+          // })
+          // if(res && res.code === 0 && res.data.success) {
+          //   console.log("活动页面：查询后台成功，订单已完成")
+          //   await Taro.showModal({
+          //     title: '操作提示',
+          //     content: '支付成功',
+          //     showCancel: false,
+          //     confirmText: '确定'
+          //   })
+          //   // 改变状态，主动让用户填写表单
+          //   dispatch(globalSave({
+          //     pushFillForm: true
+          //   }))
+          //   dispatch(activitySignUpSave({
+          //     paid: true,
+          //     participated: true
+          //   }))
+          // } else {
+          //   await Taro.showToast({
+          //     title: '网络缓慢，请刷新页面',
+          //     duration: 5000,
+          //     icon: 'loading'
+          //   })
+          // }
+
+          await Taro.showModal({
+            title: '操作提示',
+            content: '支付成功',
+            showCancel: false,
+            confirmText: '确定'
           })
-          if(res && res.code === 0 && res.data.success) {
-            console.log("活动页面：查询后台成功，订单已完成")
-            await Taro.showModal({
-              title: '操作提示',
-              content: '支付成功',
-              showCancel: false,
-              confirmText: '确定'
-            })
-            // 改变状态，主动让用户填写表单
-            dispatch(globalSave({
-              pushFillForm: true
-            }))
-            dispatch(activitySignUpSave({
-              paid: true,
-              participated: true
-            }))
-          } else {
-            await Taro.showToast({
-              title: '网络缓慢，请刷新页面',
-              duration: 5000,
-              icon: 'loading'
-            })
-          }
+          // 改变状态，主动让用户填写表单
+          dispatch(globalSave({
+            pushFillForm: true
+          }))
+          dispatch(activitySignUpSave({
+            paid: true,
+            participated: true,
+            state: 'ACTIVE'
+          }))
         } else {
           console.log(payRes)
           await Taro.showToast({
@@ -228,7 +242,7 @@ export const sendFavor = ({id, level}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送每日好感度反馈成功")
-        if(res.data.favor) {
+        if (res.data.favor) {
           dispatch(matchStateSave({
             favor: res.data.favor
           }))
