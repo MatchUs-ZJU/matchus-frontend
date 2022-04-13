@@ -43,7 +43,7 @@ export interface IHomeData {
   signUpStartTime: number,
   signUpEndTime: number,
 
-  currentParticipant: number,
+  currentParticipant: string, // 返回一个已经描述好的字符串
   currentTerm: number,
 
   totalTerm: number,

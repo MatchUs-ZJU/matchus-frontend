@@ -10,7 +10,6 @@ import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
 import classnames from "classnames";
 
 import './index.scss'
-import {getFaculties} from "@/services/resource";
 
 const Index = () => {
   const dispatch = useDispatch()

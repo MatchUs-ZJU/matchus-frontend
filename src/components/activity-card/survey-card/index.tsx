@@ -21,8 +21,6 @@ const SurveyCard = (props: SurveyCardProps) => {
   const {wjxAppId, wjxPath, activity} = props
   const {state, filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {pushFillForm} = useSelector(rootState => rootState.global)
-  console.log(state, filled)
-
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
   function goToFillForm() {

@@ -14,7 +14,7 @@ const INITIAL_STATE: IHomeState = {
     signUpStartTime: new Date().getTime(),
     signUpEndTime: new Date().getTime(),
 
-    currentParticipant: 0,
+    currentParticipant: '',
     currentTerm: 0,
 
     totalTerm: 0,
