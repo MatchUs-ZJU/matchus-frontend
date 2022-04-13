@@ -4,7 +4,7 @@ import {Image} from "@taroify/core";
 import {ActivityHeaderPlaceholderImage} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
-import Taro, {useDidShow} from "@tarojs/taro";
+import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
@@ -24,6 +24,10 @@ const Index = () => {
   const [twoWayChooseStartTime, setTwoWayChooseStartTime] = useState('')
   const [twoWayChooseEndTime, setTwoWayChooseEndTime] = useState('')
 
+  usePullDownRefresh(() => {
+    fetchData()
+  })
+
   useDidShow(async () => {
     const checkUserState = async () => {
       if (!nickName || !avatarUrl) {
@@ -36,6 +40,7 @@ const Index = () => {
       }
     }
 
+    fetchData()
     /**
      * 进入活动页，
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
@@ -43,11 +48,6 @@ const Index = () => {
      */
     await checkUserState()
   })
-
-  useEffect(() => {
-    // 进入界面就获取活动的基本信息，和个人信息
-    fetchData()
-  }, [])
 
   useEffect(() => {
     // 处理时间等数据
@@ -75,10 +75,6 @@ const Index = () => {
       setPayBodyPrefix(`${activity.id}-${user.openid}`)
     }
   }, [activity])
-
-  useEffect(() => {
-
-  }, [signUp, fillForm, match, choose])
 
   function fetchData() {
     dispatch(fetchLatestActivityInfo())

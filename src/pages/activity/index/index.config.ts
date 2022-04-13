@@ -1,3 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '活动'
+  navigationBarTitleText: '活动',
+  enablePullDownRefresh: true
 })
