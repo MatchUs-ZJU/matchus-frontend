@@ -19,3 +19,12 @@ export const getHelpsInfo = async () => {
     },
   });
 }
+
+export const getResourceImages = async () => {
+  console.log('网络请求：获取图片资源')
+  return await request.get(`/images`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}

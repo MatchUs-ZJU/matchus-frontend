@@ -9,6 +9,7 @@ import {fetchHomeData} from "@/actions/home";
 import {ArticleCard} from "@/components";
 
 import './index.scss'
+import {fetchResourceImages} from "@/actions/resource";
 
 const Home = () => {
   // store
@@ -69,6 +70,7 @@ const Home = () => {
     dispatch(fetchBanners())
     dispatch(fetchRecommends())
     dispatch(fetchHomeData())
+    dispatch(fetchResourceImages())
   }
 
   async function goToSignUp() {

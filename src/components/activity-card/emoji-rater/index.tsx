@@ -2,7 +2,7 @@ import {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5} from "@/assets/images";
 import {View} from "@tarojs/components";
 import {Image} from "@taroify/core";
 import classnames from "classnames";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendFavor} from "@/actions";
 

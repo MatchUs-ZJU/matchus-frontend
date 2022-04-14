@@ -1,4 +1,4 @@
-import {View} from "@tarojs/components";
+import {View, Text} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {ActivityHeaderPlaceholderImage} from "@/assets/images";
@@ -82,7 +82,7 @@ const Index = () => {
 
   return (
     <View className='container' style={{position: 'relative'}}>
-      <Image src={activity.imageUrl ? activity.imageUrl : ActivityHeaderPlaceholderImage} className='header'/>
+      <Image src={activity.imageUrl} className='header'/>
       <View className='container wrapper'>
         <SignUpCard
           price={price}
@@ -123,7 +123,14 @@ const Index = () => {
             style={{marginRight: '8px'}}
             size='18px'
           />
-          {state !== 'FAILED' ? '祝你度过一段愉快的MatchUs旅程！' : '很遗憾，没能帮你找到合适的Ta ！'}
+          <Text
+            className={classnames(
+              {'footer-failed': state === 'FAILED'},
+              {'footer-success': state !== 'FAILED'}
+            )}
+          >
+            {state !== 'FAILED' ? '祝你度过一段愉快的MatchUs旅程！' : '很遗憾，没能帮你找到合适的Ta ！'}
+          </Text>
         </View>
       </View>
     </View>

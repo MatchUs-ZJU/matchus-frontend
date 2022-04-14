@@ -1,5 +1,4 @@
 import LogoIcon from './logo.jpg'
-import PlaceholderIcon from './placeholder.png'
 import HeartsIcon from './icons/hearts.png'
 import TrumpetIcon from './icons/trumpet.png'
 import TwoPeopleIcon from './icons/people.png'
@@ -10,7 +9,7 @@ import FeedBackImage from './feedback.png'
 import HeaderImage from './header.png'
 import SloganImage from './slogan.png'
 import AnonymousImage from './anonymous.png'
-import AboutUsTopImage from './aboutus-top.png'
+import AboutUsTopImage from './aboutus.jpg'
 
 import MaleIcon from './male.svg'
 import FemaleIcon from './female.svg'
@@ -18,7 +17,6 @@ import CopyIcon from './copy.svg'
 
 import commonqustions from './mine-help-commonquestions.svg';
 import artiservice from './mine-help-service.svg';
-import qrcode from './wechat-qrcode.png'
 import personalinfo from './mine-personalinfo.svg'
 import identity from './mine-identity.svg'
 import consume from './mine-consume.svg'
@@ -27,10 +25,10 @@ import aboutus from './mine-aboutus.svg'
 
 import ActivityHeaderPlaceholderImage from './activity-top.png'
 import StepIcon from './activity-icon.svg'
-import ChooseResultFootImageSuccess from './activity-chooseresult-success-footer.png'
-import ChooseResultFootImageFailure from './activity-chooseresult-failure-footer.png'
-import ChooseResultTopImageSuccess from './choose-result-success-top.png'
-import ChooseResultTopImageFailure from './choose-result-failure-top.png'
+import ChooseResultFootImageSuccess from './choose-success-footer.jpg'
+import ChooseResultFootImageFailure from './choose-failure-footer.jpg'
+import ChooseResultTopImageSuccess from './choose-success-top.png'
+import ChooseResultTopImageFailure from './choose-failure-top.png'
 import MatchResultTopImage from './match-result-top.png'
 import Rules from './activity-rules.png'
 
@@ -40,12 +38,11 @@ import Emoji3 from './emojis/3.png'
 import Emoji4 from './emojis/4.png'
 import Emoji5 from './emojis/5.png'
 
-export {LogoIcon, PlaceholderIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
+export {LogoIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
 export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;
-export const assitantIcon = qrcode;
 export const personalinfoIcon = personalinfo
 export const identityIcon = identity
 export const consumeIcon = consume
