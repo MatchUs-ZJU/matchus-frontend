@@ -5,12 +5,13 @@ import classnames from "classnames";
 import Watermark from "@/components/activity-card/watermark";
 import {Image, Switch, Textarea} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendTwcResult, sendMessage} from "@/actions";
 import {Records} from "@taroify/icons";
 
 import './index.scss'
+import {activityChooseSave} from "@/actions/activity";
 
 interface ChooseCardProps extends ViewProps {
   activity: number | string
@@ -22,10 +23,10 @@ const ChooseCard = (props: ChooseCardProps) => {
   const dispatch = useDispatch()
   const {activity, startTime, endTime} = props
   const {state, choice, message, hasResult, chooseResult} = useSelector(rootState => rootState.activity.participate.choose)
-  const [thisChoose, setThisChoose] = useState(choice)
+  const [thisChoice, setThisChoice] = useState(false)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
-  const [textAreaContent, setTextAreaContent] = useState(message)
-  const [expand, setExpand] = useState(false)
+  const [textAreaContent, setTextAreaContent] = useState('')
+  // const [expand, setExpand] = useState(false)
 
   async function goToSeeResult() {
     await Taro.navigateTo({
@@ -34,7 +35,7 @@ const ChooseCard = (props: ChooseCardProps) => {
   }
 
   function onChooseChange(value: boolean) {
-    setThisChoose(value)
+    setThisChoice(value)
     dispatch(sendTwcResult({id: activity, choose: value}))
   }
 
@@ -44,6 +45,7 @@ const ChooseCard = (props: ChooseCardProps) => {
     } else {
       setTextAreaFilled(false)
     }
+
     setTextAreaContent(e.detail.value)
   }
 
@@ -52,6 +54,15 @@ const ChooseCard = (props: ChooseCardProps) => {
       dispatch(sendMessage({message: textAreaContent, id: activity}))
     }
   }
+
+  useEffect(() => {
+    setTextAreaContent(message)
+    setTextAreaFilled(!!message.length)
+  }, [message])
+
+  useEffect(() => {
+    setThisChoice(choice)
+  }, [choice])
 
   return (
     <View className='card-container'>
@@ -88,18 +99,18 @@ const ChooseCard = (props: ChooseCardProps) => {
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !hasResult ? (
             <View className='col choose'>
-              <Switch size='30px' onChange={onChooseChange} checked={thisChoose}/>
+              <Switch size='30px' onChange={onChooseChange} checked={thisChoice}/>
               <View
                 className={classnames(
                   'note',
-                  {'checked': thisChoose}
+                  {'checked': thisChoice}
                 )}
-              >{thisChoose ? '' : '不'}选Ta</View>
+              >{thisChoice ? '' : '不'}选Ta</View>
             </View>
           ) : state === 'ACTIVE' && hasResult && chooseResult ? (
             <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
           ) : state === 'ACTIVE' && hasResult && !chooseResult ? (
-            <View className='btn-failed'>
+            <View className='btn-failed' onClick={goToSeeResult}>
               查看结果
             </View>
           ) : (

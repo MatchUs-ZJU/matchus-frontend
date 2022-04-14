@@ -1,4 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: '活动',
+  navigationBarTitleText: 'MatchUs',
   enablePullDownRefresh: true
 })

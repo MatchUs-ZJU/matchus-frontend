@@ -85,7 +85,6 @@ const User = () => {
             <Image
               shape='circle'
               mode='aspectFit'
-              lazyLoad
               src={avatarUrl}
               className='avatar-img'
             />
@@ -93,7 +92,6 @@ const User = () => {
             <Image
               shape='circle'
               mode='aspectFit'
-              lazyLoad
               src={AnonymousImage}
               className='avatar-img'
             />

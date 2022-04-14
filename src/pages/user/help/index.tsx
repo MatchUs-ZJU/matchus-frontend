@@ -2,7 +2,7 @@ import {Text, View} from "@tarojs/components";
 import {Cell, Collapse, Image} from "@taroify/core"
 import "@taroify/core/collapse/style"
 import {useDispatch, useSelector} from "react-redux";
-import {commonquestionsIcon, artiserviceIcon, assitantIcon} from '@/assets/images'
+import {commonquestionsIcon, artiserviceIcon} from '@/assets/images'
 import {fetchHelpsInfo} from "@/actions";
 import {useEffect} from "react";
 import './index.scss'
@@ -10,6 +10,7 @@ import './index.scss'
 const Index = () => {
   const dispatch = useDispatch()
   const {help} = useSelector(state => state.resource)
+  const {contactUsUrl} = useSelector(state => state.resource.images)
 
   useEffect(() => {
     fetchData()
@@ -51,7 +52,7 @@ const Index = () => {
               <Text className='arti-text-color'>工作日：9:00-21:00</Text>
             </View>
             <View className='arti-wechat'>
-              <Image lazyLoad src={assitantIcon} className='arti-img'/>
+              <Image src={contactUsUrl} className='arti-img'/>
             </View>
           </View>
         </Cell.Group>

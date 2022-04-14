@@ -5,7 +5,7 @@ import classnames from "classnames";
 import {fillForm, finishFillForm as actionFinishFillForm} from "@/actions";
 import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn, NotStartBtn} from "@/components/activity-card/right-buttons";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Edit, Success} from "@taroify/icons";
 
 import './index.scss';

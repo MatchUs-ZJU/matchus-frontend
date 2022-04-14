@@ -18,7 +18,10 @@
   transform: rotate(-25.26deg);
 
   color: rgba(0, 0, 0, 0.1);
-
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  z-index: 0;
 }
 
 .watermark-success {
@@ -37,6 +40,33 @@
   box-sizing: border-box;
   border-radius: 100%;
   transform: rotate(-25.26deg);
+
+  color: rgba(145, 138, 227, 0.3);
+  z-index: 0
+}
+
+.watermark-content {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 48px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.watermark-content-success {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 48px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
 
   color: rgba(145, 138, 227, 0.3);
 }

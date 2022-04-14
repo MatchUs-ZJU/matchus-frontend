@@ -33,6 +33,7 @@ const Watermark = (props: WatermarkProps) => {
     >
       <Text className={classnames(
         'watermark-content',
+        {'watermark-content-success': success}
       )}
       >
         {content}

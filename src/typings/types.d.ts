@@ -9,12 +9,7 @@ export interface IQuestion {
   answer: string,
 }
 
-export interface IResourceImages {
-  aboutUsTopImageUrl: string,
-  matchResultTopImageUrl: string,
-  chooseResultSuccessTopImageUrl: string,
-  chooseResultFailTopImageUrl: string
-
+export interface IResourceImage {
   contactUsUrl: string
   followUsUrl: string
 }
