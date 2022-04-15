@@ -19,17 +19,17 @@ export interface IMatchState {
   faculty: string,
   major: string,
 
-  characteristic: {
+  characteristics: {
     index: number,
-    question: string,
-    answer: string
+    key: string,
+    value: string
   }[],
 
   wechatNumber: string,
   photos: string[]
 
   favor: number,
-  hasFavor: boolean
+  hasFilled: boolean
 }
 
 const INITIAL_STATE: IMatchState = {
@@ -51,13 +51,13 @@ const INITIAL_STATE: IMatchState = {
   faculty: '',
   major: '',
 
-  characteristic: [],
+  characteristics: [],
 
   wechatNumber: '',
   photos: [],
 
   favor: 0,
-  hasFavor: false
+  hasFilled: false
 }
 
 export default function match(state = INITIAL_STATE, action) {

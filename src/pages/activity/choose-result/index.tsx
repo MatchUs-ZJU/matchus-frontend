@@ -24,10 +24,10 @@ interface SuccessPageProps {
     avatarUrl: string
   },
   message: string,
-  sanguan: {
+  info: {
     index: number,
-    question: string,
-    answer: string
+    key: string,
+    value: string
   }[]
 }
 
@@ -67,8 +67,8 @@ const SuccessPage = (props: SuccessPageProps) => {
               .map((item, _) => {
                 return (
                   <View className='item'>
-                    <View className='title'>{item.question}</View>
-                    <View className='answer'>{item.answer}</View>
+                    <View className='title'>{item.key}</View>
+                    <View className='answer'>{item.value}</View>
                   </View>
                 )
               })
@@ -147,7 +147,7 @@ const Index = () => {
             male={choose.male}
             female={choose.female}
             message={choose.message}
-            sanguan={choose.sanguan}
+            info={choose.info}
           /> :
           <FailurePage
             male={choose.male}
