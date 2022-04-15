@@ -242,8 +242,9 @@ export const sendFavor = ({id, level}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送每日好感度反馈成功")
-        if (res.data.favor) {
-          dispatch(matchStateSave({
+        console.log(res.data)
+        if (res.data.favor !== null) {
+          dispatch(activityMatchSave({
             favor: res.data.favor
           }))
         }

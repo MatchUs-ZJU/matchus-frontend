@@ -42,7 +42,7 @@ const EmojiRater = (props: EmojiRaterProps) => {
 
   return (
     <View className='row emoji-container'>
-      {emojis.map((emoji) => (
+      {emojis && emojis.map((emoji) => (
         <View
           className={classnames(
             'item',
