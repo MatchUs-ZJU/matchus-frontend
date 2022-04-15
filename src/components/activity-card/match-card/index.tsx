@@ -36,7 +36,7 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 }
 
 const MatchCard = (props: MatchCardProps) => {
-  const {activity, resultShowTime} = props
+  const {resultShowTime} = props
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {state, matchResult, favor, lastChoose, left} = useSelector(rootState => rootState.activity.participate.match)
   const leftTime = formatLeftTime(left)

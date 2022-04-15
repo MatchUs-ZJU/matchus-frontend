@@ -31,7 +31,7 @@ const Index = () => {
 
   useEffect(() => {
     if(match) {
-      if(match.hasFavor) {
+      if(match.hasFilled) {
         setHeartValue(match.favor)
         setChecked(true)
         setHeart(match.favor / 20)
@@ -130,16 +130,16 @@ const Index = () => {
               <View className='line'/>
             </View>
             <View className='character-info'>
-              {match.characteristic && match.characteristic.length ?
-                match.characteristic
+              {match.characteristics && match.characteristics.length ?
+                match.characteristics
                   .sort((o1, o2) => {
                     return o1.index - o2.index
                   })
                   .map((item, _) => {
                     return (
                       <View className='item'>
-                        <View className='title'>{item.question}</View>
-                        <View className='answer'>{item.answer}</View>
+                        <View className='title'>{item.key}</View>
+                        <View className='answer'>{item.value}</View>
                       </View>
                     )
                   })

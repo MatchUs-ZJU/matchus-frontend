@@ -13,10 +13,10 @@ export interface IChooseState {
 
   success: boolean,
   message: string,
-  sanguan: {
+  info: {
     index: number,
-    question: string,
-    answer: string
+    key: string,
+    value: string
   }[],
 }
 
@@ -33,7 +33,7 @@ const INITIAL_STATE: IChooseState = {
 
   success: false,
   message: '',
-  sanguan: []
+  info: []
 }
 
 export default function choose(state = INITIAL_STATE, action) {

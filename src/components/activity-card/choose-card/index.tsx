@@ -11,7 +11,6 @@ import {sendTwcResult, sendMessage} from "@/actions";
 import {Records} from "@taroify/icons";
 
 import './index.scss'
-import {activityChooseSave} from "@/actions/activity";
 
 interface ChooseCardProps extends ViewProps {
   activity: number | string
