@@ -56,7 +56,7 @@ const ChooseCard = (props: ChooseCardProps) => {
 
   useEffect(() => {
     setTextAreaContent(message)
-    setTextAreaFilled(!!message.length)
+    setTextAreaFilled(message !== null && message.length !== 0)
   }, [message])
 
   useEffect(() => {
