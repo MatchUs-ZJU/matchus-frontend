@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Provider} from 'react-redux'
 import Taro, {useDidShow} from "@tarojs/taro";
 import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"
@@ -24,27 +24,30 @@ function App(props) {
     }
   }
 
-  useDidShow(async () => {
-    try {
-      await Taro.checkSession()
-      // session not timeout
-      console.log('用户登录：Session有效');
-      await handleSessionValid()
-    } catch (e) {
-      if (!sessionValid) {
-        // session timeout
-        console.log('用户登录：Session无效，发起登录');
-        store.dispatch(relogin())
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        await Taro.checkSession()
+        // session not timeout
+        console.log('用户登录：Session有效');
+        await handleSessionValid()
+      } catch (e) {
+        if (!sessionValid) {
+          // session timeout
+          console.log('用户登录：Session无效，发起登录');
+          store.dispatch(relogin())
+        }
       }
     }
 
+    checkSession()
     // store system info
     Taro.getSystemInfo().then((systemInfo) => {
       store.dispatch(globalSave({
         system: systemInfo
       }))
     });
-  })
+  }, [])
 
   return (
     <Provider store={store}>

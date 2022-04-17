@@ -6,6 +6,8 @@ import {commonquestionsIcon, artiserviceIcon} from '@/assets/images'
 import {fetchHelpsInfo} from "@/actions";
 import {useEffect} from "react";
 import './index.scss'
+import Taro from "@tarojs/taro";
+import {viewImages} from "@/utils/taro-utils";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -52,7 +54,7 @@ const Index = () => {
               <Text className='arti-text-color'>工作日：9:00-21:00</Text>
             </View>
             <View className='arti-wechat'>
-              <Image src={contactUsUrl} className='arti-img'/>
+              <Image src={contactUsUrl} className='arti-img' onClick={() => viewImages([contactUsUrl])}/>
             </View>
           </View>
         </Cell.Group>

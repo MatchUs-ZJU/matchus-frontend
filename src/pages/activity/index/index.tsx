@@ -1,7 +1,6 @@
 import {View, Text} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
-import {ActivityHeaderPlaceholderImage} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
 import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
@@ -83,7 +82,7 @@ const Index = () => {
   return (
     <View className='container' style={{position: 'relative'}}>
       <Image src={activity.imageUrl} className='header'/>
-      <View className='container wrapper'>
+      <View className='wrapper'>
         <SignUpCard
           price={price}
           time={signUpStartTime}

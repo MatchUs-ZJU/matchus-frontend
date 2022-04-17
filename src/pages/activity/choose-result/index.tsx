@@ -12,6 +12,7 @@ import {useEffect} from "react";
 import {fetchTwcResult} from "@/actions";
 import {getFormatNickname} from "@/utils/fstring";
 import Taro from "@tarojs/taro";
+import {viewImages} from "@/utils/taro-utils";
 import './index.scss';
 
 interface SuccessPageProps {
@@ -45,7 +46,8 @@ interface FailurePageProps {
 
 const SuccessPage = (props: SuccessPageProps) => {
 
-  const {male, female, message, sanguan} = props
+  const {male, female, message, info} = props
+  const {contactUsUrl} = useSelector(state => state.resource.images)
 
   return (
     <>
@@ -59,8 +61,8 @@ const SuccessPage = (props: SuccessPageProps) => {
       <View className='wrapper col'>
         <View className='content'>
           <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的三观</Divider>
-          {sanguan && sanguan.length ?
-            sanguan
+          {info && info.length ?
+            info
               .sort((o1, o2) => {
                 return o1.index - o2.index
               })
@@ -81,8 +83,20 @@ const SuccessPage = (props: SuccessPageProps) => {
               : (<View className='answer'>{message}</View>)}
           </View>
         </View>
-        <View className='footer'>
-          <Image src={ChooseResultFootImageSuccess} className='footer-img' mode='aspectFit'/>
+        <View className='footer-container-success'>
+          <View className='footer-top'>
+            <Image src={ChooseResultFootImageSuccess} className='img' />
+            <View className='title'>恭喜你们双选成功，听说宝石山的夜景很美，不如一起去看看吧！</View>
+          </View>
+          <View className='footer-bottom row'>
+            <View className='left'>
+              <View className='title'>欢迎随时和小助手分享你们的美好回忆～</View>
+              <View className='note'>脱单成功记得来找小助手领奖哦!</View>
+            </View>
+            <View className='right'>
+              <Image className='contactus-img' src={contactUsUrl} onClick={() => viewImages([contactUsUrl])}/>
+            </View>
+          </View>
         </View>
       </View>
     </>
@@ -92,6 +106,7 @@ const SuccessPage = (props: SuccessPageProps) => {
 const FailurePage = (props: FailurePageProps) => {
 
   const {male, female, message} = props
+  const {contactUsUrl} = useSelector(state => state.resource.images)
 
   return (
     <>
@@ -111,8 +126,16 @@ const FailurePage = (props: FailurePageProps) => {
               : (<View className='answer'>{message}</View>)}
           </View>
         </View>
-        <View className='footer'>
-          <Image src={ChooseResultFootImageFailure} className='footer-img' mode='aspectFit' />
+        <View className='footer-container-failure'>
+          <View className='footer col'>
+            <View className='title'>别灰心，继续勇敢的追求爱情，相信缘分一定正在来的路上！</View>
+            <View className='note'>欢迎随时来找小助手寻求安慰～</View>
+            <View className='contactus col'>
+              <Image className='contactus-img' src={contactUsUrl} />
+              <View className='contactus-note'>小助手微信</View>
+            </View>
+          </View>
+          <Image src={ChooseResultFootImageFailure} className='footer-img' onClick={() => viewImages([contactUsUrl])}/>
         </View>
       </View>
     </>

@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchMatchResult, sendSatisfiedFeedback} from "@/actions";
 import Taro from "@tarojs/taro";
+import {viewImages} from "@/utils/taro-utils";
 
 import './index.scss';
 
@@ -201,6 +202,7 @@ const Index = () => {
                           lazyLoad
                           mode='center'
                           className='img'
+                          onClick={() => viewImages(match.photos)}
                         />
                       )
                     })}
