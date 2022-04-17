@@ -1,15 +1,15 @@
-import {Swiper, SwiperItem, Text, View} from "@tarojs/components";
+import {Text, View} from "@tarojs/components";
+import {Swiper, Image, Countdown} from "@taroify/core";
 import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Image, Countdown} from "@taroify/core"
 import {fetchBanners, fetchRecommends} from "@/actions";
 import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/images";
 import {fetchHomeData} from "@/actions/home";
+import {fetchResourceImages} from "@/actions/resource";
 import {ArticleCard} from "@/components";
 
 import './index.scss'
-import {fetchResourceImages} from "@/actions/resource";
 
 const Home = () => {
   // store
@@ -51,11 +51,11 @@ const Home = () => {
     }
 
     // 处理是否能报名，计算剩余时间
-    if(data && data.signUpStartTime && data.signUpEndTime) {
-      if(currentTime <= data.signUpStartTime) {
+    if (data && data.signUpStartTime && data.signUpEndTime) {
+      if (currentTime <= data.signUpStartTime) {
         setCountDownType('NOT_START')
         setCountDownTime(data.signUpStartTime - currentTime)
-      } else if(currentTime > data.signUpStartTime && currentTime < data.signUpEndTime) {
+      } else if (currentTime > data.signUpStartTime && currentTime < data.signUpEndTime) {
         setCountDownType('ACTIVE')
         setCountDownTime(data.signUpEndTime - currentTime)
       } else {
@@ -87,72 +87,24 @@ const Home = () => {
 
   return (
     <View className='container default'>
-      <View>
+      <View className='header'>
         <Swiper
-          indicatorColor='#FFF'
-          indicatorActiveColor='#918AE3'
-          indicatorDots
-          circular
-          autoplay
           className='banners'
+          autoplay={4000}
+          lazyRender
         >
-          {banners && banners.length ? (
-              <>
-                {banners.filter(banner => {
-                  return banner.shows
-                }).map((banner, index) => (
-                  <SwiperItem
-                    key={index}
-                    style={{
-                      borderRadius: '12px',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <View
-                      style={{backgroundImage: `url("${banner.image}")`}}
-                      className='banner'
-                    />
-                  </SwiperItem>))
-                }
-              </>
-            ) :
-            (
-              <>
-                <SwiperItem
-                  style={{
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <View
-                    style={{backgroundImage: `url("https://img11.360buyimg.com/babel/s700x360_jfs/t1/4776/39/2280/143162/5b9642a5E83bcda10/d93064343eb12276.jpg!q90!cc_350x180")`}}
-                    className='banner'
+          <Swiper.Indicator className='indicator'/>
+          {banners &&
+            banners
+              .filter(banner => banner.shows)
+              .map((banner) => (
+                <Swiper.Item>
+                  <Image
+                    src={banner.image}
+                    className='img'
                   />
-                </SwiperItem>
-                <SwiperItem
-                  style={{
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <View
-                    style={{backgroundImage: `url("https://img11.360buyimg.com/babel/s700x360_jfs/t1/4776/39/2280/143162/5b9642a5E83bcda10/d93064343eb12276.jpg!q90!cc_350x180")`}}
-                    className='banner'
-                  />
-                </SwiperItem>
-                <SwiperItem
-                  style={{
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <View
-                    style={{backgroundImage: `url("https://img11.360buyimg.com/babel/s700x360_jfs/t1/4776/39/2280/143162/5b9642a5E83bcda10/d93064343eb12276.jpg!q90!cc_350x180")`}}
-                    className='banner'
-                  />
-                </SwiperItem>
-              </>
-            )
+                </Swiper.Item>)
+              )
           }
         </Swiper>
       </View>
@@ -165,7 +117,7 @@ const Home = () => {
               <View className='content'>{activityTime}</View>
               <View className='note' style={{color: '#918AE3'}}>第{data.currentTerm}期</View>
             </View>
-            <View className='divider' />
+            <View className='divider'/>
             <View className='col data'>
               <View className='title'>
                 {countDownType === 'NOT_START' ? '距离报名开始还有' : countDownType === 'ACTIVE' ? '距离报名结束还有' : '本期活动报名已结束'}
@@ -179,9 +131,11 @@ const Home = () => {
                     <View className='countdown-colon'>天</View>
                     <View className='countdown-block'>{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
                     <View className='countdown-colon'>时</View>
-                    <View className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
+                    <View
+                      className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
                     <View className='countdown-colon'>分</View>
-                    <View className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
+                    <View
+                      className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
                     <View className='countdown-colon'>秒</View>
                   </View>
                 )}
@@ -190,7 +144,8 @@ const Home = () => {
             </View>
           </View>
           <View className='col button' onClick={goToSignUp}>
-            <Text className='button-text'>{countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}</Text>
+            <Text
+              className='button-text'>{countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}</Text>
           </View>
         </View>
         <View className='row data-section'>

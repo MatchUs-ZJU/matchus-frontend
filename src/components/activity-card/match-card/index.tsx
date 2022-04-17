@@ -78,21 +78,21 @@ const MatchCard = (props: MatchCardProps) => {
           <View className='note'>若匹配失败，100%退全款</View>
         </View>
         <View className='col right'>
-          {/*{state === 'NOT_START' && !filled ? (*/}
-          {/*  <NotStartBtn type='notStart'/>*/}
-          {/*) : state === 'NOT_START' && filled ? (*/}
-          {/*  <LeftTimeBtn time={leftTime}/>*/}
-          {/*) : state === 'ACTIVE' && matchResult ? (*/}
+          {state === 'NOT_START' && !filled ? (
+            <NotStartBtn type='notStart'/>
+          ) : state === 'NOT_START' && filled ? (
+            <LeftTimeBtn time={leftTime}/>
+          ) : state === 'ACTIVE' && matchResult ? (
             <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
-          {/*) : state === 'ACTIVE' && !matchResult ? (*/}
-          {/*  <FinishedBtn type='refund'/>*/}
-          {/*) : (*/}
-          {/*  <DisableBtn type='disable'/>*/}
-          {/*)}*/}
+          ) : state === 'ACTIVE' && !matchResult ? (
+            <FinishedBtn type='refund'/>
+          ) : (
+            <DisableBtn type='disable'/>
+          )}
         </View>
       </View>
       {
-        // state === "ACTIVE" && matchResult &&
+        state === "ACTIVE" && matchResult &&
         <View className='row feedback-card'>
           <View className='col feedback'>
             <View className='row title'>

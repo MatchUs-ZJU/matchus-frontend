@@ -5,18 +5,26 @@
 }
 
 .banners {
-  background: $background-color;
-  border-radius: 24px !important;
-  overflow: hidden !important;
-}
-
-.banner {
   width: 100%;
-  height: 100%;
+  height: 270px;
 
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  .taroify-swiper-item {
+    background: $background-color;
+  }
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  .img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .indicator {
+    .taroify-swiper__indicator--active {
+      background: $primary-color;
+    }
+  }
 }
 
 .section {

@@ -1,4 +1,3 @@
-import LogoIcon from './logo.jpg'
 import HeartsIcon from './icons/hearts.png'
 import TrumpetIcon from './icons/trumpet.png'
 import TwoPeopleIcon from './icons/people.png'
@@ -23,10 +22,9 @@ import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
 
-import ActivityHeaderPlaceholderImage from './activity-top.png'
 import StepIcon from './activity-icon.svg'
-import ChooseResultFootImageSuccess from './choose-success-footer.jpg'
-import ChooseResultFootImageFailure from './choose-failure-footer.jpg'
+import ChooseResultFootImageSuccess from './choose-success-footer.png'
+import ChooseResultFootImageFailure from './choose-failure-footer.png'
 import ChooseResultTopImageSuccess from './choose-success-top.png'
 import ChooseResultTopImageFailure from './choose-failure-top.png'
 import MatchResultTopImage from './match-result-top.png'
@@ -38,8 +36,8 @@ import Emoji3 from './emojis/3.png'
 import Emoji4 from './emojis/4.png'
 import Emoji5 from './emojis/5.png'
 
-export {LogoIcon, HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
-export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ActivityHeaderPlaceholderImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
+export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
+export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export const commonquestionsIcon  = commonqustions;
 export const artiserviceIcon = artiservice;
