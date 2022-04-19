@@ -34,7 +34,7 @@ const Index = () => {
             {help &&
               help.map((item, _) => {
                 return (
-                  <Collapse.Item title={item.question}>{item.answer}</Collapse.Item>
+                  <Collapse.Item className='collapse-item' title={item.question}>{item.answer}</Collapse.Item>
                 )
               })
             }

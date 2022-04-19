@@ -80,7 +80,7 @@ const Index = () => {
   }
 
   return (
-    <View className='container' style={{position: 'relative'}}>
+    <View className='container'>
       <Image src={activity.imageUrl} className='header'/>
       <View className='wrapper'>
         <SignUpCard

@@ -69,3 +69,9 @@
   border: 5px solid $primary-color;
   border-radius: 16px;
 }
+
+.collapse-item {
+  .taroify-cell__value {
+    display: none;
+  }
+}
