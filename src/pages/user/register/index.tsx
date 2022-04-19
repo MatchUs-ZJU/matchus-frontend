@@ -154,10 +154,10 @@ const Index = () => {
                 </Field>
               </View>
               <View className='item'>
-                <Text className='label'>学号</Text>
+                <Text className='label'>教务网账号</Text>
                 <Field className='field'>
                   <Input
-                    placeholder='请输入学号' value={form.studentNumber}
+                    placeholder='请输入教务网账号' value={form.studentNumber}
                     onChange={(e) => {
                       const numRegExp = /^\d+$/
                       if (!numRegExp.test(e.detail.value)) {

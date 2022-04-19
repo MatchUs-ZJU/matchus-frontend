@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {Provider} from 'react-redux'
+import {Provider, useSelector} from 'react-redux'
 import Taro, {useDidShow} from "@tarojs/taro";
 import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"
 
@@ -9,16 +9,19 @@ import {store} from "./store";
 
 function App(props) {
 
-  let [sessionValid, setSessionValid] = useState(false)
+  const [sessionValid, setSessionValid] = useState(false)
+  const {sessionKey, } = store.getState().user
 
   async function handleSessionValid() {
     setSessionValid(true)
 
     // check JWT
-    if (!getJWT()) {
+    if (!getJWT() || !sessionKey) {
+      console.log('用户登录：JWT或SessionKey不存在，重新登录');
       store.dispatch(relogin())
     } else {
       // 获取个人信息
+      console.log('用户登录：JWT和SessionKey存在，获取用户信息');
       store.dispatch(userSave({login: true}))
       store.dispatch(fetchUserInfo())
     }

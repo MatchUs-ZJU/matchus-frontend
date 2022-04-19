@@ -51,8 +51,8 @@ function throwError(err) {
   console.log("请求失败：" + `${err.code} - ${err.text}`)
   Taro.showToast({
     title: "网络请求失败: " + `${err.text}`,
-    icon: "error",
-    duration: 5000
+    icon: 'none',
+    duration: 3000
   })
 }
 
