@@ -20,6 +20,7 @@ export default defineAppConfig({
     'pages/introduction/index',
   ],
   window: {
+    backgroundColor: '#F3F4FB',
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#918AE3',
     navigationBarTitleText: 'MatchUs',

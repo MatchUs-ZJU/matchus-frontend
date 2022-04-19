@@ -2,7 +2,7 @@ import {Button, View, ViewProps} from "@tarojs/components";
 import {Dialog, Image} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import classnames from "classnames";
-import {fillForm, finishFillForm as actionFinishFillForm} from "@/actions";
+import {fillForm, finishFillForm as actionFinishFillForm, globalSave} from "@/actions";
 import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn, NotStartBtn} from "@/components/activity-card/right-buttons";
 import {useState} from "react";
@@ -23,10 +23,13 @@ const SurveyCard = (props: SurveyCardProps) => {
   const {pushFillForm} = useSelector(rootState => rootState.global)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
-  function goToFillForm() {
+  function pushGoToFillForm() {
     dispatch(fillForm({
       appId: wjxAppId,
       path: wjxPath
+    }))
+    dispatch(globalSave({
+      pushFillForm: false
     }))
   }
 
@@ -42,7 +45,7 @@ const SurveyCard = (props: SurveyCardProps) => {
   const FillFormBtn = () => {
     return (
       <View className='fill-form-btn row'>
-        <View className='col' onClick={goToFillForm}>
+        <View className='col' onClick={pushGoToFillForm}>
           <View className='icon-container'><Edit size='20px'/></View>
           <View className='text'>继续填写</View>
         </View>
@@ -77,7 +80,7 @@ const SurveyCard = (props: SurveyCardProps) => {
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !filled ? (
             pushFillForm ? (
-              <ActiveBtn type='fillForm' onClick={goToFillForm}/>
+              <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
             ) : (
               <FillFormBtn/>
             )

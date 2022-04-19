@@ -1,4 +1,4 @@
-import {Button, View, ViewProps} from "@tarojs/components";
+import {Button, View, ViewProps, Text} from "@tarojs/components";
 import {Dialog, Image} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import classnames from "classnames";
@@ -41,7 +41,6 @@ const SignupCard = (props: SignupCardProps) => {
 
   function goToSignUp() {
     setConfirmDialogOpen(true)
-    // confirmJoin()
   }
 
   function confirmJoin() {
@@ -70,7 +69,7 @@ const SignupCard = (props: SignupCardProps) => {
         </View>
         <View className='col main'>
           <View className='title'>遇见·活动报名</View>
-          <View className='detail'>参与活动需支付报名费{price}元，请珍惜每一次遇见！</View>
+          <View className='detail'>参与活动需支付报名费<Text className='purple'>{price}</Text>元，未匹配到<Text className='purple'>全额退款</Text>！</View>
           <View className='note' onClick={async () => {
             await Taro.navigateTo({url: '/pages/activity/rules/index'});
           }}
@@ -89,14 +88,14 @@ const SignupCard = (props: SignupCardProps) => {
         </View>
       </View>
       <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
-        <Dialog.Header className='dialog-header'>确认活动规则并参与活动</Dialog.Header>
+        <Dialog.Header className='dialog-header'>请问是否确认参与活动并支付报名费</Dialog.Header>
         <Dialog.Actions>
           <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
           <Button className='dialog-btn' onClick={() => {
             setConfirmDialogOpen(false)
             confirmJoin()
           }}
-          >参加活动
+          >确认支付
           </Button>
         </Dialog.Actions>
       </Dialog>

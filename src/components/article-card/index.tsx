@@ -37,13 +37,15 @@ const ArticleCard = (props: ArticleCardProps) => {
         lazyLoad
         src={article.image}
         className='img'
-        mode='center'
+        mode='aspectFill'
       />
       <View className='col detail'>
         <View className='title'>{article.title}</View>
         <View className='desc'>{article.description}</View>
         <View className='row note' >
-          <Text className='col tag'>#{article.tag}</Text>
+          <View className='col tag' style={{width: `${article.tag.length * 25}px`}}>
+            #{article.tag}
+          </View>
           <View className='row date'>
             <Like style={{color: "#FF6C90", margin: "0 8px 0 0"}} />
             <Text>{date.getFullYear()}.{date.getMonth() + 1}.{date.getDate()}</Text>

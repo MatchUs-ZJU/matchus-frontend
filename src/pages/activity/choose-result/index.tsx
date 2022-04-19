@@ -17,11 +17,11 @@ import './index.scss';
 
 interface SuccessPageProps {
   male: {
-    nickName: string,
+    realName: string,
     avatarUrl: string
   },
   female: {
-    nickName: string,
+    realName: string,
     avatarUrl: string
   },
   message: string,
@@ -34,11 +34,11 @@ interface SuccessPageProps {
 
 interface FailurePageProps {
   male: {
-    nickName: string,
+    realName: string,
     avatarUrl: string
   },
   female: {
-    nickName: string,
+    realName: string,
     avatarUrl: string
   },
   message: string,
@@ -54,13 +54,13 @@ const SuccessPage = (props: SuccessPageProps) => {
       <View className='background-success col'>
         <Image src={ChooseResultTopImageSuccess} className='top-img-success'/>
         <View className='content-top'>
-          <View className='nickName male'>{getFormatNickname(male.nickName)} </View>
-          <View className='nickName female'>{getFormatNickname(female.nickName)}</View>
+          <View className='nickName male'>{getFormatNickname(male.realName)} </View>
+          <View className='nickName female'>{getFormatNickname(female.realName)}</View>
         </View>
       </View>
       <View className='wrapper col'>
         <View className='content'>
-          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的三观</Divider>
+          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的态度</Divider>
           {info && info.length ?
             info
               .sort((o1, o2) => {
@@ -113,8 +113,8 @@ const FailurePage = (props: FailurePageProps) => {
       <View className='background-fail col'>
         <Image src={ChooseResultTopImageFailure} className='top-img-fail'/>
         <View className='content-top'>
-          <View className='nickName male'>{getFormatNickname(male.nickName)} </View>
-          <View className='nickName female'>{getFormatNickname(female.nickName)}</View>
+          <View className='nickName male'>{getFormatNickname(male.realName)} </View>
+          <View className='nickName female'>{getFormatNickname(female.realName)}</View>
         </View>
       </View>
       <View className='wrapper-fail col'>

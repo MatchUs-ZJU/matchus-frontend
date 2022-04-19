@@ -131,7 +131,7 @@ export const relogin = () => {
   }
 }
 
-export const fetchPhoneNumber = (data: {iv: string, encryptedData: string}) => {
+export const fetchPhoneNumber = (data: {iv: string, encryptedData: string, sessionKey: string}) => {
   return async dispatch => {
     console.log("用户信息：获取用户解密的手机号")
     try {

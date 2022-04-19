@@ -18,16 +18,20 @@ export interface IUserState {
   countryCode: string;
 
   faculty: string;
-  createTime?: number;
+  createTime: number;
 
-  openid?: string;
-  sessionKey?: string;
-  binded?: boolean;
+  openid: string;
+  sessionKey: string;
+  binded: boolean;
 
   login: boolean;
 }
 
 const INITIAL_STATE: IUserState = {
+  binded: false,
+  createTime: 0,
+  openid: "",
+  sessionKey: "",
   countryCode: "",
   purePhoneNumber: "",
   phoneNumber: "",

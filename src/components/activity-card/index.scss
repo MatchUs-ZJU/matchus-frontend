@@ -127,6 +127,10 @@ $message-board-height: 360px;
   color: $primary-color;
 }
 
+.activity-card .main .note-failed {
+  color: $note-color
+}
+
 .activity-card .right {
   width: 36%;
   justify-content: center;

@@ -1,9 +1,9 @@
-import {View, ViewProps} from "@tarojs/components";
+import {Button, View, ViewProps} from "@tarojs/components";
 import {ActiveBtn, DisableBtn, NotStartBtn} from "@/components/activity-card/right-buttons";
 import Taro from "@tarojs/taro";
 import classnames from "classnames";
 import Watermark from "@/components/activity-card/watermark";
-import {Image, Switch, Textarea} from "@taroify/core";
+import {Dialog, Image, Switch, Textarea} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -21,10 +21,18 @@ interface ChooseCardProps extends ViewProps {
 const ChooseCard = (props: ChooseCardProps) => {
   const dispatch = useDispatch()
   const {activity, startTime, endTime} = props
-  const {state, choice, message, hasResult, chooseResult} = useSelector(rootState => rootState.activity.participate.choose)
+  const {
+    state,
+    choice,
+    message,
+    hasResult,
+    chooseResult
+  } = useSelector(rootState => rootState.activity.participate.choose)
   const [thisChoice, setThisChoice] = useState(false)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState('')
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+
   // const [expand, setExpand] = useState(false)
 
   async function goToSeeResult() {
@@ -39,7 +47,7 @@ const ChooseCard = (props: ChooseCardProps) => {
   }
 
   function onTextAreaChange(e) {
-    if(e.detail.value && e.detail.value.length) {
+    if (e.detail.value && e.detail.value.length) {
       setTextAreaFilled(true)
     } else {
       setTextAreaFilled(false)
@@ -48,8 +56,14 @@ const ChooseCard = (props: ChooseCardProps) => {
     setTextAreaContent(e.detail.value)
   }
 
-  function onConfirmCommitMessage() {
-    if(textAreaContent && textAreaContent.length) {
+  function onSubmitMessage() {
+    if (textAreaContent && textAreaContent.length) {
+      setConfirmDialogOpen(true)
+    }
+  }
+
+  function confirmSubmit() {
+    if (textAreaContent && textAreaContent.length) {
       dispatch(sendMessage({message: textAreaContent, id: activity}))
     }
   }
@@ -86,7 +100,12 @@ const ChooseCard = (props: ChooseCardProps) => {
           <View className='detail'>
             {state !== 'ACTIVE' ? `双选通道会在${startTime}开放，请认真抉择哦！` : '每一次匹配都来之不易，希望大家好好珍惜，不要错过！'}
           </View>
-          <View className='note'>
+          <View
+            className={classnames(
+              'note',
+              {'note-failed': state && state === 'ACTIVE' && hasResult && !chooseResult}
+            )}
+          >
             {state !== 'ACTIVE' ? `双选阶段于${startTime}开启`
               : !hasResult ? `双选阶段截止时间${endTime}`
                 : chooseResult ? '双选成功'
@@ -118,7 +137,7 @@ const ChooseCard = (props: ChooseCardProps) => {
         </View>
       </View>
       {
-        state === "ACTIVE" &&
+        state === "ACTIVE" && !hasResult &&
         <View className='row message-board-container'>
           <View className='col message-board'>
             <View className='row title'>
@@ -133,13 +152,25 @@ const ChooseCard = (props: ChooseCardProps) => {
                 {
                   'confirm-btn-click': textAreaFilled,
                 })}
-              onClick={onConfirmCommitMessage}
+              onClick={onSubmitMessage}
             >
               确认
             </View>
           </View>
         </View>
       }
+      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
+        <Dialog.Header className='dialog-header'>确认提交给Ta的留言</Dialog.Header>
+        <Dialog.Actions>
+          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
+          <Button className='dialog-btn' onClick={() => {
+            setConfirmDialogOpen(false)
+            confirmSubmit()
+          }}
+          >确认提交
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   )
 }

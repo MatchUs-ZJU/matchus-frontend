@@ -2,12 +2,12 @@ import {CHOOSE_SAVE} from "@/constants";
 
 export interface IChooseState {
   female: {
-    nickName: string,
+    realName: string,
     avatarUrl: string,
   }
 
   male: {
-    nickName: string,
+    realName: string,
     avatarUrl: string,
   }
 
@@ -22,12 +22,12 @@ export interface IChooseState {
 
 const INITIAL_STATE: IChooseState = {
   female: {
-    nickName: '',
+    realName: '',
     avatarUrl: '',
   },
 
   male: {
-    nickName: '',
+    realName: '',
     avatarUrl: '',
   },
 

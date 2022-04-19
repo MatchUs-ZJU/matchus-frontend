@@ -2,12 +2,12 @@ import {MATCH_SAVE} from "@/constants";
 
 export interface IMatchState {
   female: {
-    nickName: string,
+    realName: string,
     avatarUrl: string,
   }
 
   male: {
-    nickName: string,
+    realName: string,
     avatarUrl: string,
   }
 
@@ -34,12 +34,12 @@ export interface IMatchState {
 
 const INITIAL_STATE: IMatchState = {
   female: {
-    nickName: '',
+    realName: '',
     avatarUrl: '',
   },
 
   male: {
-    nickName: '',
+    realName: '',
     avatarUrl: '',
   },
 
