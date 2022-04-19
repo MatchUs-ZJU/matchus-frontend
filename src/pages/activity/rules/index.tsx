@@ -1,7 +1,6 @@
 import {View, Image} from "@tarojs/components";
-import './index.scss';
 import {Rules} from "@/assets/images";
-
+import './index.scss';
 
 const Index = () => {
   return(
@@ -16,11 +15,10 @@ MatchUs活动特色在于以下几点：</View>
         <View className='p1 margin-bottom-48'><View className='highlight'>4、真诚交友：</View>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;设立举报机制防止信息造假等恶劣行为，防止海王重复交友。</View>
 
         <View className='h2 purple margin-bottom-12'>二、活动流程</View>
-        <Image src={Rules} className='img margin-bottom-48 col'></Image>
+        <Image src={Rules} className='img margin-bottom-48 col'/>
 
         <View className='h2 purple margin-bottom-12'>三、活动收费</View>
         <View className='h3 purple margin-bottom-12'>1、报名费用</View>
-        <View className='p1 margin-bottom-12'>9.9元/次 </View>
         <View className='p1 margin-bottom-12'>在报名时收取报名费用；若匹配失败，报名费将会退回。</View>
         <View className='p1 margin-bottom-12'>PS：匹配失败指未在匹配库中找到双向契合的匹配对象。</View>
         <View className='h3 purple margin-bottom-12'>2、脱单奖励</View>

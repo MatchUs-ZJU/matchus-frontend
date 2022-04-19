@@ -75,7 +75,12 @@ const MatchCard = (props: MatchCardProps) => {
         <View className='col main'>
           <View className='title'>相识·智能匹配</View>
           <View className='detail'>匹配结果会在{resultShowTime}前公布，请耐心等待</View>
-          <View className='note'>若匹配失败，100%退全款</View>
+          <View
+            className={classnames(
+              'note',
+              {'note-failed': state && state === 'ACTIVE' && !matchResult}
+            )}
+          >若匹配失败，100%退全款</View>
         </View>
         <View className='col right'>
           {state === 'NOT_START' && !filled ? (
@@ -92,7 +97,7 @@ const MatchCard = (props: MatchCardProps) => {
         </View>
       </View>
       {
-        state === "ACTIVE" && matchResult &&
+        state === "ACTIVE" && matchResult && favor !== null &&
         <View className='row feedback-card'>
           <View className='col feedback'>
             <View className='row title'>

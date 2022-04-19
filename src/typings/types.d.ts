@@ -47,7 +47,7 @@ export interface IHomeData {
 }
 
 export interface IParticipateState {
-  state: 'NOT_ACTIVE' | 'ACTIVE' | 'SUCCESS' | 'FAILED'
+  state: 'NOT_ACTIVE' | 'ACTIVE' | 'SUCCESS' | 'FAIL'
 
   signUp: {
     state: 'NOT_START' | 'ACTIVE' | 'DISABLED',

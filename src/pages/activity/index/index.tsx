@@ -30,11 +30,11 @@ const Index = () => {
   useDidShow(async () => {
     const checkUserState = async () => {
       if (!nickName || !avatarUrl) {
-        await Taro.navigateTo({url: '/pages/introduction/index'})
+        await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
       if (identified !== '已认证') {
-        await Taro.navigateTo({url: '/pages/introduction/index'})
+        await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
     }
@@ -114,7 +114,7 @@ const Index = () => {
           className={classnames(
             'row',
             'footer',
-            {'footer-failed': state === 'FAILED'},
+            {'footer-failed': state === 'FAIL'},
             {'footer-success': state === 'SUCCESS'}
           )}
         >
@@ -124,11 +124,11 @@ const Index = () => {
           />
           <Text
             className={classnames(
-              {'footer-failed': state === 'FAILED'},
-              {'footer-success': state !== 'FAILED'}
+              {'footer-failed': state === 'FAIL'},
+              {'footer-success': state !== 'FAIL'}
             )}
           >
-            {state !== 'FAILED' ? '祝你度过一段愉快的MatchUs旅程！' : '很遗憾，没能帮你找到合适的Ta ！'}
+            {state !== 'FAIL' ? '祝你度过一段愉快的MatchUs旅程！' : '很遗憾，没能帮你找到合适的Ta ！'}
           </Text>
         </View>
       </View>

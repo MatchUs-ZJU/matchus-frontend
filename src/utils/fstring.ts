@@ -1,3 +1,3 @@
 export const getFormatNickname = (nickname: string) => {
-  return nickname.length > 5 ? `${nickname.substring(0, 5)}...` : nickname
+  return nickname.length > 4 ? `${nickname.substring(0, 4)}..` : nickname
 }

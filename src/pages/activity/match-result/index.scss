@@ -296,7 +296,7 @@
 }
 
 .content .image-info .image-show {
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 
   margin-top: 16px;
@@ -306,6 +306,7 @@
   background: #f5f4ff;
   width: 30%;
   height: 240px;
+  margin-right: 3%;
   border-radius: 16px;
 }
 
@@ -317,6 +318,7 @@
   background: #f5f4ff;
   width: 30%;
   height: 240px;
+  margin-right: 3%;
   border-radius: 16px;
 
   font-weight: 400;

@@ -89,23 +89,6 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
-      // let subscribeRes = await Taro.requestSubscribeMessage({
-      //   tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
-      // })
-
-      // console.log(subscribeRes)
-      // if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
-      //   console.log('活动页面：用户订阅消息成功')
-      // } else {
-      //   console.log('活动页面：用户订阅消息失败')
-      //   await Taro.showToast({
-      //     icon: 'none',
-      //     title: '消息订阅失败，您将无法参与活动',
-      //     duration: 5000,
-      //   });
-      //   return
-      // }
-
       let preJoinRes = await postPreJoinActivity(id, {
         'price': price,
         'body': body,
@@ -150,7 +133,7 @@ export const preJoinActivity = ({id, price, body, attach}) => {
           // } else {
           //   await Taro.showToast({
           //     title: '网络缓慢，请刷新页面',
-          //     duration: 5000,
+          //     duration: 3000,
           //     icon: 'loading'
           //   })
           // }
@@ -170,11 +153,14 @@ export const preJoinActivity = ({id, price, body, attach}) => {
             participated: true,
             state: 'ACTIVE'
           }))
+
+          // 用户订阅消息通知
+          dispatch(notifySubscribe())
         } else {
           console.log(payRes)
           await Taro.showToast({
             title: '支付失败',
-            duration: 5000,
+            duration: 3000,
             icon: 'error'
           })
         }
@@ -186,8 +172,30 @@ export const preJoinActivity = ({id, price, body, attach}) => {
       await Taro.showToast({
         icon: 'none',
         title: '购买失败',
-        duration: 5000,
+        duration: 3000,
       });
+    }
+  }
+}
+
+export const notifySubscribe = () => {
+  return async () => {
+    console.log('活动页面：用户订阅消息')
+    let subscribeRes = await Taro.requestSubscribeMessage({
+      tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
+    })
+
+    console.log(subscribeRes)
+    if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
+      console.log('活动页面：用户订阅消息成功')
+    } else {
+      console.log('活动页面：用户订阅消息失败')
+      await Taro.showToast({
+        icon: 'none',
+        title: '消息订阅失败，您可能无法收到参与活动的通知',
+        duration: 3000,
+      });
+      return
     }
   }
 }
@@ -242,7 +250,6 @@ export const sendFavor = ({id, level}) => {
 
       if (res && res.code === 0) {
         console.log("活动页面：发送每日好感度反馈成功")
-        console.log(res.data)
         if (res.data.favor !== null) {
           dispatch(activityMatchSave({
             favor: res.data.favor
@@ -271,6 +278,12 @@ export const sendMessage = ({message, id}) => {
         dispatch(activityChooseSave({
           message: message
         }))
+
+        await Taro.showToast({
+          title: '提交成功！',
+          duration: 3000,
+          icon: 'success'
+        })
       } else {
         console.log("活动页面：发送留言失败")
       }
@@ -292,7 +305,7 @@ export const sendSatisfiedFeedback = ({id, level}) => {
       if (res && res.code === 0) {
         console.log("活动页面：发送满意度调查结果成功")
         dispatch(matchStateSave({
-          hasFavor: true,
+          hasFilled: true,
           favor: level
         }))
       } else {

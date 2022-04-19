@@ -14,7 +14,7 @@ import './index.scss'
 const Index = () => {
   const dispatch = useDispatch()
   const {user, resource} = useSelector(state => state)
-  const {nickName, avatarUrl, phoneNumber, countryCode, purePhoneNumber} = user
+  const {nickName, avatarUrl, phoneNumber, countryCode, purePhoneNumber, sessionKey} = user
   const {faculties} = resource
 
   const [schoolPickerOpen, setSchoolPickerOpen] = useState(false)
@@ -73,7 +73,8 @@ const Index = () => {
     if (e.detail.errMsg === 'getPhoneNumber:ok') {
       dispatch(fetchPhoneNumber({
         iv: e.detail.iv,
-        encryptedData: e.detail.encryptedData
+        encryptedData: e.detail.encryptedData,
+        sessionKey: sessionKey
       }))
     } else {
       console.log(e.detail.errMsg)

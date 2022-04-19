@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchMatchResult, sendSatisfiedFeedback} from "@/actions";
 import Taro from "@tarojs/taro";
 import {viewImages} from "@/utils/taro-utils";
+import {getFormatNickname} from "@/utils/fstring";
 
 import './index.scss';
 
@@ -14,9 +15,10 @@ const Index = () => {
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
 
-  const [heartValue, setHeartValue] = useState(50)
-  const [heart, setHeart] = useState(2.5)
+  const [heartValue, setHeartValue] = useState(0)
+  const [heart, setHeart] = useState(0)
   const [isChecked, setChecked] = useState(false)
+  console.log(heart)
 
   function onHeartChange(value) {
     setHeartValue(value * 20)
@@ -31,12 +33,10 @@ const Index = () => {
   }, [])
 
   useEffect(() => {
-    if(match) {
-      if(match.hasFilled) {
-        setHeartValue(match.favor)
-        setChecked(true)
-        setHeart(match.favor / 20)
-      }
+    if (match && match.hasFilled) {
+      setHeartValue(match.favor)
+      setChecked(true)
+      setHeart(match.favor / 20)
     }
   }, [match])
 
@@ -74,10 +74,10 @@ const Index = () => {
               <Image
                 shape='circle'
                 lazyLoad
-                src={match.male.avatarUrl && match.male.avatarUrl.length ? match.male.avatarUrl : AnonymousImage}
+                src={match.male && match.male.avatarUrl && match.male.avatarUrl.length ? match.male.avatarUrl : AnonymousImage}
               />
             </View>
-            <View className='nickName'>{match.male.nickName}</View>
+            <View className='nickName'>{getFormatNickname(match.male ? match.male.realName : '')}</View>
           </View>
           <View className='col female'>
             <View className='female-avatar'>
@@ -85,11 +85,11 @@ const Index = () => {
                 shape='circle'
                 mode='aspectFit'
                 lazyLoad
-                src={match.female.avatarUrl && match.female.avatarUrl.length ? match.female.avatarUrl : AnonymousImage}
+                src={match.female && match.female.avatarUrl && match.female.avatarUrl.length ? match.female.avatarUrl : AnonymousImage}
                 className='avatar'
               />
             </View>
-            <View className='nickName'>{match.female.nickName}</View>
+            <View className='nickName'>{getFormatNickname(match.female ? match.female.realName : '')}</View>
           </View>
         </View>
       </View>
@@ -179,7 +179,8 @@ const Index = () => {
                 </View>
                 <Rate
                   className='custom-color'
-                  defaultValue={heart}
+                  defaultValue={0}
+                  value={heart}
                   allowHalf
                   size={25}
                   icon={<Like/>}
@@ -195,7 +196,7 @@ const Index = () => {
               <View className='image-show row'>
                 {isChecked ?
                   <>
-                    {match.photos.map((item, _) => {
+                    {match.photos && match.photos.map((item, _) => {
                       return (
                         <Image
                           src={item}
@@ -207,10 +208,20 @@ const Index = () => {
                       )
                     })}
                   </>
-                : <>
-                    <View className='img-placeholder'>照片</View>
-                    <View className='img-placeholder'>照片</View>
-                    <View className='img-placeholder'>照片</View>
+                  :
+                  <>
+                    {
+                      match.photos ? match.photos.map(() => {
+                          return (
+                            <View className='img-placeholder'>照片</View>
+                          )
+                        }) :
+                        <>
+                          <View className='img-placeholder'>照片</View>
+                          <View className='img-placeholder'>照片</View>
+                          <View className='img-placeholder'>照片</View>
+                        </>
+                    }
                   </>
                 }
               </View>
