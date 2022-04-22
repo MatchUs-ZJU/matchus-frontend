@@ -4,7 +4,7 @@ import Taro from "@tarojs/taro";
 import classnames from "classnames";
 import Watermark from "@/components/activity-card/watermark";
 import {Dialog, Image, Switch, Textarea} from "@taroify/core";
-import {StepIcon} from "@/assets/images";
+import {StepGreyIcon, StepIcon} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendTwcResult, sendMessage} from "@/actions";
@@ -93,12 +93,12 @@ const ChooseCard = (props: ChooseCardProps) => {
         )}
         <View className='col left'>
           <View className='id'>4</View>
-          <Image lazyLoad src={StepIcon} className='img'/>
+          <Image lazyLoad src={(state && state === 'ACTIVE' && hasResult && !chooseResult) ? StepGreyIcon : StepIcon} className='img'/>
         </View>
         <View className='col main'>
           <View className='title'>相惜·双选阶段</View>
           <View className='detail'>
-            {state !== 'ACTIVE' ? `双选通道会在${startTime}开放，请认真抉择哦！` : '每一次匹配都来之不易，希望大家好好珍惜，不要错过！'}
+            {state !== 'ACTIVE' ? `双选通道会在${startTime}开放，请认真抉择哦` : '每一次匹配都来之不易，希望大家好好珍惜，不要错过'}
           </View>
           <View
             className={classnames(
@@ -106,7 +106,7 @@ const ChooseCard = (props: ChooseCardProps) => {
               {'note-failed': state && state === 'ACTIVE' && hasResult && !chooseResult}
             )}
           >
-            {state !== 'ACTIVE' ? `双选阶段于${startTime}开启`
+            {state !== 'ACTIVE' ? `双选结果将于${endTime}公布`
               : !hasResult ? `双选阶段截止时间${endTime}`
                 : chooseResult ? '双选成功'
                   : '很遗憾，Ta没有选你'}
@@ -141,7 +141,7 @@ const ChooseCard = (props: ChooseCardProps) => {
         <View className='row message-board-container'>
           <View className='col message-board'>
             <View className='row title'>
-              <Records style={{color: "#918AE3", marginRight: '6px'}} size='16px'/>
+              <Records style={{color: "#918AE3", marginRight: '6px'}} size='20px'/>
               留言板
             </View>
             <View className='desc'>写下想对Ta说的话，双选结束后将展示给对方</View>

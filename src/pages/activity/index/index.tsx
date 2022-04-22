@@ -57,17 +57,17 @@ const Index = () => {
 
     if (activity.matchResultShowTime) {
       let t = new Date(activity.matchResultShowTime)
-      setMatchResultShowTime(`${t.getMonth() + 1}.${t.getDate()}日${t.getHours()}点`)
+      setMatchResultShowTime(`${t.getMonth() + 1}月${t.getDate()}日${t.getHours()}时`)
     }
 
     if (activity.twoWayChooseStartTime) {
       let t = new Date(activity.twoWayChooseStartTime)
-      setTwoWayChooseStartTime(`${t.getDate()}日${t.getHours()}时`)
+      setTwoWayChooseStartTime(`${t.getMonth() + 1}月${t.getDate()}日${t.getHours()}时`)
     }
 
     if (activity.twoWayChooseEndTime) {
       let t = new Date(activity.twoWayChooseEndTime)
-      setTwoWayChooseEndTime(`${t.getMonth() + 1}.${t.getDate()}日${t.getHours()}时`)
+      setTwoWayChooseEndTime(`${t.getMonth() + 1}月${t.getDate()}日${t.getHours()}时`)
     }
 
     if (activity.id && user.openid) {

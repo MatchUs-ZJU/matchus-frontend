@@ -11,13 +11,11 @@ export interface IMatchState {
     avatarUrl: string,
   }
 
-  realName: string,
-  age: string,
-  height: string,
-  hometown: string,
-  campus: string,
-  faculty: string,
-  major: string,
+  basicInfo: {
+    index: number,
+    key: string,
+    value: string
+  }[],
 
   characteristics: {
     index: number,
@@ -43,14 +41,7 @@ const INITIAL_STATE: IMatchState = {
     avatarUrl: '',
   },
 
-  realName: '',
-  age: '',
-  height: '',
-  hometown: '',
-  campus: '',
-  faculty: '',
-  major: '',
-
+  basicInfo: [],
   characteristics: [],
 
   wechatNumber: '',

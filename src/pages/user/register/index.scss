@@ -126,6 +126,10 @@ page {
 .main .form-container .form .item {
   position: relative;
   margin-bottom: 44px;
+
+  .taroify-cell {
+    padding: 23px 30px 17px;
+  }
 }
 
 .main .form-container .form .item-border {
@@ -135,7 +139,7 @@ page {
 }
 
 .main .form-container .form .item .pnb {
-  width: 30%;
+  width: 24%;
 
   border: none;
   border-right: 2px solid #ADB7BE;
@@ -216,7 +220,7 @@ page {
 }
 
 .main .form-container .form .item-border-solid{
-  border: 2px dashed #ADB7BE;
+  border: 1px dashed #ADB7BE;
   box-sizing: border-box;
   border-radius: 6px;
 }
@@ -273,7 +277,7 @@ page {
 
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   text-align: center;
 }
 
@@ -296,7 +300,7 @@ page {
 }
 
 .register-btn-container {
-  padding: 16px;
+  padding: 40px 40px 60px;
   justify-content: center;
   align-items: center;
 }

@@ -28,7 +28,7 @@
 }
 
 .section {
-  margin: 32px 0;
+  margin: 40px 0;
 }
 
 .section-name {
@@ -41,7 +41,7 @@
 }
 
 .enroll-card {
-  height: 140px;
+  height: 160px;
 
   justify-content: flex-start;
   align-items: center;
@@ -60,13 +60,13 @@
 }
 
 .enroll-card .main .time {
-  width: 35%;
+  width: 42%;
   justify-content: space-between;
-  margin: 16px 0;
+  margin: 24px 0 24px 0;
 }
 
 .enroll-card .main .data {
-  margin: 16px 16px 16px 20px;
+  margin: 24px 0 20px 18px;
   justify-content: space-between;
 }
 
@@ -74,7 +74,7 @@
   position: relative;
   top: 25px;
   width: 2px;
-  height: 90px;
+  height: 110px;
   background: #D9D9D9;
 }
 
@@ -94,18 +94,17 @@
 .enroll-card .countdown-colon {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 24px;
   color: $note-color;
 
-  margin: 0 8px
+  margin: 0 6px
 }
-
 
 .enroll-card .title {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 24px;
   color: $text-color-2;
 }
@@ -113,7 +112,7 @@
 .enroll-card .content {
   font-style: normal;
   font-weight: 600;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 24px;
   color: $primary-color
 }
@@ -121,7 +120,7 @@
 .enroll-card .note {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 22px;
   color: $note-color
 }
 
@@ -149,10 +148,10 @@
 }
 
 .data-section {
-  height: 114px;
+  height: 120px;
   background: $background-color;
 
-  margin-top: 12px;
+  margin-top: 20px;
 }
 
 .data-card {
@@ -190,8 +189,10 @@
 .data-card .content {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   color: $text-color-2;
+
+  margin-top: 4px;
 }
 
 .data-card + .data-card{

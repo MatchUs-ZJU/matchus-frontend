@@ -25,6 +25,16 @@
 
 .info{
   margin: 32px 0px;
+
+  .taroify-cell {
+    line-height: 56px;
+    font-size: 30px;
+  }
+
+  .taroify-cell__brief {
+    font-size: 27px;
+    line-height: 36px;
+  }
 }
 
 //

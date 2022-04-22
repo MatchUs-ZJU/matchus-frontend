@@ -119,7 +119,7 @@ const FailurePage = (props: FailurePageProps) => {
       </View>
       <View className='wrapper-fail col'>
         <View className='content'>
-          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的留言</Divider>
+          <Divider style={{color: "#918AE3", borderColor: "#918AE3"}} className='divider'>Ta的留言</Divider>
           <View className='item'>
             {(!message || message === '')
               ? (<View className='title'>Ta没有留言...</View>)
@@ -131,11 +131,11 @@ const FailurePage = (props: FailurePageProps) => {
             <View className='title'>别灰心，继续勇敢的追求爱情，相信缘分一定正在来的路上！</View>
             <View className='note'>欢迎随时来找小助手寻求安慰～</View>
             <View className='contactus col'>
-              <Image className='contactus-img' src={contactUsUrl} />
+              <Image className='contactus-img' src={contactUsUrl} onClick={() => viewImages([contactUsUrl])} />
               <View className='contactus-note'>小助手微信</View>
             </View>
           </View>
-          <Image src={ChooseResultFootImageFailure} className='footer-img' onClick={() => viewImages([contactUsUrl])}/>
+          <Image src={ChooseResultFootImageFailure} className='footer-img' />
         </View>
       </View>
     </>

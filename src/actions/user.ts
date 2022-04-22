@@ -93,7 +93,7 @@ export const fetchUserProfile = () => {
   }
 }
 
-export const relogin = () => {
+export const relogin = (func = () => {}) => {
   return async dispatch => {
     removeJWT()
 
@@ -119,6 +119,8 @@ export const relogin = () => {
             console.log('用户登录：登录用户未注册和绑定信息，进行初始化注册')
             dispatch(initRegister(resp.data.openid))
           }
+          // 执行后续逻辑
+          func()
         } else {
           console.log('用户登录：向服务器发送登录请求失败')
         }

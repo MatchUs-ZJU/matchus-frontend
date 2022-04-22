@@ -149,7 +149,7 @@
 .content .basic-info .item .title {
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: $title-font-size;
   line-height: 32px;
 
   display: flex;
@@ -161,12 +161,12 @@
 .content .basic-info .item .answer {
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: $answer-font-size;
   line-height: 32px;
 
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 8px;
 
   color: rgba(0, 0, 0, 0.7);
 }
@@ -185,7 +185,7 @@
 .content .character-info .item .title {
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: $title-font-size;
   line-height: 32px;
 
   display: flex;
@@ -197,12 +197,12 @@
 .content .character-info .item .answer {
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: $answer-font-size;
   line-height: 32px;
 
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 8px;
 
   color: rgba(0, 0, 0, 0.7);
 }
@@ -220,7 +220,7 @@
 .content .contact-info .item .title {
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: $title-font-size;
   line-height: 32px;
 
   display: flex;
@@ -232,12 +232,12 @@
 .content .contact-info .item .answer {
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: $answer-font-size;
   line-height: 32px;
 
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 8px;
 
   color: rgba(0, 0, 0, 0.7);
 }
@@ -253,7 +253,7 @@
 
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 28px;
 }
 
@@ -264,7 +264,7 @@
 .content .image-info .text {
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 28px;
 
   color: rgba(0, 0, 0, 0.3);
@@ -278,7 +278,7 @@
 .content .image-info .first-check .heart-value {
   font-style: normal;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 48px;
 
   text-align: center;
@@ -289,7 +289,7 @@
   margin-top: -8px;
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 24px;
   text-align: center;
   color: rgba(0, 0, 0, 0.3);
@@ -365,11 +365,11 @@
   color: white;
   border-radius: 50px;
 
-  margin-left: 32px;
+  margin-left: 24px;
 }
 
 .check-button-clicked {
-  width: 160px;
+  width: 180px;
   height: 60px;
 
   background: white;
@@ -381,5 +381,5 @@
   border-radius: 50px;
   border: 2px solid $primary-color;
 
-  margin-left: 32px;
+  margin-left: 24px;
 }

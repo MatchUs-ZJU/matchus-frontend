@@ -63,7 +63,7 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
     if(type === 'refund') {
       await Taro.showToast({
         icon: 'none',
-        title: '退款将在3个工作日内到账，有问题请联系小助手～',
+        title: '退款将在3个工作日内到账，有问题请联系小助手',
         duration: 3000
       })
     }

@@ -46,6 +46,12 @@ const Introduction = () => {
         // 用户未上传基本信息
         dispatch(fetchUserProfile())
       }
+    } else {
+      await Taro.showToast({
+        title: '请先阅读并同意相关协议',
+        duration: 3000,
+        icon: 'none'
+      })
     }
   }
 
