@@ -3,13 +3,14 @@ import {Swiper, Image, Countdown} from "@taroify/core";
 import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchBanners, fetchRecommends} from "@/actions";
+import {fetchBanners, fetchRecommends, relogin} from "@/actions";
 import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/images";
 import {fetchHomeData} from "@/actions/home";
 import {fetchResourceImages} from "@/actions/resource";
 import {ArticleCard} from "@/components";
 
 import './index.scss'
+import {getJWT} from "@/services/jwt";
 
 const Home = () => {
   // store
@@ -28,7 +29,11 @@ const Home = () => {
   });
 
   usePullDownRefresh(() => {
-    fetchData()
+    if(getJWT()) {
+      fetchData()
+    } else {
+      dispatch(relogin(fetchData()))
+    }
   })
 
   // invoke once
@@ -113,14 +118,14 @@ const Home = () => {
         <View className='row enroll-card'>
           <View className='row main'>
             <View className='col time'>
-              <View className='title'>本期活动时间</View>
+              <View className='title'>活动时间</View>
               <View className='content'>{activityTime}</View>
               <View className='note' style={{color: '#918AE3'}}>第{data.currentTerm}期</View>
             </View>
             <View className='divider'/>
             <View className='col data'>
               <View className='title'>
-                {countDownType === 'NOT_START' ? '距离报名开始还有' : countDownType === 'ACTIVE' ? '距离报名结束还有' : '本期活动报名已结束'}
+                {countDownType === 'NOT_START' ? '距离报名开始还有' : countDownType === 'ACTIVE' ? '距离报名结束还有' : '活动报名已结束'}
               </View>
               <Countdown
                 value={countDownTime}
@@ -131,11 +136,9 @@ const Home = () => {
                     <View className='countdown-colon'>天</View>
                     <View className='countdown-block'>{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
                     <View className='countdown-colon'>时</View>
-                    <View
-                      className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
+                    <View className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
                     <View className='countdown-colon'>分</View>
-                    <View
-                      className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
+                    <View className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
                     <View className='countdown-colon'>秒</View>
                   </View>
                 )}
@@ -151,7 +154,7 @@ const Home = () => {
         <View className='row data-section'>
           <View className='col data-card purple'>
             <Image src={TrumpetIcon} shape='circle' className='icon'/>
-            <View style={{marginLeft: '12px'}}>
+            <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
               <View className='title'>
                 {!data.totalTerm ? 4 : data.totalTerm}<Text className='title-small'>期</Text>
               </View>
@@ -160,14 +163,14 @@ const Home = () => {
           </View>
           <View className='col data-card yellow'>
             <Image src={TwoPeopleIcon} shape='circle' className='icon'/>
-            <View style={{marginLeft: '12px'}}>
+            <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
               <View className='title'>{!data.matched ? 1800 : data.matched}+</View>
               <View className='content'>配对成功人数</View>
             </View>
           </View>
           <View className='col data-card pink'>
             <Image src={HeartsIcon} shape='circle' className='icon'/>
-            <View style={{marginLeft: '12px'}}>
+            <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
               <View className='title'>{!data.unavailable ? 90 : data.unavailable}+</View>
               <View className='content'>成功脱单人数</View>
             </View>
@@ -186,7 +189,7 @@ const Home = () => {
           }
         </View>
       </View>
-      <View className='section'>
+      <View className='section' style={{margin: 0}}>
         <View className='section-name'>脱单反馈</View>
         <Image
           lazyLoad

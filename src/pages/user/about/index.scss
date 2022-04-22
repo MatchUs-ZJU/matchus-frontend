@@ -29,6 +29,12 @@
 }
 
 .upper {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   text-align: center;
   font-style: normal;
   font-weight: 800;
@@ -42,16 +48,18 @@
 }
 
 .inner{
+  position: relative;
+  top: 8px;
+
   font-weight: 600;
-  font-size: 24px;
-  margin-top: -48px;
+  font-size: 27px;
 }
 
 .lower {
   text-align: center;
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 27px;
   line-height: 34px;
 
   white-space: pre-wrap;

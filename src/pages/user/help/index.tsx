@@ -51,7 +51,7 @@ const Index = () => {
             <View className='arti-text'>
               <Text>其他问题请扫码添加客服微信️咨询</Text>
               <Text>人工客服在线时间：</Text>
-              <Text className='arti-text-color'>工作日：9:00-21:00</Text>
+              <Text className='arti-text-color'>工作日：9:00-18:00</Text>
             </View>
             <View className='arti-wechat'>
               <Image src={contactUsUrl} className='arti-img' onClick={() => viewImages([contactUsUrl])}/>

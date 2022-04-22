@@ -8,21 +8,24 @@ page {
   --switch-background-color: rgba(120, 120, 128, 0.16);
   --switch-checked-background-color: #918AE3;
   --switch-checked-color: #918AE3;
+
+  overflow-x: hidden;
 }
 
 .header {
+  top: 20px;
   position: relative;
-  top: -32px;
-  left: 24px;
 
-  height: 380px;
+  width: 100%;
+  height: 300px;
   mix-blend-mode: darken;
 }
 
 .wrapper {
+  bottom: 22px;
+
   position: relative;
   padding: 0 26px;
-  top: -70px;
 }
 
 .footer {

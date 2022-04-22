@@ -10,6 +10,7 @@ import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
 import classnames from "classnames";
 
 import './index.scss'
+import {getFormatGender} from "@/utils/fstring";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const Index = () => {
   const {nickName, avatarUrl, phoneNumber, countryCode, purePhoneNumber, sessionKey} = user
   const {faculties} = resource
 
-  const [schoolPickerOpen, setSchoolPickerOpen] = useState(false)
+  const [genderPickerOpen, setGenderPickerOpen] = useState(false)
   const [facultyPickerOpen, setFacultyPickerOpen] = useState(false)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
@@ -25,6 +26,7 @@ const Index = () => {
     realName: '',
     studentNumber: '',
     school: '浙江大学',
+    gender: 0,
     faculty: '',
     facultyId: '',
     phoneNumber: ''
@@ -37,7 +39,7 @@ const Index = () => {
 
   useEffect(() => {
     // 校验是否可以提交表单
-    if (form.realName && form.studentNumber && form.school && form.faculty && form.facultyId && form.phoneNumber) {
+    if (form.realName && form.studentNumber && form.gender && form.school && form.faculty && form.facultyId && form.phoneNumber) {
       setCanRegister(true)
     }
   }, [form])
@@ -65,7 +67,6 @@ const Index = () => {
 
   function onConfirmRegister() {
     // 确认并提交表单信息
-    console.log(form)
     dispatch(submitIdentificationInfo(form))
   }
 
@@ -99,8 +100,8 @@ const Index = () => {
   }
 
   function getFacultyIdByName(name: string) {
-    for(let i = 0; i < faculties.length; i++) {
-      if(faculties[i].name === name) {
+    for (let i = 0; i < faculties.length; i++) {
+      if (faculties[i].name === name) {
         return faculties[i].id
       }
     }
@@ -142,10 +143,10 @@ const Index = () => {
           <View className='form-container'>
             <Form onSubmit={onSubmitRegister} className='form'>
               <View className='item'>
-                <Text className='label'>真实姓名</Text>
+                <Text className='label'>姓名</Text>
                 <Field className='field'>
                   <Input
-                    placeholder='请输入真实姓名' value={form.realName}
+                    placeholder='请输入您的姓名' value={form.realName}
                     onChange={(e) => setForm({
                       ...form,
                       realName: e.detail.value,
@@ -172,20 +173,24 @@ const Index = () => {
                 </Field>
               </View>
               <View className='item'>
-                <Text className='label'>学校</Text>
-                <Field className='field' rightIcon={<ArrowDown/>} onClick={() => setSchoolPickerOpen(true)}>
-                  <Input readonly placeholder='请选择学校' value={form.school}/>
+                <Text className='label'>性别</Text>
+                <Field className='field' rightIcon={<ArrowDown/>} onClick={() => setGenderPickerOpen(true)}>
+                  <Input
+                    readonly
+                    placeholder='请选择性别'
+                    value={getFormatGender(form.gender) === '未选择' ? '' : getFormatGender(form.gender)}
+                  />
                 </Field>
               </View>
               <View className='item'>
-                <Text className='label'>学院</Text>
+                <Text className='label'>院系</Text>
                 <Field className='field' rightIcon={<ArrowDown/>} onClick={() => setFacultyPickerOpen(true)}>
-                  <Input readonly placeholder='请选择学院' value={form.faculty}/>
+                  <Input readonly placeholder='请选择院系' value={form.faculty}/>
                 </Field>
               </View>
               <View className='item row item-border'>
                 <Text className='label'>手机号</Text>
-                <Field className='field pnb' rightIcon={<Plus/>}>
+                <Field className='field pnb'>
                   <Input readonly value={`+${countryCode ? countryCode : 86}`}/>
                 </Field>
                 <View className='btn-container'>
@@ -235,26 +240,26 @@ const Index = () => {
           </View>
         </View>
       </View>
-      <Popup open={schoolPickerOpen} rounded placement='bottom' onClose={setSchoolPickerOpen}>
+      <Popup open={genderPickerOpen} rounded placement='bottom' onClose={setGenderPickerOpen}>
         <Popup.Backdrop/>
         <Picker
-          onCancel={() => setSchoolPickerOpen(false)}
+          onCancel={() => setGenderPickerOpen(false)}
           onConfirm={(value) => {
             setForm({
               ...form,
-              school: value[0],
+              gender: value[0],
             })
-            setSchoolPickerOpen(false)
+            setGenderPickerOpen(false)
           }}
-          defaultValue='浙江大学'
         >
           <Picker.Toolbar>
             <Picker.Button>取消</Picker.Button>
-            <Picker.Title>选择学校</Picker.Title>
+            <Picker.Title>选择性别</Picker.Title>
             <Picker.Button>确认</Picker.Button>
           </Picker.Toolbar>
           <Picker.Column>
-            <Picker.Option>浙江大学</Picker.Option>
+            <Picker.Option value={1}>男</Picker.Option>
+            <Picker.Option value={2}>女</Picker.Option>
           </Picker.Column>
         </Picker>
       </Popup>

@@ -7,7 +7,7 @@
   background: $white;
 
   margin-top: 24px;
-  padding: 16px;
+  padding: 16px 32px 16px 16px;
   border-radius: 16px;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .article-card .img {
-  width: 45%;
-  height: 210px;
+  width: 48%;
+  height: 200px;
 
   border-radius: 16px;
 }
@@ -30,7 +30,7 @@
 .article-card .title {
   font-style: normal;
   font-weight: 500;
-  font-size: 32px;
+  font-size: 30px;
   color: $text-color;
 
   margin-bottom: 16px;
@@ -50,7 +50,7 @@
   width: 100%;
 
   position: absolute;
-  bottom: 16px;
+  bottom: 0;
 }
 
 .article-card .tag {

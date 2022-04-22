@@ -35,8 +35,10 @@
 .arti_service{
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 28px;
 }
 
 .arti-text{
@@ -68,10 +70,30 @@
   height: 5rem;
   border: 5px solid $primary-color;
   border-radius: 16px;
+
+  padding: 8px;
 }
 
 .collapse-item {
   .taroify-cell__value {
     display: none;
+  }
+
+  .taroify-cell__title {
+    margin-right: 72px;
+  }
+
+  .taroify-cell {
+    line-height: 48px;
+    font-size: 30px;
+  }
+
+  .taroify-cell__brief {
+    font-size: 27px;
+    line-height: 36px;
+  }
+
+  .taroify-collapse-item__content {
+
   }
 }

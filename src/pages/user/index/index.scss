@@ -6,7 +6,7 @@
 
 .header {
   width: 600px;
-  margin: 0 auto;
+  margin: 0 16px;
   z-index: 100;
 }
 
@@ -38,7 +38,7 @@
 .header .info .nickname {
   font-style: normal;
   font-weight: 500;
-  font-size: 34px;
+  font-size: 40px;
 
   color: $text-color-1
 }
@@ -46,7 +46,7 @@
 .header .info .faculty {
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 28px;
 
   color: $text-color-1
 }
@@ -61,6 +61,15 @@
 
 .main {
   margin: 32px 0;
+
+  .taroify-cell-group--inset {
+    margin: 0;
+  }
+
+  .taroify-cell {
+    line-height: 56px;
+    font-size: 30px;
+  }
 }
 
 .main .left-icon {

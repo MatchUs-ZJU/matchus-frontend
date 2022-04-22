@@ -1,13 +1,13 @@
 import Taro from "@tarojs/taro";
-import {HTTP_STATUS} from "@/utils/status";
+import {API_STATUS_CODE, HTTP_STATUS, HTTP_STATUS_CODE} from "@/utils/status";
 import {BASE_URL} from "@/config";
-import {relogin} from "@/actions";
-import {store} from "@/store";
+import {checkHomePage} from "@/utils/taro-utils";
+import {removeJWT} from "@/services/jwt";
 
 let checkHttpStatus = (response: API.Response) => {
   // stop loading
   Taro.hideNavigationBarLoading();
-  if (response.statusCode >= 200 && response.statusCode < 300) {
+  if (response.statusCode >= HTTP_STATUS_CODE.SUCCESS_LOWER_BOUND && response.statusCode < HTTP_STATUS_CODE.SUCCESS_UPPER_BOUND) {
     return response.data;
   }
 
@@ -21,11 +21,16 @@ let checkHttpStatus = (response: API.Response) => {
 
 let checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
-  if (data.success) {
+  if (data.success && data.code === API_STATUS_CODE.SUCCESS) {
     return data
-  } else if(data.code === 3) {
+  }
+
+  // token expire
+  if(data.code === API_STATUS_CODE.TOKEN_EXPIRE) {
     handleJWTExpired()
-    return data
+      .then(() => {
+        return data
+      })
   }
 
   const message = data.msg || '服务器异常并且没有返回原因';
@@ -37,8 +42,11 @@ let checkSuccess = (data: API.ResponseData) => {
 }
 
 async function handleJWTExpired() {
-  store.dispatch(relogin())
-  await Taro.switchTab({url: '/pages/home/index/index'})
+  console.log('网络请求：JWT过期，重新登录')
+  removeJWT()
+  if(!checkHomePage()) {
+    await Taro.reLaunch({url: '/pages/home/index/index'})
+  }
 }
 
 /**
@@ -50,7 +58,7 @@ function throwError(err) {
   // show error message
   console.log("请求失败：" + `${err.code} - ${err.text}`)
   Taro.showToast({
-    title: "网络请求失败: " + `${err.text}`,
+    title: "网络请求失败: 请刷新或重新重试",
     icon: 'none',
     duration: 3000
   })

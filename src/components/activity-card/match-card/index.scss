@@ -9,13 +9,16 @@
 }
 
 .btn-disable .note {
-  width: 90px;
+  width: 120px;
 
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 24px;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
   color: $note-color;
+
+  margin-top: 8px;
 }
 
 .feedback-card {
@@ -44,7 +47,7 @@
 
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 28px;
   color: $text-color-1;
 
   margin-bottom: 12px;
@@ -52,7 +55,7 @@
 
 .feedback-card .feedback .title .icon{
   width: 32px;
-  height: 28px;
+  height: 32px;
 
   margin-right: 12px;
 }
@@ -60,7 +63,7 @@
 .feedback-card .feedback .desc {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 24px;
 
   color: $note-color;
@@ -84,7 +87,7 @@
 .feedback-card .favor .number {
   font-style: normal;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 30px;
   line-height: 48px;
 
   color: $pink;
@@ -93,7 +96,7 @@
 .feedback-card .favor .note {
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 24px;
 
   color: $note-color;

@@ -1,12 +1,13 @@
 @import '../../app.scss';
 
-$activity-card-height: 180px;
-$activity-card-divider-height: 40px;
+$activity-card-height: 190px;
+$activity-card-divider-height: 30px;
 $activity-card-id-height: 56px;
 $feedback-card-height: 160px;
 $message-board-height: 360px;
 
 .card-container {
+  position: relative;
   margin-bottom: $activity-card-divider-height;
 }
 
@@ -19,7 +20,7 @@ $message-board-height: 360px;
 
   background: $white;
 
-  padding: 16px 0;
+  padding: 20px 0;
   border-radius: 16px;
   overflow: hidden;
 }
@@ -87,6 +88,7 @@ $message-board-height: 360px;
 .activity-card .main {
   flex: 1;
   height: 100%;
+  box-sizing: border-box;
 
   justify-content: flex-start;
   align-items: flex-start;
@@ -98,30 +100,28 @@ $message-board-height: 360px;
   justify-content: flex-start;
   align-items: center;
 
-  height: 62px;
-
   font-style: normal;
   font-weight: 500;
   font-size: 34px;
   line-height: 48px;
   color: $text-color-1;
 
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .activity-card .main .detail {
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: 27px;
   color: #737373;
 
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .activity-card .main .note {
   font-style: normal;
   font-weight: 400;
-  font-size: 19px;
+  font-size: 24px;
   line-height: 24px;
 
   color: $primary-color;

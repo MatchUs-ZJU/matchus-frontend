@@ -1,7 +1,7 @@
 import {View, ViewProps} from "@tarojs/components";
 import classnames from "classnames";
 import {Image} from "@taroify/core";
-import {HeartBeatIcon, StepIcon} from "@/assets/images";
+import {HeartBeatIcon, StepGreyIcon, StepIcon} from "@/assets/images";
 import {
   ActiveBtn,
   DisableBtn, FinishedBtn,
@@ -70,7 +70,8 @@ const MatchCard = (props: MatchCardProps) => {
         )}
         <View className='col left'>
           <View className='id'>3</View>
-          <Image lazyLoad src={StepIcon} className='img'/>
+          <Image lazyLoad src={(state && state === 'ACTIVE' && !matchResult) ? StepGreyIcon : StepIcon}
+                 className='img'/>
         </View>
         <View className='col main'>
           <View className='title'>相识·智能匹配</View>

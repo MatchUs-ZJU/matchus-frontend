@@ -49,7 +49,7 @@ const SurveyCard = (props: SurveyCardProps) => {
           <View className='icon-container'><Edit size='20px'/></View>
           <View className='text'>继续填写</View>
         </View>
-        <View className='col' onClick={finishFillForm} style={{marginLeft: '16px'}}>
+        <View className='col' onClick={finishFillForm} style={{marginLeft: '12px'}}>
           <View className='icon-container'><Success size='20px'/></View>
           <View className='text'>确认完成</View>
         </View>
@@ -72,8 +72,8 @@ const SurveyCard = (props: SurveyCardProps) => {
         </View>
         <View className='col main'>
           <View className='title'>初知·问卷填写</View>
-          <View className='detail'>拼图君需要了解你的需求和性格，才能为你找到心仪的Ta</View>
-          <View className='note'>填问卷需10min，确认完成后不可修改</View>
+          <View className='detail'>我们需要了解你的需求和性格，才能为你找到心仪的Ta</View>
+          <View className='note'>填问卷大约需10min</View>
         </View>
         <View className='col right'>
           {state === 'NOT_START' ? (

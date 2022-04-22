@@ -185,7 +185,6 @@ export const notifySubscribe = () => {
       tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
     })
 
-    console.log(subscribeRes)
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
       console.log('活动页面：用户订阅消息成功')
     } else {
@@ -280,7 +279,7 @@ export const sendMessage = ({message, id}) => {
         }))
 
         await Taro.showToast({
-          title: '提交成功！',
+          title: '提交成功',
           duration: 3000,
           icon: 'success'
         })

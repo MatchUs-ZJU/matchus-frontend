@@ -130,6 +130,11 @@
   border-radius: 16px;
 
   padding: 32px 40px;
+
+  .taroify-divider {
+    font-size: 32px;
+    font-weight: 600;
+  }
 }
 
 .content .item {
@@ -140,7 +145,7 @@
 .content .item .title{
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
+  font-size: $title-font-size;
   line-height: 32px;
 
   display: flex;
@@ -152,12 +157,12 @@
 .content .item .answer{
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: $answer-font-size;
   line-height: 32px;
 
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  margin-top: 8px;
   color: rgba(0, 0, 0, 0.7);
 }
 
@@ -215,6 +220,7 @@
 .footer-container-failure .footer .contactus .contactus-img {
   width: 118px;
   height: 118px;
+  padding: 8px;
 
   background: $white;
   border: 3px solid $primary-color;
@@ -224,7 +230,7 @@
 
 .footer-container-failure .footer .contactus .contactus-note {
   font-weight: 400;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 32px;
   text-align: center;
   color: $background-color-light;
@@ -329,6 +335,7 @@
   border: 3px solid $primary-color;
   box-sizing: border-box;
   border-radius: 16px;
+  padding: 8px;
 }
 
 

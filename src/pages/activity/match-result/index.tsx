@@ -18,10 +18,10 @@ const Index = () => {
   const [heartValue, setHeartValue] = useState(0)
   const [heart, setHeart] = useState(0)
   const [isChecked, setChecked] = useState(false)
-  console.log(heart)
 
   function onHeartChange(value) {
     setHeartValue(value * 20)
+    setHeart(value)
   }
 
   function submitHeartValue() {
@@ -101,30 +101,21 @@ const Index = () => {
               <View className='line'/>
             </View>
             <View className='basic-info'>
-              <View className='item'>
-                <View className='title'>姓名</View>
-                <View className='answer'>{match.realName}</View>
-              </View>
-              <View className='item'>
-                <View className='title'>年龄/年级</View>
-                <View className='answer'>{match.age}</View>
-              </View>
-              <View className='item'>
-                <View className='title'>家乡</View>
-                <View className='answer'>{match.hometown}</View>
-              </View>
-              <View className='item'>
-                <View className='title'>身高</View>
-                <View className='answer'>{match.height}</View>
-              </View>
-              <View className='item'>
-                <View className='title'>校区</View>
-                <View className='answer'>{match.campus}</View>
-              </View>
-              <View className='item'>
-                <View className='title'>学院及专业</View>
-                <View className='answer'>{match.faculty} {match.major}</View>
-              </View>
+              {match.basicInfo && match.basicInfo.length ?
+                match.basicInfo
+                  .sort((o1, o2) => {
+                    return o1.index - o2.index
+                  })
+                  .map((item, _) => {
+                    return (
+                      <View className='item'>
+                        <View className='title'>{item.key}</View>
+                        <View className='answer'>{item.value}</View>
+                      </View>
+                    )
+                  })
+                : <></>
+              }
             </View>
             <View className='divider row'>
               个性特点
@@ -162,7 +153,7 @@ const Index = () => {
               <View className='tips purple'>
                 <View>温馨提示</View>
                 <View> • 主动的人会获得更好的第一印象哦~</View>
-                <View> • 开放朋友圈吧，展示你的小生活</View>
+                <View> • 开放朋友圈吧，展示你的小生活~</View>
                 <View> • 一段真诚的自我个绍可以提起对方的兴趣，解锁更多可聊的话题哦~</View>
               </View>
             </View>
@@ -173,7 +164,7 @@ const Index = () => {
             <View className='image-info'>
               <View className='text'>记录你对Ta的第一印象，记录完成后可查看照片</View>
               <View className='first-check row'>
-                <View className='col center-center' style={{width: '40px'}}>
+                <View className='col center-center' style={{width: '60px'}}>
                   <View className='heart-value'>{heartValue + "%"}</View>
                   <View className='heart-text'>心动值</View>
                 </View>
@@ -182,7 +173,7 @@ const Index = () => {
                   defaultValue={0}
                   value={heart}
                   allowHalf
-                  size={25}
+                  size={28}
                   icon={<Like/>}
                   emptyIcon={<LikeOutlined/>}
                   onChange={(value) => onHeartChange(value)}
