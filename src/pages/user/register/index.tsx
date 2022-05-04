@@ -3,14 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {Dialog, Field, Form, Image, Input, Picker, Popup, Uploader} from "@taroify/core";
 import {AnonymousImage, UploadIcon} from "@/assets/images";
 import {useEffect, useState} from "react";
-import {ArrowDown, Plus} from "@taroify/icons";
+import {ArrowDown} from "@taroify/icons";
 import Taro from "@tarojs/taro";
 import {fetchFaculties} from "@/actions";
 import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
+import {getFormatGender} from "@/utils/fstring";
 import classnames from "classnames";
 
 import './index.scss'
-import {getFormatGender} from "@/utils/fstring";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -87,17 +87,17 @@ const Index = () => {
     }
   }
 
-  async function navToUserAgreement() {
-    await Taro.navigateTo({
-      url: '/pages/user/agreement/index'
-    })
-  }
-
-  async function navToUserPrivacy() {
-    await Taro.navigateTo({
-      url: '/pages/user/privacy/index'
-    })
-  }
+  // async function navToUserAgreement() {
+  //   await Taro.navigateTo({
+  //     url: '/pages/user/agreement/index'
+  //   })
+  // }
+  //
+  // async function navToUserPrivacy() {
+  //   await Taro.navigateTo({
+  //     url: '/pages/user/privacy/index'
+  //   })
+  // }
 
   function getFacultyIdByName(name: string) {
     for (let i = 0; i < faculties.length; i++) {
@@ -160,7 +160,7 @@ const Index = () => {
                   <Input
                     placeholder='请输入教务网账号' value={form.studentNumber}
                     onChange={(e) => {
-                      const numRegExp = /^\d+$/
+                      const numRegExp = /^\w+$/
                       if (!numRegExp.test(e.detail.value)) {
                         return
                       }
@@ -221,14 +221,14 @@ const Index = () => {
             </Form>
           </View>
         </View>
-        <View className='row agree'>
-          <View className='text'>
-            我已阅读同意
-            <Text className='purple' onClick={navToUserAgreement}>《MatchUs用户协议》</Text>
-            和
-            <Text className='purple' onClick={navToUserPrivacy}>《MatchUs个人信息保护策略》</Text>
-          </View>
-        </View>
+        {/*<View className='row agree'>*/}
+        {/*  <View className='text'>*/}
+        {/*    我已阅读同意*/}
+        {/*    <Text className='purple' onClick={navToUserAgreement}>《MatchUs用户协议》</Text>*/}
+        {/*    和*/}
+        {/*    <Text className='purple' onClick={navToUserPrivacy}>《MatchUs个人信息保护策略》</Text>*/}
+        {/*  </View>*/}
+        {/*</View>*/}
         <View className='row register-btn-container'>
           <View
             className={classnames(

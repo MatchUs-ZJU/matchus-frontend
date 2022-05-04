@@ -182,7 +182,11 @@ export const notifySubscribe = () => {
   return async () => {
     console.log('活动页面：用户订阅消息')
     let subscribeRes = await Taro.requestSubscribeMessage({
-      tmplIds: ['ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M', 'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk']
+      tmplIds: [
+        'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+        'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
+        '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'
+      ]
     })
 
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {

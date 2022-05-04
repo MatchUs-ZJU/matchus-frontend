@@ -1,6 +1,6 @@
 import {Text, View} from "@tarojs/components";
 import {Swiper, Image, Countdown} from "@taroify/core";
-import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
+import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBanners, fetchRecommends, relogin} from "@/actions";
@@ -33,6 +33,13 @@ const Home = () => {
       fetchData()
     } else {
       dispatch(relogin(fetchData()))
+    }
+  })
+
+  useShareAppMessage(_ => {
+    return {
+      title: 'MatchUs - 每个人都在寻找契合的另一块拼图',
+      path: 'pages/home/index/index',
     }
   })
 

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
-import Taro, {useDidShow, usePullDownRefresh} from "@tarojs/taro";
+import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
@@ -13,7 +13,7 @@ import './index.scss'
 const Index = () => {
   const dispatch = useDispatch()
   const {user, activity} = useSelector(state => state)
-  const {nickName, avatarUrl, identified} = user
+  const {nickName, avatarUrl, identified, login} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
   const {signUp, match, choose, fillForm, state} = participate
 
@@ -27,8 +27,20 @@ const Index = () => {
     fetchData()
   })
 
+  useShareAppMessage(_ => {
+    return {
+      title: 'MatchUs - 每个人都在寻找契合的另一块拼图',
+      path: 'pages/home/index/index',
+    }
+  })
+
   useDidShow(async () => {
     const checkUserState = async () => {
+      if (!login) {
+        await Taro.switchTab({url: '/pages/home/index/index'})
+        return
+      }
+
       if (!nickName || !avatarUrl) {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return

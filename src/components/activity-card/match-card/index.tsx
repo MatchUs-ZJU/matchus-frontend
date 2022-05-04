@@ -5,7 +5,6 @@ import {HeartBeatIcon, StepGreyIcon, StepIcon} from "@/assets/images";
 import {
   ActiveBtn,
   DisableBtn, FinishedBtn,
-  goToRefundText,
   NotStartBtn
 } from "@/components/activity-card/right-buttons";
 import Taro from "@tarojs/taro";

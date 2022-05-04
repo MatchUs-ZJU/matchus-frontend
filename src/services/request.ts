@@ -1,10 +1,10 @@
 import Taro from "@tarojs/taro";
 import {API_STATUS_CODE, HTTP_STATUS, HTTP_STATUS_CODE} from "@/utils/status";
-import {BASE_URL} from "@/config";
+import {BASE_URL, CLOUD_ENV, WX_SERVICE_NAME} from "@/config";
 import {checkHomePage} from "@/utils/taro-utils";
 import {removeJWT} from "@/services/jwt";
 
-let checkHttpStatus = (response: API.Response) => {
+const checkHttpStatus = (response: API.Response) => {
   // stop loading
   Taro.hideNavigationBarLoading();
   if (response.statusCode >= HTTP_STATUS_CODE.SUCCESS_LOWER_BOUND && response.statusCode < HTTP_STATUS_CODE.SUCCESS_UPPER_BOUND) {
@@ -19,7 +19,7 @@ let checkHttpStatus = (response: API.Response) => {
   throw error;
 }
 
-let checkSuccess = (data: API.ResponseData) => {
+const checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
   if (data.success && data.code === API_STATUS_CODE.SUCCESS) {
     return data
