@@ -173,7 +173,7 @@ const Index = () => {
                   defaultValue={0}
                   value={heart}
                   allowHalf
-                  size={28}
+                  size={24}
                   icon={<Like/>}
                   emptyIcon={<LikeOutlined/>}
                   onChange={(value) => onHeartChange(value)}
@@ -192,7 +192,7 @@ const Index = () => {
                         <Image
                           src={item}
                           lazyLoad
-                          mode='center'
+                          mode='aspectFill'
                           className='img'
                           onClick={() => viewImages(match.photos)}
                         />

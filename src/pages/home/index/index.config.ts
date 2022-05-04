@@ -3,5 +3,6 @@ export default definePageConfig({
   navigationBarBackgroundColor: "#918AE3",
   navigationBarTitleText: 'MatchUs',
   navigationBarTextStyle: 'white',
-  enablePullDownRefresh: true
+  enablePullDownRefresh: true,
+  enableShareAppMessage: true
 })

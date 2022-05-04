@@ -2,7 +2,7 @@ import {View} from "@tarojs/components";
 import {Badge, Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon, AnonymousImage} from "@/assets/images";
-import Taro from "@tarojs/taro";
+import Taro, {useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {fetchUserInfo} from "@/actions";
@@ -24,6 +24,13 @@ const User = () => {
   useEffect(() => {
     fetchData()
   }, [])
+
+  useShareAppMessage(_ => {
+    return {
+      title: 'MatchUs - 每个人都在寻找契合的另一块拼图',
+      path: 'pages/home/index/index',
+    }
+  })
 
   function fetchData() {
     // 如果没有个人信息，先尝试获取
