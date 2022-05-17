@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {Provider, useSelector} from 'react-redux'
 import Taro, {useDidShow} from "@tarojs/taro";
 import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"
+import {CLOUD_ENV} from "@/config";
 
 import './app.scss'
 import {getJWT} from "./services/jwt";
@@ -50,6 +51,10 @@ function App(props) {
         system: systemInfo
       }))
     });
+    // 初始化云托管
+    Taro.cloud.init({
+      env: CLOUD_ENV
+    })
   }, [])
 
   return (

@@ -1,7 +1,9 @@
 import Taro from "@tarojs/taro";
 import {USER_SAVE} from "@/constants";
-import {decodePhoneNumber, getUserInfo, login, register, updateUserInfo} from "@/services/user";
+import {decodePhoneNumber, getUserInfo, identifyUserInfo, login, register, updateUserInfo} from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
+import {TOAST_SHOW_TIME} from "@/utils/constant";
+import {CLOUD_ENV} from "@/config";
 
 export const userSave = (payload) => {
   return {
@@ -159,34 +161,60 @@ export const submitIdentificationInfo = (data) => {
   return async dispatch => {
     console.log("用户信息：提交用户身份验证信息")
     try {
-      const res = await updateUserInfo({
+      // 上传照片到云托管
+      const uploadRes = await Taro.cloud.uploadFile({
+        cloudPath: `identify/${data.realName}-1.png`,
+        filePath: data.imageFile.url,
+        config: {
+          env: CLOUD_ENV
+        }
+      })
+
+      if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+        console.log("用户信息：提交用户身份验证照片到云托管失败")
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交身份认证照片失败',
+          duration: TOAST_SHOW_TIME,
+        });
+        return
+      }
+
+      console.log("用户信息：提交用户身份验证照片到云托管成功")
+      // 提交认证信息
+      const res = await identifyUserInfo({
         ...data,
-        // faculty这里传的是id，不是名字
-        faculty: data.facultyId
+        faculty: data.facultyId, // faculty这里传的是id，不是名字
+        material: uploadRes.fileID
       })
       if (res && res.code === 0) {
         console.log("用户信息：提交用户身份验证信息成功")
         dispatch(userSave({
           ...data,
-          identified: '已认证'
+          identified: '认证中'
         }))
         await Taro.showToast({
           icon: 'none',
           title: '提交个人信息成功',
-          duration: 5000,
+          duration: TOAST_SHOW_TIME,
         });
         await Taro.switchTab({
           url: '/pages/activity/index/index'
         })
       } else {
         console.log("用户信息：提交用户身份验证信息失败")
+        await Taro.showToast({
+          icon: 'none',
+          title: res.msg,
+          duration: TOAST_SHOW_TIME,
+        });
       }
     } catch (e) {
       console.log(e)
       await Taro.showToast({
         icon: 'none',
         title: '提交个人信息失败，请重新尝试',
-        duration: 5000,
+        duration: TOAST_SHOW_TIME,
       });
     }
   }

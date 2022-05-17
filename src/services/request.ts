@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 import {API_STATUS_CODE, HTTP_STATUS, HTTP_STATUS_CODE} from "@/utils/status";
-import {BASE_URL, CLOUD_ENV, WX_SERVICE_NAME} from "@/config";
+import {BASE_URL} from "@/config";
 import {checkHomePage} from "@/utils/taro-utils";
 import {removeJWT} from "@/services/jwt";
 
@@ -58,7 +58,7 @@ function throwError(err) {
   // show error message
   console.log("请求失败：" + `${err.code} - ${err.text}`)
   Taro.showToast({
-    title: "网络请求失败: 请刷新或重新重试",
+    title: "网络请求失败",
     icon: 'none',
     duration: 3000
   })

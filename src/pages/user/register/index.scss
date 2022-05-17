@@ -130,6 +130,16 @@ page {
   .taroify-cell {
     padding: 23px 30px 17px;
   }
+
+  .field-note {
+    margin-top: 8px;
+
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 24px;
+    color: $danger-color;
+  }
 }
 
 .main .form-container .form .item-border {
@@ -151,15 +161,21 @@ page {
   border: 2px solid #ADB7BE;
   box-sizing: border-box;
   border-radius: 6px;
-
   background: $white;
+
+  &:hover {
+    border: 2px solid $primary-color;
+    box-sizing: border-box;
+    filter: drop-shadow(0px 0px 4px $primary-color);
+    border-radius: 6px;
+  }
 }
 
-.main .form-container .form .field:hover {
-  border: 2px solid $primary-color;
+.main .form-container .form .field-warn{
+  border: 2px solid $danger-color;
   box-sizing: border-box;
-  filter: drop-shadow(0px 0px 4px $primary-color);
   border-radius: 6px;
+  background: $white;
 }
 
 .main .form-container .form .label{
@@ -235,6 +251,20 @@ page {
     &__wrapper {
       flex-direction: column;
     }
+
+    &__preview-image {
+      width: 100%;
+      height: 100%;
+    }
+
+    &__preview {
+      width: 340px;
+      height: 290px;
+    }
+  }
+
+  &__preview-image {
+    padding: 32px 28px;
   }
 }
 
@@ -255,6 +285,8 @@ page {
   text-align: center;
 
   color: #ADB7BE;
+
+  margin-bottom: 8px;
 }
 
 .uploader .uploader-desc {
