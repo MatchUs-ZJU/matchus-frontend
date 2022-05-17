@@ -22,6 +22,16 @@ export const updateUserInfo = async (data) => {
   });
 };
 
+export const identifyUserInfo = async (data) => {
+  console.log('网络请求：上传用户身份验证')
+  return request.post(`/user/identify`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
 export const uploadIdentificationImages = async (data) => {
   console.log('网络请求：上传用户身份识别照片')
   return Taro.uploadFile({
