@@ -12,12 +12,14 @@ import SloganImage from './slogan.png'
 import AnonymousImage from './anonymous.png'
 import AboutUsTopImage from './aboutus.jpg'
 
+import reportImage from './report.png'
 import MaleIcon from './male.svg'
 import FemaleIcon from './female.svg'
 import CopyIcon from './copy.svg'
 
-import commonqustions from './mine-help-commonquestions.svg';
-import artiservice from './mine-help-service.svg';
+import commonQuestions from './mine-help-questions.svg';
+import artiService from './mine-help-service.svg';
+import report from './mine-help-report.svg'
 import personalinfo from './mine-personalinfo.svg'
 import identity from './mine-identity.svg'
 import consume from './mine-consume.svg'
@@ -38,10 +40,9 @@ import Emoji4 from './emojis/4.svg'
 import Emoji5 from './emojis/5.svg'
 
 export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
-export {FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
+export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
-export const commonquestionsIcon  = commonqustions;
-export const artiserviceIcon = artiservice;
+export {artiService, commonQuestions, report}
 export const personalinfoIcon = personalinfo
 export const identityIcon = identity
 export const consumeIcon = consume
