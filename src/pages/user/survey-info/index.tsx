@@ -2,8 +2,8 @@ import {View} from "@tarojs/components";
 import {Cell} from "@taroify/core";
 import "@taroify/core/cell/style"
 import {useSelector} from "react-redux";
-import {getFormatGender} from "@/utils/fstring";
 import './index.scss'
+import {getFormatGender} from "@/utils/fstring";
 
 const Information = () => {
   const {user} = useSelector((state) => state)
@@ -11,7 +11,6 @@ const Information = () => {
 
   return (
     <View className='container wrapper'>
-
       <View className='info'>
         <Cell.Group inset>
           <Cell title='真实姓名'>{realName}</Cell>

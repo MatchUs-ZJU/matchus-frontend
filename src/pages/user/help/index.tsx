@@ -58,7 +58,7 @@ const Index = () => {
           </View>
         </Cell.Group>
       </View>
-      <View className='section margin-h'>
+      <View className='section margin-hor'>
         <View className='title' style={{marginLeft: 0}}>
           <Image lazyLoad src={report} className='title-img'/>
           <Text className='title-text'>举报通道</Text>

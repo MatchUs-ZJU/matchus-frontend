@@ -1,13 +1,24 @@
-import {View} from "@tarojs/components";
+import {View, Text} from "@tarojs/components";
 import {Badge, Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
-import {personalinfoIcon, identityIcon, consumeIcon, helpIcon, aboutusIcon, AnonymousImage} from "@/assets/images";
+import {
+  personalinfoIcon,
+  identityIcon,
+  consumeIcon,
+  helpIcon,
+  aboutusIcon,
+  AnonymousImage,
+  surveyIcon
+} from "@/assets/images";
 import Taro, {useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {fetchUserInfo} from "@/actions";
+import classnames from "classnames";
+import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
 
 import './index.scss'
+import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 const notifyLoginMessage = '您还没有登录哦'
 const notifyIdentifyMessage = '请您先完成用户认证'
@@ -15,8 +26,11 @@ const notifyIdentifyMessage = '请您先完成用户认证'
 const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {nickName, avatarUrl, school, faculty, identified, login} = user
+  const {nickName, avatarUrl, faculty, identified, login, userType} = user
 
+  // 身份和认证状态
+  const badge = getBadgeInfo(identified, userType)
+  const identifiedStatus = getIdentifiedStatus(identified)
   // 通知
   const [notifyContent, setNotifyContent] = useState('')
   const [notifyOpen, setNotifyOpen] = useState(false)
@@ -46,10 +60,11 @@ const User = () => {
   }
 
   const onClickOpenPersonalInformation = async () => {
+    //TODO
     if (!nickName || !avatarUrl || !avatarUrl.length) {
       setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
-    } else if (identified !== '已认证') {
+    } else if (identified !== '认证成功') {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
       await Taro.navigateTo({url: '/pages/introduction/index'})
@@ -58,16 +73,12 @@ const User = () => {
     }
   }
 
-  const onClickOpenPersonalIdentity = async () => {
+  const onClickOpenSurveyInfo = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
       setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
     } else {
-      await Taro.showToast({
-        title: "程序猿小哥哥正在开发该功能，本期活动采用人工认证～",
-        duration: 5000,
-        icon: 'none'
-      })
+      await Taro.navigateTo({url: '/pages/user/survey-info/index'})
     }
   }
 
@@ -109,6 +120,15 @@ const User = () => {
             <>
               <View className='row nickname'>
                 {nickName}
+                <View className={classnames('badge',
+                  {'badge-undergraduate': identified === '认证成功' && userType === 1},
+                  {'badge-graduated': identified === '认证成功' && userType !== 1},
+                  {'badge-checking': identified === '认证中'},
+                  {'badge-notallow': identified === '认证失败'},
+                  {'badge-notcheck': identified === '未认证'}
+                )}>
+                  {badge}
+                </View>
               </View>
               <View className='row faculty' style={{marginTop: '4px'}}>
                 学院：{faculty ? faculty : '暂无信息'}
@@ -130,15 +150,15 @@ const User = () => {
             align='center'
             onClick={onClickOpenPersonalInformation}
           >
-            {identified}
+            <Text style={identified === '认证失败' ? {color: '#DA3F3F'} : {}}>{identifiedStatus}</Text>
           </Cell>
           <Cell
-            icon={<Image src={identityIcon} className='left-icon'/>}
-            title='身份认证'
+            icon={<Image src={surveyIcon} className='left-icon'/>}
+            title='问卷信息'
             rightIcon={<Arrow size='16'/>}
             align='center'
             clickable
-            onClick={onClickOpenPersonalIdentity}
+            onClick={onClickOpenSurveyInfo}
           >
           </Cell>
           <Cell
