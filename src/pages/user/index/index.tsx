@@ -61,16 +61,16 @@ const User = () => {
 
   const onClickOpenPersonalInformation = async () => {
     //TODO
-    if (!nickName || !avatarUrl || !avatarUrl.length) {
-      setNotifyContent(notifyLoginMessage)
-      setNotifyOpen(true)
-    } else if (identified !== '认证成功') {
-      setNotifyContent(notifyIdentifyMessage)
-      setNotifyOpen(true)
-      await Taro.navigateTo({url: '/pages/introduction/index'})
-    } else {
+    // if (!nickName || !avatarUrl || !avatarUrl.length) {
+    //   setNotifyContent(notifyLoginMessage)
+    //   setNotifyOpen(true)
+    // } else if (identified === '未认证') {
+    //   setNotifyContent(notifyIdentifyMessage)
+    //   setNotifyOpen(true)
+    //   await Taro.navigateTo({url: '/pages/introduction/index'})
+    // } else {
       await Taro.navigateTo({url: '/pages/user/information/index'})
-    }
+    // }
   }
 
   const onClickOpenSurveyInfo = async () => {
