@@ -12,6 +12,7 @@ export default defineAppConfig({
     'pages/user/help/index',
     'pages/user/record/index',
     'pages/user/about/index',
+    'pages/user/identify/index',
     'pages/user/information/index',
     'pages/user/privacy/index',
     'pages/user/agreement/index',
