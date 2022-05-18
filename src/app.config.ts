@@ -16,6 +16,7 @@ export default defineAppConfig({
     'pages/user/privacy/index',
     'pages/user/agreement/index',
     'pages/user/register/index',
+    'pages/user/survey-info/index',
 
     'pages/introduction/index',
   ],

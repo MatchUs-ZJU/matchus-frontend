@@ -45,7 +45,7 @@ const Index = () => {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
-      if (identified !== '已认证') {
+      if (identified !== '认证成功') {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
