@@ -9,7 +9,8 @@ export interface IUserState {
   country: string;
   province: string;
   language:string;
-  identified: '未认证' | '已认证' | '认证失败' | '认证中';
+  identified: '未认证' | '认证成功' | '认证失败' | '认证中';
+  userType: number;
   school: string;
   studentNumber: string;
 
@@ -47,7 +48,8 @@ const INITIAL_STATE: IUserState = {
   identified: '未认证',
   login: false,
   nickName: "",
-  school: ""
+  school: "",
+  userType: 0
 }
 
 export default function user(state = INITIAL_STATE, action) {

@@ -5,46 +5,34 @@ import {AnonymousImage, UploadIcon} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {ArrowDown} from "@taroify/icons";
 import Taro from "@tarojs/taro";
-import {fetchFaculties} from "@/actions";
-import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
-import {getFormatGender, getFormatUserType} from "@/utils/fstring";
+import {fetchFaculties, submitIdentificationInfo} from "@/actions";
+import {fetchPhoneNumber} from "@/actions/user";
+import {getFormatUserType} from "@/utils/fstring";
 import {studentNumberRegTest} from "@/utils/reg";
 import classnames from "classnames";
-
+import {TOAST_SHOW_TIME} from "@/utils/constant";
 import './index.scss'
-
-interface PickerState {
-  open: boolean,
-  type: 'gender' | 'faculty' | 'userType'
-}
 
 const Index = () => {
   const dispatch = useDispatch()
-  const {user, resource} = useSelector(state => state)
+  const {user} = useSelector(state => state)
   const {nickName, avatarUrl, phoneNumber, countryCode, purePhoneNumber, sessionKey} = user
-  const {faculties} = resource
 
-  const [picker, setPicker] = useState<PickerState>({
+  const [picker, setPicker] = useState({
     open: false,
-    type: 'gender'
+    type: 'userType'
   })
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
   const [form, setForm] = useState({
     realName: '',
-    initStudentNumber: '',
     studentNumber: '',
-    school: '浙江大学',
-    gender: 0,
-    faculty: '',
-    facultyId: '',
     phoneNumber: '',
     userType: 0,
     imageFile: {
       url: '',
     }
   })
-  const [sameStudentNumber, setSameStudentNumber] = useState(false)
   const [canRegister, setCanRegister] = useState(false)
 
   useEffect(() => {
@@ -53,23 +41,12 @@ const Index = () => {
 
   useEffect(() => {
     // 校验是否可以提交表单
-    if (form.imageFile.url && form.userType && form.realName && form.studentNumber && form.gender && form.school
-      && form.faculty && form.facultyId && form.phoneNumber && sameStudentNumber
-    ) {
+    if (form.imageFile.url && form.userType && form.realName && form.studentNumber && form.phoneNumber) {
       setCanRegister(true)
     } else {
       setCanRegister(false)
     }
-  }, [form, sameStudentNumber])
-
-  useEffect(() => {
-    // 校验表单中学号是否相同
-    if (form.studentNumber === form.initStudentNumber) {
-      setSameStudentNumber(true)
-    } else {
-      setSameStudentNumber(false)
-    }
-  }, [form.initStudentNumber, form.studentNumber])
+  }, [form])
 
   useEffect(() => {
     // 修改表单的phoneNumber状态
@@ -109,7 +86,7 @@ const Index = () => {
       await Taro.showToast({
         icon: 'none',
         title: '获取手机号失败，您将无法参与活动',
-        duration: 5000,
+        duration: TOAST_SHOW_TIME,
       });
     }
   }
@@ -131,43 +108,15 @@ const Index = () => {
   }
 
   function onPickerConfirm(value) {
-    console.log(value)
-    if (picker.type === 'gender') {
-      setForm({
-        ...form,
-        gender: value[0],
-      })
-    } else if (picker.type === 'faculty') {
-      setForm({
-        ...form,
-        faculty: getFacultyName(value[0]),
-        facultyId: value[0]
-      })
-    } else {
-      setForm({
-        ...form,
-        userType: value[0]
-      })
-    }
-
+    setForm({
+      ...form,
+      userType: value[0]
+    })
     // 关闭选择器
     setPicker({
       ...picker,
       open: false
     })
-  }
-
-  function getFacultyName(id: string) {
-    for (let i = 0; i < faculties.length; i++) {
-      if (faculties[i].id === id) {
-        return faculties[i].name
-      }
-    }
-    return ''
-  }
-
-  function isSameStudentNumber() {
-    return form.initStudentNumber && form.studentNumber && form.initStudentNumber !== form.studentNumber
   }
 
   return (
@@ -198,9 +147,8 @@ const Index = () => {
           className='body col'
         >
           <View className='card col'>
-            <View className='text-top'>欢迎来到MatchUs！</View>
+            <View className='text-top'>请填写身份认证信息</View>
             <View className='divider'/>
-            <View className='text-bottom'>先介绍一下你自己吧👇</View>
           </View>
           <View className='form-container'>
             <Form onSubmit={onSubmitRegister} className='form'>
@@ -220,23 +168,7 @@ const Index = () => {
                 <Text className='label'>教务网账号</Text>
                 <Field className='field'>
                   <Input
-                    placeholder='请输入教务网账号' value={form.initStudentNumber}
-                    onChange={(e) => {
-                      if (studentNumberRegTest(e.detail.value)) {
-                        setForm({
-                          ...form,
-                          initStudentNumber: e.detail.value,
-                        })
-                      }
-                    }}
-                  />
-                </Field>
-              </View>
-              <View className='item'>
-                <Text className='label'>教务网账号确认</Text>
-                <Field className={classnames('field', {'field-warn': isSameStudentNumber()})}>
-                  <Input
-                    placeholder='请再次输入教务网账号' value={form.studentNumber}
+                    placeholder='请输入教务网账号' value={form.studentNumber}
                     onChange={(e) => {
                       if (studentNumberRegTest(e.detail.value)) {
                         setForm({
@@ -245,18 +177,6 @@ const Index = () => {
                         })
                       }
                     }}
-                  />
-                </Field>
-                {isSameStudentNumber() && <View className='field-note'>两次输入的学号不一致</View>}
-              </View>
-              <View className='item'>
-                <Text className='label'>性别</Text>
-                <Field className='field' rightIcon={<ArrowDown/>}
-                       onClick={() => setPicker({open: true, type: 'gender'})}>
-                  <Input
-                    readonly
-                    placeholder='请选择性别'
-                    value={getFormatGender(form.gender) === '未选择' ? '' : getFormatGender(form.gender)}
                   />
                 </Field>
               </View>
@@ -269,13 +189,6 @@ const Index = () => {
                     placeholder='请选择当前身份'
                     value={getFormatUserType(form.userType) === '未选择' ? '' : getFormatUserType(form.userType)}
                   />
-                </Field>
-              </View>
-              <View className='item'>
-                <Text className='label'>院系</Text>
-                <Field className='field' rightIcon={<ArrowDown/>}
-                       onClick={() => setPicker({open: true, type: 'faculty'})}>
-                  <Input readonly placeholder='请选择院系' value={form.faculty}/>
                 </Field>
               </View>
               <View className='item row item-border'>
@@ -300,7 +213,8 @@ const Index = () => {
               <View className='item item-border-solid' style={{marginBottom: 0}}>
                 <Text className='label'>证明材料</Text>
                 <Uploader
-                  className={classnames('col', 'uploader', {'uploader__preview-image': form.imageFile.url})} maxFiles={1}
+                  className={classnames('col', 'uploader', {'uploader__preview-image': form.imageFile.url})}
+                  maxFiles={1}
                 >
                   {form.imageFile.url ? (
                     <Uploader.Image
@@ -332,7 +246,7 @@ const Index = () => {
               {'register-btn-submit': canRegister}
             )}
             onClick={onSubmitRegister}>
-            注册
+            提交
           </View>
         </View>
       </View>
@@ -346,30 +260,14 @@ const Index = () => {
         >
           <Picker.Toolbar>
             <Picker.Button>取消</Picker.Button>
-            <Picker.Title>选择{picker.type === 'gender' ? '性别' : picker.type === 'faculty' ? '院系' : '当前身份'}</Picker.Title>
+            <Picker.Title>选择当前身份</Picker.Title>
             <Picker.Button>确认</Picker.Button>
           </Picker.Toolbar>
-          {picker.type === 'gender' ? (
-            <Picker.Column>
-              <Picker.Option value={1}>男</Picker.Option>
-              <Picker.Option value={2}>女</Picker.Option>
-            </Picker.Column>
-          ) : picker.type === 'faculty' ? (
-            <Picker.Column>
-              {faculties && faculties.length ?
-                faculties.map((item) => (
-                  <Picker.Option value={item.id}>{item.name}</Picker.Option>
-                ))
-                : <></>
-              }
-            </Picker.Column>
-          ) : (
-            <Picker.Column>
-              <Picker.Option value={1}>在校生</Picker.Option>
-              <Picker.Option value={2}>2019年-2022年从浙大毕业的毕业生</Picker.Option>
-              <Picker.Option value={3}>2018年以前（包括2018）从浙大毕业的毕业生</Picker.Option>
-            </Picker.Column>
-          )}
+          <Picker.Column>
+            <Picker.Option value={1}>在校生</Picker.Option>
+            <Picker.Option value={2}>2019年-2022年从浙大毕业的毕业生</Picker.Option>
+            <Picker.Option value={3}>2018年以前（包括2018）从浙大毕业的毕业生</Picker.Option>
+          </Picker.Column>
         </Picker>
       </Popup>
       <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>

@@ -4,6 +4,7 @@ import {decodePhoneNumber, getUserInfo, identifyUserInfo, login, register, updat
 import {removeJWT, setJWT} from "@/services/jwt";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {CLOUD_ENV} from "@/config";
+import {uploadIdentificationImage} from "@/utils/taro-utils";
 
 export const userSave = (payload) => {
   return {
@@ -162,14 +163,8 @@ export const submitIdentificationInfo = (data) => {
     console.log("用户信息：提交用户身份验证信息")
     try {
       // 上传照片到云托管
-      const uploadRes = await Taro.cloud.uploadFile({
-        cloudPath: `identify/${data.realName}-1.png`,
-        filePath: data.imageFile.url,
-        config: {
-          env: CLOUD_ENV
-        }
-      })
-
+      console.log(data)
+      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
       if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
         console.log("用户信息：提交用户身份验证照片到云托管失败")
         await Taro.showToast({
@@ -195,7 +190,7 @@ export const submitIdentificationInfo = (data) => {
         }))
         await Taro.showToast({
           icon: 'none',
-          title: '提交个人信息成功',
+          title: '提交身份信息成功',
           duration: TOAST_SHOW_TIME,
         });
         await Taro.switchTab({
