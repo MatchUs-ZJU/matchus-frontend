@@ -1,63 +1,65 @@
 @import '../../../app';
 
-.container {
-  background: $background-color;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.movable-container {
   position: relative;
-  align-items: stretch;
-  justify-content: stretch;
-  :global {
-    .at-list__item .item-extra__info {
-      padding-right: 60px;
-    }
-    .item-extra__image {
-      margin-right: 45px;
-      width: 80px;
-      height: 80px;
-      border-radius: 100px;
-      overflow: hidden;
-    }
+  width: 100%;
+  min-height: 100vh;
+}
+
+.movable-btn {
+  position: absolute;
+
+  width: 96px;
+  height: 96px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: $primary-color;
+  box-shadow: -4px 8px 16px rgba(145, 138, 227, 0.25);
+  border-radius: 50%;
+  z-index: 100;
+}
+
+.wrapper {
+  margin: 40px 38px 48px;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 32px;
+
+  height: 88px;
+
+  background: $primary-color;
+  border-radius: 16px 16px 0 0;
+  color: $white;
+
+  .title {
+    margin-left: 16px;
+
+    font-weight: 500;
+    font-size: 32px;
   }
 }
 
+.body {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 32px 40px;
 
-.info{
-  margin: 32px 0;
+  background: $white;
+  border-radius: 0 0 16px 16px;
+  color: $text-color-1;
+  font-size: 28px;
 
-  .taroify-cell {
-    line-height: 56px;
-    font-size: 30px;
-  }
-
-  .taroify-cell__brief {
-    font-size: 27px;
-    line-height: 36px;
-  }
+  transition: height 1s;
+  -o-transition: height 1s;
+  overflow: hidden;
 }
 
-//
-//.title {
-//  font-size: 24px;
-//  margin-left: 24px;
-//  margin-bottom: 16px;
-//  color: $note-color;
-//}
-//
-//.detail {
-//  :global {
-//    .at-list__item .item-extra__info {
-//      padding-right: 0;
-//    }
-//
-//    .item-extra__image {
-//      margin-right: 45px;
-//
-//      width: 80px;
-//      height: 80px;
-//      border-radius: 100px;
-//      overflow: hidden;
-//    }
-//  }
-//}

@@ -29,6 +29,13 @@ function App(props) {
   }
 
   useEffect(() => {
+    // 获取设备信息
+    Taro.getSystemInfo().then((systemInfo) => {
+      store.dispatch(globalSave({
+        system: systemInfo
+      }))
+    });
+
     const checkSession = async () => {
       try {
         await Taro.checkSession()
@@ -45,12 +52,6 @@ function App(props) {
     }
 
     checkSession()
-    // store system info
-    Taro.getSystemInfo().then((systemInfo) => {
-      store.dispatch(globalSave({
-        system: systemInfo
-      }))
-    });
     // 初始化云托管
     Taro.cloud.init({
       env: CLOUD_ENV

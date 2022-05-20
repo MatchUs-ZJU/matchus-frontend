@@ -76,3 +76,29 @@ export interface IParticipateState {
     chooseResult: boolean
   }
 }
+
+export interface IInfoItem {
+  name: string,
+  fields: ISurveyField[]
+}
+
+export interface ISurveyField {
+  key: string,
+  value: string,
+  index: number,
+  multipleRow: boolean
+}
+
+export interface ISurveyInfo {
+  basicInfo: {
+    updateTime: number,
+    info: IInfoItem[]
+  },
+  matchInfo:  {
+    updateTime: number,
+    info: IInfoItem[]
+  },
+  images: string[]
+  wjxAppId: string,
+  wjxPath: string
+}

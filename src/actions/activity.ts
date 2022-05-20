@@ -18,6 +18,7 @@ import {
   postSendFeedback
 } from "@/services/activity";
 import {globalSave} from "@/actions/global";
+import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 export const activitySave = (payload) => {
   return {
@@ -213,6 +214,14 @@ export const fillForm = ({appId, path}) => {
         success: (_) => {
           console.log("活动页面：跳转小程序成功")
         },
+        fail: async () => {
+          console.log("活动页面：跳转小程序失败")
+          await Taro.showToast({
+            icon: 'none',
+            title: '打开问卷失败',
+            duration: TOAST_SHOW_TIME
+          })
+        }
       });
     } catch (e) {
       console.log(e)

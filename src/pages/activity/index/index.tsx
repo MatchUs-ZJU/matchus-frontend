@@ -51,13 +51,13 @@ const Index = () => {
       }
     }
 
-    fetchData()
     /**
      * 进入活动页，
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
     await checkUserState()
+    fetchData()
   })
 
   useEffect(() => {

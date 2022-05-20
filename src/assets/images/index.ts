@@ -25,6 +25,8 @@ import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
 import surveyIcon from './mine-survey.svg'
+import surveyUserIcon from './mine-survey-user.svg'
+import surveyMatchIcon from './mine-survery-match.svg'
 
 import ChooseResultFootImageSuccess from './choose-success-footer.png'
 import ChooseResultFootImageFailure from './choose-failure-footer.png'
@@ -43,7 +45,7 @@ export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIc
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export {artiService, commonQuestions, report}
-export {surveyIcon, personalinfoIcon}
+export {surveyIcon, personalinfoIcon, surveyMatchIcon, surveyUserIcon}
 export const consumeIcon = consume
 export const helpIcon = help
 export const aboutusIcon = aboutus
