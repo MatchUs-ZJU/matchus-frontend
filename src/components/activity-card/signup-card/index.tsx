@@ -11,9 +11,9 @@ import Taro from "@tarojs/taro";
 import './index.scss'
 
 interface SignupCardProps extends ViewProps {
+  userType: number, // 用户身份
   activity: number | string, // 活动ID
   price: number,
-
   time: string
   bodyPrefix: string
 }
@@ -34,19 +34,22 @@ const SignUpNotStartBtn = (props: SignUpNotStartBtnProps) => {
 
 const SignupCard = (props: SignupCardProps) => {
   const dispatch = useDispatch()
-  const {price, time, activity, bodyPrefix} = props
+  const {price, time, activity, bodyPrefix,userType} = props
   const {state, paid, participated} = useSelector(rootState => rootState.activity.participate.signUp)
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
   function goToSignUp() {
-    // TODO 判断身份
-    Taro.showToast({
+    if(userType === 3){
+      Taro.showToast({
         title: '抱歉，本期活动暂时仅面向三年内毕业生开放',
         icon: 'none',
         duration: 3000
       })
-     //setConfirmDialogOpen(true)
+    }
+    else{
+      setConfirmDialogOpen(true)
+    }
   }
 
   function confirmJoin() {
