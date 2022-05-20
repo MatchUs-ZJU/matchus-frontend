@@ -282,6 +282,50 @@
   color: rgba(0, 0, 0, 0.3);
 }
 
+.content .locked{
+  margin-top: -110px;
+  align-items: center;
+
+}
+
+.content .locked .icon {
+  height: 78px;
+  width: 64px;
+}
+
+.content .locked .desc {
+  margin-left: 28px;
+}
+
+.content .locked .countdown {
+  display: flex;
+  flex-direction: row;
+}
+
+.content .locked .countdown-block {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 44px;
+  color: $primary-color;
+}
+
+.content .locked .countdown-colon {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 44px;
+  color: $text-color-2;
+
+  margin: 0 6px
+}
+
+.content .image-info .filter{
+  //height: 100px;
+  filter:blur(10px);
+  opacity:0.6;
+}
+
 .content .image-info .text {
   font-style: normal;
   font-weight: 500;

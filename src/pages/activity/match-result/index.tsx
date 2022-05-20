@@ -1,6 +1,6 @@
 import {View} from "@tarojs/components";
-import {MatchResultTopImage, CopyIcon, AnonymousImage} from "@/assets/images";
-import {Button, Rate, Image,Countdown} from "@taroify/core"
+import {MatchResultTopImage, CopyIcon, AnonymousImage, LockedIcon} from "@/assets/images";
+import {Button, Rate, Image, Countdown} from "@taroify/core"
 import {ArrowLeft, Like, LikeOutlined} from '@taroify/icons';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,16 +12,16 @@ import {getFormatNickname} from "@/utils/fstring";
 import './index.scss';
 
 const Index = () => {
-  const oneDay = 100000//24*60*60*1000
-  const startTime =  new Date().getTime() - 5000
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
 
+  const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
   const [heart, setHeart] = useState(0)
   const [isChecked, setChecked] = useState(false)
-  const [isCountDown,setIsCountdown] = useState(true)
-  const [countDownTime,setCountDownTime] = useState(0)
+  const [isShowed, setShowed] = useState(false)
+  const [countDownTime, setCountDownTime] = useState(0)
+
 
   function onHeartChange(value) {
     setHeartValue(value * 20)
@@ -44,16 +44,16 @@ const Index = () => {
     }
   }, [match])
 
-  useEffect(()=>{
-    const currentTime = new Date().getTime()
-    console.log('set')
-    if(currentTime < startTime + oneDay ){
-        setCountDownTime(startTime + oneDay - currentTime)
+  useEffect(() => {
+      if (activity && activity.matchResultShowTime) {
+      if (currentTime <= activity.matchResultShowTime + 24 * 60 * 60 * 1000) {
+        setCountDownTime(activity.matchResultShowTime + 24 * 60 * 60 * 1000 - currentTime)
+      } else {
+        setShowed(true)
+        setCountDownTime(0)
+      }
     }
-    else{
-        setIsCountdown(false)
-    }
-  },[startTime])
+  }, [activity])
 
   function fetchData() {
     dispatch(fetchMatchResult(activity.id))
@@ -176,93 +176,88 @@ const Index = () => {
               个人照片
               <View className='line'/>
             </View>
-
-            {/*TODO 改成后端返回的当前是否有照片判断*/}
-             <View className='image-info'>
-               {isCountDown ?
-                 <>
-                   <Countdown
-                     value={countDownTime}
-                     onComplete={() => {
-                       setIsCountdown(false)
-                     }}
-                   >
-                     {(current) => {
-                       return (
-                         <View className='countdown'>
-                           <View className='countdown-block'>{current.hours}</View>
-                           <View className='countdown-colon'>时</View>
-                           <View className='countdown-block'>{current.minutes}</View>
-                           <View className='countdown-colon'>分</View>
-                           <View className='countdown-block'>{current.seconds}</View>
-                           <View className='countdown-colon'>秒后可查看照片</View>
-                         </View>
-                       )
-                     }}
-                   </Countdown>
-
-                   </>
-                 :
-                 <>
-                 <View className='text'>记录你对Ta的第一印象，记录完成后可查看照片</View>
-                 <View className='first-check row'>
-                 <View className='col center-center' style={{width: '60px'}}>
-                 <View className='heart-value'>{heartValue + "%"}</View>
-                 <View className='heart-text'>心动值</View>
-                 </View>
-                 <Rate
-                 className='custom-color'
-                 defaultValue={0}
-                 value={heart}
-                 allowHalf
-                 size={24}
-                 icon={<Like/>}
-                 emptyIcon={<LikeOutlined/>}
-                 onChange={(value) => onHeartChange(value)}
-                 readonly={isChecked}
-                 />
-
-               {isChecked
-                 ? <Button className='check-button-clicked' disabled>已确认</Button>
-                 : <Button className='check-button' onClick={() => submitHeartValue()}>确认</Button>
-               }
-                 </View>
-                 </>
+            <View className='image-info'>
+              <View className={isShowed?'text':'text filter'}>记录你对Ta的第一印象，记录完成后可查看照片</View>
+              <View className={isShowed?'first-check row':'first-check row filter'}>
+                <View className='col center-center' style={{width: '60px'}}>
+                  <View className='heart-value'>{heartValue + "%"}</View>
+                  <View className='heart-text'>心动值</View>
+                </View>
+                <Rate
+                  className='custom-color'
+                  defaultValue={0}
+                  value={heart}
+                  allowHalf
+                  size={24}
+                  icon={<Like/>}
+                  emptyIcon={<LikeOutlined/>}
+                  onChange={(value) => onHeartChange(value)}
+                  readonly={isChecked}
+                />
+                {isChecked
+                  ? <Button className='check-button-clicked' disabled>已确认</Button>
+                  : <Button className='check-button' onClick={() => submitHeartValue()}>确认</Button>
                 }
+              </View>
+              <View className='image-show row'>
+                {isChecked ?
+                  <>
+                    {match.photos && match.photos.map((item, _) => {
+                      return (
+                        <Image
+                          src={item}
+                          lazyLoad
+                          mode='aspectFill'
+                          className='img'
+                          onClick={() => viewImages(match.photos)}
+                        />
+                      )
+                    })}
+                  </>
+                  :
+                  <>
+                    {
+                      match.photos ? match.photos.map(() => {
+                          return (
+                            <View className='img-placeholder'>照片</View>
+                          )
+                        }) :
+                        <>
+                          <View className='img-placeholder'>照片</View>
+                          <View className='img-placeholder'>照片</View>
+                          <View className='img-placeholder'>照片</View>
+                        </>
+                    }
+                  </>
+                }
+              </View>
+            </View>
 
-               <View className={isCountDown?'image-hide row':'image-show row'}>
-                 {isCountDown===false && isChecked ?
-                   <>
-                     {match.photos && match.photos.map((item, _) => {
-                       return (
-                         <Image
-                           src={item}
-                           lazyLoad
-                           mode='aspectFill'
-                           className='img'
-                           onClick={() => viewImages(match.photos)}
-                         />
-                       )
-                     })}
-                   </>
-                   :
-                   <>
-                     {
-                       match.photos ? match.photos.map(() => {
-                           return (
-                             <View className='img-placeholder'>照片</View>
-                           )
-                         }) :
-                         <>
-                           <View className='img-placeholder'>照片</View>
-                           <View className='img-placeholder'>照片</View>
-                           <View className='img-placeholder'>照片</View>
-                         </>
-                     }
-                   </>
-                 }
-               </View>
-             </View>
+            {!isShowed?
+              <View className='locked row'>
+                <Image src={LockedIcon} className='icon'/>
+                <View className='desc col'>
+                  <Countdown
+                    value={countDownTime}
+                  >
+                  {(current) => (
+                    <View className='countdown'>
+                      <View className='countdown-colon'>距离公布照片还有</View>
+                      <View className='countdown-block'>{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
+                      <View className='countdown-colon'>时</View>
+                      <View className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
+                      <View className='countdown-colon'>分</View>
+                      <View className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
+                      <View className='countdown-colon'>秒</View>
+                    </View>
+                  )}
+                  </Countdown>
+                  <View className='countdown-colon'>匹配成功24小时后解锁照片</View>
+                </View>
+              </View>
+              :
+              <></>
+            }
 
           </View>
         </View>

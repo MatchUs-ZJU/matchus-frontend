@@ -16,6 +16,7 @@ import QaGreySteps from './icons/qa-grey-steps.svg'
 import FullLike from './icons/full-like.svg'
 import BlankLike from './icons/blank-like.svg'
 import ActivityHelp from './icons/activity-help.svg'
+import LockedIcon from './icons/locked.svg'
 
 import FeedBackImage from './feedback.png'
 import HeaderImage from './header.svg'
@@ -31,13 +32,11 @@ import CopyIcon from './copy.svg'
 import commonQuestions from './mine-help-questions.svg';
 import artiService from './mine-help-service.svg';
 import report from './mine-help-report.svg'
-import personalinfoIcon from './mine-personalinfo.svg'
+import personalinfo from './mine-personalinfo.svg'
+import identity from './mine-identity.svg'
 import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
-import surveyIcon from './mine-survey.svg'
-import surveyUserIcon from './mine-survey-user.svg'
-import surveyMatchIcon from './mine-survery-match.svg'
 
 import ChooseResultFootImageSuccess from './choose-success-footer.png'
 import ChooseResultFootImageFailure from './choose-failure-footer.png'
@@ -52,11 +51,12 @@ import Emoji3 from './emojis/3.svg'
 import Emoji4 from './emojis/4.svg'
 import Emoji5 from './emojis/5.svg'
 
-export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp}
+export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export {artiService, commonQuestions, report}
-export {surveyIcon, personalinfoIcon, surveyMatchIcon, surveyUserIcon}
+export const personalinfoIcon = personalinfo
+export const identityIcon = identity
 export const consumeIcon = consume
 export const helpIcon = help
 export const aboutusIcon = aboutus
