@@ -1,57 +1,26 @@
-import {MovableArea, MovableView, Text, View} from "@tarojs/components";
+import {View} from "@tarojs/components";
+import {Cell} from "@taroify/core";
 import "@taroify/core/cell/style"
-import {useDispatch, useSelector} from "react-redux";
-import {SurveyInfoItem} from "@/components";
-import {surveyMatchIcon, surveyUserIcon} from "@/assets/images";
-import {Edit} from "@taroify/icons";
-import {fillForm} from "@/actions";
-import {useEffect} from "react";
-import {fetchSurveyInfo} from "@/actions/user";
-import {Image} from "@taroify/core";
+import {useSelector} from "react-redux";
 import './index.scss'
+import {getFormatGender} from "@/utils/fstring";
 
 const Information = () => {
-  const dispatch = useDispatch()
-  const {user, global} = useSelector((state) => state)
-  const {windowWidth, windowHeight} = global.system!
-  const surveyInfo = user.surveyInfo!
-
-  useEffect(() => {
-    dispatch(fetchSurveyInfo())
-  }, [])
-
-  function goToFillForm() {
-    dispatch(fillForm({appId: surveyInfo.wjxAppId, path: surveyInfo.wjxPath}))
-  }
+  const {user} = useSelector((state) => state)
+  const {realName, gender, faculty, studentNumber, phoneNumber, identified} = user
 
   return (
-    <View className='container'>
-      {
-        surveyInfo ?
-          <MovableArea className='movable-container'>
-            <SurveyInfoItem
-              icon={surveyUserIcon} info={surveyInfo.basicInfo.info} updateTime={surveyInfo.basicInfo.updateTime}
-              name='基本信息'
-            />
-            <SurveyInfoItem
-              icon={surveyMatchIcon} info={surveyInfo.matchInfo.info} updateTime={surveyInfo.matchInfo.updateTime}
-              name='匹配信息' withImage images={surveyInfo.images}
-            />
-            <MovableView className='movable-btn' direction='all' inertia x={windowWidth - 60} y={windowHeight - 60}>
-              <Edit style={{color: '#FFF', fontSize: '30px'}} onClick={goToFillForm}/>
-            </MovableView>
-          </MovableArea>
-          :
-          <View className='wrapper'>
-            <View className='header'>
-              <Image src={surveyUserIcon} className='icon' style={{width: `22px`, height: `22px`}}/>
-              <Text className='title'>问卷信息</Text>
-            </View>
-            <View className='body'>
-              您还没有填写过问卷哦!
-            </View>
-          </View>
-      }
+    <View className='container wrapper'>
+      <View className='info'>
+        <Cell.Group inset>
+          <Cell title='真实姓名'>{realName}</Cell>
+          <Cell title='性别'>{getFormatGender(gender)}</Cell>
+          <Cell title='学院'>{faculty}</Cell>
+          <Cell title='学号'>{studentNumber}</Cell>
+          <Cell title='手机号'>{phoneNumber}</Cell>
+          <Cell title='身份认证' brief='本期活动将会在收集问卷信息后人工验证'>{identified}</Cell>
+        </Cell.Group>
+      </View>
     </View>
   );
 }

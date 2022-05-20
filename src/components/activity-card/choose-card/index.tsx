@@ -98,7 +98,7 @@ const ChooseCard = (props: ChooseCardProps) => {
         <View className='col main'>
           <View className='title'>相惜·双选阶段</View>
           <View className='detail'>
-            {state !== 'ACTIVE' ? `双选通道会在${startTime}开放，请认真抉择哦` : '每一次匹配都来之不易，希望大家好好珍惜，不要错过'}
+            {state !== 'ACTIVE' ? `双选通道会在${startTime}开放，请认真抉择哦` : '匹配来之不易，希望大家好好珍惜，勇敢的选择Ta ➔'}
           </View>
           <View
             className={classnames(

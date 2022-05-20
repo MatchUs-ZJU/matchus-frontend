@@ -28,9 +28,12 @@ const SurveyCard = (props: SurveyCardProps) => {
       appId: wjxAppId,
       path: wjxPath
     }))
-    dispatch(globalSave({
-      pushFillForm: false
-    }))
+    // dispatch(globalSave({
+    //   pushFillForm: false
+    // })
+    // )
+    //TODO 每次填写均会上传
+    dispatch(actionFinishFillForm(activity))
   }
 
   function confirmFinishFillForm() {
@@ -72,18 +75,14 @@ const SurveyCard = (props: SurveyCardProps) => {
         </View>
         <View className='col main'>
           <View className='title'>初知·问卷填写</View>
-          <View className='detail'>我们需要了解你的需求和性格，才能为你找到心仪的Ta</View>
+          <View className='detail'>问卷可覆盖填写，取最后一次作为您的最终问卷结果</View>
           <View className='note'>填问卷大约需10min</View>
         </View>
         <View className='col right'>
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
-          ) : state === 'ACTIVE' && !filled ? (
-            pushFillForm ? (
-              <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
-            ) : (
-              <FillFormBtn/>
-            )
+          ) : state === 'ACTIVE' && pushFillForm ? (
+            <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
           ) : state === 'ACTIVE' && filled ? (
             <FinishedBtn type='fillForm'/>
           ) : (
