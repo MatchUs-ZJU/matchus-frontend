@@ -12,6 +12,7 @@ import {
 import {removeJWT, setJWT} from "@/services/jwt";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {uploadIdentificationImage} from "@/utils/taro-utils";
+import {notifySubscribe} from "@/actions/activity";
 
 export const userSave = (payload) => {
   return {
@@ -214,6 +215,7 @@ export const submitIdentificationInfo = (data) => {
           ...data,
           identified: '认证中'
         }))
+        dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M']))
         await Taro.showToast({
           icon: 'none',
           title: '提交身份信息成功',
