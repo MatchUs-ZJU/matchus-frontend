@@ -45,6 +45,7 @@ const Index = () => {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
+
       if (identified === '未认证') {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
@@ -58,6 +59,7 @@ const Index = () => {
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
     await checkUserState()
+
   })
 
   useEffect(() => {

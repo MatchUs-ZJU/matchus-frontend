@@ -49,7 +49,7 @@ export const fetchSurveyInfo = () => {
           surveyInfo: res.data
         }))
       } else {
-        console.log(`用户信息：从服务器获取用户填写的最新问卷信息失败 - ${res.msg}`)
+        console.log('用户信息：从服务器获取用户填写的最新问卷信息失败')
       }
     } catch (e) {
       console.log(e)
@@ -190,7 +190,6 @@ export const submitIdentificationInfo = (data) => {
     console.log("用户信息：提交用户身份验证信息")
     try {
       // 上传照片到云托管
-      console.log(data)
       const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
       if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
         console.log("用户信息：提交用户身份验证照片到云托管失败")
