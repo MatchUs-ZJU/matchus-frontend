@@ -3,12 +3,6 @@ export interface IFaculty {
   name: string
 }
 
-export interface IQuestion {
-  id: string
-  question: string,
-  answer: string,
-}
-
 export interface IResourceImage {
   contactUsUrl: string
   followUsUrl: string
@@ -46,6 +40,14 @@ export interface IHomeData {
   unavailable: number,
 }
 
+export interface IQuestionState{
+  question: string,
+    value: string,
+    index: number,
+    approval: boolean,
+    id: number
+}
+
 export interface IParticipateState {
   state: 'NOT_ACTIVE' | 'ACTIVE' | 'SUCCESS' | 'FAIL'
 
@@ -66,6 +68,12 @@ export interface IParticipateState {
     favor: number,
     lastChoose: number,
     left: number,
+    refund: boolean,
+  }
+
+  dailyQuestion:{
+    before: IQuestionState[],
+    today: IQuestionState
   }
 
   choose: {
@@ -75,30 +83,4 @@ export interface IParticipateState {
     hasResult: boolean,
     chooseResult: boolean
   }
-}
-
-export interface IInfoItem {
-  name: string,
-  fields: ISurveyField[]
-}
-
-export interface ISurveyField {
-  key: string,
-  value: string,
-  index: number,
-  multipleRow: boolean
-}
-
-export interface ISurveyInfo {
-  basicInfo: {
-    updateTime: number,
-    info: IInfoItem[]
-  },
-  matchInfo:  {
-    updateTime: number,
-    info: IInfoItem[]
-  },
-  images: string[]
-  wjxAppId: string,
-  wjxPath: string
 }

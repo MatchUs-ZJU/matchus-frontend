@@ -1,18 +1,10 @@
 import Taro from "@tarojs/taro";
 import {USER_SAVE} from "@/constants";
-import {
-  decodePhoneNumber,
-  getSurveyInfo,
-  getUserInfo,
-  identifyUserInfo,
-  login,
-  register,
-  updateUserInfo
-} from "@/services/user";
+import {decodePhoneNumber, getUserInfo, identifyUserInfo, login, register, updateUserInfo} from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
+import {CLOUD_ENV} from "@/config";
 import {uploadIdentificationImage} from "@/utils/taro-utils";
-import {notifySubscribe} from "@/actions/activity";
 
 export const userSave = (payload) => {
   return {
@@ -31,25 +23,6 @@ export const fetchUserInfo = () => {
         dispatch(userSave(res.data))
       } else {
         console.log('用户登录：从服务器获取个人信息失败')
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-export const fetchSurveyInfo = () => {
-  return async dispatch => {
-    try {
-      console.log('用户信息：从服务器获取用户填写的最新问卷信息')
-      const res = await getSurveyInfo()
-      if (res && res.code === 0) {
-        console.log('用户信息：从服务器获取用户填写的最新问卷信息成功')
-        dispatch(userSave({
-          surveyInfo: res.data
-        }))
-      } else {
-        console.log(`用户信息：从服务器获取用户填写的最新问卷信息失败 - ${res.msg}`)
       }
     } catch (e) {
       console.log(e)
@@ -215,7 +188,6 @@ export const submitIdentificationInfo = (data) => {
           ...data,
           identified: '认证中'
         }))
-        dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M']))
         await Taro.showToast({
           icon: 'none',
           title: '提交身份信息成功',

@@ -1,14 +1,14 @@
-import {View, Text} from "@tarojs/components";
+import {View, Text, Icon} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
-import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
+import Taro, {useDidShow, usePageScroll, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
-
 import './index.scss'
+import {fetchMatchQuestion} from "@/actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -51,13 +51,13 @@ const Index = () => {
       }
     }
 
+    fetchData()
     /**
      * 进入活动页，
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
     await checkUserState()
-    fetchData()
   })
 
   useEffect(() => {
@@ -89,6 +89,7 @@ const Index = () => {
 
   function fetchData() {
     dispatch(fetchLatestActivityInfo())
+    dispatch(fetchMatchQuestion(id))
   }
 
   return (
@@ -144,6 +145,16 @@ const Index = () => {
           </Text>
         </View>
       </View>
+
+      <View
+        className='help'
+        onClick={
+          () => {Taro.navigateTo({url: '/pages/user/help/index'});}
+        }
+      >
+        <View className='text'>?</View>
+      </View>
+
     </View>
   )
 }

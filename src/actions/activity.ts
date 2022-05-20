@@ -5,7 +5,7 @@ import {
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
   CHOOSE_SAVE,
-  MATCH_SAVE, ACTIVITY_SIGN_UP_SAVE
+  MATCH_SAVE, ACTIVITY_SIGN_UP_SAVE, ACTIVITY_DAILYQA_SAVE, ACTIVITY_APPROVE_SAVE
 } from "@/constants";
 import {
   postFilledForm,
@@ -15,10 +15,9 @@ import {
   postSatisfiedFeedback,
   postSendTwcResult,
   getTwcResult,
-  postSendFeedback
+  postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
 } from "@/services/activity";
 import {globalSave} from "@/actions/global";
-import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 export const activitySave = (payload) => {
   return {
@@ -37,6 +36,20 @@ export const activitySignUpSave = (payload) => {
 export const activityMatchSave = (payload) => {
   return {
     type: ACTIVITY_MATCH_SAVE,
+    payload
+  }
+}
+
+export const activityDailyQASave = (payload)=>{
+  return{
+    type: ACTIVITY_DAILYQA_SAVE,
+    payload
+  }
+}
+
+export const activityApproveSave = (payload) =>{
+  return {
+    type: ACTIVITY_APPROVE_SAVE,
     payload
   }
 }
@@ -86,6 +99,7 @@ export const fetchLatestActivityInfo = () => {
   }
 }
 
+//TODO
 export const preJoinActivity = ({id, price, body, attach}) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
@@ -156,11 +170,7 @@ export const preJoinActivity = ({id, price, body, attach}) => {
           }))
 
           // 用户订阅消息通知
-          dispatch(notifySubscribe([
-            'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
-            'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
-            '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'
-          ]))
+          dispatch(notifySubscribe())
         } else {
           console.log(payRes)
           await Taro.showToast({
@@ -183,11 +193,15 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   }
 }
 
-export const notifySubscribe = (tmplIds: string[]) => {
+export const notifySubscribe = () => {
   return async () => {
     console.log('活动页面：用户订阅消息')
     let subscribeRes = await Taro.requestSubscribeMessage({
-      tmplIds: tmplIds
+      tmplIds: [
+        'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+        'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
+        '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'
+      ]
     })
 
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
@@ -196,7 +210,7 @@ export const notifySubscribe = (tmplIds: string[]) => {
       console.log('活动页面：用户订阅消息失败')
       await Taro.showToast({
         icon: 'none',
-        title: '消息订阅失败，您可能无法收到活动的通知',
+        title: '消息订阅失败，您可能无法收到参与活动的通知',
         duration: 3000,
       });
       return
@@ -214,14 +228,6 @@ export const fillForm = ({appId, path}) => {
         success: (_) => {
           console.log("活动页面：跳转小程序成功")
         },
-        fail: async () => {
-          console.log("活动页面：跳转小程序失败")
-          await Taro.showToast({
-            icon: 'none',
-            title: '打开问卷失败',
-            duration: TOAST_SHOW_TIME
-          })
-        }
       });
     } catch (e) {
       console.log(e)
@@ -229,6 +235,7 @@ export const fillForm = ({appId, path}) => {
   }
 }
 
+//TODO
 export const finishFillForm = (id) => {
   return async dispatch => {
     console.log("活动页面：用户完成填写问卷")
@@ -341,6 +348,68 @@ export const fetchMatchResult = (id) => {
         console.log("活动页面：获取匹配结果失败")
       }
     } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+// 活动id
+export const fetchMatchQuestion = (id) => {
+  return async dispatch  => {
+      console.log("活动页面：获取每日问答")
+      try {
+        let res = await getMatchQuestion(id)
+        if(res && res.code === 0){
+          console.log("活动页面：获取每日问答成功")
+          dispatch(activityMatchSave(res.data))
+        }else{
+          console.log("活动页面：获取每日问答失败")
+        }
+      }
+      catch(e){
+        console.log(e)
+      }
+  }
+}
+
+// 问题id
+export const approvalAnswer = ({activityId,questionId,approval}) => {
+  return async dispatch => {
+    try {
+      let res = await postMatchQuestionApproval({activityId,questionId,approval})
+      if(res && res.code === 0){
+        console.log("活页面：点赞成功")
+        if(res.data.success){
+          dispatch(activityDailyQASave({today: {approval: approval}}))
+        }
+      }else{
+        console.log("活动页面：点赞失败")
+      }
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
+}
+
+
+export const answerQuestion = ({activityId,questionId,answer}) => {
+  return async dispatch => {
+    try{
+      let res = await postMatchQuestionAnswer({activityId,questionId,answer})
+      if(res && res.code === 0){
+        console.log("活动页面：回答成功")
+        await Taro.showToast({
+          title: '回答成功',
+          duration: 3000,
+          icon: 'success'
+        })
+      }
+      else{
+        console.log("活动页面：回答失败")
+      }
+    }
+    catch(e){
       console.log(e)
     }
   }

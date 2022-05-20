@@ -69,6 +69,35 @@ export const getMatchResult = async (id) => {
   })
 }
 
+export const getMatchQuestion = async (id) => {
+  console.log('网络请求：获取每日问答')
+  return request.get(`/activity/question?id=${id}`,{
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const postMatchQuestionApproval = async (data) => {
+  console.log('网络请求：赞同')
+  return request.post(`/activity/approval`,{
+    data,
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const postMatchQuestionAnswer = async (data) => {
+  console.log('网络请求：回答问题')
+  return request.post(`/activity/question`,{
+    data,
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
 export const postSatisfiedFeedback = async (data) => {
   console.log('网络请求：上传匹配满意程度')
   return request.post(`/activity/match/satisfied`, {

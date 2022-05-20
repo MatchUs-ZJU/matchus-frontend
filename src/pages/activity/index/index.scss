@@ -49,3 +49,70 @@ page {
 .footer-success {
   color: $primary-color;
 }
+
+.help{
+  position: fixed;
+
+  justify-content: flex-start;
+  align-content: center;
+  text-align: center;
+  z-index: 3;
+  width: 96px;
+  height: 96px;
+  right:6px;
+  bottom: 40px;
+  border-radius: 50%;
+  background: $primary-color;
+  box-shadow: -4px 8px 16px rgba(145, 138, 227, 0.25);
+
+  .text{
+    position: absolute;
+    width: 96px;
+    height: 96px;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 100px;
+    color: white;
+  }
+}
+
+.help:hover{
+  opacity: 80%;
+}
+
+@keyframes scale-down {
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(0.5);
+  }
+  100%{
+    transform: scale(0);
+  }
+}
+
+@keyframes scale-up {
+  0%{
+    transform: scale(0);
+  }
+  50%{
+    transform: scale(0.5);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+.help .release .disappear{
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: scale-down;
+}
+
+.help .release .appear{
+  animation-duration: 1s;
+  animation-name: scale-up;
+}
