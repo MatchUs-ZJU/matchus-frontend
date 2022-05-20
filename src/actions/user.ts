@@ -214,7 +214,6 @@ export const submitIdentificationInfo = (data) => {
           ...data,
           identified: '认证中'
         }))
-        dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M']))
         await Taro.showToast({
           icon: 'none',
           title: '提交身份信息成功',
@@ -227,7 +226,7 @@ export const submitIdentificationInfo = (data) => {
         console.log("用户信息：提交用户身份验证信息失败")
         await Taro.showToast({
           icon: 'none',
-          title: res.msg,
+          title: '提交用户身份验证信息失败',
           duration: TOAST_SHOW_TIME,
         });
       }

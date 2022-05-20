@@ -12,6 +12,7 @@ import {studentNumberRegTest} from "@/utils/reg";
 import classnames from "classnames";
 
 import './index.scss'
+import {notifySubscribe} from "@/actions/activity";
 
 interface PickerState {
   open: boolean,
@@ -93,6 +94,8 @@ const Index = () => {
   }
 
   function onConfirmRegister() {
+    // 获取用户订阅允许
+    dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M']))
     // 确认并提交表单信息
     dispatch(submitIdentificationInfo(form))
   }
@@ -120,7 +123,6 @@ const Index = () => {
       sizeType: ["original", "compressed"],
       sourceType: ["album", "camera"],
     }).then(({tempFiles}) => {
-      console.log(tempFiles)
       setForm({
         ...form,
         imageFile: {
@@ -131,7 +133,6 @@ const Index = () => {
   }
 
   function onPickerConfirm(value) {
-    console.log(value)
     if (picker.type === 'gender') {
       setForm({
         ...form,

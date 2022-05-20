@@ -124,36 +124,6 @@ export const preJoinActivity = ({id, price, body, attach}) => {
 
         if (payRes && payRes.errMsg === 'requestPayment:ok') {
           console.log("活动页面：支付成功")
-
-          // 检查是否完成支付
-          // const res = await getPaymentResult({
-          //   'id': id,
-          //   'orderId': orderId
-          // })
-          // if(res && res.code === 0 && res.data.success) {
-          //   console.log("活动页面：查询后台成功，订单已完成")
-          //   await Taro.showModal({
-          //     title: '操作提示',
-          //     content: '支付成功',
-          //     showCancel: false,
-          //     confirmText: '确定'
-          //   })
-          //   // 改变状态，主动让用户填写表单
-          //   dispatch(globalSave({
-          //     pushFillForm: true
-          //   }))
-          //   dispatch(activitySignUpSave({
-          //     paid: true,
-          //     participated: true
-          //   }))
-          // } else {
-          //   await Taro.showToast({
-          //     title: '网络缓慢，请刷新页面',
-          //     duration: 3000,
-          //     icon: 'loading'
-          //   })
-          // }
-
           await Taro.showModal({
             title: '操作提示',
             content: '支付成功',
