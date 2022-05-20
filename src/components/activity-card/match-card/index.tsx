@@ -9,12 +9,12 @@ import {
 } from "@/components/activity-card/right-buttons";
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
-import {EmojiRater} from "@/components/activity-card/emoji-rater";
+import {DayCounter, QACard} from "@/components/activity-card/daily-question";
+
 import {useSelector} from "react-redux";
+import {useEffect, useState} from "react";
 
 import './index.scss';
-import {DayCounter, QACard} from "@/components/activity-card/daily-question";
-import {useEffect, useState} from "react";
 
 interface MatchCardProps extends ViewProps {
   activity: number | string
@@ -87,7 +87,8 @@ const MatchCard = (props: MatchCardProps) => {
         <View className='col left'>
           <View className='id'>3</View>
           <Image lazyLoad src={(state && state === 'ACTIVE' && !matchResult) ? StepGreyIcon : StepIcon}
-            className='img'/>
+            className='img'
+          />
         </View>
 
         <View className='col main'>
@@ -101,7 +102,6 @@ const MatchCard = (props: MatchCardProps) => {
           >若匹配失败，100%退全款</View>
         </View>
         <View className='col right'>
-        <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
           {state === 'NOT_START' && !filled ? (
             <NotStartBtn type='notStart'/>
           ) : state === 'NOT_START' && filled ? (
@@ -145,7 +145,6 @@ const MatchCard = (props: MatchCardProps) => {
               }
             </View>
           </View>
-
         </View>
       }
     </View>

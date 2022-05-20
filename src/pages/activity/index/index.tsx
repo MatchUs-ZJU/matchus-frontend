@@ -3,17 +3,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
+import {fetchMatchQuestion} from "@/actions/activity";
+
 import Taro, {useDidShow, usePageScroll, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
 import './index.scss'
-import {fetchMatchQuestion} from "@/actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch()
   const {user, activity} = useSelector(state => state)
-  const {nickName, avatarUrl, identified, login} = user
+  const {nickName, avatarUrl, identified,userType, login} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
   const {signUp, match, choose, fillForm, state} = participate
 
@@ -35,31 +36,30 @@ const Index = () => {
   })
 
   useDidShow(async () => {
-    const checkUserState = async () => {
-      if (!login) {
-        await Taro.switchTab({url: '/pages/home/index/index'})
-        return
-      }
+    // const checkUserState = async () => {
+    //   if (!login) {
+    //     await Taro.switchTab({url: '/pages/home/index/index'})
+    //     return
+    //   }
+    //
+    //   if (!nickName || !avatarUrl) {
+    //     await Taro.reLaunch({url: '/pages/introduction/index'})
+    //     return
+    //   }
+    //   if (identified === '未认证') {
+    //     await Taro.reLaunch({url: '/pages/introduction/index'})
+    //     return
+    //   }
+    // }
 
-      if (!nickName || !avatarUrl) {
-        await Taro.reLaunch({url: '/pages/introduction/index'})
-        return
-      }
-
-      if (identified === '未认证') {
-        await Taro.reLaunch({url: '/pages/introduction/index'})
-        return
-      }
-    }
-
-    fetchData()
     /**
      * 进入活动页，
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
-    await checkUserState()
+    // await checkUserState()
 
+    fetchData()
   })
 
   useEffect(() => {
@@ -91,7 +91,8 @@ const Index = () => {
 
   function fetchData() {
     dispatch(fetchLatestActivityInfo())
-    dispatch(fetchMatchQuestion(id))
+
+    if(identified){dispatch(fetchMatchQuestion(id))}
   }
 
   return (
@@ -99,6 +100,7 @@ const Index = () => {
       <Image src={activity.imageUrl} className='header'/>
       <View className='wrapper'>
         <SignUpCard
+
           price={price}
           time={signUpStartTime}
           activity={id}

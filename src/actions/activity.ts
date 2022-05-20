@@ -387,7 +387,7 @@ export const approvalAnswer = ({activityId,questionId,approval}) => {
     try {
       let res = await postMatchQuestionApproval({activityId,questionId,approval})
       if(res && res.code === 0){
-        console.log("活页面：点赞成功")
+        console.log("活动页面：点赞成功")
         if(res.data.success){
           dispatch(activityDailyQASave({today: {approval: approval}}))
         }

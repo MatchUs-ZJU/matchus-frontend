@@ -3,7 +3,7 @@ import {ActiveBtn, DisableBtn, NotStartBtn} from "@/components/activity-card/rig
 import Taro from "@tarojs/taro";
 import classnames from "classnames";
 import Watermark from "@/components/activity-card/watermark";
-import {Dialog, Image, Switch, Textarea} from "@taroify/core";
+import {Dialog, Field, Image, Switch, Textarea} from "@taroify/core";
 import {StepGreyIcon, StepIcon} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -29,6 +29,7 @@ const ChooseCard = (props: ChooseCardProps) => {
     chooseResult
   } = useSelector(rootState => rootState.activity.participate.choose)
   const [thisChoice, setThisChoice] = useState(false)
+  const [inputFocus,setInputFocus] = useState(false)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState('')
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
@@ -145,17 +146,22 @@ const ChooseCard = (props: ChooseCardProps) => {
               留言板
             </View>
             <View className='desc'>写下想对Ta说的话，双选结束后将展示给对方</View>
-            <Textarea className='textarea' placeholder='点击此处输入' value={textAreaContent} onChange={onTextAreaChange}/>
-            <View
-              className={classnames(
-                'confirm-btn',
-                {
-                  'confirm-btn-click': textAreaFilled,
-                })}
-              onClick={onSubmitMessage}
-            >
-              确认
+            <View className={classnames('row textarea-wrapper', {'textarea-wrapper-focus': inputFocus})}>
+              <Field>
+                <Textarea className='msg-textarea' placeholder='点击此处输入' value={textAreaContent} onChange={onTextAreaChange} onFocus={()=>setInputFocus(true)} onBlur={()=>setInputFocus(false)}/>
+                <View
+                  className={classnames(
+                    'confirm-btn',
+                    {
+                      'confirm-btn-click': textAreaFilled,
+                    })}
+                  onClick={onSubmitMessage}
+                >
+                  确认
+                </View>
+              </Field>
             </View>
+
           </View>
         </View>
       }
