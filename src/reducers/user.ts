@@ -1,4 +1,5 @@
 import {USER_SAVE} from "@/constants";
+import {ISurveyInfo} from "@/typings/types";
 
 export interface IUserState {
   nickName: string;
@@ -26,6 +27,8 @@ export interface IUserState {
   binded: boolean;
 
   login: boolean;
+
+  surveyInfo?: ISurveyInfo;
 }
 
 const INITIAL_STATE: IUserState = {

@@ -18,6 +18,7 @@ import {
   postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
 } from "@/services/activity";
 import {globalSave} from "@/actions/global";
+import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 export const activitySave = (payload) => {
   return {
@@ -170,7 +171,11 @@ export const preJoinActivity = ({id, price, body, attach}) => {
           }))
 
           // 用户订阅消息通知
-          dispatch(notifySubscribe())
+          dispatch(notifySubscribe([
+            'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+            'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
+            '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'
+          ]))
         } else {
           console.log(payRes)
           await Taro.showToast({
@@ -193,15 +198,11 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   }
 }
 
-export const notifySubscribe = () => {
+export const notifySubscribe = (tmplIds: string[]) => {
   return async () => {
     console.log('活动页面：用户订阅消息')
     let subscribeRes = await Taro.requestSubscribeMessage({
-      tmplIds: [
-        'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
-        'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
-        '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'
-      ]
+      tmplIds: tmplIds
     })
 
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
@@ -210,7 +211,7 @@ export const notifySubscribe = () => {
       console.log('活动页面：用户订阅消息失败')
       await Taro.showToast({
         icon: 'none',
-        title: '消息订阅失败，您可能无法收到参与活动的通知',
+        title: '消息订阅失败，您可能无法收到活动的通知',
         duration: 3000,
       });
       return
@@ -228,6 +229,14 @@ export const fillForm = ({appId, path}) => {
         success: (_) => {
           console.log("活动页面：跳转小程序成功")
         },
+        fail: async () => {
+          console.log("活动页面：跳转小程序失败")
+          await Taro.showToast({
+            icon: 'none',
+            title: '打开问卷失败',
+            duration: TOAST_SHOW_TIME
+          })
+        }
       });
     } catch (e) {
       console.log(e)

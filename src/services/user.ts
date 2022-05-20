@@ -79,3 +79,12 @@ export const decodePhoneNumber = async (data) => {
     },
   });
 };
+
+export const getSurveyInfo = async () => {
+  console.log('网络请求：获取用户填写的问卷信息')
+  return request.get(`/user/survey`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}
