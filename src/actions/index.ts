@@ -15,5 +15,7 @@ export {
   twcStateSave,
   sendMessage,
   sendFavor,
+  approvalAnswer,
+  answerQuestion
 } from './activity'
 export {resourceSave, fetchHelpsInfo, fetchFaculties} from './resource'

@@ -5,6 +5,17 @@ import UploadIcon from './icons/upload.svg'
 import HeartBeatIcon from './icons/heart-beat.svg'
 import StepIcon from './icons/step.svg'
 import StepGreyIcon from './icons/step-grey.svg'
+import QaQuestionIcon from './icons/qa-question.svg'
+import QaAnswerIcon from './icons/qa-answer.svg'
+import QaReachActiveFund from './icons/qa-reach-active-fund.svg'
+import QaReachGreyFund from './icons/qa-reach-grey-fund.svg'
+import QaGreyFund from './icons/qa-gray-fund.svg'
+import QaActiveReach from './icons/qa-active-reach.svg'
+import QaGreyReach from './icons/qa-grey-reach.svg'
+import QaGreySteps from './icons/qa-grey-steps.svg'
+import FullLike from './icons/full-like.svg'
+import BlankLike from './icons/blank-like.svg'
+import ActivityHelp from './icons/activity-help.svg'
 
 import FeedBackImage from './feedback.png'
 import HeaderImage from './header.svg'
@@ -39,7 +50,7 @@ import Emoji3 from './emojis/3.svg'
 import Emoji4 from './emojis/4.svg'
 import Emoji5 from './emojis/5.svg'
 
-export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon}
+export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export {artiService, commonQuestions, report}
