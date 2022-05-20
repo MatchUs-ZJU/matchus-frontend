@@ -8,7 +8,7 @@ export interface IGlobalState {
 
   pushFillForm: boolean
 
-  systemInfo?: Taro.getSystemInfo.Result;
+  system?: Taro.getSystemInfo.Result;
 }
 
 const INITIAL_STATE: IGlobalState = {
