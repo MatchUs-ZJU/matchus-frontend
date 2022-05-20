@@ -1,9 +1,8 @@
 import {View, Text} from "@tarojs/components";
-import {Badge, Cell, Image, Notify} from "@taroify/core"
+import {Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {
   personalinfoIcon,
-  identityIcon,
   consumeIcon,
   helpIcon,
   aboutusIcon,
@@ -92,7 +91,7 @@ const User = () => {
     } else {
       await Taro.showToast({
         title: "程序猿小哥哥正在开发该功能～",
-        duration: 5000,
+        duration: TOAST_SHOW_TIME,
         icon: 'none'
       })
     }
