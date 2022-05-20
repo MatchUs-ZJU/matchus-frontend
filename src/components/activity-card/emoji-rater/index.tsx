@@ -1,15 +1,20 @@
 import {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5} from "@/assets/images";
-import {View} from "@tarojs/components";
+import {View,Label,Checkbox} from "@tarojs/components";
 import {Image} from "@taroify/core";
 import classnames from "classnames";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {sendFavor} from "@/actions";
+import {sendFavor,sendAns} from "@/actions";
 
 import './index.scss';
+import { Question } from "@taroify/icons";
 
 interface EmojiRaterProps {
   initChoose: number,
+}
+
+interface ChoiceRaterProps{
+    initChoose: number
 }
 
 const emojis = [{
@@ -28,6 +33,13 @@ const emojis = [{
   value: 5,
   src: Emoji5
 }]
+
+const questions = [
+    {value: 1,text : 'kfc',checked:false},
+    {value: 2,text : 'mdl',checked:false},
+    {value: 3,text : 'bsk',checked:false},
+    {value: 4,text : 'dml',checked:false}
+]
 
 const EmojiRater = (props: EmojiRaterProps) => {
   const dispatch = useDispatch()

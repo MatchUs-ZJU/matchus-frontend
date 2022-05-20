@@ -261,12 +261,32 @@
 
 }
 
+.content .image-info .countdown{
+  display: flex;
+  flex-direction: row;
+}
+
+.content .image-info .countdown-block{
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 24px;
+  color: #918AE3;
+}
+
+.content .image-info .countdown-colon{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
 .content .image-info .text {
   font-style: normal;
   font-weight: 500;
   font-size: 22px;
   line-height: 28px;
-
   color: rgba(0, 0, 0, 0.3);
 }
 
@@ -293,6 +313,32 @@
   line-height: 24px;
   text-align: center;
   color: rgba(0, 0, 0, 0.3);
+}
+
+.content .image-info .image-hide{
+  justify-content: flex-start;
+  align-items: center;
+
+  margin-top: 16px;
+
+  background: #f5f4ff;
+  width: 30%;
+  height: 240px;
+  margin-right: 3%;
+  border-radius: 16px;
+}
+
+.content .image-info .image-hide .text{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #000000;
 }
 
 .content .image-info .image-show {

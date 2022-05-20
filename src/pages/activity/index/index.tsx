@@ -1,14 +1,14 @@
-import {View, Text} from "@tarojs/components";
+import {View, Text, Icon} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
-import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
+import Taro, {useDidShow, usePageScroll, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
-
 import './index.scss'
+import {fetchMatchQuestion} from "@/actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -89,6 +89,7 @@ const Index = () => {
 
   function fetchData() {
     dispatch(fetchLatestActivityInfo())
+    dispatch(fetchMatchQuestion(id))
   }
 
   return (
@@ -144,6 +145,16 @@ const Index = () => {
           </Text>
         </View>
       </View>
+
+      <View
+        className='help'
+        onClick={
+          () => {Taro.navigateTo({url: '/pages/user/help/index'});}
+        }
+      >
+        <View className='text'>?</View>
+      </View>
+
     </View>
   )
 }

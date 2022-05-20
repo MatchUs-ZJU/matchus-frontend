@@ -27,7 +27,7 @@ export interface IMatchState {
   photos: string[]
 
   favor: number,
-  hasFilled: boolean
+  hasFilled: boolean,
 }
 
 const INITIAL_STATE: IMatchState = {
@@ -48,7 +48,7 @@ const INITIAL_STATE: IMatchState = {
   photos: [],
 
   favor: 0,
-  hasFilled: false
+  hasFilled: false,
 }
 
 export default function match(state = INITIAL_STATE, action) {

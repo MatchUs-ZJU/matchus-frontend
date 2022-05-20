@@ -40,7 +40,13 @@ const SignupCard = (props: SignupCardProps) => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
   function goToSignUp() {
-    setConfirmDialogOpen(true)
+    // TODO 判断身份
+    Taro.showToast({
+        title: '抱歉，本期活动暂时仅面向三年内毕业生开放',
+        icon: 'none',
+        duration: 3000
+      })
+     //setConfirmDialogOpen(true)
   }
 
   function confirmJoin() {
