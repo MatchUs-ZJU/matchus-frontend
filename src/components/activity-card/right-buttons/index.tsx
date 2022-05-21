@@ -1,4 +1,4 @@
-import {Text, View, ViewProps} from "@tarojs/components";
+import {View, ViewProps} from "@tarojs/components";
 import {Success} from "@taroify/icons";
 import classnames from "classnames";
 import Taro from "@tarojs/taro";
@@ -10,7 +10,7 @@ export const goToSignUpText = '去报名'
 export const goToFillFormText = '去填写'
 export const goToSeeResultText = '查看结果'
 export const hasSignedUpText = '已报名'
-export const hasFilledFormText = '已填写'
+export const hasFilledFormText = '已截止'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
 export const inRefundText = '退款中'
@@ -78,9 +78,8 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
       )}
       onClick={onClickBtn}
     >
-      {(type !== 'inRefund') &&
+      {(type !== 'inRefund' && type !== 'fillForm') &&
         <Success size='20px' style={{marginRight: '8px'}}/>}
-
       <View>{content}</View>
     </View>
   )

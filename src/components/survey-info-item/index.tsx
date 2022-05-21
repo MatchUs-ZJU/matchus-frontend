@@ -50,9 +50,9 @@ const SurveyInfoItem = (props: SurveyInfoItemProps) => {
             }
             {
               // TODO
-              withImage && item.name === '个人照片' &&
+              withImage && item.name === '我的照片' &&
               <Cell
-                title='个人照片'
+                title='我的照片'
                 brief={
                   images && images.map((image, _) => {
                     return (

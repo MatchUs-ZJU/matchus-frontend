@@ -100,7 +100,6 @@ export const fetchLatestActivityInfo = () => {
   }
 }
 
-//TODO
 export const preJoinActivity = ({id, price, body, attach}) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
@@ -130,10 +129,7 @@ export const preJoinActivity = ({id, price, body, attach}) => {
             showCancel: false,
             confirmText: '确定'
           })
-          // 改变状态，主动让用户填写表单
-          dispatch(globalSave({
-            pushFillForm: true
-          }))
+
           dispatch(activitySignUpSave({
             paid: true,
             participated: true,
@@ -214,7 +210,6 @@ export const fillForm = ({appId, path}) => {
   }
 }
 
-//TODO
 export const finishFillForm = (id) => {
   return async dispatch => {
     console.log("活动页面：用户完成填写问卷")

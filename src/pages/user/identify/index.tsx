@@ -227,14 +227,14 @@ const Index = () => {
                       // onClick={() => viewImages([form.imageFile.url])}
                     />
                   ) : (
-                    <>
-                      <View className='row center-center' onClick={onUpload}>
+                    <View onClick={onUpload}>
+                      <View className='row center-center' >
                         <Image src={UploadIcon} className='uploader-img'/>
                       </View>
                       <View className='uploader-title'>点击拍照或打开相册</View>
                       <View className='uploader-desc'>【在校生】校园卡/学生证/学信网学籍证明</View>
                       <View className='uploader-desc'>【毕业生】毕业证/学位证/学信网学籍证明</View>
-                    </>
+                    </View>
                   )}
                 </Uploader>
               </View>

@@ -43,19 +43,18 @@
 
 .message-board-container {
   position: relative;
-  height: $message-board-height;
+  //height: $message-board-height;
 
   justify-content: flex-start;
   align-items: center;
 
   background: $white;
 
-  padding: 16px 10% 16px 16%;
+  padding: 16px 10% 32px 16%;
   border-radius: 16px;
 }
 
 .message-board-container .message-board {
-  height: 100%;
   width: 100%;
 }
 
@@ -101,14 +100,12 @@
     gap: 10px;
 
     width: 500px;
-    height: 180px;
     border-radius: 16px;
     background: #F5F4FF;
   }
 
   .msg-textarea{
     width: 80%;
-    height: 144px;
     padding: 16px;
     background: #F5F4FF;
     font-weight: 400;

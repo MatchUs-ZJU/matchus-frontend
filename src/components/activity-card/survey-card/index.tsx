@@ -19,21 +19,14 @@ interface SurveyCardProps extends ViewProps {
 const SurveyCard = (props: SurveyCardProps) => {
   const dispatch = useDispatch()
   const {wjxAppId, wjxPath, activity} = props
-  const {state} = useSelector(rootState => rootState.activity.participate.fillForm)
-  const {pushFillForm} = useSelector(rootState => rootState.global)
+  const {state, filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
-  function pushGoToFillForm() {
+  function goToFillForm() {
     dispatch(fillForm({
       appId: wjxAppId,
       path: wjxPath
     }))
-    dispatch(globalSave({
-      pushFillForm: false
-    })
-    )
-    //TODO 每次填写均会上传
-    dispatch(actionFinishFillForm(activity))
   }
 
   function confirmFinishFillForm() {
@@ -42,22 +35,6 @@ const SurveyCard = (props: SurveyCardProps) => {
 
   function finishFillForm() {
     setConfirmDialogOpen(true)
-  }
-
-  // 继续填写表单组件
-  const FillFormBtn = () => {
-    return (
-      <View className='fill-form-btn row'>
-        <View className='col' onClick={pushGoToFillForm}>
-          <View className='icon-container'><Edit size='20px'/></View>
-          <View className='text'>继续填写</View>
-        </View>
-        <View className='col' onClick={finishFillForm} style={{marginLeft: '12px'}}>
-          <View className='icon-container'><Success size='20px'/></View>
-          <View className='text'>确认完成</View>
-        </View>
-      </View>
-    )
   }
 
   return (
@@ -81,11 +58,13 @@ const SurveyCard = (props: SurveyCardProps) => {
         <View className='col right'>
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
-          ) : state === 'ACTIVE' ? (
-            <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
-          ) : (
-            <DisableBtn type='disable'/>
-          )}
+          ) : state === 'ACTIVE' && !filled ? (
+            <ActiveBtn type='fillForm' onClick={goToFillForm}/>
+          ) : state === 'ACTIVE' && filled ? (
+            <FinishedBtn type='fillForm' />
+          ) :
+            <DisableBtn type='disable' />
+          }
         </View>
         <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
           <Dialog.Header className='dialog-header'>确认完成填写？确认后问卷不可以修改</Dialog.Header>
