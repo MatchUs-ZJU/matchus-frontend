@@ -339,8 +339,8 @@ export const fetchMatchQuestion = (id) => {
       try {
         let res = await getMatchQuestion(id)
         if(res && res.code === 0){
-          console.log("活动页面：获取每日问答成功")
-          dispatch(activityMatchSave(res.data))
+          console.log("活动页面：获取每日问答成功",res)
+          dispatch(activityDailyQASave(res.data))
         }else{
           console.log("活动页面：获取每日问答失败")
         }
@@ -359,7 +359,7 @@ export const approvalAnswer = ({activityId,questionId,approval}) => {
       if(res && res.code === 0){
         console.log("活动页面：点赞成功")
         if(res.data.success){
-          dispatch(activityDailyQASave({today: {approval: approval}}))
+          dispatch(activityApproveSave({today: {approval: approval}}))
         }
       }else{
         console.log("活动页面：点赞失败")

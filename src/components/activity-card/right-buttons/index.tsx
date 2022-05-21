@@ -61,7 +61,7 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
   const fail = (type === 'hasRefund' || type === 'inRefund')
 
   async function onClickBtn() {
-    if(type === 'hasRefund') {
+    if(type === 'inRefund') {
       await Taro.showToast({
         icon: 'none',
         title: '退款将在3个工作日内到账，有问题请联系小助手',
