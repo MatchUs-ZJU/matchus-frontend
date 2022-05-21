@@ -60,7 +60,8 @@ const INITIAL_STATE: IActivityState = {
     },
 
     dailyQuestion:{
-      before: [],
+      approval: [{index: 0,approval:false},{index:1,approval:false},{index:2,approval:false},{index:3,approval:false}],
+      before: {id:-1,index: 0,question:'',value:'',approval:false},
       today: {id:-1,index: 0,question:'',value:'',approval:false}
     },
 

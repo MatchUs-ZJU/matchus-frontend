@@ -10,6 +10,7 @@ import {
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
 import {DayCounter, QACard} from "@/components/activity-card/daily-question";
+import app from "@/app";
 
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
@@ -37,33 +38,30 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 }
 
 const testData={
-  before:[{id:0,question:'几点睡',value:'1点',approval:false,index:0},
-    {id:1,question:'几点睡',value:'1点',approval:false,index:1},
-    {id:2,question:'几点睡',value:'1点',approval:false,index:2},
-    {id:3,question:'几点睡',value:'sss',approval:true,index:3},
-  ],
-  today:{id:4,question:'几点睡',value:'ssss',approval:true,index:2}
+  approval: [{index: 0,approval:true},{index:1,approval:true},{index:2,approval:true},{index:3,approval:true}],
+  before:{id:0,question:'几点睡',value:'1点',approval:false,index:0},
+  today:{id:4,question:'几点睡',value:'ssss',approval:true,index:4}
 }
 
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   // const {before,today} = testData
-  const {before,today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
+  // const {approval,before,today} = testData
+  const {approval,before,today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {state, matchResult, message,favor, lastChoose, left,refund} = useSelector(rootState => rootState.activity.participate.match)
   const chooseState = useSelector(rootState=>rootState.activity.participate.choose.state)
   const leftTime = formatLeftTime(left)
   const [lightUp,setLightUp] = useState([false,false,false,false])
-  const [fund,setFund] = useState(true)
+  const [fund,setFund] = useState(false)
 
   useEffect(()=>{
     let tmpLightUp = lightUp
-    let tmpFund = fund
-    before.map((item,index)=>{
-      tmpLightUp[index]=item.value!=='' && item.approval && item.index<today.index
-      tmpFund = tmpFund && tmpLightUp[index]
+    approval.map((item,index)=>{
+      tmpLightUp[item.index] = item.approval;
     })
 
+    const tmpFund = tmpLightUp.every((item,index,arr)=>{return item})
     setLightUp([...tmpLightUp])
     setFund(tmpFund)
   },[before])
@@ -143,7 +141,7 @@ const MatchCard = (props: MatchCardProps) => {
                 每日一问
               </View>
               {
-                today &&
+                today && today.index <4 &&
                   <View className='qa'>
                     <QACard question={today} disabled={today.index >= 4}/>
                   </View>
@@ -152,9 +150,9 @@ const MatchCard = (props: MatchCardProps) => {
                 <DayCounter index={today.index} lightUp={lightUp} fund={fund}/>
               </View>
               {
-                before && before.length > 0 &&
+                before &&
                 <View className='qa'>
-                  <QACard question={before[before.length - 1]} isAnswer/>
+                  <QACard question={before} isAnswer/>
                 </View>
               }
             </View>

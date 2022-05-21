@@ -355,8 +355,6 @@ export const approvalAnswer = ({activityId,questionId,approval}) => {
         console.log("活动页面：点赞成功")
         if(res.data.success){
           dispatch(activityApproveSave({today: {approval: approval}}))
-          //TODO 要不要更新
-          dispatch(fetchMatchQuestion(activityId))
         }
       }else{
         console.log("活动页面：点赞失败")

@@ -71,8 +71,10 @@ const QACard = (props: QAProps) =>{
   }
 
   const handleApproval = ()=>{
+    if(value){
       dispatch(approvalAnswer({activityId,questionId:id,approval:!approved}))
       setApproved(!approved)
+    }
   }
 
   const handleInputFocus = ()=>{
@@ -85,7 +87,7 @@ const QACard = (props: QAProps) =>{
 
   return (
     <>
-      {isAnswer && value?(
+      {isAnswer?(
         <View className='qa-container'>
           <Text className='qa-title'>Ta的回答</Text>
           <View className='col qa-question'>
@@ -128,7 +130,7 @@ const QACard = (props: QAProps) =>{
             </Field>
 
           </View>
-          <View className='qa-desp'>问答内容将在次日公开给双方，连续4天参与每日一问并双选成功，可找小助手领取纪念礼品</View>
+          <View className='qa-desp'>问答内容将在次日公开给双方，连续4天获得对方点赞并双选成功，可找小助手领取纪念礼品</View>
         </View>
       )
       }

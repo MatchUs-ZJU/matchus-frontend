@@ -54,6 +54,11 @@ export interface IQuestionState{
     id: number
 }
 
+export interface IApproval{
+  index: number,
+  approval: boolean
+}
+
 export interface IParticipateState {
   state: 'NOT_ACTIVE' | 'ACTIVE' | 'SUCCESS' | 'FAIL'
 
@@ -79,7 +84,8 @@ export interface IParticipateState {
   }
 
   dailyQuestion:{
-    before: IQuestionState[],
+    approval: IApproval[],
+    before: IQuestionState,
     today: IQuestionState
   }
 
