@@ -85,6 +85,7 @@ const ChooseCard = (props: ChooseCardProps) => {
           'row',
           'activity-card',
           {'activity-card-sheltered': state && state !== 'ACTIVE'},
+          {'activity-card-choosed': state && state =='ACTIVE' && thisChoice},
           {'activity-card-success': state && state === 'ACTIVE' && hasResult && chooseResult},
           {'activity-card-fail': state && state === 'ACTIVE' && hasResult && !chooseResult}
         )}

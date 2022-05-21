@@ -88,7 +88,6 @@
   flex-direction: column;
   align-items: flex-start;
   width: 470px;
-  //height: 250px;
   padding: 0px 0px 0px 16px;
   border-left: 4px solid $primary-color;
 
@@ -120,12 +119,12 @@
     gap: 4px;
 
     width: 470px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 
     .icon{
       display: flex;
       flex-direction: row;
-      padding: 3px 0px 0px;
+      padding: 4px 0px 0px;
       gap: 5px;
       width: 32px;
       height: 32px;
@@ -145,14 +144,13 @@
   .qa-input-field{
     width:470px;
     border-radius: 16px;
-
+    max-height: 140px;
     .qa-submit{
       position: absolute;
       right: 0px;
       top:16px;
       width: 15%;
       height: 40px;
-
       font-style: normal;
       font-weight: 500;
       font-size: 28px;
@@ -166,15 +164,19 @@
 
     .qa-textarea {
       width: 80%;
-
+      max-height: 120px;
       background: #F5F4FF;
       border-radius: 16px;
       padding: 14px;
 
       font-weight: 400;
       font-size: 24px;
-      line-height: 24px;
+      line-height: 34px;
       color: $text-color-2;
+    }
+
+    .qa-textarea-disabled{
+      color: $note-color
     }
 
     .taroify-cell{

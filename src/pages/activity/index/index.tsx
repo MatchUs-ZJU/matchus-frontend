@@ -4,7 +4,7 @@ import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
 import {fetchMatchQuestion} from "@/actions/activity";
-
+import {ActivityHelp} from "@/assets/images"
 import Taro, {useDidShow, usePageScroll, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
@@ -36,28 +36,28 @@ const Index = () => {
   })
 
   useDidShow(async () => {
-    // const checkUserState = async () => {
-    //   if (!login) {
-    //     await Taro.switchTab({url: '/pages/home/index/index'})
-    //     return
-    //   }
-    //
-    //   if (!nickName || !avatarUrl) {
-    //     await Taro.reLaunch({url: '/pages/introduction/index'})
-    //     return
-    //   }
-    //   if (identified === '未认证') {
-    //     await Taro.reLaunch({url: '/pages/introduction/index'})
-    //     return
-    //   }
-    // }
+    const checkUserState = async () => {
+      if (!login) {
+        await Taro.switchTab({url: '/pages/home/index/index'})
+        return
+      }
+
+      if (!nickName || !avatarUrl) {
+        await Taro.reLaunch({url: '/pages/introduction/index'})
+        return
+      }
+      if (identified === '未认证') {
+        await Taro.reLaunch({url: '/pages/introduction/index'})
+        return
+      }
+    }
 
     /**
      * 进入活动页，
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
-    // await checkUserState()
+    await checkUserState()
 
     fetchData()
   })
@@ -92,7 +92,7 @@ const Index = () => {
   function fetchData() {
     dispatch(fetchLatestActivityInfo())
 
-    if(identified){dispatch(fetchMatchQuestion(id))}
+    if(identified === '认证成功'){dispatch(fetchMatchQuestion(id))}
   }
 
   return (
@@ -100,7 +100,6 @@ const Index = () => {
       <Image src={activity.imageUrl} className='header'/>
       <View className='wrapper'>
         <SignUpCard
-
           price={price}
           time={signUpStartTime}
           activity={id}
@@ -156,7 +155,7 @@ const Index = () => {
           () => {Taro.navigateTo({url: '/pages/user/help/index'});}
         }
       >
-        <View className='text'>?</View>
+        <Image src={ActivityHelp}/>
       </View>
 
     </View>
