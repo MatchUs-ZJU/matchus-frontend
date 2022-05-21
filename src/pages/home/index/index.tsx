@@ -11,6 +11,7 @@ import {ArticleCard} from "@/components";
 
 import './index.scss'
 import {getJWT} from "@/services/jwt";
+import classnames from "classnames";
 
 const Home = () => {
   // store
@@ -153,9 +154,10 @@ const Home = () => {
               <View className='note'>已有<Text className='purple'>{data.currentParticipant}+</Text>人报名</View>
             </View>
           </View>
-          <View className='col button' onClick={goToSignUp}>
-            <Text
-              className='button-text'>{countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}</Text>
+          <View className={classnames('col', 'button', {'button-disable': countDownType === 'FINISHED'})} onClick={goToSignUp}>
+            <Text className='button-text'>
+              {countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}
+            </Text>
           </View>
         </View>
         <View className='row data-section'>

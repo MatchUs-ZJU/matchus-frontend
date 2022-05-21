@@ -15,9 +15,9 @@ import {useEffect, useState} from "react";
 import {fetchUserInfo} from "@/actions";
 import classnames from "classnames";
 import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
+import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 import './index.scss'
-import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 const notifyLoginMessage = '您还没有登录哦'
 const notifyIdentifyMessage = '请您先完成用户认证'
@@ -122,15 +122,18 @@ const User = () => {
             <>
               <View className='row nickname'>
                 {nickName}
-                <View className={classnames('badge',
-                  {'badge-undergraduate': identified === '认证成功' && userType === 1},
-                  {'badge-graduated': identified === '认证成功' && userType !== 1},
-                  {'badge-checking': identified === '认证中'},
-                  {'badge-notallow': identified === '认证失败'},
-                  {'badge-notcheck': identified === '未认证'}
-                )}>
-                  {badge}
-                </View>
+                {
+                  identified !== '认证失败' &&
+                  <View className={classnames('badge',
+                    {'badge-undergraduate': identified === '认证成功' && userType === 1},
+                    {'badge-graduated': identified === '认证成功' && userType !== 1},
+                    {'badge-checking': identified === '认证中'},
+                    {'badge-notallow': identified === '认证失败'},
+                    {'badge-notcheck': identified === '未认证'}
+                  )}>
+                    {badge}
+                  </View>
+                }
               </View>
               <View className='row faculty' style={{marginTop: '4px'}}>
                 学院：{faculty ? faculty : '暂无信息'}
