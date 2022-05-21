@@ -56,14 +56,16 @@ const MatchCard = (props: MatchCardProps) => {
   const [fund,setFund] = useState(false)
 
   useEffect(()=>{
-    let tmpLightUp = lightUp
-    approval.map((item,index)=>{
-      tmpLightUp[item.index] = item.approval;
-    })
+    if(state==='ACTIVE' && matchResult){
+      let tmpLightUp = lightUp
+      approval.map((item,index)=>{
+        tmpLightUp[item.index] = item.approval;
+      })
 
-    const tmpFund = tmpLightUp.every((item,index,arr)=>{return item})
-    setLightUp([...tmpLightUp])
-    setFund(tmpFund)
+      const tmpFund = tmpLightUp.every((item,index,arr)=>{return item})
+      setLightUp([...tmpLightUp])
+      setFund(tmpFund)
+    }
   },[before])
 
   function formatLeftTime(leftMss: number) {
@@ -104,7 +106,7 @@ const MatchCard = (props: MatchCardProps) => {
           <View className='title'>相识·智能匹配</View>
           <View className='detail'>
             {state && state === 'ACTIVE' && !matchResult?
-              (message===-1?'您的身份审核失败，请重新提交申请':`本次活动有${message}%的用户与您双向符合，缘分还在路上`)
+              (message && message===-1?'您的身份审核失败，请重新提交申请':`本次活动有${message}%的用户与您双向符合，缘分还在路上`)
               : `匹配结果会在${resultShowTime}前公布，请耐心等待`}</View>
           <View
             className={classnames(
