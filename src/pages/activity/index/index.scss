@@ -13,19 +13,15 @@ page {
 }
 
 .header {
-  top: 20px;
-  position: relative;
-
-  width: 100%;
+  margin: 0 5px;
   height: 300px;
-  mix-blend-mode: darken;
 }
 
 .wrapper {
-  bottom: 22px;
+  bottom: 24px;
 
   position: relative;
-  padding: 0 26px;
+  margin: 0 26px;
 }
 
 .footer {

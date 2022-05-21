@@ -8,10 +8,10 @@ import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/im
 import {fetchHomeData} from "@/actions/home";
 import {fetchResourceImages} from "@/actions/resource";
 import {ArticleCard} from "@/components";
-
-import './index.scss'
 import {getJWT} from "@/services/jwt";
 import classnames from "classnames";
+
+import './index.scss'
 
 const Home = () => {
   // store
