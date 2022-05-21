@@ -46,8 +46,14 @@ const Index = () => {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
+
       if (identified === '未认证') {
         await Taro.reLaunch({url: '/pages/introduction/index'})
+        return
+      }
+
+      if (identified === '认证失败') {
+        await Taro.reLaunch({url: '/pages/user/information/index'})
         return
       }
     }
@@ -92,12 +98,16 @@ const Index = () => {
   function fetchData() {
     dispatch(fetchLatestActivityInfo())
 
-    if(identified === '认证成功'){dispatch(fetchMatchQuestion(id))}
+    if (identified === '认证成功') {
+      dispatch(fetchMatchQuestion(id))
+    }
   }
 
   return (
     <View className='container'>
-      <Image src={activity.imageUrl} className='header'/>
+      <View className='header'>
+        <Image src={activity.imageUrl} style={{width: '100%', height: '100%'}}/>
+      </View>
       <View className='wrapper'>
         <SignUpCard
           price={price}
@@ -152,7 +162,9 @@ const Index = () => {
       <View
         className='help'
         onClick={
-          () => {Taro.navigateTo({url: '/pages/user/help/index'});}
+          () => {
+            Taro.navigateTo({url: '/pages/user/help/index'});
+          }
         }
       >
         <Image src={ActivityHelp}/>

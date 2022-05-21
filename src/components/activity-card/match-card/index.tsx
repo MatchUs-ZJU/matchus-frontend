@@ -135,7 +135,6 @@ const MatchCard = (props: MatchCardProps) => {
       </View>
       {
         state === "ACTIVE"  && matchResult && chooseState ==='NOT_START' &&
-        <View>
           <View className='row feedback-card'>
             <View className='feedback'>
               <View className='row title'>
@@ -159,7 +158,6 @@ const MatchCard = (props: MatchCardProps) => {
               }
             </View>
           </View>
-        </View>
       }
     </View>
   )
