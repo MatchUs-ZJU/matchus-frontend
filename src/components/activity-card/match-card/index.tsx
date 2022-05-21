@@ -50,7 +50,8 @@ const MatchCard = (props: MatchCardProps) => {
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   // const {before,today} = testData
   const {before,today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
-  const {state, matchResult, favor, lastChoose, left,refund} = useSelector(rootState => rootState.activity.participate.match)
+  const {state, matchResult, message,favor, lastChoose, left,refund} = useSelector(rootState => rootState.activity.participate.match)
+  const chooseState = useSelector(rootState=>rootState.activity.participate.choose.state)
   const leftTime = formatLeftTime(left)
   const [lightUp,setLightUp] = useState([false,false,false,false])
   const [fund,setFund] = useState(true)
@@ -103,7 +104,10 @@ const MatchCard = (props: MatchCardProps) => {
 
         <View className='col main'>
           <View className='title'>相识·智能匹配</View>
-          <View className='detail'>匹配结果会在{resultShowTime}前公布，请耐心等待</View>
+          <View className='detail'>
+            {state && state === 'ACTIVE' && !matchResult?
+              (message===-1?'您的身份审核失败，请重新提交申请':`本次活动有${message}%的用户与您双向符合，缘分还在路上`)
+              : `匹配结果会在${resultShowTime}前公布，请耐心等待`}</View>
           <View
             className={classnames(
               'note',
@@ -130,7 +134,7 @@ const MatchCard = (props: MatchCardProps) => {
         </View>
       </View>
       {
-        state === "ACTIVE" && matchResult && favor !== null &&
+        state === "ACTIVE"  && matchResult && chooseState ==='NOT_START' &&
         <View>
           <View className='row feedback-card'>
             <View className='feedback'>
