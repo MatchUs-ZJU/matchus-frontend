@@ -19,7 +19,7 @@ interface SurveyCardProps extends ViewProps {
 const SurveyCard = (props: SurveyCardProps) => {
   const dispatch = useDispatch()
   const {wjxAppId, wjxPath, activity} = props
-  const {state, filled} = useSelector(rootState => rootState.activity.participate.fillForm)
+  const {state} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {pushFillForm} = useSelector(rootState => rootState.global)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
@@ -28,10 +28,10 @@ const SurveyCard = (props: SurveyCardProps) => {
       appId: wjxAppId,
       path: wjxPath
     }))
-    // dispatch(globalSave({
-    //   pushFillForm: false
-    // })
-    // )
+    dispatch(globalSave({
+      pushFillForm: false
+    })
+    )
     //TODO 每次填写均会上传
     dispatch(actionFinishFillForm(activity))
   }
@@ -81,10 +81,8 @@ const SurveyCard = (props: SurveyCardProps) => {
         <View className='col right'>
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
-          ) : state === 'ACTIVE' && pushFillForm ? (
+          ) : state === 'ACTIVE' ? (
             <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
-          ) : state === 'ACTIVE' && filled ? (
-            <FinishedBtn type='fillForm'/>
           ) : (
             <DisableBtn type='disable'/>
           )}
