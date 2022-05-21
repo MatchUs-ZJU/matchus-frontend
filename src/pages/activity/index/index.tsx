@@ -14,7 +14,7 @@ import './index.scss'
 const Index = () => {
   const dispatch = useDispatch()
   const {user, activity} = useSelector(state => state)
-  const {nickName, avatarUrl, identified,userType, login} = user
+  const {nickName, avatarUrl, identified, userType, login} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
   const {signUp, match, choose, fillForm, state} = participate
 

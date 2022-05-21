@@ -112,6 +112,15 @@
     line-height: 56px;
     font-size: 30px;
   }
+
+  .badge-container {
+    position: relative;
+  }
+
+  .badge {
+    position: absolute;
+    right: 16px;
+  }
 }
 
 .main .left-icon {

@@ -32,9 +32,6 @@ const ChooseCard = (props: ChooseCardProps) => {
   const [inputFocus,setInputFocus] = useState(false)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState('')
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
-
-  // const [expand, setExpand] = useState(false)
 
   async function goToSeeResult() {
     await Taro.navigateTo({
@@ -55,12 +52,6 @@ const ChooseCard = (props: ChooseCardProps) => {
     }
 
     setTextAreaContent(e.detail.value)
-  }
-
-  function onSubmitMessage() {
-    if (textAreaContent && textAreaContent.length) {
-      setConfirmDialogOpen(true)
-    }
   }
 
   function confirmSubmit() {
@@ -149,14 +140,14 @@ const ChooseCard = (props: ChooseCardProps) => {
             <View className='desc'>写下想对Ta说的话，双选结束后将展示给对方</View>
             <View className={classnames('row textarea-wrapper', {'textarea-wrapper-focus': inputFocus})}>
               <Field>
-                <Textarea className='msg-textarea' placeholder='点击此处输入' value={textAreaContent} onChange={onTextAreaChange} onFocus={()=>setInputFocus(true)} onBlur={()=>setInputFocus(false)}/>
+                <Textarea autoHeight className='msg-textarea' placeholder='点击此处输入' value={textAreaContent} onChange={onTextAreaChange} onFocus={()=>setInputFocus(true)} onBlur={()=>setInputFocus(false)}/>
                 <View
                   className={classnames(
                     'confirm-btn',
                     {
-                      'confirm-btn-click': textAreaFilled,
+                      'confirm-btn-click': textAreaFilled && inputFocus,
                     })}
-                  onClick={onSubmitMessage}
+                  onClick={confirmSubmit}
                 >
                   确认
                 </View>
@@ -166,18 +157,6 @@ const ChooseCard = (props: ChooseCardProps) => {
           </View>
         </View>
       }
-      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
-        <Dialog.Header className='dialog-header'>确认提交给Ta的留言</Dialog.Header>
-        <Dialog.Actions>
-          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
-          <Button className='dialog-btn' onClick={() => {
-            setConfirmDialogOpen(false)
-            confirmSubmit()
-          }}
-          >确认提交
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
     </View>
   )
 }

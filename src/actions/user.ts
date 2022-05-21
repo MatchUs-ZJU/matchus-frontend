@@ -231,7 +231,6 @@ export const submitIdentificationInfo = (data) => {
         });
       }
     } catch (e) {
-      console.log(e)
       await Taro.showToast({
         icon: 'none',
         title: '提交个人信息失败，请重新尝试',

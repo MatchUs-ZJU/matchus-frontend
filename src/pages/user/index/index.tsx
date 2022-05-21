@@ -1,5 +1,5 @@
 import {View, Text} from "@tarojs/components";
-import {Cell, Image, Notify} from "@taroify/core"
+import {Badge, Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {
   personalinfoIcon,
@@ -162,6 +162,12 @@ const User = () => {
             clickable
             onClick={onClickOpenSurveyInfo}
           >
+            {/*{*/}
+            {/*  identified === '认证成功' &&*/}
+            {/*  <View className='badge-container'>*/}
+            {/*    <Badge dot className='badge'/>*/}
+            {/*  </View>*/}
+            {/*}*/}
           </Cell>
           <Cell
             icon={<Image src={consumeIcon} className='left-icon'/>}
