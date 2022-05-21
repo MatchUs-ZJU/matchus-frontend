@@ -47,15 +47,8 @@ import ChooseResultTopImageFailure from './choose-failure-top.svg'
 import MatchResultTopImage from './match-result-top.svg'
 import Rules from './activity-rules.png'
 
-import Emoji1 from './emojis/1.svg'
-import Emoji2 from './emojis/2.svg'
-import Emoji3 from './emojis/3.svg'
-import Emoji4 from './emojis/4.svg'
-import Emoji5 from './emojis/5.svg'
-
 export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
-export {Emoji1, Emoji2, Emoji3, Emoji4, Emoji5}
 export {artiService, commonQuestions, report}
 export {surveyIcon, personalinfoIcon, surveyMatchIcon, surveyUserIcon, LockedIcon}
 export const consumeIcon = consume

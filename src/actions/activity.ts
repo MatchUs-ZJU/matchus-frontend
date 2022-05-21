@@ -360,6 +360,8 @@ export const approvalAnswer = ({activityId,questionId,approval}) => {
         console.log("活动页面：点赞成功")
         if(res.data.success){
           dispatch(activityApproveSave({today: {approval: approval}}))
+          //TODO 要不要更新
+          dispatch(fetchMatchQuestion(activityId))
         }
       }else{
         console.log("活动页面：点赞失败")
@@ -378,6 +380,7 @@ export const answerQuestion = ({activityId,questionId,answer}) => {
       let res = await postMatchQuestionAnswer({activityId,questionId,answer})
       if(res && res.code === 0){
         console.log("活动页面：回答成功",res)
+        dispatch(fetchMatchQuestion(activityId))
         await Taro.showToast({
           title: '回答成功',
           duration: 3000,

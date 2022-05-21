@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendFavor,sendAns} from "@/actions";
 import {IQuestionState} from "@/typings/types";
-import {answerQuestion, approvalAnswer} from "@/actions/activity";
+import {answerQuestion, approvalAnswer, fetchMatchQuestion} from "@/actions/activity";
 
 import './index.scss';
 
@@ -59,14 +59,13 @@ const QACard = (props: QAProps) =>{
   const dispatch = useDispatch()
   const {disabled,isAnswer,activityId} = props
   const {id,question,value,approval,index} = props.question
+  const {identified} = useSelector(rootState => rootState.user)
   const [inputValue,setInputValue] = useState('')
   const [approved,setApproved] = useState(approval)
   const [inputFocus,setInputFocus] = useState(false)
   const handleSubmitAnswer = ()=>{
-    console.log('submit:',inputValue)
     if(inputValue != ''){
       dispatch(answerQuestion({activityId,questionId:id,answer:inputValue}))
-      // setInputValue('')
       setInputFocus(false)
     }
   }
@@ -98,11 +97,10 @@ const QACard = (props: QAProps) =>{
           <View className='col qa-question'>
             <Image src={QaAnswerIcon} className='icon'/>
             <View className='text'>
-              {value}
+              {value?value:'Ta没有回答...'}
             </View>
             <Image src={approved?FullLike:BlankLike} className='qa-like' onClick={handleApproval}/>
           </View>
-
         </View>
       ):(
         <View className='qa-container'>
@@ -113,7 +111,6 @@ const QACard = (props: QAProps) =>{
               {question}
             </View>
           </View>
-
           <View className={classnames('row qa-input-field',{'qa-input-focus':inputFocus})}>
             <Field>
               <Textarea
@@ -131,7 +128,7 @@ const QACard = (props: QAProps) =>{
             </Field>
 
           </View>
-          <View className='qa-desp'>问答内容将在次日公开给双方，任意一方的答案若连续4日收到对方点赞，可获得豪华返现礼包</View>
+          <View className='qa-desp'>问答内容将在次日公开给双方，连续4天参与每日一问并双选成功，可找小助手领取纪念礼品</View>
         </View>
       )
       }
