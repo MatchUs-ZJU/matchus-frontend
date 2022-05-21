@@ -377,7 +377,7 @@ export const answerQuestion = ({activityId,questionId,answer}) => {
     try{
       let res = await postMatchQuestionAnswer({activityId,questionId,answer})
       if(res && res.code === 0){
-        console.log("活动页面：回答成功")
+        console.log("活动页面：回答成功",res)
         await Taro.showToast({
           title: '回答成功',
           duration: 3000,

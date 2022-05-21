@@ -52,8 +52,8 @@ page {
 
 .help{
   position: fixed;
-
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: center;
   align-content: center;
   text-align: center;
   z-index: 3;
@@ -61,21 +61,6 @@ page {
   height: 96px;
   right:6px;
   bottom: 40px;
-  border-radius: 50%;
-  background: $primary-color;
-  box-shadow: -4px 8px 16px rgba(145, 138, 227, 0.25);
-
-  .text{
-    position: absolute;
-    width: 96px;
-    height: 96px;
-
-    font-style: normal;
-    font-weight: 500;
-    font-size: 72px;
-    line-height: 100px;
-    color: white;
-  }
 }
 
 .help:hover{

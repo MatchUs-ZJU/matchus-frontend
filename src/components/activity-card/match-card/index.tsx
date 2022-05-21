@@ -36,9 +36,19 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
   )
 }
 
+const testData={
+  before:[{id:0,question:'几点睡',value:'1点',approval:false,index:0},
+    {id:1,question:'几点睡',value:'1点',approval:false,index:1},
+    {id:2,question:'几点睡',value:'1点',approval:false,index:2},
+    {id:3,question:'几点睡',value:'sss',approval:true,index:3},
+  ],
+  today:{id:4,question:'几点睡',value:'ssss',approval:true,index:2}
+}
+
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
+  // const {before,today} = testData
   const {before,today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {state, matchResult, favor, lastChoose, left,refund} = useSelector(rootState => rootState.activity.participate.match)
   const leftTime = formatLeftTime(left)

@@ -6,10 +6,10 @@ import classnames from "classnames";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendFavor,sendAns} from "@/actions";
-
-import './index.scss';
 import {IQuestionState} from "@/typings/types";
 import {answerQuestion, approvalAnswer} from "@/actions/activity";
+
+import './index.scss';
 
 interface QAProps{
   disabled: boolean
@@ -66,7 +66,8 @@ const QACard = (props: QAProps) =>{
     console.log('submit:',inputValue)
     if(inputValue != ''){
       dispatch(answerQuestion({activityId,questionId:id,answer:inputValue}))
-      setInputValue('')
+      // setInputValue('')
+      setInputFocus(false)
     }
   }
 
@@ -117,16 +118,16 @@ const QACard = (props: QAProps) =>{
             <Field>
               <Textarea
                 disabled={disabled}
-                className='qa-textarea'
+                className={classnames('qa-textarea',{'qa-textarea-disabled': disabled})}
                 placeholder='点击此处输入'
                 value={disabled?value:inputValue}
-                maxlength={300}
+                maxlength={100}
                 onChange={(e) => setInputValue(e.detail.value)}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
                 autoHeight
               />
-              <View className={classnames('qa-submit',{'qa-submit-allow':inputValue!==''})}  onClick={handleSubmitAnswer}>确认</View>
+              <View className={classnames('qa-submit',{'qa-submit-allow':inputValue!==''&&inputFocus})}  onClick={handleSubmitAnswer}>确认</View>
             </Field>
 
           </View>

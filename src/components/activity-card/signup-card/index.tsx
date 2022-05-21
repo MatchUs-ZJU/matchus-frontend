@@ -11,7 +11,6 @@ import Taro from "@tarojs/taro";
 import './index.scss'
 
 interface SignupCardProps extends ViewProps {
-  userType: number, // 用户身份
   activity: number | string, // 活动ID
   price: number,
   time: string
@@ -34,8 +33,9 @@ const SignUpNotStartBtn = (props: SignUpNotStartBtnProps) => {
 
 const SignupCard = (props: SignupCardProps) => {
   const dispatch = useDispatch()
-  const {price, time, activity, bodyPrefix,userType} = props
+  const {price, time, activity, bodyPrefix} = props
   const {state, paid, participated} = useSelector(rootState => rootState.activity.participate.signUp)
+  const {userType} = useSelector(rootState=>rootState.user)
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
