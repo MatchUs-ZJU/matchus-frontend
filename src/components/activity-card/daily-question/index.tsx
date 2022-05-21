@@ -13,7 +13,6 @@ import './index.scss';
 
 interface QAProps{
   disabled: boolean
-  activityId: number
   isAnswer: boolean
   question: IQuestionState
 }
@@ -57,7 +56,8 @@ const DayCounter = (props: DayCounterProps) => {
 
 const QACard = (props: QAProps) =>{
   const dispatch = useDispatch()
-  const {disabled,isAnswer,activityId} = props
+  const activityId = useSelector(rootState=>rootState.activity.id)
+  const {disabled,isAnswer} = props
   const {id,question,value,approval,index} = props.question
   const {identified} = useSelector(rootState => rootState.user)
   const [inputValue,setInputValue] = useState('')
