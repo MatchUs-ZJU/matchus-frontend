@@ -12,6 +12,7 @@ import {studentNumberRegTest} from "@/utils/reg";
 import classnames from "classnames";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import './index.scss'
+import {notifySubscribe} from "@/actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch()
@@ -70,6 +71,8 @@ const Index = () => {
   }
 
   function onConfirmRegister() {
+    // 获取用户订阅允许
+    dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M']))
     // 确认并提交表单信息
     dispatch(submitIdentificationInfo(form))
   }
@@ -97,7 +100,6 @@ const Index = () => {
       sizeType: ["original", "compressed"],
       sourceType: ["album", "camera"],
     }).then(({tempFiles}) => {
-      console.log(tempFiles)
       setForm({
         ...form,
         imageFile: {
