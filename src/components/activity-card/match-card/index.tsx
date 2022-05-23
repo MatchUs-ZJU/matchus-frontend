@@ -39,8 +39,6 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
-  // const {before,today} = testData
-  // const {approval,before,today} = testData
   const {approval, before, today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {
     state,
@@ -69,7 +67,7 @@ const MatchCard = (props: MatchCardProps) => {
       setLightUp([...tmpLightUp])
       setFund(tmpFund)
     }
-  }, [before])
+  }, [approval])
 
   function formatLeftTime(leftMss: number) {
     const day = Math.floor(leftMss / (1000 * 60 * 60 * 24));
@@ -101,7 +99,7 @@ const MatchCard = (props: MatchCardProps) => {
         <View className='col left'>
           <View className='id'>3</View>
           <Image lazyLoad src={(state && state === 'ACTIVE' && !matchResult) ? StepGreyIcon : StepIcon}
-                 className='img'
+            className='img'
           />
         </View>
 
@@ -151,7 +149,7 @@ const MatchCard = (props: MatchCardProps) => {
               </View>
             }
             <View className='split'>
-              <DayCounter index={today.index} lightUp={lightUp} fund={fund}/>
+              <DayCounter index={today?today.index:0} lightUp={lightUp} fund={fund}/>
             </View>
             {
               before &&

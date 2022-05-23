@@ -128,6 +128,8 @@
     }
 
     .text{
+      word-wrap: break-word;
+      word-break: normal;
       display: block;
       width: 430px;
       font-style: normal;
@@ -139,19 +141,40 @@
   }
 
   .qa-input-field{
-    width:470px;
+    width: 470px;
     border-radius: 16px;
-    max-height: 140px;
-
-    .taroify-form-control {
+    .taroify-cell{
       display: flex;
+      flex-direction: row;
       align-items: center;
-      width: 100%;
+      padding: 4px;
+      gap: 10px;
+      width: 470px;
+      border-radius: 16px;
+      background: #F5F4FF;
+    }
+
+    .qa-textarea {
+      width: 80%;
+      //padding: 16px;
+      background: #F5F4FF;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 24px;
+      color: $text-color-2;
+    }
+
+    .qa-textarea-disabled{
+      color: $note-color
     }
 
     .qa-submit{
+      position: absolute;
+      right: 0px;
+      top: 16px;
       width: 15%;
       height: 40px;
+
       font-style: normal;
       font-weight: 500;
       font-size: 28px;
@@ -163,32 +186,6 @@
       color: $primary-color;
     }
 
-    .qa-textarea {
-      width: 80%;
-      background: #F5F4FF;
-      border-radius: 16px;
-      padding: 16px;
-
-      font-weight: 400;
-      font-size: 24px;
-      color: $text-color-2;
-    }
-
-    .qa-textarea-disabled{
-      color: $note-color
-    }
-
-    .taroify-cell{
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 8px 12px;
-      gap: 10px;
-
-      width: 470px;
-      border-radius: 16px;
-      background: #F5F4FF;
-    }
   }
 
   .qa-input-focus{
