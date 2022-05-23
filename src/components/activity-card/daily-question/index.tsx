@@ -57,12 +57,20 @@ const DayCounter = (props: DayCounterProps) => {
 const QACard = (props: QAProps) =>{
   const dispatch = useDispatch()
   const activityId = useSelector(rootState=>rootState.activity.id)
-  const {disabled,isAnswer} = props
+  const {disabled=false,isAnswer=false} = props
   const {id,question,value,approval,index} = props.question
-  const {identified} = useSelector(rootState => rootState.user)
   const [inputValue,setInputValue] = useState('')
   const [approved,setApproved] = useState(approval)
   const [inputFocus,setInputFocus] = useState(false)
+
+  useEffect(()=>{
+    setApproved(approval)
+  },[approval])
+
+  useEffect(()=>{
+    setInputValue(value?value:'')
+    },[value])
+
   const handleSubmitAnswer = ()=>{
     if(inputValue != ''){
       dispatch(answerQuestion({activityId,questionId:id,answer:inputValue}))
@@ -73,7 +81,6 @@ const QACard = (props: QAProps) =>{
   const handleApproval = ()=>{
     if(value){
       dispatch(approvalAnswer({activityId,questionId:id,approval:!approved}))
-      setApproved(!approved)
     }
   }
 
@@ -98,10 +105,14 @@ const QACard = (props: QAProps) =>{
           </View>
           <View className='col qa-question'>
             <Image src={QaAnswerIcon} className='icon'/>
-            <View className='text'>
-              {value?value:'Ta没有回答...'}
-            </View>
-            <Image src={approved?FullLike:BlankLike} className='qa-like' onClick={handleApproval}/>
+            {value ?
+              <>
+                <View className='text'>
+                  {value}
+                </View>
+                <Image src={approved ? FullLike : BlankLike} className='qa-like' onClick={handleApproval}/>
+              </>
+              : <View className='text'>Ta没有回答...</View>}
           </View>
         </View>
       ):(
