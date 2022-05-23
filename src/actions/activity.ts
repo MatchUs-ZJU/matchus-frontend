@@ -354,7 +354,7 @@ export const approvalAnswer = ({activityId,questionId,approval}) => {
       if(res && res.code === 0){
         console.log("活动页面：点赞成功")
         if(res.data.success){
-          dispatch(activityApproveSave({today: {approval: approval}}))
+          dispatch(activityApproveSave({before: {approval: approval}}))
         }
       }else{
         console.log("活动页面：点赞失败")
@@ -376,7 +376,7 @@ export const answerQuestion = ({activityId,questionId,answer}) => {
         dispatch(fetchMatchQuestion(activityId))
         await Taro.showToast({
           title: '回答成功',
-          duration: 3000,
+          duration: 1000,
           icon: 'success'
         })
       }
