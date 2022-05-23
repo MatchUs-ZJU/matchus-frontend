@@ -154,9 +154,9 @@ export default function activity(state = INITIAL_STATE, action) {
           ...state.participate,
           dailyQuestion: {
             ...state.participate.dailyQuestion,
-            today: {
-              ...state.participate.dailyQuestion.today,
-              ...action.payload.today
+            before: {
+              ...state.participate.dailyQuestion.before,
+              ...action.payload.before
             }
           }
         }
