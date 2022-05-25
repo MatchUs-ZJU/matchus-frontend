@@ -1,12 +1,23 @@
-const ROOT_URL = process.env.NODE_ENV === 'development' ?
-    // 线下开发地址
-    'https://springboot-3rsi-1929900-1309499644.ap-shanghai.run.tcloudbase.com' : (process.env.TEST === 1 ?
-    // 测试地址
-    'https://springboot-3rsi-1929900-1309499644.ap-shanghai.run.tcloudbase.com' :
-    // 线上地址
-    'https://springboot-3rsi-1929900-1309499644.ap-shanghai.run.tcloudbase.com');
 const APP_URI = '/app'
-export const BASE_URL = `${ROOT_URL}${APP_URI}`
+const ROOT_URL = process.env.NODE_ENV === 'development' ?
+    // 线下开发地址（通过npm run dev命令）
+    'https://springboot-3rsi-1929900-1309499644.ap-shanghai.run.tcloudbase.com' : process.env.NODE_ENV === 'development-test' ?
+    // 模拟生产环境、真机测试地址（通过npm run dev-test命令）
+    'https://springboot-3rsi-1929900-1309499644.ap-shanghai.run.tcloudbase.com' :
+    // 线上及默认地址（通过npm run build命令）
+    'https://springboot-sipn-1869495-1309499644.ap-shanghai.run.tcloudbase.com';
 
-export const CLOUD_ENV = 'matchus-backend-dev-8cpqf11d7b0e'
-export const SERVICE_NAME = 'springboot-3rsi'
+
+const CLOUD_ENV = process.env.NODE_ENV === 'development' ?
+    // 线下开发地址（通过npm run dev命令）
+    'matchus-backend-dev-8cpqf11d7b0e' : process.env.NODE_ENV === 'development-test' ?
+    // 模拟生产环境、真机测试地址（通过npm run dev-test命令）
+    'matchus-backend-dev-8cpqf11d7b0e' :
+    // 线上及默认地址（通过npm run build命令）
+    'prod-3gmomtqs65fff710';
+
+const BASE_URL = `${ROOT_URL}${APP_URI}`
+console.log('项目后台: ', BASE_URL)
+console.log('云服务环境: ', CLOUD_ENV)
+
+export {CLOUD_ENV, BASE_URL}
