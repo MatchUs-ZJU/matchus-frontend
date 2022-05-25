@@ -10,7 +10,6 @@ import {
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
 import {DayCounter, QACard} from "@/components/activity-card/daily-question";
-
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
@@ -44,8 +43,6 @@ const MatchCard = (props: MatchCardProps) => {
     state,
     matchResult,
     message,
-    favor,
-    lastChoose,
     left,
     refund
   } = useSelector(rootState => rootState.activity.participate.match)
@@ -57,13 +54,12 @@ const MatchCard = (props: MatchCardProps) => {
   useEffect(() => {
     if (state === 'ACTIVE' && matchResult) {
       let tmpLightUp = lightUp
-      approval.map((item, index) => {
+      approval.map((item) => {
         tmpLightUp[item.index] = item.approval;
       })
 
-      const tmpFund = tmpLightUp.every((item, index, arr) => {
-        return item
-      })
+      const tmpFund = tmpLightUp.every((item) => item)
+
       setLightUp([...tmpLightUp])
       setFund(tmpFund)
     }

@@ -11,13 +11,14 @@ export interface IChooseState {
     avatarUrl: string,
   }
 
-  success: boolean,
-  message: string,
   info: {
     index: number,
     key: string,
     value: string
-  }[],
+  }[]
+
+  success: boolean,
+  message: string,
 }
 
 const INITIAL_STATE: IChooseState = {
@@ -33,6 +34,7 @@ const INITIAL_STATE: IChooseState = {
 
   success: false,
   message: '',
+
   info: []
 }
 

@@ -17,7 +17,6 @@ import {
   getTwcResult,
   postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
 } from "@/services/activity";
-import {globalSave} from "@/actions/global";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 
 export const activitySave = (payload) => {
@@ -41,14 +40,14 @@ export const activityMatchSave = (payload) => {
   }
 }
 
-export const activityDailyQASave = (payload)=>{
-  return{
+export const activityDailyQASave = (payload) => {
+  return {
     type: ACTIVITY_DAILYQA_SAVE,
     payload
   }
 }
 
-export const activityApproveSave = (payload) =>{
+export const activityApproveSave = (payload) => {
   return {
     type: ACTIVITY_APPROVE_SAVE,
     payload
@@ -112,7 +111,7 @@ export const preJoinActivity = ({id, price, body, attach}) => {
 
       if (preJoinRes && preJoinRes.code === 0) {
         console.log("活动页面：发起预处理请求成功，发起支付请求")
-        let {orderId, timeStamp, nonceStr, signType, paySign} = preJoinRes.data
+        let {timeStamp, nonceStr, signType, paySign} = preJoinRes.data
         let payRes = await Taro.requestPayment({
           timeStamp,
           nonceStr,
@@ -327,64 +326,58 @@ export const fetchMatchResult = (id) => {
   }
 }
 
-// 活动id
 export const fetchMatchQuestion = (id) => {
-  return async dispatch  => {
-      console.log("活动页面：获取每日问答")
-      try {
-        let res = await getMatchQuestion(id)
-        if(res && res.code === 0){
-          console.log("活动页面：获取每日问答成功",res)
-          dispatch(activityDailyQASave(res.data))
-        }else{
-          console.log("活动页面：获取每日问答失败")
-        }
+  return async dispatch => {
+    console.log("活动页面：获取每日问答")
+    try {
+      let res = await getMatchQuestion(id)
+      if (res && res.code === 0) {
+        console.log("活动页面：获取每日问答成功")
+        dispatch(activityDailyQASave(res.data))
+      } else {
+        console.log("活动页面：获取每日问答失败")
       }
-      catch(e){
-        console.log(e)
-      }
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
 
-// 问题id
-export const approvalAnswer = ({activityId,questionId,approval}) => {
+export const approvalAnswer = ({activityId, questionId, approval}) => {
   return async dispatch => {
     try {
-      let res = await postMatchQuestionApproval({activityId,questionId,approval})
-      if(res && res.code === 0){
+      let res = await postMatchQuestionApproval({activityId, questionId, approval})
+      if (res && res.code === 0) {
         console.log("活动页面：点赞成功")
-        if(res.data.success){
+        if (res.data.success) {
           dispatch(activityApproveSave({before: {approval: approval}}))
         }
-      }else{
+      } else {
         console.log("活动页面：点赞失败")
       }
-    }
-    catch(e){
+    } catch (e) {
       console.log(e)
     }
   }
 }
 
 
-export const answerQuestion = ({activityId,questionId,answer}) => {
+export const answerQuestion = ({activityId, questionId, answer}) => {
   return async dispatch => {
-    try{
-      let res = await postMatchQuestionAnswer({activityId,questionId,answer})
-      if(res && res.code === 0){
-        console.log("活动页面：回答成功",res)
+    try {
+      let res = await postMatchQuestionAnswer({activityId, questionId, answer})
+      if (res && res.code === 0) {
+        console.log("活动页面：回答成功", res)
         dispatch(fetchMatchQuestion(activityId))
         await Taro.showToast({
           title: '回答成功',
           duration: 1000,
           icon: 'success'
         })
-      }
-      else{
+      } else {
         console.log("活动页面：回答失败")
       }
-    }
-    catch(e){
+    } catch (e) {
       console.log(e)
     }
   }

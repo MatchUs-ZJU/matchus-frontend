@@ -1,13 +1,13 @@
 import {View, Text} from "@tarojs/components";
-import {Badge, Cell, Image, Notify} from "@taroify/core"
+import {Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {
-  personalinfoIcon,
+  PersonalInfoIcon,
   consumeIcon,
   helpIcon,
   aboutusIcon,
   AnonymousImage,
-  surveyIcon
+  SurveyIcon
 } from "@/assets/images";
 import Taro, {useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
@@ -124,13 +124,15 @@ const User = () => {
                 {nickName}
                 {
                   identified !== '认证失败' &&
-                  <View className={classnames('badge',
-                    {'badge-undergraduate': identified === '认证成功' && userType === 1},
-                    {'badge-graduated': identified === '认证成功' && userType !== 1},
-                    {'badge-checking': identified === '认证中'},
-                    {'badge-notallow': identified === '认证失败'},
-                    {'badge-notcheck': identified === '未认证'}
-                  )}>
+                  <View
+                    className={classnames('badge',
+                      {'badge-undergraduate': identified === '认证成功' && userType === 1},
+                      {'badge-graduated': identified === '认证成功' && userType !== 1},
+                      {'badge-checking': identified === '认证中'},
+                      {'badge-notallow': identified === '认证失败'},
+                      {'badge-notcheck': identified === '未认证'}
+                    )}
+                  >
                     {badge}
                   </View>
                 }
@@ -148,7 +150,7 @@ const User = () => {
       <View className='main'>
         <Cell.Group inset>
           <Cell
-            icon={<Image src={personalinfoIcon} className='left-icon'/>}
+            icon={<Image src={PersonalInfoIcon} className='left-icon'/>}
             title='个人信息'
             rightIcon={<Arrow size='16'/>}
             clickable
@@ -158,7 +160,7 @@ const User = () => {
             <Text style={identified === '认证失败' ? {color: '#DA3F3F'} : {}}>{identifiedStatus}</Text>
           </Cell>
           <Cell
-            icon={<Image src={surveyIcon} className='left-icon'/>}
+            icon={<Image src={SurveyIcon} className='left-icon'/>}
             title='问卷信息'
             rightIcon={<Arrow size='16'/>}
             align='center'
