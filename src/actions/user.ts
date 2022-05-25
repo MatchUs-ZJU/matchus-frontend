@@ -12,7 +12,6 @@ import {
 import {removeJWT, setJWT} from "@/services/jwt";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {uploadIdentificationImage} from "@/utils/taro-utils";
-import {notifySubscribe} from "@/actions/activity";
 
 export const userSave = (payload) => {
   return {

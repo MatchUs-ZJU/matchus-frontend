@@ -11,21 +11,23 @@ export interface IMatchState {
     avatarUrl: string,
   }
 
-  basicInfo: {
-    index: number,
-    key: string,
-    value: string
-  }[],
+  matchInfo: {
+    basicInfo: {
+      index: number,
+      key: string,
+      value: string
+    }[],
 
-  characteristics: {
-    index: number,
-    key: string,
-    value: string
-  }[],
+    characteristics: {
+      index: number,
+      key: string,
+      value: string
+    }[],
 
-  wechatNumber: string,
-  photos: string[]
+    wechatNumber: string,
+  }
 
+  imagesUrl: string[]
   favor: number,
   hasFilled: boolean,
 }
@@ -41,11 +43,13 @@ const INITIAL_STATE: IMatchState = {
     avatarUrl: '',
   },
 
-  basicInfo: [],
-  characteristics: [],
+  matchInfo: {
+    basicInfo: [],
+    characteristics: [],
+    wechatNumber: '',
+  },
 
-  wechatNumber: '',
-  photos: [],
+  imagesUrl: [],
 
   favor: 0,
   hasFilled: false,
