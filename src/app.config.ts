@@ -52,5 +52,5 @@ export default defineAppConfig({
       },
     ],
   },
-  navigateToMiniProgramAppIdList: ["wxd947200f82267e58"],
+  navigateToMiniProgramAppIdList: ["wxd947200f82267e58", "wxd947200f82267e57"],
 })

@@ -3,24 +3,34 @@ import {Cell, Image} from "@taroify/core";
 import {ArrowDown, ArrowUp} from "@taroify/icons";
 import {useState} from "react";
 import {getFormatTime} from "@/utils/ftime";
-import {IInfoItem} from "@/typings/types";
+import {ISurveyFields} from "@/typings/types";
 import {viewImages} from "@/utils/taro-utils";
+import {SurveyMatchIcon, SurveyUserIcon} from "@/assets/images";
 
 import './index.scss'
 
 interface SurveyInfoItemProps {
   updateTime: number,
-  info: IInfoItem[]
+  info: ISurveyFields[]
   name: string
-  icon: string,
   iconSize?: number,
   defaultExpand?: boolean
-  withImage?: boolean,
   images?: string[]
 }
 
+const getSurveyItemIcon = (name: string) => {
+  if(name === '基本信息') {
+    return SurveyUserIcon
+  } else if(name === '匹配信息') {
+    return SurveyMatchIcon
+  } else {
+    return SurveyUserIcon
+  }
+}
+
 const SurveyInfoItem = (props: SurveyInfoItemProps) => {
-  const {updateTime, info, icon, iconSize = 22, name, defaultExpand = false, withImage = false, images = []} = props
+  const {updateTime, info, iconSize = 22, name, defaultExpand = false, images = []} = props
+  const icon = getSurveyItemIcon(name)
   const [expand, setExpand] = useState(defaultExpand)
 
   return (
@@ -41,33 +51,30 @@ const SurveyInfoItem = (props: SurveyInfoItemProps) => {
                   return o1.index - o2.index
                 })
                 .map((field) => (
-                  field.multipleRow ? (
+                  field.type === 1 ? (
                     <Cell title={field.key} brief={field.value} className='subfield brief'/>
-                  ) : (
+                  ) : field.type === 0 ? (
                     <Cell title={field.key} className='subfield'>{field.value}</Cell>
-                  )
+                  ) : field.type === 2 ? (
+                    <Cell
+                      title={field.key}
+                      brief={
+                        images && images.map((image, _) => {
+                          return (
+                            <Image
+                              src={image}
+                              lazyLoad
+                              mode='aspectFill'
+                              className='img'
+                              onClick={() => viewImages(images, image)}
+                            />
+                          )
+                        })
+                      }
+                      className='subfield brief'
+                    />
+                  ) : <></>
                 ))
-            }
-            {
-              // TODO
-              withImage && item.name === '我的照片' &&
-              <Cell
-                title='我的照片'
-                brief={
-                  images && images.map((image, _) => {
-                    return (
-                      <Image
-                        src={image}
-                        lazyLoad
-                        mode='aspectFill'
-                        className='img'
-                        onClick={() => viewImages(images, image)}
-                      />
-                    )
-                  })
-                }
-                className='subfield brief'
-              />
             }
           </View>
         ))}
