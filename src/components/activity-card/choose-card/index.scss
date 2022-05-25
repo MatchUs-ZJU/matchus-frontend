@@ -103,6 +103,10 @@
     background: #F5F4FF;
   }
 
+  .taroify-form-control {
+    min-height: 60px;
+  }
+
   .msg-textarea{
     width: 80%;
     //padding: 16px;
@@ -115,8 +119,9 @@
 
   .confirm-btn{
     position: absolute;
-    right: 0px;
-    top:16px;
+    right: 4px;
+    top: 16px;
+
     width: 15%;
     height: 40px;
 

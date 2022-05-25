@@ -3,20 +3,20 @@ import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
-import {fetchMatchQuestion} from "@/actions/activity";
 import {ActivityHelp} from "@/assets/images"
 import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
+import {fetchMatchQuestion} from "@/actions/activity";
 import './index.scss'
 
 const Index = () => {
   const dispatch = useDispatch()
   const {user, activity} = useSelector(state => state)
-  const {nickName, avatarUrl, identified, userType, login} = user
+  const {nickName, avatarUrl, identified, login} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
-  const {signUp, match, choose, fillForm, state} = participate
+  const {match, state, choose} = participate
 
   const [payBodyPrefix, setPayBodyPrefix] = useState('')
   const [signUpStartTime, setSignUpStartTime] = useState('')
@@ -24,8 +24,8 @@ const Index = () => {
   const [twoWayChooseStartTime, setTwoWayChooseStartTime] = useState('')
   const [twoWayChooseEndTime, setTwoWayChooseEndTime] = useState('')
 
-  usePullDownRefresh(() => {
-    fetchData()
+  usePullDownRefresh(async () => {
+    await fetchData()
   })
 
   useShareAppMessage(_ => {
@@ -65,7 +65,7 @@ const Index = () => {
      */
     await checkUserState()
 
-    fetchData()
+    await fetchData()
   })
 
   useEffect(() => {
@@ -95,18 +95,21 @@ const Index = () => {
     }
   }, [activity])
 
-  function fetchData() {
-    dispatch(fetchLatestActivityInfo())
-
-    if (identified === '认证成功') {
+  useEffect(() => {
+    // 只有认证成功，匹配成功且位于合适的时间段内，才拿每日一问信息
+    if (identified === '认证成功' && match.state === "ACTIVE" && match.matchResult && choose.state === 'NOT_START') {
       dispatch(fetchMatchQuestion(id))
     }
+  }, [identified, match, choose])
+
+  async function fetchData() {
+    dispatch(fetchLatestActivityInfo())
   }
 
   return (
     <View className='container'>
       <View className='header'>
-        <Image src={activity.imageUrl} style={{width: '100%', height: '100%'}}/>
+        <Image src={activity.imageUrl}/>
       </View>
       <View className='wrapper'>
         <SignUpCard
@@ -162,8 +165,8 @@ const Index = () => {
       <View
         className='help'
         onClick={
-          () => {
-            Taro.navigateTo({url: '/pages/user/help/index'});
+          async () => {
+            await Taro.navigateTo({url: '/pages/user/help/index'});
           }
         }
       >

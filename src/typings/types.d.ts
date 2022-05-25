@@ -98,7 +98,20 @@ export interface IParticipateState {
   }
 }
 
-export interface IInfoItem {
+export interface ISurveyInfo {
+  survey: ISurveyItem[]
+  images: string[],
+  wjxAppId: string,
+  wjxPath: string
+}
+
+export interface ISurveyItem {
+  name: string
+  updateTime: number
+  info: ISurveyFields[]
+}
+
+export interface ISurveyFields {
   name: string,
   fields: ISurveyField[]
 }
@@ -107,19 +120,5 @@ export interface ISurveyField {
   key: string,
   value: string,
   index: number,
-  multipleRow: boolean
-}
-
-export interface ISurveyInfo {
-  basicInfo: {
-    updateTime: number,
-    info: IInfoItem[]
-  },
-  matchInfo:  {
-    updateTime: number,
-    info: IInfoItem[]
-  },
-  images: string[]
-  wjxAppId: string,
-  wjxPath: string
+  type: number // 数据类型枚举
 }

@@ -14,6 +14,7 @@ import './index.scss';
 const Index = () => {
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
+  const {matchInfo, imagesUrl} = match
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -21,7 +22,6 @@ const Index = () => {
   const [isChecked, setChecked] = useState(false)
   const [isShowed, setShowed] = useState(false)
   const [countDownTime, setCountDownTime] = useState(0)
-
 
   function onHeartChange(value) {
     setHeartValue(value * 20)
@@ -45,7 +45,7 @@ const Index = () => {
   }, [match])
 
   useEffect(() => {
-      if (activity && activity.matchResultShowTime) {
+    if (activity && activity.matchResultShowTime) {
       if (currentTime <= activity.matchResultShowTime + 24 * 60 * 60 * 1000) {
         setCountDownTime(activity.matchResultShowTime + 24 * 60 * 60 * 1000 - currentTime)
       } else {
@@ -65,7 +65,7 @@ const Index = () => {
 
   async function copyWechatNumber() {
     await Taro.setClipboardData({
-      data: match.wechatNumber,
+      data: matchInfo.wechatNumber,
       success: function () {
         console.log('匹配结果界面：复制微信号成功')
       },
@@ -116,8 +116,8 @@ const Index = () => {
               <View className='line'/>
             </View>
             <View className='basic-info'>
-              {match.basicInfo && match.basicInfo.length ?
-                match.basicInfo
+              {matchInfo && matchInfo.basicInfo && matchInfo.basicInfo.length &&
+                matchInfo.basicInfo
                   .sort((o1, o2) => {
                     return o1.index - o2.index
                   })
@@ -129,7 +129,6 @@ const Index = () => {
                       </View>
                     )
                   })
-                : <></>
               }
             </View>
             <View className='divider row'>
@@ -137,8 +136,8 @@ const Index = () => {
               <View className='line'/>
             </View>
             <View className='character-info'>
-              {match.characteristics && match.characteristics.length ?
-                match.characteristics
+              {matchInfo && matchInfo.characteristics && matchInfo.characteristics.length &&
+                matchInfo.characteristics
                   .sort((o1, o2) => {
                     return o1.index - o2.index
                   })
@@ -150,7 +149,6 @@ const Index = () => {
                       </View>
                     )
                   })
-                : <></>
               }
             </View>
             <View className='divider row'>
@@ -161,7 +159,7 @@ const Index = () => {
               <View className='item'>
                 <View className='title'>微信号</View>
                 <View className='answer row'>
-                  {match.wechatNumber}
+                  {matchInfo.wechatNumber}
                   <Image src={CopyIcon} className='icon' onClick={copyWechatNumber}/>
                 </View>
               </View>
@@ -177,8 +175,8 @@ const Index = () => {
               <View className='line'/>
             </View>
             <View className='image-info'>
-              <View className={isShowed?'text':'text filter'}>记录你对Ta的第一印象，记录完成后可查看照片</View>
-              <View className={isShowed?'first-check row':'first-check row filter'}>
+              <View className={isShowed ? 'text' : 'text filter'}>记录你对Ta的第一印象，记录完成后可查看照片</View>
+              <View className={isShowed ? 'first-check row' : 'first-check row filter'}>
                 <View className='col center-center' style={{width: '60px'}}>
                   <View className='heart-value'>{heartValue + "%"}</View>
                   <View className='heart-text'>心动值</View>
@@ -202,22 +200,24 @@ const Index = () => {
               <View className='image-show row'>
                 {isChecked ?
                   <>
-                    {match.photos && match.photos.map((item, _) => {
-                      return (
-                        <Image
-                          src={item}
-                          lazyLoad
-                          mode='aspectFill'
-                          className='img'
-                          onClick={() => viewImages(match.photos)}
-                        />
-                      )
-                    })}
+                    {imagesUrl &&
+                      imagesUrl.map((item, _) => {
+                        return (
+                          <Image
+                            src={item}
+                            lazyLoad
+                            mode='aspectFill'
+                            className='img'
+                            onClick={() => viewImages(imagesUrl, item)}
+                          />
+                        )
+                      })}
                   </>
                   :
                   <>
                     {
-                      match.photos ? match.photos.map(() => {
+                      imagesUrl && imagesUrl.length ?
+                        imagesUrl.map(() => {
                           return (
                             <View className='img-placeholder'>照片</View>
                           )
@@ -233,24 +233,30 @@ const Index = () => {
               </View>
             </View>
 
-            {!isShowed?
+            {!isShowed ?
               <View className='locked row'>
                 <Image src={LockedIcon} className='icon'/>
                 <View className='desc col'>
                   <Countdown
                     value={countDownTime}
                   >
-                  {(current) => (
-                    <View className='countdown'>
-                      <View className='countdown-colon'>距离公布照片还有</View>
-                      <View className='countdown-block'>{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
-                      <View className='countdown-colon'>时</View>
-                      <View className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
-                      <View className='countdown-colon'>分</View>
-                      <View className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
-                      <View className='countdown-colon'>秒</View>
-                    </View>
-                  )}
+                    {(current) => (
+                      <View className='countdown'>
+                        <View className='countdown-colon'>距离公布照片还有</View>
+                        <View
+                          className='countdown-block'
+                        >{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
+                        <View className='countdown-colon'>时</View>
+                        <View
+                          className='countdown-block'
+                        >{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
+                        <View className='countdown-colon'>分</View>
+                        <View
+                          className='countdown-block'
+                        >{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
+                        <View className='countdown-colon'>秒</View>
+                      </View>
+                    )}
                   </Countdown>
                   <View className='countdown-colon'>匹配成功24小时后解锁照片</View>
                 </View>
@@ -258,7 +264,6 @@ const Index = () => {
               :
               <></>
             }
-
           </View>
         </View>
       </View>

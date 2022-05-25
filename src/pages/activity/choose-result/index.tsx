@@ -61,12 +61,10 @@ const SuccessPage = (props: SuccessPageProps) => {
       <View className='wrapper col'>
         <View className='content'>
           <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的态度</Divider>
-          {info && info.length ?
-            info
-              .sort((o1, o2) => {
+          {info && info.length &&
+            info.sort((o1, o2) => {
                 return o1.index - o2.index
-              })
-              .map((item, _) => {
+              }).map((item, _) => {
                 return (
                   <View className='item'>
                     <View className='title'>{item.key}</View>
@@ -74,7 +72,6 @@ const SuccessPage = (props: SuccessPageProps) => {
                   </View>
                 )
               })
-            : <></>
           }
           <Divider style={{color: "#918AE3", borderColor: "#918AE3"}}>Ta的留言</Divider>
           <View className='item'>

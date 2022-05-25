@@ -2,7 +2,7 @@ import {MovableArea, MovableView, Text, View} from "@tarojs/components";
 import "@taroify/core/cell/style"
 import {useDispatch, useSelector} from "react-redux";
 import {SurveyInfoItem} from "@/components";
-import {surveyMatchIcon, surveyUserIcon} from "@/assets/images";
+import {SurveyUserIcon} from "@/assets/images";
 import {Edit} from "@taroify/icons";
 import {fillForm} from "@/actions";
 import {useEffect} from "react";
@@ -29,14 +29,14 @@ const SurveyInfo = () => {
       {
         surveyInfo ?
           <MovableArea className='movable-container'>
-            <SurveyInfoItem
-              icon={surveyUserIcon} info={surveyInfo.basicInfo.info} updateTime={surveyInfo.basicInfo.updateTime}
-              name='基本信息' withImage images={surveyInfo.images}
-            />
-            <SurveyInfoItem
-              icon={surveyMatchIcon} info={surveyInfo.matchInfo.info} updateTime={surveyInfo.matchInfo.updateTime}
-              name='匹配信息'
-            />
+            {
+              surveyInfo.survey && surveyInfo.survey.length &&
+                surveyInfo.survey.map((item, key) => (
+                  <SurveyInfoItem
+                    info={item.info} updateTime={item.updateTime} name={item.name} images={surveyInfo.images} key={key}
+                  />
+                ))
+            }
             <MovableView className='movable-btn' direction='all' inertia x={windowWidth - 60} y={windowHeight - 60}>
               <Edit style={{color: '#FFF', fontSize: '30px'}} onClick={goToFillForm}/>
             </MovableView>
@@ -44,7 +44,7 @@ const SurveyInfo = () => {
           :
           <View className='wrapper'>
             <View className='header'>
-              <Image src={surveyUserIcon} className='icon' style={{width: `22px`, height: `22px`}}/>
+              <Image src={SurveyUserIcon} className='icon' style={{width: `22px`, height: `22px`}}/>
               <Text className='title'>问卷信息</Text>
             </View>
             <View className='body'>

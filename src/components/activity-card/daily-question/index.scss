@@ -143,6 +143,7 @@
   .qa-input-field{
     width: 470px;
     border-radius: 16px;
+
     .taroify-cell{
       display: flex;
       flex-direction: row;
@@ -152,6 +153,10 @@
       width: 470px;
       border-radius: 16px;
       background: #F5F4FF;
+    }
+
+    .taroify-form-control {
+      min-height: 60px;
     }
 
     .qa-textarea {
@@ -170,8 +175,9 @@
 
     .qa-submit{
       position: absolute;
-      right: 0px;
       top: 16px;
+      right: 4px;
+
       width: 15%;
       height: 40px;
 
