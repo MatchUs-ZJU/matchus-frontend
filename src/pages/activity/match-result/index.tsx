@@ -24,8 +24,10 @@ const Index = () => {
   const [countDownTime, setCountDownTime] = useState(0)
 
   function onHeartChange(value) {
-    setHeartValue(value * 20)
-    setHeart(value)
+    if (isShowed) {
+      setHeartValue(value * 20)
+      setHeart(value)
+    }
   }
 
   function submitHeartValue() {
@@ -47,6 +49,7 @@ const Index = () => {
   useEffect(() => {
     if (activity && activity.matchResultShowTime) {
       if (currentTime <= activity.matchResultShowTime + 24 * 60 * 60 * 1000) {
+        setShowed(false)
         setCountDownTime(activity.matchResultShowTime + 24 * 60 * 60 * 1000 - currentTime)
       } else {
         setShowed(true)
@@ -190,28 +193,42 @@ const Index = () => {
                   icon={<Like/>}
                   emptyIcon={<LikeOutlined/>}
                   onChange={(value) => onHeartChange(value)}
-                  readonly={isChecked}
+                  readonly={(!isShowed) || isChecked}
                 />
-                {isChecked
-                  ? <Button className='check-button-clicked' disabled>已确认</Button>
-                  : <Button className='check-button' onClick={() => submitHeartValue()}>确认</Button>
+                {isChecked ?
+                  <Button className='check-button-clicked' disabled>已确认</Button> :
+                  <Button
+                    className='check-button'
+                    disabled={!isShowed}
+                    onClick={() => {
+                      // 倒计时已过可选择
+                      if (isShowed) {
+                        submitHeartValue()
+                      }
+                    }}
+                  >
+                    确认
+                  </Button>
                 }
               </View>
               <View className='image-show row'>
                 {isChecked ?
                   <>
-                    {imagesUrl &&
-                      imagesUrl.map((item, _) => {
-                        return (
-                          <Image
-                            src={item}
-                            lazyLoad
-                            mode='aspectFill'
-                            className='img'
-                            onClick={() => viewImages(imagesUrl, item)}
-                          />
-                        )
-                      })}
+                    {
+                      imagesUrl && imagesUrl.length ?
+                        imagesUrl.map((item, _) => {
+                          return (
+                            <Image
+                              src={item}
+                              lazyLoad
+                              mode='aspectFill'
+                              className='img'
+                              onClick={() => viewImages(imagesUrl, item)}
+                            />
+                          )
+                        }) :
+                        <></>
+                    }
                   </>
                   :
                   <>
@@ -222,17 +239,12 @@ const Index = () => {
                             <View className='img-placeholder'>照片</View>
                           )
                         }) :
-                        <>
-                          <View className='img-placeholder'>照片</View>
-                          <View className='img-placeholder'>照片</View>
-                          <View className='img-placeholder'>照片</View>
-                        </>
+                        <></>
                     }
                   </>
                 }
               </View>
             </View>
-
             {!isShowed ?
               <View className='locked row'>
                 <Image src={LockedIcon} className='icon'/>
@@ -261,8 +273,7 @@ const Index = () => {
                   <View className='countdown-colon'>匹配成功24小时后解锁照片</View>
                 </View>
               </View>
-              :
-              <></>
+              : <></>
             }
           </View>
         </View>
