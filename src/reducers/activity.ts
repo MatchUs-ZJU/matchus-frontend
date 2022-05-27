@@ -3,7 +3,9 @@ import {
   ACTIVITY_CHOOSE_SAVE,
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
-  ACTIVITY_SIGN_UP_SAVE
+  ACTIVITY_SIGN_UP_SAVE,
+  ACTIVITY_DAILYQA_SAVE,
+  ACTIVITY_APPROVE_SAVE
 } from "@/constants";
 import {IParticipateState} from "@/typings/types";
 
@@ -29,6 +31,7 @@ export interface IActivityState {
 
   // participated information
   participate: IParticipateState
+
 }
 
 const INITIAL_STATE: IActivityState = {
@@ -51,7 +54,15 @@ const INITIAL_STATE: IActivityState = {
       matchResult: false,
       favor: 0,
       lastChoose: 0,
-      left: 0, // TODO
+      left: 0,
+      refund: false,
+      message: 0
+    },
+
+    dailyQuestion:{
+      approval: [{index: 0,approval:false},{index:1,approval:false},{index:2,approval:false},{index:3,approval:false}],
+      before: {id:-1,index: 0,question:'',value:'',approval:false},
+      today: {id:-1,index: 0,question:'',value:'',approval:false}
     },
 
     choose: {
@@ -75,7 +86,11 @@ export default function activity(state = INITIAL_STATE, action) {
     case ACTIVITY_SAVE:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        participate: {
+          ...state.participate,
+          ...action.payload.participate
+        }
       }
     case ACTIVITY_SIGN_UP_SAVE:
       return {
@@ -118,6 +133,31 @@ export default function activity(state = INITIAL_STATE, action) {
           match: {
             ...state.participate.match,
             ...action.payload
+          }
+        }
+      }
+    case ACTIVITY_DAILYQA_SAVE:
+      return {
+        ...state,
+        participate: {
+          ...state.participate,
+          dailyQuestion:{
+            ...state.participate.dailyQuestion,
+            ...action.payload
+          }
+        }
+      }
+    case ACTIVITY_APPROVE_SAVE:
+      return {
+        ...state,
+        participate:{
+          ...state.participate,
+          dailyQuestion: {
+            ...state.participate.dailyQuestion,
+            before: {
+              ...state.participate.dailyQuestion.before,
+              ...action.payload.before
+            }
           }
         }
       }

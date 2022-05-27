@@ -3,11 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
 import {fetchLatestActivityInfo} from "@/actions";
+import {ActivityHelp} from "@/assets/images"
 import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
 import {Like} from "@taroify/icons";
 import classnames from "classnames";
-
+import {fetchMatchQuestion} from "@/actions/activity";
 import './index.scss'
 
 const Index = () => {
@@ -15,7 +16,7 @@ const Index = () => {
   const {user, activity} = useSelector(state => state)
   const {nickName, avatarUrl, identified, login} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
-  const {signUp, match, choose, fillForm, state} = participate
+  const {match, state, choose} = participate
 
   const [payBodyPrefix, setPayBodyPrefix] = useState('')
   const [signUpStartTime, setSignUpStartTime] = useState('')
@@ -23,8 +24,8 @@ const Index = () => {
   const [twoWayChooseStartTime, setTwoWayChooseStartTime] = useState('')
   const [twoWayChooseEndTime, setTwoWayChooseEndTime] = useState('')
 
-  usePullDownRefresh(() => {
-    fetchData()
+  usePullDownRefresh(async () => {
+    await fetchData()
   })
 
   useShareAppMessage(_ => {
@@ -45,19 +46,26 @@ const Index = () => {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
-      if (identified !== '已认证') {
+
+      if (identified === '未认证') {
         await Taro.reLaunch({url: '/pages/introduction/index'})
+        return
+      }
+
+      if (identified === '认证失败') {
+        await Taro.reLaunch({url: '/pages/user/information/index'})
         return
       }
     }
 
-    fetchData()
     /**
      * 进入活动页，
      * 首先检查是否完成了基本信息的获取，依据是nickName和avatar是否存在;
      * 其次检查是否完成了必要信息的填写，如果没有，跳转到欢迎页
      */
     await checkUserState()
+
+    await fetchData()
   })
 
   useEffect(() => {
@@ -87,13 +95,22 @@ const Index = () => {
     }
   }, [activity])
 
-  function fetchData() {
+  useEffect(() => {
+    // 只有认证成功，匹配成功且位于合适的时间段内，才拿每日一问信息
+    if (identified === '认证成功' && match.state === "ACTIVE" && match.matchResult && choose.state === 'NOT_START') {
+      dispatch(fetchMatchQuestion(id))
+    }
+  }, [identified, match, choose])
+
+  async function fetchData() {
     dispatch(fetchLatestActivityInfo())
   }
 
   return (
     <View className='container'>
-      <Image src={activity.imageUrl} className='header'/>
+      <View className='header'>
+        <Image src={activity.imageUrl}/>
+      </View>
       <View className='wrapper'>
         <SignUpCard
           price={price}
@@ -144,6 +161,18 @@ const Index = () => {
           </Text>
         </View>
       </View>
+
+      <View
+        className='help'
+        onClick={
+          async () => {
+            await Taro.navigateTo({url: '/pages/user/help/index'});
+          }
+        }
+      >
+        <Image src={ActivityHelp}/>
+      </View>
+
     </View>
   )
 }

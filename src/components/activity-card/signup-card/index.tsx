@@ -13,7 +13,6 @@ import './index.scss'
 interface SignupCardProps extends ViewProps {
   activity: number | string, // 活动ID
   price: number,
-
   time: string
   bodyPrefix: string
 }
@@ -36,11 +35,21 @@ const SignupCard = (props: SignupCardProps) => {
   const dispatch = useDispatch()
   const {price, time, activity, bodyPrefix} = props
   const {state, paid, participated} = useSelector(rootState => rootState.activity.participate.signUp)
+  const {userType} = useSelector(rootState=>rootState.user)
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
   function goToSignUp() {
-    setConfirmDialogOpen(true)
+    if(userType === 3){
+      Taro.showToast({
+        title: '抱歉，本期活动暂时仅面向三年内毕业生开放',
+        icon: 'none',
+        duration: 3000
+      })
+    }
+    else{
+      setConfirmDialogOpen(true)
+    }
   }
 
   function confirmJoin() {

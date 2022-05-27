@@ -46,6 +46,19 @@ export interface IHomeData {
   unavailable: number,
 }
 
+export interface IQuestionState{
+  question: string,
+    value: string,
+    index: number,
+    approval: boolean,
+    id: number
+}
+
+export interface IApproval{
+  index: number,
+  approval: boolean
+}
+
 export interface IParticipateState {
   state: 'NOT_ACTIVE' | 'ACTIVE' | 'SUCCESS' | 'FAIL'
 
@@ -66,6 +79,14 @@ export interface IParticipateState {
     favor: number,
     lastChoose: number,
     left: number,
+    refund: boolean,
+    message: number
+  }
+
+  dailyQuestion:{
+    approval: IApproval[],
+    before: IQuestionState,
+    today: IQuestionState
   }
 
   choose: {
@@ -75,4 +96,29 @@ export interface IParticipateState {
     hasResult: boolean,
     chooseResult: boolean
   }
+}
+
+export interface ISurveyInfo {
+  survey: ISurveyItem[]
+  images: string[],
+  wjxAppId: string,
+  wjxPath: string
+}
+
+export interface ISurveyItem {
+  name: string
+  updateTime: number
+  info: ISurveyFields[]
+}
+
+export interface ISurveyFields {
+  name: string,
+  fields: ISurveyField[]
+}
+
+export interface ISurveyField {
+  key: string,
+  value: string,
+  index: number,
+  type: number // 数据类型枚举
 }

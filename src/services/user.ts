@@ -22,6 +22,16 @@ export const updateUserInfo = async (data) => {
   });
 };
 
+export const identifyUserInfo = async (data) => {
+  console.log('网络请求：上传用户身份验证')
+  return request.post(`/user/identify`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
 export const uploadIdentificationImages = async (data) => {
   console.log('网络请求：上传用户身份识别照片')
   return Taro.uploadFile({
@@ -69,3 +79,12 @@ export const decodePhoneNumber = async (data) => {
     },
   });
 };
+
+export const getSurveyInfo = async () => {
+  console.log('网络请求：获取用户填写的问卷信息')
+  return request.get(`/user/survey`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}

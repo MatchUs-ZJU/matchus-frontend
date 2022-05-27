@@ -6,15 +6,12 @@ export interface IGlobalState {
   page: number;
   pageStack: number;
 
-  pushFillForm: boolean
-
-  systemInfo?: Taro.getSystemInfo.Result;
+  system?: Taro.getSystemInfo.Result;
 }
 
 const INITIAL_STATE: IGlobalState = {
   pageStack: 0,
   page: 0,
-  pushFillForm: false
 }
 
 export default function global(state: IGlobalState = INITIAL_STATE, action) {

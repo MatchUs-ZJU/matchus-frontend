@@ -1,0 +1,215 @@
+@import '../index.scss';
+
+.day-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 460px;
+  height: 44px;
+  justify-content: space-between;
+}
+
+.day-container .day{
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 48px;
+  height: 48px;
+
+  font-size: 30px;
+
+  .icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    .icon{
+      width: 48px;
+      height: 48px;
+
+      position: absolute;
+    }
+
+    .icon-like{
+      position: absolute;
+      left: 89.11%;
+      right: -0.18%;
+      top: 62.07%;
+      bottom: 12.07%;
+    }
+
+    .text{
+      position: absolute;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 42px;
+
+      .reach-color{
+        color: white;
+      }
+
+      .unreach-color{
+        color:  rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+}
+
+.day-container .day-line{
+  width: 116px;
+  height: 0px;
+  left: 28px;
+  margin-top: 22px;
+
+  transform: rotate(0deg);
+
+  .day-line-solid{
+    border: 1px solid $primary-color;
+  }
+
+  .day-line-dash{
+    border: 1px dashed rgba(0, 0, 0, 0.3);
+  }
+
+  .day-line-grey{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+  }
+}
+
+.qa-container{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 470px;
+  padding: 0px 0px 0px 16px;
+  border-left: 4px solid $primary-color;
+
+  .qa-like{
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: 60px;
+    height: 60px;
+  }
+
+  .qa-title{
+    width: 400px;
+    height: 45px;
+
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 40px;
+    color: $primary-color
+  }
+
+  .qa-question{
+
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 4px;
+
+    width: 470px;
+    margin-bottom: 8px;
+
+    .icon{
+      display: flex;
+      flex-direction: row;
+      padding: 4px 0px 0px;
+      gap: 5px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .text{
+      word-wrap: break-word;
+      word-break: normal;
+      display: block;
+      width: 430px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 40px;
+      color: $text-color-2;
+    }
+  }
+
+  .qa-input-field{
+    width: 470px;
+    border-radius: 16px;
+
+    .taroify-cell{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 4px;
+      gap: 10px;
+      width: 470px;
+      border-radius: 16px;
+      background: #F5F4FF;
+    }
+
+    .taroify-form-control {
+      min-height: 60px;
+    }
+
+    .qa-textarea {
+      width: 80%;
+      //padding: 16px;
+      background: #F5F4FF;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 24px;
+      color: $text-color-2;
+    }
+
+    .qa-textarea-disabled{
+      color: $note-color
+    }
+
+    .qa-submit{
+      position: absolute;
+      top: 16px;
+      right: 4px;
+
+      width: 15%;
+      height: 40px;
+
+      font-style: normal;
+      font-weight: 500;
+      font-size: 28px;
+      line-height: 40px;
+      color: #C8C4F1;
+    }
+
+    .qa-submit-allow{
+      color: $primary-color;
+    }
+
+  }
+
+  .qa-input-focus{
+    border: 1px solid $primary-color;
+    box-shadow: 0 0 4px rgba(145, 138, 227, 0.5);
+  }
+
+  .qa-desp{
+    width: 470px;
+    height: 60px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 30px;
+
+    color: rgba(0, 0, 0, 0.3);
+
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+}

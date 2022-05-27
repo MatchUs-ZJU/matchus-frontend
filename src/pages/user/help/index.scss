@@ -10,29 +10,34 @@
   justify-content: stretch;
 }
 
-.common_qustions{
-  margin: 32px 0px;
+.section{
+  margin: 24px 0;
 }
 
-.help-title{
+.margin-hor {
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+.title{
   margin-left: 32px;
   margin-bottom: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  .title-img{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .title-text{
+    color: $primary-color;
+    margin-left: 16px;
+  }
 }
 
-.help-img{
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.help-text{
-  color: $primary-color;
-  margin-left: 8px;
-}
-
-.arti_service{
+.arti-service{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -62,7 +67,6 @@
   height: 220px;
   justify-content: center;
   margin-left: 16px;
-
 }
 
 .arti-img{
@@ -95,5 +99,51 @@
 
   .taroify-collapse-item__content {
 
+  }
+}
+
+.report {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 156px;
+  width: 100%;
+
+  background: $primary-color;
+  border-radius: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .report-btn {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    position: absolute;
+    height: 140px;
+    width: 98%;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    background: transparent;
+    z-index: 2;
+    box-sizing: border-box;
+
+    .text {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 30px;
+      color: $white;
+      opacity: 0.8;
+    }
+  }
+
+  .report-img {
+    width: 244px;
+    height: 156px;
+
+    position: absolute;
+    right: 30px;
   }
 }

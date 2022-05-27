@@ -8,9 +8,10 @@ import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/im
 import {fetchHomeData} from "@/actions/home";
 import {fetchResourceImages} from "@/actions/resource";
 import {ArticleCard} from "@/components";
+import {getJWT} from "@/services/jwt";
+import classnames from "classnames";
 
 import './index.scss'
-import {getJWT} from "@/services/jwt";
 
 const Home = () => {
   // store
@@ -153,9 +154,10 @@ const Home = () => {
               <View className='note'>已有<Text className='purple'>{data.currentParticipant}+</Text>人报名</View>
             </View>
           </View>
-          <View className='col button' onClick={goToSignUp}>
-            <Text
-              className='button-text'>{countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}</Text>
+          <View className={classnames('col', 'button', {'button-disable': countDownType === 'FINISHED'})} onClick={goToSignUp}>
+            <Text className='button-text'>
+              {countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}
+            </Text>
           </View>
         </View>
         <View className='row data-section'>
@@ -163,7 +165,7 @@ const Home = () => {
             <Image src={TrumpetIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
               <View className='title'>
-                {!data.totalTerm ? 4 : data.totalTerm}<Text className='title-small'>期</Text>
+                {!data.totalTerm ? 0 : data.totalTerm}<Text className='title-small'>期</Text>
               </View>
               <View className='content'>已举办配对活动</View>
             </View>
@@ -171,14 +173,14 @@ const Home = () => {
           <View className='col data-card yellow'>
             <Image src={TwoPeopleIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
-              <View className='title'>{!data.matched ? 1800 : data.matched}+</View>
+              <View className='title'>{!data.matched ? 0 : data.matched}+</View>
               <View className='content'>配对成功人数</View>
             </View>
           </View>
           <View className='col data-card pink'>
             <Image src={HeartsIcon} shape='circle' className='icon'/>
             <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
-              <View className='title'>{!data.unavailable ? 90 : data.unavailable}+</View>
+              <View className='title'>{!data.unavailable ? 0 : data.unavailable}+</View>
               <View className='content'>成功脱单人数</View>
             </View>
           </View>

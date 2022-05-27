@@ -1,12 +1,13 @@
 import Taro from "@tarojs/taro";
 import {API_STATUS_CODE, HTTP_STATUS, HTTP_STATUS_CODE} from "@/utils/status";
-import {BASE_URL, CLOUD_ENV, WX_SERVICE_NAME} from "@/config";
+import {BASE_URL} from "@/config";
 import {checkHomePage} from "@/utils/taro-utils";
 import {removeJWT} from "@/services/jwt";
 
 const checkHttpStatus = (response: API.Response) => {
   // stop loading
   Taro.hideNavigationBarLoading();
+  Taro.hideLoading();
   if (response.statusCode >= HTTP_STATUS_CODE.SUCCESS_LOWER_BOUND && response.statusCode < HTTP_STATUS_CODE.SUCCESS_UPPER_BOUND) {
     return response.data;
   }
@@ -21,6 +22,7 @@ const checkHttpStatus = (response: API.Response) => {
 
 const checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
+  Taro.hideLoading();
   if (data.success && data.code === API_STATUS_CODE.SUCCESS) {
     return data
   }
@@ -54,11 +56,12 @@ async function handleJWTExpired() {
  */
 function throwError(err) {
   Taro.hideNavigationBarLoading();
+  Taro.hideLoading();
 
   // show error message
   console.log("请求失败：" + `${err.code} - ${err.text}`)
   Taro.showToast({
-    title: "网络请求失败: 请刷新或重新重试",
+    title: "网络请求失败",
     icon: 'none',
     duration: 3000
   })
@@ -70,6 +73,9 @@ export default {
 
     // show loading animation
     Taro.showNavigationBarLoading();
+    Taro.showLoading({
+      title: '为您加载中...'
+    })
 
     // send request
     return Taro.request({

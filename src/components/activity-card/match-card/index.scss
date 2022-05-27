@@ -23,82 +23,57 @@
 
 .feedback-card {
   position: relative;
-  height: $feedback-card-height;
+  //height: $feedback-card-height;
 
   justify-content: flex-start;
   align-items: center;
 
   background: $white;
 
-  padding: 16px 32px 16px 16%;
+  padding: 16px 32px 24px 16%;
   border-radius: 16px;
+
+  .feedback{
+    //height: $feedback-card-height * 0.8;
+    //width: 580px;
+    .title {
+      height: 48px;
+      justify-content: flex-start;
+      align-items: center;
+
+      font-style: normal;
+      font-weight: 500;
+      font-size: 28px;
+      color: $text-color-1;
+
+      margin-bottom: 12px;
+
+      .icon{
+        width: 32px;
+        height: 32px;
+
+        margin-right: 12px;
+      }
+    }
+
+    .qa {
+      padding: 0px 0px 0px 17px;
+    }
+
+    .split{
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    .desc {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 24px;
+
+      color: $note-color;
+
+      margin-bottom: 20px;
+    }
+  }
 }
-
-.feedback-card .feedback {
-  width: 400px;
-  height: 100%;
-}
-
-.feedback-card .feedback .title {
-  height: 48px;
-
-  justify-content: flex-start;
-  align-items: center;
-
-  font-style: normal;
-  font-weight: 500;
-  font-size: 28px;
-  color: $text-color-1;
-
-  margin-bottom: 12px;
-}
-
-.feedback-card .feedback .title .icon{
-  width: 32px;
-  height: 32px;
-
-  margin-right: 12px;
-}
-
-.feedback-card .feedback .desc {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 24px;
-
-  color: $note-color;
-
-  margin-bottom: 20px;
-}
-
-.feedback-card .feedback .emojis {
-  width: 400px;
-}
-
-.feedback-card .favor {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  margin-left: 48px;
-}
-
-.feedback-card .favor .number {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 30px;
-  line-height: 48px;
-
-  color: $pink;
-}
-
-.feedback-card .favor .note {
-  font-style: normal;
-  font-weight: 400;
-  font-size: 22px;
-  line-height: 24px;
-
-  color: $note-color;
-}
-

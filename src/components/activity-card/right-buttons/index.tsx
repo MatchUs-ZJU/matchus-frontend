@@ -10,13 +10,14 @@ export const goToSignUpText = '去报名'
 export const goToFillFormText = '去填写'
 export const goToSeeResultText = '查看结果'
 export const hasSignedUpText = '已报名'
-export const hasFilledFormText = '已填写'
+export const hasFilledFormText = '已截止'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
+export const inRefundText = '退款中'
 export const hasRefundedText = '已退款'
 
 interface ActiveBtnProps extends ViewProps {
-  type: 'signup' | 'fillForm' | 'seeResult'
+  type: 'signup' | 'fillForm' | 'seeResult' | 'fillFormAgain'
 }
 
 export const ActiveBtn = (props: ActiveBtnProps) => {
@@ -50,17 +51,17 @@ export const DisableBtn = (props: DisableBtnProps) => {
 export const NotStartBtn = DisableBtn
 
 interface FinishedBtnProps {
-  type: 'signup' | 'fillForm' | 'refund'
+  type: 'signup' | 'fillForm' | 'hasRefund' | 'inRefund'
 }
 
 export const FinishedBtn = (props: FinishedBtnProps) => {
   const {type} = props
 
-  const content = (type === 'signup' ? hasSignedUpText : type === 'fillForm' ? hasFilledFormText : type === 'refund' ? hasRefundedText : defaultText)
-  const fail = (type === 'refund')
+  const content = (type === 'signup' ? hasSignedUpText : type === 'fillForm' ? hasFilledFormText : type === 'hasRefund'? hasRefundedText : type==='inRefund'? inRefundText : defaultText)
+  const fail = (type === 'hasRefund' || type === 'inRefund')
 
   async function onClickBtn() {
-    if(type === 'refund') {
+    if(type === 'inRefund') {
       await Taro.showToast({
         icon: 'none',
         title: '退款将在3个工作日内到账，有问题请联系小助手',
@@ -77,7 +78,8 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
       )}
       onClick={onClickBtn}
     >
-      <Success size='20px' style={{marginRight: '8px'}}/>
+      {(type !== 'inRefund' && type !== 'fillForm') &&
+        <Success size='20px' style={{marginRight: '8px'}}/>}
       <View>{content}</View>
     </View>
   )

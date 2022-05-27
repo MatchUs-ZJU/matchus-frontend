@@ -1,0 +1,114 @@
+@import '../../app.scss';
+
+.collapse-container {
+  margin: 40px 38px 50px;
+}
+
+.collapse-header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 32px;
+
+  height: 88px;
+
+  background: $primary-color;
+  border-radius: 16px 16px 0 0;
+  color: $white;
+
+  .title {
+    margin-left: 16px;
+
+    font-weight: 500;
+    font-size: 32px;
+  }
+
+  .arrow {
+    position: absolute;
+    right: 32px;
+
+    font-weight: 500;
+    font-size: 32px;
+  }
+}
+
+.collapse-content {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  background: $white;
+
+  padding-bottom: 16px;
+  border-radius: 0 0 16px 16px;
+
+  transition: height 1s;
+  -o-transition: height 1s;
+  -moz-transition: height 1s;
+  -webkit-transition: height 1s;
+
+  .field {
+    position: relative;
+
+    .field-name {
+      position: sticky;
+      top: 0;
+
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      margin-bottom: 4px;
+
+      height: 48px;
+      background: #E4E5FB;
+
+      font-weight: 500;
+      font-size: 24px;
+      color: $primary-color;
+      z-index: 100;
+    }
+
+    .subfield {
+      font-size: 29px;
+      padding: 28px 30px;
+      z-index: 0;
+
+      .taroify-cell__brief {
+        margin-top: 24px;
+        font-size: 29px;
+        line-height: 40px;
+        color: $text-color-2;
+      }
+    }
+
+    .brief {
+      .taroify-cell__value {
+        display: none;
+      }
+    }
+
+    .img {
+      background: #f5f4ff;
+      width: 30%;
+      height: 240px;
+      margin-right: 3%;
+      border-radius: 16px;
+    }
+  }
+}
+
+.collapse-body {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 32px 40px;
+
+  background: $white;
+  border-radius: 0 0 16px 16px;
+  color: $text-color-1;
+  font-size: 28px;
+
+  transition: height 1s;
+  -o-transition: height 1s;
+  overflow: hidden;
+}

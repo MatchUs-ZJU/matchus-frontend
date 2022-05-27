@@ -3,7 +3,7 @@
 $activity-card-height: 190px;
 $activity-card-divider-height: 30px;
 $activity-card-id-height: 56px;
-$feedback-card-height: 160px;
+$feedback-card-height: 576px;
 $message-board-height: 360px;
 
 .card-container {
@@ -13,7 +13,7 @@ $message-board-height: 360px;
 
 .activity-card {
   position: relative;
-  height: $activity-card-height;
+  //height: $activity-card-height;
 
   justify-content: flex-start;
   align-items: center;
@@ -30,6 +30,10 @@ $message-board-height: 360px;
 }
 
 .activity-card-success {
+  background: rgba(145, 138, 227, 0.1);
+}
+
+.activity-card-choosed {
   background: rgba(145, 138, 227, 0.1);
 }
 

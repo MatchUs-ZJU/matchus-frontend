@@ -1,7 +1,17 @@
 import Taro from "@tarojs/taro";
 import {USER_SAVE} from "@/constants";
-import {decodePhoneNumber, getUserInfo, login, register, updateUserInfo} from "@/services/user";
+import {
+  decodePhoneNumber,
+  getSurveyInfo,
+  getUserInfo,
+  identifyUserInfo,
+  login,
+  register,
+  updateUserInfo
+} from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
+import {TOAST_SHOW_TIME} from "@/utils/constant";
+import {uploadIdentificationImage} from "@/utils/taro-utils";
 
 export const userSave = (payload) => {
   return {
@@ -20,6 +30,25 @@ export const fetchUserInfo = () => {
         dispatch(userSave(res.data))
       } else {
         console.log('用户登录：从服务器获取个人信息失败')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const fetchSurveyInfo = () => {
+  return async dispatch => {
+    try {
+      console.log('用户信息：从服务器获取用户填写的最新问卷信息')
+      const res = await getSurveyInfo()
+      if (res && res.code === 0) {
+        console.log('用户信息：从服务器获取用户填写的最新问卷信息成功')
+        dispatch(userSave({
+          surveyInfo: res.data
+        }))
+      } else {
+        console.log('用户信息：从服务器获取用户填写的最新问卷信息失败')
       }
     } catch (e) {
       console.log(e)
@@ -159,34 +188,52 @@ export const submitIdentificationInfo = (data) => {
   return async dispatch => {
     console.log("用户信息：提交用户身份验证信息")
     try {
-      const res = await updateUserInfo({
+      // 上传照片到云托管
+      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
+      if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+        console.log("用户信息：提交用户身份验证照片到云托管失败")
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交身份认证照片失败',
+          duration: TOAST_SHOW_TIME,
+        });
+        return
+      }
+
+      console.log("用户信息：提交用户身份验证照片到云托管成功")
+      // 提交认证信息
+      const res = await identifyUserInfo({
         ...data,
-        // faculty这里传的是id，不是名字
-        faculty: data.facultyId
+        faculty: data.facultyId, // faculty这里传的是id，不是名字
+        material: uploadRes.fileID
       })
       if (res && res.code === 0) {
         console.log("用户信息：提交用户身份验证信息成功")
         dispatch(userSave({
           ...data,
-          identified: '已认证'
+          identified: '认证中'
         }))
         await Taro.showToast({
           icon: 'none',
-          title: '提交个人信息成功',
-          duration: 5000,
+          title: '提交身份信息成功',
+          duration: TOAST_SHOW_TIME,
         });
         await Taro.switchTab({
           url: '/pages/activity/index/index'
         })
       } else {
         console.log("用户信息：提交用户身份验证信息失败")
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交用户身份验证信息失败',
+          duration: TOAST_SHOW_TIME,
+        });
       }
     } catch (e) {
-      console.log(e)
       await Taro.showToast({
         icon: 'none',
         title: '提交个人信息失败，请重新尝试',
-        duration: 5000,
+        duration: TOAST_SHOW_TIME,
       });
     }
   }
