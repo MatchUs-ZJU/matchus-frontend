@@ -33,12 +33,13 @@ const ArticleCard = (props: ArticleCardProps) => {
 
   return (
     <View className='row article-card' onClick={onOpenArticleView}>
-      <Image
-        lazyLoad
-        src={article.image}
-        className='img'
-        mode='aspectFill'
-      />
+      <View className='img'>
+        <Image
+          lazyLoad
+          src={article.image}
+          mode='aspectFill'
+        />
+      </View>
       <View className='col detail'>
         <View className='title'>{article.title}</View>
         <View className='desc'>{article.description}</View>

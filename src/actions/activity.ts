@@ -18,6 +18,7 @@ import {
   postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
 } from "@/services/activity";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
+import {globalSave} from "@/actions/global";
 
 export const activitySave = (payload) => {
   return {
@@ -128,7 +129,10 @@ export const preJoinActivity = ({id, price, body, attach}) => {
             showCancel: false,
             confirmText: '确定'
           })
-
+          // 改变状态，主动让用户填写表单
+          dispatch(globalSave({
+            pushFillForm: true
+          }))
           dispatch(activitySignUpSave({
             paid: true,
             participated: true,
@@ -139,7 +143,7 @@ export const preJoinActivity = ({id, price, body, attach}) => {
           dispatch(notifySubscribe([
             'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
             'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
-            '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'
+            '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk',
           ]))
         } else {
           console.log(payRes)

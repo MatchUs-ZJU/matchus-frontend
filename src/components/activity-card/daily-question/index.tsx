@@ -82,14 +82,14 @@ const QACard = (props: QAProps) => {
   }, [value])
 
   const handleSubmitAnswer = () => {
-    if (inputValue != '') {
+    if (inputValue != '' && id !== -1) {
       dispatch(answerQuestion({activityId, questionId: id, answer: inputValue}))
       setInputFocus(false)
     }
   }
 
   const handleApproval = () => {
-    if (value) {
+    if (value && id !== -1) {
       dispatch(approvalAnswer({activityId, questionId: id, approval: !approved}))
     }
   }
@@ -127,7 +127,6 @@ const QACard = (props: QAProps) => {
         </View>
       ) : (
         <View className='qa-container'>
-          <Text className='qa-title'>Ta的提问</Text>
           <View className='col qa-question'>
             <Image src={QaQuestionIcon} className='icon'/>
             <View className='text'>
@@ -139,7 +138,7 @@ const QACard = (props: QAProps) => {
               <Textarea
                 disabled={disabled}
                 className={classnames('qa-textarea', {'qa-textarea-disabled': disabled})}
-                placeholder='点击此处输入'
+                placeholder='点击此处回答'
                 value={disabled ? value : inputValue}
                 maxlength={100}
                 onChange={(e) => setInputValue(e.detail.value)}

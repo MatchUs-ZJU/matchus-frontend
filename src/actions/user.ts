@@ -27,7 +27,7 @@ export const fetchUserInfo = () => {
       const res = await getUserInfo()
       if (res && res.code === 0) {
         console.log('用户登录：获取用户信息成功')
-        dispatch(userSave(res.data))
+        dispatch(userSave({...res.data, receivedData: true}))
       } else {
         console.log('用户登录：从服务器获取个人信息失败')
       }

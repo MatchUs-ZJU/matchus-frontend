@@ -10,14 +10,14 @@ export const goToSignUpText = '去报名'
 export const goToFillFormText = '去填写'
 export const goToSeeResultText = '查看结果'
 export const hasSignedUpText = '已报名'
-export const hasFilledFormText = '已截止'
+export const hasFilledFormText = '已提交'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
 export const inRefundText = '退款中'
 export const hasRefundedText = '已退款'
 
 interface ActiveBtnProps extends ViewProps {
-  type: 'signup' | 'fillForm' | 'seeResult' | 'fillFormAgain'
+  type: 'signup' | 'fillForm' | 'seeResult'
 }
 
 export const ActiveBtn = (props: ActiveBtnProps) => {
