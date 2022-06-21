@@ -7,6 +7,7 @@ import {CLOUD_ENV} from "@/config";
 import './app.scss'
 import {getJWT} from "./services/jwt";
 import {store} from "./store";
+import {checkMiniProgramUpdate} from "@/update_manager";
 
 function App(props) {
 
@@ -29,6 +30,8 @@ function App(props) {
   }
 
   useEffect(() => {
+    checkMiniProgramUpdate()
+
     // 获取设备信息
     Taro.getSystemInfo().then((systemInfo) => {
       store.dispatch(globalSave({
@@ -52,6 +55,7 @@ function App(props) {
     }
 
     checkSession()
+
     // 初始化云托管
     Taro.cloud.init({
       env: CLOUD_ENV
