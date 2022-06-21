@@ -27,6 +27,7 @@ export interface IUserState {
   binded: boolean;
 
   login: boolean;
+  receivedData: boolean;
 
   surveyInfo?: ISurveyInfo;
 }
@@ -50,6 +51,7 @@ const INITIAL_STATE: IUserState = {
   id: "",
   identified: '未认证',
   login: false,
+  receivedData: false,
   nickName: "",
   school: "",
   userType: 0

@@ -5,7 +5,7 @@ import classnames from "classnames";
 import {fillForm, finishFillForm as actionFinishFillForm, globalSave} from "@/actions";
 import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn, NotStartBtn} from "@/components/activity-card/right-buttons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Edit, Success} from "@taroify/icons";
 
 import './index.scss';
@@ -20,12 +20,22 @@ const SurveyCard = (props: SurveyCardProps) => {
   const dispatch = useDispatch()
   const {wjxAppId, wjxPath, activity} = props
   const {state, filled} = useSelector(rootState => rootState.activity.participate.fillForm)
+  const {pushFillForm} = useSelector(rootState => rootState.global)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
 
-  function goToFillForm() {
+  useEffect(() => {
+    if(pushFillForm) {
+      console.log('提醒用户去提醒问卷')
+    }
+  }, [pushFillForm])
+
+  function pushGoToFillForm() {
     dispatch(fillForm({
       appId: wjxAppId,
       path: wjxPath
+    }))
+    dispatch(globalSave({
+      pushFillForm: false
     }))
   }
 
@@ -35,6 +45,22 @@ const SurveyCard = (props: SurveyCardProps) => {
 
   function finishFillForm() {
     setConfirmDialogOpen(true)
+  }
+
+  // 继续填写表单组件
+  const FillFormBtn = () => {
+    return (
+      <View className='fill-form-btn row'>
+        <View className='col' onClick={pushGoToFillForm}>
+          <View className='icon-container'><Edit size='20px'/></View>
+          <View className='text'>继续填写</View>
+        </View>
+        <View className='col' onClick={finishFillForm} style={{marginLeft: '12px'}}>
+          <View className='icon-container'><Success size='20px'/></View>
+          <View className='text'>确认完成</View>
+        </View>
+      </View>
+    )
   }
 
   return (
@@ -59,7 +85,11 @@ const SurveyCard = (props: SurveyCardProps) => {
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !filled ? (
-            <ActiveBtn type='fillForm' onClick={goToFillForm}/>
+            pushFillForm ? (
+              <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
+            ) : (
+              <FillFormBtn/>
+            )
           ) : state === 'ACTIVE' && filled ? (
             <FinishedBtn type='fillForm' />
           ) :

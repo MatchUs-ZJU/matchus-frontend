@@ -30,6 +30,7 @@ const Index = () => {
     type: 'gender'
   })
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  console.log(picker)
 
   const [form, setForm] = useState({
     realName: '',
@@ -95,7 +96,7 @@ const Index = () => {
 
   function onConfirmRegister() {
     // 获取用户订阅允许
-    dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M']))
+    dispatch(notifySubscribe(['Ov2QxmYbyWDBp9zMTUcEcLNBsrx8nQNb5Fh1byanP3M', 'FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
     // 确认并提交表单信息
     dispatch(submitIdentificationInfo(form))
   }
@@ -181,14 +182,12 @@ const Index = () => {
               shape='circle'
               lazyLoad
               src={avatarUrl}
-              className='avatar-img'
             />
           ) : (
             <Image
               shape='circle'
               lazyLoad
               src={AnonymousImage}
-              className='avatar-img'
             />
           )}
         </View>
@@ -365,8 +364,8 @@ const Index = () => {
             </Picker.Column>
           ) : (
             <Picker.Column>
-              <Picker.Option value={1}>在校生</Picker.Option>
-              <Picker.Option value={2}>2019年-2022年从浙大毕业的毕业生</Picker.Option>
+              <Picker.Option value={1}>在校生（包括今年夏季毕业生）</Picker.Option>
+              <Picker.Option value={2}>2019年-2022年5月从浙大毕业的毕业生</Picker.Option>
               <Picker.Option value={3}>2018年以前（包括2018）从浙大毕业的毕业生</Picker.Option>
             </Picker.Column>
           )}

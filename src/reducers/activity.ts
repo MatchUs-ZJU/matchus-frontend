@@ -59,10 +59,13 @@ const INITIAL_STATE: IActivityState = {
       message: 0
     },
 
-    dailyQuestion:{
-      approval: [{index: 0,approval:false},{index:1,approval:false},{index:2,approval:false},{index:3,approval:false}],
-      before: {id:-1,index: 0,question:'',value:'',approval:false},
-      today: {id:-1,index: 0,question:'',value:'',approval:false}
+    dailyQuestion: {
+      approval: [{index: 0, approval: false}, {index: 1, approval: false}, {index: 2, approval: false}, {
+        index: 3,
+        approval: false
+      }],
+      before: {id: -1, index: 0, question: '', value: '', approval: false},
+      today: {id: -1, index: 0, question: '', value: '', approval: false}
     },
 
     choose: {
@@ -141,7 +144,7 @@ export default function activity(state = INITIAL_STATE, action) {
         ...state,
         participate: {
           ...state.participate,
-          dailyQuestion:{
+          dailyQuestion: {
             ...state.participate.dailyQuestion,
             ...action.payload
           }
@@ -150,7 +153,7 @@ export default function activity(state = INITIAL_STATE, action) {
     case ACTIVITY_APPROVE_SAVE:
       return {
         ...state,
-        participate:{
+        participate: {
           ...state.participate,
           dailyQuestion: {
             ...state.participate.dailyQuestion,
