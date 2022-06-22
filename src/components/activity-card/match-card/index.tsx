@@ -46,7 +46,6 @@ const MatchCard = (props: MatchCardProps) => {
     left,
     refund
   } = useSelector(rootState => rootState.activity.participate.match)
-  const chooseState = useSelector(rootState => rootState.activity.participate.choose.state)
   const leftTime = formatLeftTime(left)
   const [lightUp, setLightUp] = useState([false, false, false, false])
   const [fund, setFund] = useState(false)
@@ -103,7 +102,7 @@ const MatchCard = (props: MatchCardProps) => {
           <View className='title'>相识·智能匹配</View>
           <View className='detail'>
             {state && state === 'ACTIVE' && !matchResult ?
-              (message && message === -1 ? '您的身份审核未通过，请重新申请，期待下一次相遇' : `本次活动有${message}%的用户与您双向符合，缘分还在路上`)
+              (message && message === -1 ? '您的身份审核未通过，请重新申请，期待下一次相遇' : message === -2 ? `您没有填写新修改的问卷` : `本次活动有${message}%的用户与您双向符合，缘分还在路上`)
               : `匹配结果会在${resultShowTime}前公布，请耐心等待`}</View>
           <View
             className={classnames(
@@ -131,7 +130,7 @@ const MatchCard = (props: MatchCardProps) => {
         </View>
       </View>
       {
-        state === "ACTIVE" && matchResult && chooseState === 'NOT_START' &&
+        state === "ACTIVE" && matchResult &&
         <View className='row feedback-card'>
           <View className='feedback'>
             <View className='row title'>

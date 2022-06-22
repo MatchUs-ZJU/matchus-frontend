@@ -46,15 +46,15 @@ export interface IHomeData {
   unavailable: number,
 }
 
-export interface IQuestionState{
+export interface IQuestionState {
   question: string,
-    value: string,
-    index: number,
-    approval: boolean,
-    id: number
+  value: string,
+  index: number,
+  approval: boolean,
+  id: number
 }
 
-export interface IApproval{
+export interface IApproval {
   index: number,
   approval: boolean
 }
@@ -83,7 +83,7 @@ export interface IParticipateState {
     message: number
   }
 
-  dailyQuestion:{
+  dailyQuestion: {
     approval: IApproval[],
     before: IQuestionState,
     today: IQuestionState

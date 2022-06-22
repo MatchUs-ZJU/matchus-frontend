@@ -14,7 +14,7 @@ import './index.scss'
 const Index = () => {
   const dispatch = useDispatch()
   const {user, activity} = useSelector(state => state)
-  const {nickName, avatarUrl, identified, login} = user
+  const {nickName, avatarUrl, identified, login, receivedData} = user
   const {id, price, wjxPath, wjxAppId, participate} = activity
   const {match, state, choose} = participate
 
@@ -37,17 +37,12 @@ const Index = () => {
 
   useDidShow(async () => {
     const checkUserState = async () => {
-      if (!login) {
+      if (!login || !receivedData) {
         await Taro.switchTab({url: '/pages/home/index/index'})
         return
       }
 
-      if (!nickName || !avatarUrl) {
-        await Taro.reLaunch({url: '/pages/introduction/index'})
-        return
-      }
-
-      if (identified === '未认证') {
+      if (!nickName || !avatarUrl || identified === '未认证') {
         await Taro.reLaunch({url: '/pages/introduction/index'})
         return
       }
@@ -97,7 +92,7 @@ const Index = () => {
 
   useEffect(() => {
     // 只有认证成功，匹配成功且位于合适的时间段内，才拿每日一问信息
-    if (identified === '认证成功' && match.state === "ACTIVE" && match.matchResult && choose.state === 'NOT_START') {
+    if (identified === '认证成功' && match.state === "ACTIVE" && match.matchResult) {
       dispatch(fetchMatchQuestion(id))
     }
   }, [identified, match, choose])

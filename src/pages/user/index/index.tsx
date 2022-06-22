@@ -106,14 +106,12 @@ const User = () => {
               shape='circle'
               mode='aspectFit'
               src={avatarUrl}
-              className='avatar-img'
             />
           ) : (
             <Image
               shape='circle'
               mode='aspectFit'
               src={AnonymousImage}
-              className='avatar-img'
             />
           )}
         </View>
@@ -151,7 +149,7 @@ const User = () => {
         <Cell.Group inset>
           <Cell
             icon={<Image src={PersonalInfoIcon} className='left-icon'/>}
-            title='个人信息'
+            title='身份认证信息'
             rightIcon={<Arrow size='16'/>}
             clickable
             align='center'
@@ -161,7 +159,7 @@ const User = () => {
           </Cell>
           <Cell
             icon={<Image src={SurveyIcon} className='left-icon'/>}
-            title='问卷信息'
+            title='问卷匹配信息'
             rightIcon={<Arrow size='16'/>}
             align='center'
             clickable
