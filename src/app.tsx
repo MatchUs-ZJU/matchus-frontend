@@ -7,7 +7,7 @@ import {CLOUD_ENV} from "@/config";
 import './app.scss'
 import {getJWT} from "./services/jwt";
 import {store} from "./store";
-import {checkMiniProgramUpdate} from "@/update_manager";
+import {checkMiniProgramUpdate} from "@/utils/taro-utils";
 
 function App(props) {
 
