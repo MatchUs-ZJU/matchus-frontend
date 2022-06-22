@@ -92,7 +92,7 @@ const Index = () => {
 
   useEffect(() => {
     // 只有认证成功，匹配成功且位于合适的时间段内，才拿每日一问信息
-    if (identified === '认证成功' && match.state === "ACTIVE" && match.matchResult && choose.state === 'NOT_START') {
+    if (identified === '认证成功' && match.state === "ACTIVE" && match.matchResult) {
       dispatch(fetchMatchQuestion(id))
     }
   }, [identified, match, choose])
