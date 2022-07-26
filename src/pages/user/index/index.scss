@@ -1,7 +1,7 @@
 @import "../../../app";
 
 .wrapper {
-  padding: 40px 40px 0 40px
+  padding: 40px 20px 0 20px
 }
 
 .header {
@@ -99,6 +99,64 @@
 .main {
   margin: 32px 0;
 
+  .history-info{
+    justify-content: space-between;
+    margin-bottom: 36px;
+    .history-info-card{
+      align-items: center;
+      width: 310px;
+      height: 160px;
+      background: #FFFFFF;
+      box-shadow: 0px 0px 12px 5px rgba(145, 138, 227, 0.05);
+      border-radius: 16px;
+
+      .history-icon{
+        margin-left: 44px;
+        width: 80px;
+        height: 80px;
+      }
+
+      .history-desp{
+        height: 80px;
+        margin-left: 24px;
+        align-items: baseline;
+        justify-content: space-between;
+
+        .history-counter-wrapper{
+          align-items: baseline;
+        }
+
+        .history-number{
+          font-weight: 500;
+          font-size: 44px;
+          line-height: 32px;
+          color: $primary-color;
+        }
+
+        .history-number-match{
+          color: #FBA8B1;
+        }
+
+        .history-text{
+          font-weight: 400;
+          font-size: 24px;
+          line-height: 16px;
+          color: $primary-color;
+        }
+
+        .history-text-match{
+          color: #FBA8B1;
+        }
+
+        .history-text-grey{
+          color: rgba(0, 0, 0, 0.3)
+        }
+      }
+
+    }
+
+  }
+
   .taroify-cell-group--inset {
     margin: 0;
   }
@@ -108,8 +166,28 @@
     font-size: 30px;
   }
 
+  .value{
+    float: right;
+    display: flex;
+    width: fit-content;
+    flex-direction: row;
+    align-items: center;
+    text-align: right;
+  }
+
+  .dot{
+    width: 16px;
+    height: 16px;
+    background-color: #ee0a24;
+    border-radius: 100%;
+
+    margin-right: 16px;
+  }
+
   .badge-container {
-    position: relative;
+    //position: relative;
+    width: 48px;
+    height: 48px;
   }
 
   .badge {

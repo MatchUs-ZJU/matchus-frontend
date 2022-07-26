@@ -35,13 +35,16 @@ const SurveyInfoItem = (props: SurveyInfoItemProps) => {
 
   return (
     <View className='collapse-container'>
-      <View className='collapse-header'>
-        <Image src={icon} className='icon' style={{width: `${iconSize}px`, height: `${iconSize}px`}}/>
-        <Text className='title'>{name}</Text>
-        {expand ? <ArrowUp className='arrow' onClick={() => setExpand(!expand)}/> :
-          <ArrowDown className='arrow' onClick={() => setExpand(!expand)}/>}
-      </View>
-      <ScrollView className='collapse-content' scrollY scrollWithAnimation style={{height: (expand ? '' : '0')}}>
+      {/*<View className='collapse-header'>*/}
+      {/*  <Image src={icon} className='icon' style={{width: `${iconSize}px`, height: `${iconSize}px`}}/>*/}
+      {/*  <Text className='title'>{name}</Text>*/}
+      {/*  {expand ? <ArrowUp className='arrow' onClick={() => setExpand(!expand)}/> :*/}
+      {/*    <ArrowDown className='arrow' onClick={() => setExpand(!expand)}/>}*/}
+      {/*</View>*/}
+      {/*<ScrollView className='collapse-content' scrollY scrollWithAnimation style={{height: (expand ? '' : '0')}}>*/}
+      {/*  */}
+      {/*</ScrollView>*/}
+      <View className='collapse-content'>
         {info && info.map((item, key) => (
           <View className='field' key={key}>
             <View className='field-name'>{item.name}</View>
@@ -78,7 +81,8 @@ const SurveyInfoItem = (props: SurveyInfoItemProps) => {
             }
           </View>
         ))}
-      </ScrollView>
+      </View>
+
       <View className='collapse-body' style={{display: (!expand ? '' : 'none')}}>
         上次修改时间：{getFormatTime(new Date(updateTime))}
       </View>

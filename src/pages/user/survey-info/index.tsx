@@ -16,6 +16,7 @@ const SurveyInfo = () => {
   const {windowWidth, windowHeight} = global.system!
   const surveyInfo = user.surveyInfo!
 
+
   useEffect(() => {
     dispatch(fetchSurveyInfo())
   }, [])
@@ -29,13 +30,11 @@ const SurveyInfo = () => {
       {
         surveyInfo ?
           <MovableArea className='movable-container'>
-            {
-              surveyInfo.survey && surveyInfo.survey.length &&
-                surveyInfo.survey.map((item, key) => (
-                  <SurveyInfoItem
-                    info={item.info} updateTime={item.updateTime} name={item.name} images={surveyInfo.images} key={key}
-                  />
-                ))
+            {surveyInfo.survey && surveyInfo.survey.length &&
+              <SurveyInfoItem
+                info={surveyInfo.survey[1].info} updateTime={surveyInfo.survey[1].updateTime}
+                name={surveyInfo.survey[1].name} images={surveyInfo.images} key={1}
+              />
             }
             <MovableView className='movable-btn' direction='all' inertia x={windowWidth - 60} y={windowHeight - 60}>
               <Edit style={{color: '#FFF', fontSize: '30px'}} onClick={goToFillForm}/>

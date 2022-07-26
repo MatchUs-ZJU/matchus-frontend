@@ -152,7 +152,6 @@ page {
   justify-content: center;
   align-items: center;
   padding: 30px;
-
   border: none;
   background: transparent;
 }
@@ -172,8 +171,18 @@ page {
   border: none;
 }
 
+
 .taroify-dialog__footer .taroify-dialog__confirm, .taroify-dialog__footer .taroify-dialog__confirm:active {
   color: $primary-color;
 }
 
+.warning-note {
+  margin-top: 8px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  color: $danger-color;
+}
 

@@ -1,5 +1,5 @@
 import {View} from "@tarojs/components";
-import {MatchResultTopImage, CopyIcon, AnonymousImage, LockedIcon} from "@/assets/images";
+import {MatchResultTopImage, CopyIcon, AnonymousImage, LockedIcon, WhiteInfo} from "@/assets/images";
 import {Button, Rate, Image, Countdown} from "@taroify/core"
 import {ArrowLeft, Like, LikeOutlined} from '@taroify/icons';
 import {useEffect, useState} from "react";
@@ -8,13 +8,13 @@ import {fetchMatchResult, sendSatisfiedFeedback} from "@/actions";
 import Taro from "@tarojs/taro";
 import {viewImages} from "@/utils/taro-utils";
 import {getFormatNickname} from "@/utils/fstring";
-
+import classnames from "classnames";
 import './index.scss';
 
 const Index = () => {
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
-  const {matchInfo, imagesUrl} = match
+  const {matchInfo, imagesUrl,isSecondMatch} = match
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -110,8 +110,14 @@ const Index = () => {
             <View className='nickName'>{getFormatNickname(match.female ? match.female.realName : '')}</View>
           </View>
         </View>
+
+        <View className='second-match-bar'>
+          <Image className='icon' src={WhiteInfo}/>
+          <View className='desp'>本次结果为放宽条件后的二次匹配</View>
+        </View>
       </View>
-      <View className='wrapper'>
+
+      <View className={classnames('wrapper', {'wrapper-second-match':isSecondMatch})}>
         <View className='content margin-bottom-16'>
           <View className='wrapper-insider'>
             <View className='divider row'>
