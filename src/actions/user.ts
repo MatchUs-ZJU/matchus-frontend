@@ -1,17 +1,19 @@
 import Taro from "@tarojs/taro";
 import {USER_SAVE} from "@/constants";
 import {
-  decodePhoneNumber,
+  decodePhoneNumber, delPersonalImage, getPersonalImage,
+  getPersonInfo,
   getSurveyInfo,
   getUserInfo,
   identifyUserInfo,
-  login,
+  login, personalUserInfo, postPersonalImage, postPersonalInfo, putPersonalImage,
   register,
   updateUserInfo
 } from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
-import {uploadIdentificationImage} from "@/utils/taro-utils";
+import {getTmpUrl, uploadIdentificationImage, uploadPersonInfoImage} from "@/utils/taro-utils";
+import {IPhotoUrls} from "@/typings/types";
 
 export const userSave = (payload) => {
   return {
@@ -32,6 +34,39 @@ export const fetchUserInfo = () => {
         console.log('用户登录：从服务器获取个人信息失败')
       }
     } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const fetchPersonInfo = () => {
+  return async dispatch => {
+    try {
+      console.log('用户信息：从服务器获取用户个人信息')
+      const res = await getPersonInfo()
+
+      if(res && res.code === 0){
+        console.log('用户信息：获得个人照片临时链接')
+        const images = res.data.images
+        const tmpUrl = await getTmpUrl(images)
+        if(tmpUrl && tmpUrl.errMsg !== 'cloud.getTempFileURL:ok'){
+          console.log('用户信息：获得个人照片临时链接失败')
+        }
+        else{
+          const photoUrls = images.map((item,idx)=>{
+            return {...item,imageUrl:tmpUrl.fileList[idx].fileID,tmpUrl:tmpUrl.fileList[idx].tempFileURL}
+          })
+          dispatch(userSave({
+            personInfo: res.data.personInfo,
+            images: photoUrls,//res.data.images,
+            isComplete: res.data.isComplete
+          }))
+        }
+      }
+      else{
+        console.log('用户信息：从服务器获取用户个人信息失败')
+      }
+    } catch(e){
       console.log(e)
     }
   }
@@ -189,7 +224,7 @@ export const submitIdentificationInfo = (data) => {
     console.log("用户信息：提交用户身份验证信息")
     try {
       // 上传照片到云托管
-      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
+      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile)
       if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
         console.log("用户信息：提交用户身份验证照片到云托管失败")
         await Taro.showToast({
@@ -230,6 +265,207 @@ export const submitIdentificationInfo = (data) => {
         });
       }
     } catch (e) {
+      await Taro.showToast({
+        icon: 'none',
+        title: '提交个人信息失败，请重新尝试',
+        duration: TOAST_SHOW_TIME,
+      });
+    }
+  }
+}
+
+// 单张照片上传 data:{realName,stuNum,image}
+export const uploadSinglePersonalImages = async (data)=>{
+  console.log("用户个人照片：提交用户个人照片")
+  const uploadRes = await uploadPersonInfoImage(data.realName, data.studentNumber, data.image)
+  if (uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+    await Taro.showToast({
+      icon: 'none',
+      title: '更新个人照片失败',
+      duration: TOAST_SHOW_TIME,
+    });
+  }
+
+  return uploadRes
+}
+
+// 多张照片上传 data:{realName,stuNum,imageS}
+export const uploadMultiPersonImages = async (data) => {
+  // 上传照片到云托管
+  let photoUrls : IPhotoUrls[] = []
+  let promisePhotos : Promise<Taro.cloud.UploadFileResult>[] = []
+
+  data.images.forEach((item)=>{
+    if(item.id) photoUrls.push(item)
+    else{
+      const p = uploadSinglePersonalImages({realName:data.realName,studentNumber:data.studentNumber, image:item})
+      promisePhotos.push(p)
+    }
+  })
+
+  await Promise.all(promisePhotos).then(res => {
+    res.map(async (uploadRes)=>{
+      if (uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交个人照片失败',
+          duration: TOAST_SHOW_TIME,
+        });
+      }
+      else{
+        photoUrls.push({imageUrl:uploadRes.fileID,delete:false})
+      }
+    })
+  })
+
+  return photoUrls
+}
+
+// 单张
+export const  deletePersonalImages = (data) => {
+  return async dispatch => {
+    console.log("用户个人照片：删除用户个人照片")
+    try{
+      const res = await delPersonalImage(data)
+      if (res && res.code === 0){
+        console.log("用户信息：删除用户个人照片成功")
+        dispatch(fetchPersonInfo())
+      }
+      else{
+        console.log("用户信息：删除个人照片失败")
+        console.log('res',res)
+        await Taro.showToast({
+          icon: 'none',
+          title: '删除个人照片失败',
+          duration: TOAST_SHOW_TIME,
+        });
+      }
+    } catch (e) {
+      await Taro.showToast({
+        icon: 'none',
+        title: '删除个人照片失败，请重新尝试',
+        duration: TOAST_SHOW_TIME,
+      });
+    }
+  }
+
+}
+
+// 单张
+export const  editPersonalImages = (data) => {
+  return async dispatch => {
+    console.log("用户个人照片：更新用户个人照片")
+    try{
+      const uploadRes = await uploadSinglePersonalImages(data)
+      console.log('edit photo res',uploadRes)
+      if (uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+        await Taro.showToast({
+          icon: 'none',
+          title: '更新个人照片失败',
+          duration: TOAST_SHOW_TIME,
+        });
+      }
+      else{
+        const res = await putPersonalImage({...data.image,imageUrl:uploadRes.fileID})
+        if (res && res.code === 0){
+          console.log("用户信息：更新用户个人照片成功")
+          dispatch(fetchPersonInfo())
+        }
+        else{
+          console.log("用户信息：更新个人照片失败")
+          await Taro.showToast({
+            icon: 'none',
+            title: '更新个人照片失败',
+            duration: TOAST_SHOW_TIME,
+          });
+        }
+      }
+    } catch (e) {
+      await Taro.showToast({
+        icon: 'none',
+        title: '更新个人照片失败，请重新尝试',
+        duration: TOAST_SHOW_TIME,
+      });
+    }
+  }
+
+}
+
+// 提交多张照片提交到后端 data:{realName,stuNum,imageS}
+export const submitMultiPersonalImage=(data)=>{
+  return async dispatch => {
+    console.log("用户个人信息：提交多张用户个人照片",data)
+    try {
+      let images:IPhotoUrls[]
+      if(data.images){
+        images = await uploadMultiPersonImages(data.images)
+      }
+      else{
+        images = []
+      }
+
+      const res = await postPersonalInfo({personInfo:null,images:[...images]})
+
+      if (res && res.code === 0) {
+        console.log("用户个人信息：提交用户个人照片成功")
+        dispatch(fetchPersonInfo())
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交个人照片成功',
+          duration: TOAST_SHOW_TIME,
+        });
+      } else {
+        console.log("用户信息：提交个人照片失败")
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交个人照片失败',
+          duration: TOAST_SHOW_TIME,
+        });
+      }
+    } catch (e) {
+      console.log(e)
+      await Taro.showToast({
+        icon: 'none',
+        title: '提交个人信息失败，请重新尝试',
+        duration: TOAST_SHOW_TIME,
+      });
+    }
+  }
+}
+
+// data: {personInfo,images{realName,stuNum,images}}
+export const submitPersonalInfo=(data)=>{
+  return async dispatch => {
+    console.log("用户个人信息：提交用户个人信息",data)
+    try {
+      let images:IPhotoUrls[]
+      if(data.images){
+        images = await uploadMultiPersonImages(data.images)
+      }
+      else{
+        images = []
+      }
+
+      const res = await postPersonalInfo({personInfo:data.personInfo,images:[...images]})
+
+      if (res && res.code === 0) {
+        console.log("用户个人信息：提交用户个人信息成功")
+        dispatch(fetchPersonInfo())
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交个人信息成功',
+          duration: TOAST_SHOW_TIME,
+        });
+      } else {
+        console.log("用户信息：提交个人信息失败")
+        await Taro.showToast({
+          icon: 'none',
+          title: '提交个人信息失败',
+          duration: TOAST_SHOW_TIME,
+        });
+      }
+    } catch (e) {
+      console.log(e)
       await Taro.showToast({
         icon: 'none',
         title: '提交个人信息失败，请重新尝试',

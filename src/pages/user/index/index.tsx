@@ -1,5 +1,5 @@
 import {View, Text} from "@tarojs/components";
-import {Cell, Image, Notify} from "@taroify/core"
+import {Badge, Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {
   PersonalInfoIcon,
@@ -7,7 +7,8 @@ import {
   helpIcon,
   aboutusIcon,
   AnonymousImage,
-  SurveyIcon
+  SurveyIcon,
+  IdentityIcon, LoveExperience, MatchCount
 } from "@/assets/images";
 import Taro, {useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
@@ -16,6 +17,7 @@ import {fetchUserInfo} from "@/actions";
 import classnames from "classnames";
 import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
+import {fetchPersonInfo} from "@/actions/user";
 
 import './index.scss'
 
@@ -25,7 +27,7 @@ const notifyIdentifyMessage = '请您先完成用户认证'
 const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {nickName, avatarUrl, faculty, identified, login, userType} = user
+  const {nickName, avatarUrl, faculty, identified, login, userType, isComplete} = user
 
   // 身份和认证状态
   const badge = getBadgeInfo(identified, userType)
@@ -49,6 +51,7 @@ const User = () => {
     // 如果没有个人信息，先尝试获取
     if (login) {
       dispatch(fetchUserInfo())
+      dispatch(fetchPersonInfo())
     }
   }
 
@@ -58,7 +61,7 @@ const User = () => {
     }
   }
 
-  const onClickOpenPersonalInformation = async () => {
+  const onClickOpenIdentityInformation = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
       setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
@@ -81,6 +84,24 @@ const User = () => {
       await Taro.navigateTo({url: '/pages/introduction/index'})
     } else {
       await Taro.navigateTo({url: '/pages/user/survey-info/index'})
+    }
+  }
+
+  const onClickOpenPersonalInfo = async ()=>{
+    if (!nickName || !avatarUrl || !avatarUrl.length) {
+      setNotifyContent(notifyLoginMessage)
+      setNotifyOpen(true)
+    } else if (identified === '未认证') {
+      setNotifyContent(notifyIdentifyMessage)
+      setNotifyOpen(true)
+      await Taro.navigateTo({url: '/pages/introduction/index'})
+    } else{
+      if(isComplete){
+        await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+      }
+      else{
+        await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+      }
     }
   }
 
@@ -148,23 +169,43 @@ const User = () => {
       <View className='main'>
         <Cell.Group inset>
           <Cell
-            icon={<Image src={PersonalInfoIcon} className='left-icon'/>}
-            title='身份认证信息'
+            icon={<Image src={IdentityIcon} className='left-icon'/>}
+            title='身份认证'
             rightIcon={<Arrow size='16'/>}
             clickable
             align='center'
-            onClick={onClickOpenPersonalInformation}
+            onClick={onClickOpenIdentityInformation}
           >
             <Text style={identified === '认证失败' ? {color: '#DA3F3F'} : {}}>{identifiedStatus}</Text>
           </Cell>
+
+          <Cell
+            icon={<Image src={PersonalInfoIcon} className='left-icon'/>}
+            title='个人信息'
+            rightIcon={<Arrow size='16'/>}
+            align='center'
+            clickable
+            onClick={onClickOpenPersonalInfo}
+          >
+            <View className='value'>
+              {!isComplete && <View className='dot'/>}
+              <Text>{isComplete?'去修改':'去填写'}</Text>
+            </View>
+          </Cell>
+
           <Cell
             icon={<Image src={SurveyIcon} className='left-icon'/>}
-            title='问卷匹配信息'
+            title='匹配要求'
             rightIcon={<Arrow size='16'/>}
             align='center'
             clickable
             onClick={onClickOpenSurveyInfo}
           >
+            {/*<View className='value'>*/}
+            {/*  /!*<View className='dot'/>*!/*/}
+            {/*  <Text>{user.surveyInfo?}去修改</Text>*/}
+            {/*</View>*/}
+
             {/*{*/}
             {/*  identified === '认证成功' &&*/}
             {/*  <View className='badge-container'>*/}

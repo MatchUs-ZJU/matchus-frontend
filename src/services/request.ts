@@ -113,6 +113,17 @@ export default {
       'POST'
     );
   },
+
+  put(url, options?: any) {
+    return this.request(
+      url,
+      {
+        ...options,
+        data: JSON.stringify(options.data),
+      },
+      'PUT'
+    );
+  },
 }
 
 

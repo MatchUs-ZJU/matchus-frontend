@@ -28,17 +28,31 @@ import reportImage from './report.png'
 import MaleIcon from './male.svg'
 import FemaleIcon from './female.svg'
 import CopyIcon from './copy.svg'
-
+import WhiteInfo from './info-white.svg'
 import commonQuestions from './mine-help-questions.svg';
 import artiService from './mine-help-service.svg';
 import report from './mine-help-report.svg'
 import PersonalInfoIcon from './mine-personalinfo.svg'
+import PersonalInfoTipsIcon from './mine-personalinfo-fill-tips.svg'
+import PersonalInfoSplit from './mine-personalinfo-split.svg'
+import PersonalInfoAddPhoto from './mine-personalinfo-addphoto.svg'
+import PersonalInfoChosen from './mine-personalinfo-chosen.svg'
+import PersonInfoChosenPrimary from './mine-personinfo-chosen-primary.svg'
+import PersonInfoChosenGrey from './mine-personalinfo-chosen-grey.svg'
+import PersonInfoChosenGreyLight from './mine-personalinfo-chosen-grey-light.svg'
+import PersonInfoUnchosenPrimary from './mine-personalinfo-unchosen-primary.svg'
+import PersonalInfoUnchosen from './mine-personalinfo-unchosen.svg'
+import PersonalAddOther from './mine-personalinfo-addother.svg'
 import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
+import IdentityIcon from './mine-identity.svg'
 import SurveyIcon from './mine-survey.svg'
 import SurveyUserIcon from './mine-survey-user.svg'
 import SurveyMatchIcon from './mine-survery-match.svg'
+
+import LoveExperience from './mine-love-experience.svg'
+import MatchCount from './mine-match-count.svg'
 
 import ChooseResultFootImageSuccess from './choose-success-footer.png'
 import ChooseResultFootImageFailure from './choose-failure-footer.png'
@@ -47,10 +61,13 @@ import ChooseResultTopImageFailure from './choose-failure-top.svg'
 import MatchResultTopImage from './match-result-top.svg'
 import Rules from './activity-rules.png'
 
-export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp}
+export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {artiService, commonQuestions, report}
-export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon, LockedIcon}
+export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon,
+  LockedIcon,IdentityIcon,
+  PersonalInfoTipsIcon,PersonalInfoSplit,PersonalInfoAddPhoto,PersonalInfoChosen,PersonalAddOther,PersonInfoChosenPrimary,PersonInfoChosenGrey,PersonInfoChosenGreyLight,PersonInfoUnchosenPrimary,PersonalInfoUnchosen,
+  LoveExperience,MatchCount}
 export const consumeIcon = consume
 export const helpIcon = help
 export const aboutusIcon = aboutus

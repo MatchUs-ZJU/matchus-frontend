@@ -1,5 +1,5 @@
 import {USER_SAVE} from "@/constants";
-import {ISurveyInfo} from "@/typings/types";
+import {IPersonInfo, IPhotoUrls, ISurveyInfo} from "@/typings/types";
 
 export interface IUserState {
   nickName: string;
@@ -29,6 +29,9 @@ export interface IUserState {
   login: boolean;
   receivedData: boolean;
 
+  images?: IPhotoUrls[];
+  personInfo?: IPersonInfo;
+  isComplete: boolean;
   surveyInfo?: ISurveyInfo;
 }
 
@@ -54,7 +57,8 @@ const INITIAL_STATE: IUserState = {
   receivedData: false,
   nickName: "",
   school: "",
-  userType: 0
+  userType: 0,
+  isComplete:false
 }
 
 export default function user(state = INITIAL_STATE, action) {
@@ -62,7 +66,8 @@ export default function user(state = INITIAL_STATE, action) {
     case USER_SAVE:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        // isComplete:true
       }
     default:
       return state

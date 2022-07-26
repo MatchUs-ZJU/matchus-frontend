@@ -1,0 +1,54 @@
+@import '../../../app';
+.photo-box{
+  display: flex;
+  margin-top: 16px;
+  .uploader {
+    width: 100%;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: center;
+
+    .uploader-img{
+      margin-top:5px;
+      width: 194px;
+      height: 194px;
+    }
+
+    .taroify-uploader {
+      &__wrapper {
+        width: 100%;
+        flex-direction: row;
+      }
+
+      &__preview-image {
+        width: 194px;
+        height: 194px;
+        border-radius: 16px;
+      }
+
+      &__preview {
+        margin-right:10px;
+        width: 194px;
+        height: 194px;
+      }
+
+      &__preview-remove{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        top:-3px;
+        right:-8px;
+
+        background-color:rgba(0, 0, 0, 0.3);
+        border-radius: 24px;
+      }
+
+      &__preview-remove-icon{
+        top: -6px;
+        right: -6px;
+        font-size: 40px;
+      }
+    }
+  }
+}
