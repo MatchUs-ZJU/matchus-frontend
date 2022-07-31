@@ -26,5 +26,5 @@ export const floatRegTest = (input: string)=>{
 
 export const wechatNumberRegTest = (input: string)=>{
   const wechatReg = /^[a-zA-Z][a-zA-Z\d_-]{5,19}$/
-  return wechatReg.test(input)
+  return wechatReg.test(input) || phoneNumberRegTest(input)
 }

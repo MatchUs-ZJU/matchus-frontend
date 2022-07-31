@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import {USER_SAVE} from "@/constants";
+import {USER_IMAGE_DELETE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_SAVE} from "@/constants";
 import {
   decodePhoneNumber, delPersonalImage, getPersonalImage,
   getPersonInfo,
@@ -11,13 +11,23 @@ import {
   updateUserInfo
 } from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
-import {TOAST_SHOW_TIME} from "@/utils/constant";
+import {
+  CONSUMPTION,
+  FUTURE_BASE,
+  GENDER,
+  GRADUATE_INCOME,
+  INDUSTRY,
+  INTEREST,
+  TEMPERAMENT,
+  TOAST_SHOW_TIME
+} from "@/utils/constant";
 import {getTmpUrl, uploadIdentificationImage, uploadPersonInfoImage} from "@/utils/taro-utils";
 import {IPhotoUrls} from "@/typings/types";
+import {completeChoices} from "@/utils/fcheck";
 
-export const userSave = (payload) => {
+export const userSave = (payload,saveType=USER_SAVE) => {
   return {
-    type: USER_SAVE,
+    type: saveType,
     payload
   }
 }
@@ -46,22 +56,35 @@ export const fetchPersonInfo = () => {
       const res = await getPersonInfo()
 
       if(res && res.code === 0){
-        console.log('用户信息：获得个人照片临时链接')
-        const images = res.data.images
-        const tmpUrl = await getTmpUrl(images)
-        if(tmpUrl && tmpUrl.errMsg !== 'cloud.getTempFileURL:ok'){
-          console.log('用户信息：获得个人照片临时链接失败')
-        }
-        else{
+        if(res.data.images){
+          console.log('用户信息：获得个人照片临时链接')
+          const images = res.data.images
+          const tmpUrl = await getTmpUrl(images)
+          if(tmpUrl && tmpUrl.errMsg !== 'cloud.getTempFileURL:ok'){
+            console.log('用户信息：获得个人照片临时链接失败')
+          }
           const photoUrls = images.map((item,idx)=>{
             return {...item,imageUrl:tmpUrl.fileList[idx].fileID,tmpUrl:tmpUrl.fileList[idx].tempFileURL}
           })
-          dispatch(userSave({
-            personInfo: res.data.personInfo,
-            images: photoUrls,//res.data.images,
-            isComplete: res.data.isComplete
-          }))
+          dispatch(userSave({images: photoUrls}))
         }
+
+        if(res.data.personInfo){
+            const completeInterest = completeChoices(res.data.personInfo.interest,INTEREST)
+            const completeFutureBase = completeChoices(res.data.personInfo.futureBase,FUTURE_BASE)
+            const completeTemper = completeChoices(res.data.personInfo.temperament, res.data.userInfo.gender === GENDER.MALE? TEMPERAMENT.male:TEMPERAMENT.female)
+            const completeIndustry = completeChoices(res.data.personInfo.industry,INDUSTRY)
+            const completeConsumption = completeChoices(res.data.personInfo.consumption,CONSUMPTION)
+            const completeGraduateIncome = completeChoices(res.data.personInfo.graduateIncome,GRADUATE_INCOME)
+
+            dispatch(userSave({
+              personInfo: {...res.data.personInfo,interest:completeInterest,futureBase:completeFutureBase,temperament:completeTemper,industry:completeIndustry,consumption:completeConsumption,graduateIncome:completeGraduateIncome},
+              isComplete: res.data.isComplete,
+              isChangeable: res.data.isChangeable,
+              isOldUser:res.data.isOldUser
+            }))
+          }
+
       }
       else{
         console.log('用户信息：从服务器获取用户个人信息失败')
@@ -169,7 +192,6 @@ export const relogin = (func = () => {}) => {
         let resp = await login({
           code: res.code
         })
-
         if (resp && resp.code === 0) {
           console.log('用户登录：向服务器发送登录请求成功，存储登录状态')
           dispatch(userSave({...resp.data, login: true}))
@@ -224,7 +246,7 @@ export const submitIdentificationInfo = (data) => {
     console.log("用户信息：提交用户身份验证信息")
     try {
       // 上传照片到云托管
-      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile)
+      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
       if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
         console.log("用户信息：提交用户身份验证照片到云托管失败")
         await Taro.showToast({
@@ -327,13 +349,13 @@ export const  deletePersonalImages = (data) => {
     console.log("用户个人照片：删除用户个人照片")
     try{
       const res = await delPersonalImage(data)
+
       if (res && res.code === 0){
         console.log("用户信息：删除用户个人照片成功")
-        dispatch(fetchPersonInfo())
+        dispatch(userSave(data,USER_IMAGE_DELETE))
       }
       else{
         console.log("用户信息：删除个人照片失败")
-        console.log('res',res)
         await Taro.showToast({
           icon: 'none',
           title: '删除个人照片失败',
@@ -405,13 +427,19 @@ export const submitMultiPersonalImage=(data)=>{
       }
 
       const res = await postPersonalInfo({personInfo:null,images:[...images]})
-
       if (res && res.code === 0) {
         console.log("用户个人信息：提交用户个人照片成功")
         dispatch(fetchPersonInfo())
+
         await Taro.showToast({
           icon: 'none',
           title: '提交个人照片成功',
+          duration: TOAST_SHOW_TIME,
+        });
+      } else if(res && res.code === 13){
+        await Taro.showToast({
+          icon: 'none',
+          title: '已进入匹配暂时不能修改',
           duration: TOAST_SHOW_TIME,
         });
       } else {
@@ -436,7 +464,7 @@ export const submitMultiPersonalImage=(data)=>{
 // data: {personInfo,images{realName,stuNum,images}}
 export const submitPersonalInfo=(data)=>{
   return async dispatch => {
-    console.log("用户个人信息：提交用户个人信息",data)
+    console.log("用户个人信息：提交用户个人信息")
     try {
       let images:IPhotoUrls[]
       if(data.images){
@@ -447,13 +475,26 @@ export const submitPersonalInfo=(data)=>{
       }
 
       const res = await postPersonalInfo({personInfo:data.personInfo,images:[...images]})
-
       if (res && res.code === 0) {
         console.log("用户个人信息：提交用户个人信息成功")
+        // if(!data.images){
+        //   dispatch(userSave({personInfo:data.personInfo},USER_PERSONINFO_SAVE))
+        //
+        // } else{
+        //   dispatch(fetchPersonInfo())
+        // }
         dispatch(fetchPersonInfo())
+
         await Taro.showToast({
           icon: 'none',
           title: '提交个人信息成功',
+          duration: TOAST_SHOW_TIME,
+        });
+
+      } else if(res && res.code === 13){
+        await Taro.showToast({
+          icon: 'none',
+          title: '已进入匹配暂时无法修改',
           duration: TOAST_SHOW_TIME,
         });
       } else {

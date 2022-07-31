@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn} from "@/components/activity-card/right-buttons";
 import {useState} from "react";
 import Taro from "@tarojs/taro";
-
 import './index.scss'
 
 interface SignupCardProps extends ViewProps {
@@ -33,9 +32,10 @@ const SignUpNotStartBtn = (props: SignUpNotStartBtnProps) => {
 
 const SignupCard = (props: SignupCardProps) => {
   const dispatch = useDispatch()
+  const {user} =useSelector(state=>state)
   const {price, time, activity, bodyPrefix} = props
   const {state, paid, participated} = useSelector(rootState => rootState.activity.participate.signUp)
-  const {userType,hasPersonInfo} = useSelector(rootState=>rootState.user)
+  const {userType,isComplete,isOldUser} = useSelector(rootState=>rootState.user)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
   const [redirectDialogOpen,setRedirectDialogOpen] = useState(false)
 
@@ -47,7 +47,7 @@ const SignupCard = (props: SignupCardProps) => {
         duration: 3000
       })
     }
-    else if(!hasPersonInfo){
+    else if(!isComplete){
       setRedirectDialogOpen(true)
     }
     else{
@@ -56,7 +56,12 @@ const SignupCard = (props: SignupCardProps) => {
   }
 
   async function redirectToPersonInfo(){
-    await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+    if(!isComplete && isOldUser){
+      await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+    }
+    else {
+      await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+    }
   }
 
   function confirmJoin() {
@@ -99,8 +104,7 @@ const SignupCard = (props: SignupCardProps) => {
           ) : state === 'ACTIVE' && participated ? (
             <FinishedBtn type='signup'/>
           ) : (
-            <ActiveBtn type='signup' onClick={goToSignUp}/>
-            // <DisableBtn type='disable'/>
+            <DisableBtn type='disable'/>
           )}
         </View>
       </View>

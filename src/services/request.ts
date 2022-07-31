@@ -23,7 +23,7 @@ const checkHttpStatus = (response: API.Response) => {
 const checkSuccess = (data: API.ResponseData) => {
   Taro.hideNavigationBarLoading();
   Taro.hideLoading();
-  if (data.success && data.code === API_STATUS_CODE.SUCCESS) {
+  if (data.success && (data.code === API_STATUS_CODE.SUCCESS || data.code === API_STATUS_CODE.OUT_OF_TIME)) {
     return data
   }
 
@@ -100,7 +100,8 @@ export default {
   },
 
   delete(url: string, options?: { [key: string]: any; params?: object }) {
-    return this.request(url, {...options}, 'DELETE');
+    const res = this.request(url, {...options}, 'DELETE');
+    return res
   },
 
   post(url, options?: any) {

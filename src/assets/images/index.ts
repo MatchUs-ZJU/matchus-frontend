@@ -17,6 +17,10 @@ import FullLike from './icons/full-like.svg'
 import BlankLike from './icons/blank-like.svg'
 import ActivityHelp from './icons/activity-help.svg'
 import LockedIcon from './icons/locked.svg'
+import ChooseAcceptChosen from './icons/choose-accept-chosen.svg'
+import ChooseAcceptUnchosen from './icons/choose-accept-unchosen.svg'
+import ChooseRejectChosen from './icons/choose-reject-chosen.svg'
+import ChooseRejectUnchosen from './icons/choose-reject-unchosen.svg'
 
 import FeedBackImage from './feedback.png'
 import HeaderImage from './header.svg'
@@ -61,7 +65,7 @@ import ChooseResultTopImageFailure from './choose-failure-top.svg'
 import MatchResultTopImage from './match-result-top.svg'
 import Rules from './activity-rules.png'
 
-export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo}
+export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo,ChooseAcceptChosen,ChooseAcceptUnchosen,ChooseRejectChosen,ChooseRejectUnchosen}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {artiService, commonQuestions, report}
 export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon,

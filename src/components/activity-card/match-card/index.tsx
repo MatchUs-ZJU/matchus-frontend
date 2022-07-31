@@ -125,6 +125,7 @@ const MatchCard = (props: MatchCardProps) => {
               <FinishedBtn type='inRefund'/>
             )
           ) : (
+            // <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
             <DisableBtn type='disable'/>
           )}
         </View>

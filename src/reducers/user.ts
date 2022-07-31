@@ -1,4 +1,4 @@
-import {USER_SAVE} from "@/constants";
+import {USER_SAVE,USER_IMAGE_SAVE,USER_PERSONINFO_SAVE,USER_IMAGE_DELETE} from "@/constants";
 import {IPersonInfo, IPhotoUrls, ISurveyInfo} from "@/typings/types";
 
 export interface IUserState {
@@ -29,9 +29,11 @@ export interface IUserState {
   login: boolean;
   receivedData: boolean;
 
-  images?: IPhotoUrls[];
+  images: IPhotoUrls[];
   personInfo?: IPersonInfo;
   isComplete: boolean;
+  isChangeable: boolean;
+  isOldUser: boolean;
   surveyInfo?: ISurveyInfo;
 }
 
@@ -58,7 +60,10 @@ const INITIAL_STATE: IUserState = {
   nickName: "",
   school: "",
   userType: 0,
-  isComplete:false
+  images: [],
+  isComplete:true,
+  isChangeable:true,
+  isOldUser: false
 }
 
 export default function user(state = INITIAL_STATE, action) {
@@ -67,7 +72,21 @@ export default function user(state = INITIAL_STATE, action) {
       return {
         ...state,
         ...action.payload,
-        // isComplete:true
+      }
+    case USER_IMAGE_DELETE:
+      return {
+        ...state,
+        images: [...state.images.filter(item => item.imageUrl !== action.payload.imageUrl)]
+      }
+    case USER_IMAGE_SAVE:
+      return {
+        ...state,
+        ...action.payload
+      }
+    case USER_PERSONINFO_SAVE:
+      return {
+        ...state,
+        personInfo:{...state.personInfo,...action.payload}
       }
     default:
       return state

@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
-import {AreaPicker, DatetimePicker, Field, Image, Input, Picker, Popup, Textarea} from "@taroify/core";
-import {Text, View} from "@tarojs/components";
+import {AreaPicker, Cell, DatetimePicker, Field, Image, Input, Picker, Popup, Textarea} from "@taroify/core";
+import {ScrollView, Text, View} from "@tarojs/components";
 import {areaList} from "@vant/area-data"
 import Taro from "@tarojs/taro";
 import {PersonalAddOther, PersonalInfoUnchosen, PersonInfoChosenGrey, PersonInfoChosenGreyLight} from "@/assets/images";
 import {useSelector} from "react-redux";
 import {
+  AddressData,
   CHECK_TYPE,
   CONSUMPTION_SHARE,
   CURRENT_CAMPUS,
@@ -27,15 +28,20 @@ import {
   WARNING_NOTE
 } from "@/utils/constant";
 import classnames from "classnames";
-import {Clear} from "@taroify/icons";
+import {ArrowDown, ArrowUp, Clear} from "@taroify/icons";
 import {floatRegTest, wechatNumberRegTest} from "@/utils/reg";
 import {
   checkMultiChoices,
   checkMultiChoicesWithOther,
+  checkMultiChoicesWithOtherTogether,
   checkOtherChoiceState,
   checkPhotos,
   checkString,
-  getAddressCode
+  combineOthers,
+  findOthers,
+  getAddressCode,
+  isOthers,
+  splitOthers
 } from "@/utils/fcheck";
 import PhotoBox from "@/components/person-info/photo-box";
 import {IMultiChoice, IPhotoUrls} from "@/typings/types";
@@ -61,9 +67,9 @@ export interface PopUpProps {
 }
 
 const PersonalInfoPopUp = (props: PopUpProps) => {
-  const {user, resource} = useSelector((state) => state)
+  const {user, resource,global} = useSelector((state) => state)
   const {faculties} = resource
-
+  const {windowHeight} = global.system!
   // 共享
   const [pickerValue, setPickerValue] = useState(0)
   const [inputValue, setInputValue] = useState(props.initialValue ? props.initialValue : '')
@@ -73,20 +79,37 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
 
   const [minDate] = useState(new Date(1970, 0, 1))
   const [maxDate] = useState(new Date())
-  const [defaultBirth] = useState(new Date(2010, 11, 30))
+  const [defaultBirth] = useState(new Date(2000, 0, 1))
   const [birthValue, setBirthValue] = useState(defaultBirth)
 
   const [otherValue, setOtherValue] = useState('')
-  const [confirmedValue, setConfirmedValue] = useState(props.otherValue ? props.otherValue : '')
+  const [confirmedValue, setConfirmedValue] = useState( '')
   const [multiChoices, setMultiChoices] = useState(props.initialValue ? props.initialValue : Array<IMultiChoice>())
   const [photoUrls, setPhotoUrls] = useState(props.photoUrls ? props.photoUrls : [])
 
   const [showFeedback, setShowFeedback] = useState(false)
   const [canSubmit, setCanSubmit] = useState(false)
 
+  const [addressPickerOpen,setAddressPickerOpen] = useState(false)
+
   useEffect(() => {
     setOtherValue(confirmedValue)
-    setCanSubmit(checkOtherChoiceState(multiChoices))
+    if(props.checkType === CHECK_TYPE.INTEREST){
+      let updatedMultiChoices = multiChoices.map(it=>{
+        if(isOthers(it.label)) {
+          if(checkString(confirmedValue)) return {label:combineOthers(confirmedValue),selected:true}
+          else return {label:'其他',selected:false}
+          // return {label: combineOthers(confirmedValue),selected:fillOthers(confirmedValue)}
+        }
+        else return it
+      })
+      console.log('confirmedChange',updatedMultiChoices)
+      setMultiChoices([...updatedMultiChoices])
+      setCanSubmit(checkString(confirmedValue))
+    }
+    else{
+      setCanSubmit(checkMultiChoices(multiChoices)?(checkOtherChoiceState(multiChoices)?checkString(confirmedValue):true):true)
+    }
   }, [confirmedValue])
 
   useEffect(() => {
@@ -99,11 +122,17 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
     if (props.type === 'input' || props.type === 'qa-input') {
       setInputValue(props.initialValue ? props.initialValue : '')
     } else if (props.type === 'check') {
-      setMultiChoices(props.initialValue ? props.initialValue : Array<IMultiChoice>())
+      setMultiChoices(props.initialValue ? props.initialValue : [])
       if (props.otherEnabled) {
-        setConfirmedValue(props.otherValue ? props.otherValue : '')
+        if(props.checkType === CHECK_TYPE.FUTURE_BASE){
+          setConfirmedValue(props.otherValue ? props.otherValue: '')
+        }else{
+          const res = findOthers(props.initialValue)
+          setConfirmedValue(res.length>0?splitOthers(res[0].label):'')
+        }
       }
     } else if (props.type === 'picker') {
+      setPickerValue(0)
       setCanSubmit(true)
     }
     setFeedbackValue('')
@@ -121,8 +150,12 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
         return true
       } else return props.inputType === INPUT_TYPE.MBTI
     } else if (props.type === 'check') {
-      if (props.otherEnabled && checkOtherChoiceState(multiChoices)) {
-        return checkMultiChoicesWithOther(multiChoices, confirmedValue)
+      if (props.otherEnabled) {
+        if(props.checkType === CHECK_TYPE.FUTURE_BASE){
+          return checkMultiChoicesWithOther(multiChoices, confirmedValue)
+        }else{
+          return checkMultiChoicesWithOtherTogether(multiChoices)
+        }
       } else {
         return checkMultiChoices(multiChoices)
       }
@@ -138,24 +171,21 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
       setCanSubmit(checkCanSubmit())
       if (checkString(inputValue)) {
         if (props.inputType === INPUT_TYPE.HEIGHT || props.inputType === INPUT_TYPE.WEIGHT) {
-          if (floatRegTest(inputValue)) {
-            setFeedbackValue('')
-          } else {
+          if (!floatRegTest(inputValue)) {
             setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_NUMBER])
+            return
           }
-        } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER) {
-          if (wechatNumberRegTest(inputValue)) {
-            setFeedbackValue('')
-          } else {
-            setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_WECAHT])
-          }
+        } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER && !wechatNumberRegTest(inputValue)) {
+          setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_WECAHT])
+          return
         }
+        setFeedbackValue('')
       } else {
         setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_BLANK])
       }
     }
   }, [inputValue])
-  // 多选
+
   useEffect(() => {
     if (props.type === 'check') {
       setCanSubmit(checkCanSubmit())
@@ -170,17 +200,18 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
         }
       }
     }
-
   }, [multiChoices])
+
   // 图片
   useEffect(() => {
     if (props.type === 'photo') {
       if (!checkPhotos(photoUrls)) {
         setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_PHOTO])
+      }else{
+        setFeedbackValue('')
       }
       setCanSubmit(checkCanSubmit())
     }
-
   }, [photoUrls])
 
   const onCancel = () => {
@@ -268,7 +299,7 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
       }
     } else if (props.type === 'check') {
       if (props.checkType === CHECK_TYPE.INTEREST) {
-        props.confirm({interest: multiChoices, selfInterest: confirmedValue})
+        props.confirm({interest: [...multiChoices]})
       } else if (props.checkType === CHECK_TYPE.FUTURE_BASE) {
         props.confirm({futureBase: multiChoices, selfFutureBase: confirmedValue})
       } else if (props.checkType === CHECK_TYPE.TEMPER) {
@@ -284,6 +315,7 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
       props.confirm(photoUrls)
     }
   }
+
   return (
     <Popup className='popup' open={props.open} rounded placement='bottom' onClose={onCancel}>
       <Popup.Backdrop/>
@@ -414,98 +446,159 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
           }
         </Picker>
       ) : props.type === 'check' ? (
-        <View className='check-body'>
-          {multiChoices &&
-            <>
-              {multiChoices.map((item, idx) => (
-                item.label !== '其他' ? (
-                  <View
-                    className={classnames('row', 'check-label', {'check-label-selected': item.selected})}
-                    onClick={async () => {
-                      if (props.checkRestrict && props.checkRestrict > 0 && !item.selected && multiChoices.filter((it => it.selected)).length >= props.checkRestrict) {
-                        await Taro.showToast({
-                          title: `最多只能选择${props.checkRestrict}项～`,
-                          duration: TOAST_SHOW_TIME,
-                          icon: 'none'
-                        })
-                      } else {
-                        let updatedMultiChoices = multiChoices
-                        updatedMultiChoices[idx].selected = !updatedMultiChoices[idx].selected
-                        setMultiChoices([...updatedMultiChoices])
-                      }
-                    }}
-                  >
-                    <Text
-                      className={classnames('check-text', {'check-text-selected': item.selected})}>{item.label}</Text>
-                    {item.selected && <Image src={PersonalInfoUnchosen} className='selected-icon'/>}
-                  </View>
-                ) : (
-                  !item.selected ? (
-                    // 是其他但没有选择
+        <ScrollView className='card-scroll' scrollY scrollWithAnimation style={{maxHeight: `${0.5*windowHeight}`}}>
+          <View className='check-body'>
+            {multiChoices &&
+              <>
+                {multiChoices.map((item, idx) => (
+                  !isOthers(item.label) && item.label!=='我要自己选' ? (
                     <View
-                      className='cell-other'
-                      onClick={() => {
-                        let updatedMultiChoices = multiChoices
-                        updatedMultiChoices[idx].selected = true
-                        setConfirmedValue('')
-                        setMultiChoices([...updatedMultiChoices])
+                      className={classnames('row', 'check-label', {'check-label-selected': item.selected})}
+                      onClick={async () => {
+                        if (props.checkRestrict && props.checkRestrict > 0 && !item.selected && multiChoices.filter((it => it.selected)).length >= props.checkRestrict) {
+                          await Taro.showToast({
+                            title: `最多只能选择${props.checkRestrict}项～`,
+                            duration: TOAST_SHOW_TIME,
+                            icon: 'none'
+                          })
+                        } else {
+                          let updatedMultiChoices = multiChoices
+                          updatedMultiChoices[idx].selected = !updatedMultiChoices[idx].selected
+                          setMultiChoices([...updatedMultiChoices])
+                        }
                       }}
                     >
-                      <>
-                        <Image src={PersonalAddOther} className='icon'/>
-                        <Text>其他</Text>
-                      </>
+                      <Text
+                        className={classnames('check-text', {'check-text-selected': item.selected})}
+                      >{item.label}</Text>
+                      {item.selected && <Image src={PersonalInfoUnchosen} className='selected-icon'/>}
                     </View>
                   ) : (
-                    // 是其他且已有填写其他值
-                    confirmedValue && confirmedValue !== '' &&
-                    <View
-                      className={classnames('row', 'check-label', {'check-label-selected': true})}
-                      onClick={async () => {
-                        let updatedMultiChoices = multiChoices
-                        updatedMultiChoices[idx].selected = false
-                        setMultiChoices([...updatedMultiChoices])
-                      }}
-                    >
-                      <Text className={classnames('check-text', {'check-text-selected': true})}>{otherValue}</Text>
-                      <Image src={PersonalInfoUnchosen} className='selected-icon'/>
-                    </View>
+                    !item.selected ? (
+                      // 是其他但没有选择其他
+                      <View
+                        className='cell-other'
+                        onClick={() => {
+                          let updatedMultiChoices = multiChoices
+                          updatedMultiChoices[idx].selected = true
+                          setConfirmedValue('')
+                          setMultiChoices([...updatedMultiChoices])
+                        }}
+                      >
+                          <Image src={PersonalAddOther} className='icon'/>
+                          <Text>其他</Text>
+                      </View>
+                    ) : (
+                      // 是其他且已有填写其他值
+                      confirmedValue && confirmedValue !== '' &&
+                      <View
+                        className={classnames('row', 'check-label', {'check-label-selected': true})}
+                        onClick={() => {
+                          let updatedMultiChoices = multiChoices
+                          if(props.checkType === CHECK_TYPE.FUTURE_BASE){
+                            updatedMultiChoices[idx].selected = false
+                          }else{
+                            updatedMultiChoices[idx] = {label:'其他',selected:false}
+                          }
+                            setMultiChoices([...updatedMultiChoices])
+                            setConfirmedValue('')
+                        }}
+                      >
+                        <Text className={classnames('check-text', {'check-text-selected': true})}>{confirmedValue}</Text>
+                        <Image src={PersonalInfoUnchosen} className='selected-icon'/>
+                      </View>
+                    )
                   )
-                )
-              ))}
-              {props.otherEnabled && checkOtherChoiceState(multiChoices) && (!confirmedValue || confirmedValue === '') &&
-                <View className='cell-other-input'>
-                  <Field className='field'>
-                    <Input
-                      value={otherValue ? otherValue : ''}
-                      placeholder={props.checkType === CHECK_TYPE.FUTURE_BASE ? '请输入省份' : '请输入其他兴趣爱好'}
-                      onChange={(e) => setOtherValue(e.detail.value)}
-                    />
-                    <Image src={otherValue && otherValue !== '' ? PersonInfoChosenGrey : PersonInfoChosenGreyLight}
-                           className='icon'
-                           onClick={() => {
-                             if (otherValue && otherValue !== '') {
-                               setConfirmedValue(otherValue)
-                             }
-                           }
-                           }
-                    />
-                  </Field>
-                </View>
-              }
-            </>}
-          {showFeedback && feedbackValue && feedbackValue !== '' &&
-            <View className='warning-note'>{feedbackValue}</View>}
-        </View>
+                ))}
+                {props.otherEnabled && checkOtherChoiceState(multiChoices) && !confirmedValue &&
+                props.checkType === CHECK_TYPE.INTEREST ?
+                  (<View className='cell-other-input'>
+                    <Field className='field'>
+                      <Input
+                        value={otherValue ? otherValue : ''}
+                        placeholder='请输入其他兴趣爱好'
+                        onChange={(e) => setOtherValue(e.detail.value)}
+                      />
+                      <Image
+                        src={otherValue ? PersonInfoChosenGrey : PersonInfoChosenGreyLight}
+                        className='icon'
+                        onClick={() => {
+                          if (otherValue && otherValue !== '') {
+                            setConfirmedValue(otherValue)
+                          }
+                        }}
+                      />
+                    </Field>
+                  </View>):props.checkType === CHECK_TYPE.FUTURE_BASE ?(
+                    checkOtherChoiceState(multiChoices) &&
+                    <>
+                      <Field
+                        className='field'
+                        rightIcon={addressPickerOpen?<ArrowUp/>:<ArrowDown/>}
+                        onClick={()=>setAddressPickerOpen(!addressPickerOpen)}
+                      >
+                        <Input
+                          readonly
+                          value={confirmedValue ? confirmedValue : ''}
+                          placeholder='请选择自选发展地'
+                        />
+                        <Image
+                          src={otherValue && otherValue !== '' ? PersonInfoChosenGrey : PersonInfoChosenGreyLight}
+                          className='icon'
+                          onClick={() => {
+                            if (otherValue && otherValue !== '') {
+                              setConfirmedValue(otherValue)
+                            }
+                          }}
+                        />
+                      </Field>
+                      {addressPickerOpen &&
+                        <View className='append-view'>
+                          <ScrollView className='append-scroll' scrollY scrollWithAnimation style={{height: `${addressPickerOpen?'200px':'0'}`}}>
+                            <Cell.Group inset clickable>
+                              {AddressData.map((item) => (
+                                <Cell className='cell'
+                                      title={item}
+                                      onClick={() => {
+                                        setOtherValue(item)
+                                        let updatedChoices = multiChoices.map((it) => {
+                                          if (it.label === '我要自己选') return {label: '我要自己选', selected: true}
+                                          else return it
+                                        })
+                                        setMultiChoices([...updatedChoices])
+                                        // setOtherValue(item)
+                                        setConfirmedValue(item)
+                                        setAddressPickerOpen(false)
+                                      }}
+                                />
+                              ))}
+                            </Cell.Group>
+                          </ScrollView>
+                        </View>
+                      }
+                    </>
+                  ):(
+                    <></>
+                  )
+
+                }
+              </>}
+            {showFeedback && feedbackValue && feedbackValue !== '' &&
+              <View className='warning-note'>{feedbackValue}</View>}
+          </View>
+        </ScrollView>
       ) : props.type === 'input' ? (
         <View className='input-box'>
           <Field
             className='input-field'
           >
             <Input
+              autoFocus
               value={inputValue}
               onChange={(e) => {
-                setInputValue(e.detail.value)
+                if(e.detail.value.length < 20){
+                  setInputValue(e.detail.value)
+                }
               }}
             />
             {props.inputType === INPUT_TYPE.HEIGHT ? (
@@ -513,15 +606,12 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
             ) : props.inputType === INPUT_TYPE.WEIGHT ? (
               <Text className='corner-text'>kg</Text>
             ) : (
-              <View onClick={() => {
-                setInputValue('')
-              }}
-              >
-                <Clear style={{color: "rgba(0, 0, 0, 0.3)"}} onClick={() => setInputValue('')}/>
+              <View className='corner-icon'>
+                <Clear style={{color: "rgba(0, 0, 0, 0.3)",zIndex:10}} onClick={() => setInputValue('')}/>
               </View>
             )}
           </Field>
-          {showFeedback && feedbackValue && feedbackValue !== '' &&
+          {showFeedback && feedbackValue && feedbackValue !== '' && props.inputType !== INPUT_TYPE.MBTI &&
             <View className='warning-note'>{feedbackValue}</View>}
         </View>
       ) : props.type === 'qa-input' ? (
@@ -534,7 +624,11 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
               limit={100}
               value={inputValue ? inputValue : ''}
               onChange={(e) => {
-                setInputValue(e.detail.value)
+                if(e.detail.value.length<=100){
+                  setInputValue(e.detail.value)
+                }else{
+                  setInputValue(e.detail.value.slice(0,100))
+                }
               }}
             />
           </Field>
@@ -544,7 +638,7 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
       ) : (
         <>
           <PhotoBox images={user.images ? user.images : []} onChange={setPhotoUrls}/>
-          {showFeedback && feedbackValue && feedbackValue !== '' &&
+          {showFeedback && feedbackValue &&
             <View className='warning-note'>{feedbackValue}</View>}
         </>
       )}

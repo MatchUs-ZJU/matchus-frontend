@@ -111,10 +111,11 @@ const Index = () => {
           </View>
         </View>
 
-        <View className='second-match-bar'>
+        {isSecondMatch &&
+          <View className='second-match-bar'>
           <Image className='icon' src={WhiteInfo}/>
           <View className='desp'>本次结果为放宽条件后的二次匹配</View>
-        </View>
+        </View>}
       </View>
 
       <View className={classnames('wrapper', {'wrapper-second-match':isSecondMatch})}>

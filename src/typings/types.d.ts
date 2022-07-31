@@ -124,7 +124,6 @@ export interface IPersonInfo{
   temperament: IMultiChoice[],
 
   interest: IMultiChoice[],
-  selfInterest: string,
   exerciseFrequency: string,
   stayUpFrequency:string,
   drinkHabit: string,

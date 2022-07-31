@@ -10,7 +10,7 @@ import {
   SurveyIcon,
   IdentityIcon, LoveExperience, MatchCount
 } from "@/assets/images";
-import Taro, {useShareAppMessage} from "@tarojs/taro";
+import Taro, {useDidShow, useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {fetchUserInfo} from "@/actions";
@@ -19,6 +19,7 @@ import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {fetchPersonInfo} from "@/actions/user";
 
+import {checkRequired} from "@/utils/fcheck";
 import './index.scss'
 
 const notifyLoginMessage = '您还没有登录哦'
@@ -27,7 +28,7 @@ const notifyIdentifyMessage = '请您先完成用户认证'
 const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {nickName, avatarUrl, faculty, identified, login, userType, isComplete} = user
+  const {nickName, avatarUrl, faculty, identified, login, userType, isComplete,isChangeable,isOldUser} = user
 
   // 身份和认证状态
   const badge = getBadgeInfo(identified, userType)
@@ -40,6 +41,10 @@ const User = () => {
     fetchData()
   }, [])
 
+  useDidShow(async ()=>{
+    await fetchData()
+  })
+
   useShareAppMessage(_ => {
     return {
       title: 'MatchUs - 每个人都在寻找契合的另一块拼图',
@@ -47,7 +52,7 @@ const User = () => {
     }
   })
 
-  function fetchData() {
+  async function fetchData() {
     // 如果没有个人信息，先尝试获取
     if (login) {
       dispatch(fetchUserInfo())
@@ -96,10 +101,10 @@ const User = () => {
       setNotifyOpen(true)
       await Taro.navigateTo({url: '/pages/introduction/index'})
     } else{
-      if(isComplete){
+      if(isComplete || isOldUser){
         await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
       }
-      else{
+      else if(!isComplete){
         await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
       }
     }
@@ -188,8 +193,8 @@ const User = () => {
             onClick={onClickOpenPersonalInfo}
           >
             <View className='value'>
-              {!isComplete && <View className='dot'/>}
-              <Text>{isComplete?'去修改':'去填写'}</Text>
+              {(!isComplete) && <View className='dot'/>}
+              <Text>{!isComplete?'去填写':(isChangeable?'去修改':'')}</Text>
             </View>
           </Cell>
 

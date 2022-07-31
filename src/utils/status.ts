@@ -20,6 +20,7 @@ export const HTTP_STATUS_CODE = {
 
 export const API_STATUS_CODE = {
   SUCCESS: 0,
+  OUT_OF_TIME: 13,
   TOKEN_EXPIRE: 2,
 }
 

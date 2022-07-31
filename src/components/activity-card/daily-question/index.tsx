@@ -154,7 +154,7 @@ const QACard = (props: QAProps) => {
               </View>
             </Field>
           </View>
-          <View className='qa-desp'>问答内容将在次日公开给双方，连续4天获得对方点赞并双选成功，可找小助手领取纪念礼品</View>
+          <View className='qa-desp'>问答内容将在此公开给双方，如果对方回答正确请给他点赞鼓励哦~</View>
         </View>
       )
       }

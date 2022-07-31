@@ -283,12 +283,17 @@
 }
 
 .content .contact-info .tips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   margin-top: 16px;
-
+  margin-bottom: 0;
   font-style: normal;
   font-weight: 500;
   font-size: 22px;
   line-height: 28px;
+  height: 148px;
+  background: white;
 }
 
 .content .image-info {
