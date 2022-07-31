@@ -7,7 +7,6 @@ export async function viewImages(urls: string[], current?: string) {
     urls: urls,
     current: current
   })
-  console.log(res)
 }
 
 export async function uploadIdentificationImage(realName: string, studentNumber: string, url: string) {

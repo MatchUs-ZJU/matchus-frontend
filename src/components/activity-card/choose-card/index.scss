@@ -25,6 +25,31 @@
   align-items: center;
 
   width: 200px;
+
+  .btn-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    .btn{
+      width: 64px;
+      height: 64px;
+    }
+
+    .note {
+      font-style: normal;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 24px;
+      color: $note-color;
+
+      margin-top: 16px;
+    }
+  }
+}
+
+.choose-active{
+  justify-content: space-between;
 }
 
 .choose .note {

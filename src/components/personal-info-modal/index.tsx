@@ -1,7 +1,7 @@
 import {CHECK_TYPE, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
 import {IMultiChoice, ISingleChoice} from "@/typings/types";
 import {useEffect, useState} from "react";
-import {AreaPicker, Field, Input, Popup, Radio} from "@taroify/core";
+import {AreaPicker, Field, Input, Popup, Radio, Textarea} from "@taroify/core";
 import {Text, View} from "@tarojs/components";
 import {checkRadio, combineOthers, fillOthers, isOthers, splitOthers} from "@/utils/fcheck";
 import './index.scss'
@@ -102,11 +102,14 @@ const MultiChoice = (props: IMultiChoicePopup)=>{
         </Radio.Group>
         { isOthers(radioValue) &&
           <Field className='field'>
-            <Input
+            <Textarea
               placeholder='请输入'
-              maxlength={30}
+              limit={100}
+              style='max-height:100px'
               value={splitOthers(radioValue)}
-              onChange={(e) => setRadioValue(combineOthers(e.detail.value))}
+              onChange={(e) => {
+                setRadioValue(combineOthers(e.detail.value))}
+              }
             />
           </Field>}
         {showWarning && warningMsg && <View className='field-note'>{warningMsg}</View>}

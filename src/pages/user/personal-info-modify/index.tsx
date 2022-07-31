@@ -2,35 +2,49 @@ import {Text, View} from "@tarojs/components";
 import "@taroify/core/cell/style"
 import {useDispatch, useSelector} from "react-redux";
 // import {Arrow, Edit} from "@taroify/icons";
-import {useEffect, useState} from "react";
-import {fetchPersonInfo, submitMultiPersonalImage, submitPersonalInfo} from "@/actions/user";
+import {useCallback, useEffect, useState} from "react";
+import {fetchPersonInfo, submitPersonalInfo} from "@/actions/user";
 import {Cell, Image} from "@taroify/core";
 import PersonalInfoPopUp, {PopUpProps} from "@/components/personal-info-popup";
-import Taro from "@tarojs/taro";
+import Taro, {useDidShow, useReady} from "@tarojs/taro";
 import {
-  CHECK_TYPE, CONSUMPTION, FUTURE_BASE, GENDER, GRADUATE_INCOME, INDUSTRY,
+  CHECK_TYPE,
+  CONSUMPTION,
+  FUTURE_BASE,
+  GENDER,
+  GRADUATE_INCOME,
+  INDUSTRY,
   INPUT_TYPE,
   INTEREST,
   PICKER_TYPE,
-  SUBJECT_QUESTION, TEMPERAMENT,
+  SUBJECT_QUESTION,
+  TEMPERAMENT,
   TOAST_SHOW_TIME,
   USER_TYPE
 } from "@/utils/constant";
 import {
   checkApperanceInfo,
-  checkBasicInfo, checkHabitInfo, checkLoveInfo, checkMajorInfo,
-  checkMultiChoices, checkMultiChoicesWithOther,
-  checkPhotos, checkStatusInfo, checkString, checkSubjectInfo,
-  combineChoices, completeChoices
+  checkBasicInfo,
+  checkHabitInfo,
+  checkLoveInfo,
+  checkMajorInfo,
+  checkMultiChoices,
+  checkPhotos,
+  checkStatusInfo,
+  checkString,
+  checkSubjectInfo,
+  combineChoices,
+  completeChoices, splitOthers
 } from "@/utils/fcheck"
 import classnames from "classnames";
 import MultiChoice, {IMultiChoicePopup} from "@/components/personal-info-modal";
 import {getDateFromStamp} from "@/utils/ftime";
-import './index.scss'
+import './index.scss';
 
 const Index = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
+  const {isChangeable} = user
   const [highlight, setHighlight] = useState({
     basic: false,
     status: false,
@@ -40,6 +54,7 @@ const Index = () => {
     love: false,
     subject: false
   })
+
   const [personInfo, setPersonInfo] = useState(user.personInfo!)
   const [images, setImages] = useState(user.images ? user.images : [])
 
@@ -47,18 +62,24 @@ const Index = () => {
     dispatch(fetchPersonInfo())
   }
 
-  useEffect(() => {
-    fetchData()
-  }, [])
+  useDidShow(async () => {
+    if (user.isChangeable) {await Taro.showToast({title: '点击条目进行修改~', duration: TOAST_SHOW_TIME, icon: 'none'})}
+    if(!user.personInfo){
+      fetchData()
+    }else{
+      setPersonInfo(JSON.parse(JSON.stringify(user.personInfo)))
+    }
+  })
 
-  useEffect(() => {
-    setPersonInfo(user.personInfo!)
-  }, [user.personInfo])
+  // useEffect(() => {
+  //   if(!user.personInfo){
+  //     fetchData()
+  //   }},
+  //   []
+  // )
 
-  useEffect(() => {
-    setImages(user.images ? user.images : [])
-  }, [user.images])
-
+  useEffect(() => {setPersonInfo(user.personInfo!)}, [user.personInfo])
+  useEffect(() => {setImages(user.images ? user.images : [])}, [user.images])
   useEffect(() => {
     setHighlight({
       ...highlight,
@@ -71,7 +92,8 @@ const Index = () => {
       subject: !checkSubjectInfo(personInfo)
     })
   }, [personInfo])
-  // 单条信息修改
+
+  // 信息修改
   const onConfirmPersonInfo = (value) => {
     setPersonInfo({...personInfo, ...value})
     dispatch(submitPersonalInfo({personInfo: {...value}, images: null}))
@@ -90,24 +112,18 @@ const Index = () => {
       }))
     fetchData()
   }
-  const onPopupCancel = () => {
-    setPopUp({...popup, open: false})
-  }
-
-  const closeCheckPopup = () => {
-    setCheckPopup({...checkPopup, open: false})
-  }
+  const onPopupCancel = () => {setPopUp({...popup, open: false})}
+  const closeCheckPopup = () => {setCheckPopup({...checkPopup, open: false})}
 
   const [checkPopup, setCheckPopup] = useState<IMultiChoicePopup>({
     open: false,
     type: CHECK_TYPE.INTEREST,
     radioChecked: "",
     radioData: {question: '', choices: []},
-    selfChoice: personInfo ? personInfo.selfInterest : '',
+    selfChoice: personInfo ? personInfo.selfFutureBase : '',
     onCancel: closeCheckPopup,
     onConfirm: onConfirmPersonInfo
   })
-
   const [popup, setPopUp] = useState<PopUpProps>({
     title: '修改微信',
     open: false,
@@ -134,14 +150,18 @@ const Index = () => {
             <Cell
               className='cell'
               title='真实姓名'
-              clickable
+              clickable={isChangeable}
               align='center'
-              onClick={async () =>
-                await Taro.showToast({
-                  title: "暂不支持修改～",
-                  duration: TOAST_SHOW_TIME,
-                  icon: 'none'
-                })
+              onClick={
+                async () => {
+                  if (isChangeable) {
+                    await Taro.showToast({
+                      title: "暂不支持修改～",
+                      duration: TOAST_SHOW_TIME,
+                      icon: 'none'
+                    })
+                  }
+                }
               }
             >
               <Text>{user.realName}</Text>
@@ -150,14 +170,17 @@ const Index = () => {
             <Cell
               className='cell'
               title='学号'
-              clickable
+              clickable={isChangeable}
               align='center'
-              onClick={async () =>
-                await Taro.showToast({
-                  title: "暂不支持修改～",
-                  duration: TOAST_SHOW_TIME,
-                  icon: 'none'
-                })
+              onClick={async () => {
+                if (isChangeable) {
+                  await Taro.showToast({
+                    title: "暂不支持修改～",
+                    duration: TOAST_SHOW_TIME,
+                    icon: 'none'
+                  })
+                }
+              }
               }
             >
               <Text>{user.studentNumber}</Text>
@@ -165,17 +188,19 @@ const Index = () => {
             <Cell
               className='cell'
               title='身高'
-              clickable
+              clickable={user.isChangeable}
               align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改身高',
-                type: 'input',
-                inputType: INPUT_TYPE.HEIGHT,
-                initialValue: personInfo && personInfo.height ? personInfo.height : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
+              onClick={() => {
+                setPopUp({
+                  ...popup,
+                  title: '修改身高',
+                  type: 'input',
+                  inputType: INPUT_TYPE.HEIGHT,
+                  initialValue: personInfo && personInfo.height ? personInfo.height : '',
+                  open: true,
+                  confirm: onConfirmPersonInfo
+                })
+              }}
             >
               <View className='value'>
                 {!(personInfo && personInfo.height) && <View className='dot'/>}
@@ -185,17 +210,19 @@ const Index = () => {
             <Cell
               className='cell'
               title='体重'
-              clickable
+              clickable={user.isChangeable}
               align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改体重',
-                type: 'input',
-                inputType: INPUT_TYPE.WEIGHT,
-                initialValue: personInfo && personInfo.weight ? personInfo.weight : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
+              onClick={() => {
+                setPopUp({
+                  ...popup,
+                  title: '修改体重',
+                  type: 'input',
+                  inputType: INPUT_TYPE.WEIGHT,
+                  initialValue: personInfo && personInfo.weight ? personInfo.weight : '',
+                  open: true,
+                  confirm: onConfirmPersonInfo
+                })
+              }}
             >
               <View className='value'>
                 {!(personInfo && personInfo.weight) && <View className='dot'/>}
@@ -205,16 +232,18 @@ const Index = () => {
             <Cell
               className='cell'
               title='体型自评'
-              clickable
+              clickable={user.isChangeable}
               align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改体型',
-                type: 'picker',
-                pickerType: PICKER_TYPE.PHYSIQUE,
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
+              onClick={() => {
+                setPopUp({
+                  ...popup,
+                  title: '修改体型',
+                  type: 'picker',
+                  pickerType: PICKER_TYPE.PHYSIQUE,
+                  open: true,
+                  confirm: onConfirmPersonInfo
+                })
+              }}
             >
               <View className='value'>
                 {!(personInfo && personInfo.physique) && <View className='dot'/>}
@@ -224,7 +253,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='生日'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setPopUp({
@@ -245,7 +274,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='家乡'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -264,20 +293,18 @@ const Index = () => {
             <Cell
               className='cell'
               title='手机号'
-              // clickable
+              clickable={isChangeable}
               align='center'
-
-              // onClick={()=>{
-              //   setPopUp({
-              //     ...popup,
-              //     title:'修改手机号',
-              //     type: 'input',
-              //     inputType:INPUT_TYPE.PHONE_NUMBER,
-              //     initialValue:user.phoneNumber,
-              //     open: true,
-              //     confirm: onConfirmUserInfo
-              //   })
-              // }}
+              onClick={async () => {
+                if (isChangeable) {
+                  await Taro.showToast({
+                    title: "暂不支持修改～",
+                    duration: TOAST_SHOW_TIME,
+                    icon: 'none'
+                  })
+                }
+              }
+              }
             >
               <View className='value'>
                 {!(user.phoneNumber) && <View className='dot'/>}
@@ -288,7 +315,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='微信'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setPopUp({
@@ -314,12 +341,12 @@ const Index = () => {
           </View>
           <Cell.Group>
             {
-              user.userType === USER_TYPE.ENROLLED ? (
+              user.userType === USER_TYPE.STUDENT ? (
                 <>
                   <Cell
                     className='cell'
                     title='在校状态'
-                    clickable
+                    clickable={user.isChangeable}
                     align='center'
                     onClick={() => setPopUp({
                       ...popup,
@@ -339,7 +366,7 @@ const Index = () => {
                   <Cell
                     className='cell'
                     title='接下来一年的状态'
-                    clickable
+                    clickable={user.isChangeable}
                     align='center'
                     onClick={() => setPopUp({
                       ...popup,
@@ -357,16 +384,38 @@ const Index = () => {
                   </Cell>
 
                   <Cell
+                    className='cell'
+                    title='是否今年九月前毕业'
+                    clickable={user.isChangeable}
+                    align='center'
+                    onClick={() => {
+                      setPopUp({
+                        ...popup,
+                        title: '修改是否九月前毕业',
+                        type: 'picker',
+                        pickerType: PICKER_TYPE.SCHOOL_GRADUATE_IN_SEP,
+                        open: true,
+                        confirm: onConfirmPersonInfo
+                      })
+                    }}
+                  >
+                    <View className='value'>
+                      {!(personInfo && personInfo.schoolGraduateInSep) && <View className='dot'/>}
+                      <Text>{personInfo && personInfo.schoolGraduateInSep ? personInfo.schoolGraduateInSep : '请选择'}</Text>
+                    </View>
+                  </Cell>
+
+                  <Cell
                     className={classnames('cell', {'qa-cell': checkMultiChoices(personInfo.futureBase)})}
                     title='未来发展地'
-                    clickable
+                    clickable={user.isChangeable}
                     align='center'
                     onClick={() => setPopUp({
                       ...popup,
                       title: '修改未来发展地',
                       type: 'check',
                       checkType: CHECK_TYPE.FUTURE_BASE,
-                      initialValue: completeChoices(personInfo.futureBase, FUTURE_BASE),
+                      initialValue: personInfo.futureBase,
                       checkRestrict: -1,
                       open: true,
                       otherEnabled: true,
@@ -376,7 +425,7 @@ const Index = () => {
                   >
                     <View className={classnames('value', {'qa-value': checkMultiChoices(personInfo.futureBase)})}>
                       {!(personInfo && checkMultiChoices(personInfo.futureBase)) && <View className='dot'/>}
-                      <Text>{personInfo && checkMultiChoices(personInfo.futureBase) ? combineChoices(personInfo.futureBase) : '请选择'}</Text>
+                      <Text>{personInfo && checkMultiChoices(personInfo.futureBase) ? combineChoices(personInfo.futureBase,false,personInfo.selfFutureBase) : '请选择'}</Text>
                     </View>
                   </Cell>
                 </>
@@ -385,7 +434,7 @@ const Index = () => {
                   <Cell
                     className='cell'
                     title='当前学历'
-                    clickable
+                    clickable={user.isChangeable}
                     align='center'
                     onClick={() => setPopUp({
                       ...popup,
@@ -405,7 +454,7 @@ const Index = () => {
                   <Cell
                     className='cell'
                     title='当前工作所在地'
-                    clickable
+                    clickable={user.isChangeable}
                     align='center'
                     onClick={() => setPopUp({
                       ...popup,
@@ -425,7 +474,7 @@ const Index = () => {
                   <Cell
                     className='cell'
                     title='具体工作岗位'
-                    clickable
+                    clickable={user.isChangeable}
                     align='center'
                     onClick={() => setPopUp({
                       ...popup,
@@ -442,6 +491,31 @@ const Index = () => {
                       <Text>{personInfo && personInfo.graduateWorkDetail ? personInfo.graduateWorkDetail : '请选择'}</Text>
                     </View>
                   </Cell>
+
+                  <Cell
+                    className='cell'
+                    title='年收入水平'
+                    clickable={user.isChangeable}
+                    align='center'
+                    onClick={() => setPopUp({
+                      ...popup,
+                      title: '修改年收入',
+                      type: 'check',
+                      checkType: CHECK_TYPE.GRADUATE_INCOME,
+                      initialValue: personInfo.graduateIncome,
+                      open: true,
+                      checkRestrict: 2,
+                      confirm: onConfirmPersonInfo
+                    })}
+                  >
+                    <View
+                      className='value'
+                    >
+                      {personInfo && personInfo.graduateIncome && !checkMultiChoices(personInfo.graduateIncome) &&
+                        <View className='dot'/>}
+                      <Text>{personInfo && checkMultiChoices(personInfo.graduateIncome) ? combineChoices(personInfo.graduateIncome,true) : '请填写'}</Text>
+                    </View>
+                  </Cell>
                 </>
               )
             }
@@ -451,12 +525,12 @@ const Index = () => {
             <Text className='title'>专业信息</Text>
           </View>
           <Cell.Group>
-            {user.userType === USER_TYPE.ENROLLED &&
+            {user.userType === USER_TYPE.STUDENT &&
               <>
                 <Cell
                   className='cell'
                   title='年级'
-                  clickable
+                  clickable={user.isChangeable}
                   align='center'
                   onClick={() => {
                     setPopUp({
@@ -478,7 +552,7 @@ const Index = () => {
                 <Cell
                   className='cell'
                   title='所在校区'
-                  clickable
+                  clickable={user.isChangeable}
                   align='center'
                   onClick={() => {
                     setPopUp({
@@ -496,45 +570,24 @@ const Index = () => {
                     <Text>{personInfo && personInfo.currentSchoolCampus ? personInfo.currentSchoolCampus : '请选择'}</Text>
                   </View>
                 </Cell>
-                <Cell
-                  className='cell'
-                  title='是否今年九月前毕业'
-                  clickable
-                  align='center'
-                  onClick={() => {
-                    setPopUp({
-                      ...popup,
-                      title: '修改是否九月前毕业',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.SCHOOL_GRADUATE_IN_SEP,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })
-                  }}
-                >
-                  <View className='value'>
-                    {!(personInfo && personInfo.schoolGraduateInSep) && <View className='dot'/>}
-                    <Text>{personInfo && personInfo.schoolGraduateInSep ? personInfo.schoolGraduateInSep : '请选择'}</Text>
-                  </View>
-                </Cell>
               </>
             }
 
             <Cell
               className='cell'
               title='学院'
-              // clickable
+              clickable={isChangeable}
               align='center'
-              // onClick={()=>{
-              //   setPopUp({
-              //     ...popup,
-              //     title:'修改学院',
-              //     type: 'picker',
-              //     pickerType: PICKER_TYPE.FACULTY,
-              //     open: true,
-              //     confirm: onConfirmUserInfo
-              //   })
-              // }}
+              onClick={async () => {
+                if (isChangeable) {
+                  await Taro.showToast({
+                    title: "暂不支持修改～",
+                    duration: TOAST_SHOW_TIME,
+                    icon: 'none'
+                  })
+                }
+              }
+              }
             >
               <View className='value'>
                 {!(user.faculty) && <View className='dot'/>}
@@ -546,7 +599,7 @@ const Index = () => {
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && checkMultiChoices(personInfo.industry)})}
               title='行业'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setPopUp({
@@ -554,7 +607,7 @@ const Index = () => {
                   title: '修改行业',
                   type: 'check',
                   checkType: CHECK_TYPE.INDUSTRY,
-                  initialValue: completeChoices(personInfo.industry, INDUSTRY),
+                  initialValue: personInfo.industry,
                   open: true,
                   checkRestrict: 3,
                   confirm: onConfirmPersonInfo
@@ -562,29 +615,31 @@ const Index = () => {
               }}
             >
               <View
-                className={classnames('value', {'qa-value': personInfo && checkMultiChoices(personInfo.industry)})}>
+                className={classnames('value', {'qa-value': personInfo && checkMultiChoices(personInfo.industry)})}
+              >
                 {personInfo && !checkMultiChoices(personInfo.industry) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.industry ? combineChoices(personInfo.industry) : '去填写'}</Text>
+                <Text>{personInfo && personInfo.industry ? combineChoices(personInfo.industry,true) : '去填写'}</Text>
               </View>
             </Cell>
           </Cell.Group>
 
           <View
-            className={classnames('personal-info-divider', {'personal-info-divider-highlight': highlight.apperance})}>
+            className={classnames('personal-info-divider', {'personal-info-divider-highlight': highlight.apperance})}
+          >
             <Text className='title'>形象信息</Text>
           </View>
           <Cell.Group>
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && checkMultiChoices(personInfo.temperament)})}
               title='气质外表'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
                 title: '修改气质外表',
                 type: 'check',
                 checkType: CHECK_TYPE.TEMPER,
-                initialValue: completeChoices(personInfo.temperament, user.gender === GENDER.MALE ? TEMPERAMENT.male : TEMPERAMENT.female),
+                initialValue: personInfo.temperament,
                 checkRestrict: 2,
                 open: true,
                 confirm: onConfirmPersonInfo
@@ -592,28 +647,32 @@ const Index = () => {
             >
               <View className={classnames('value', {'qa-value': personInfo && personInfo.temperament})}>
                 {!(personInfo && personInfo.temperament && personInfo.temperament.length) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.temperament ? combineChoices(personInfo.temperament) : '请填写'}</Text>
+                <Text>{personInfo && personInfo.temperament ? combineChoices(personInfo.temperament,true) : '请填写'}</Text>
               </View>
             </Cell>
 
             <Cell
               className={classnames('cell', {'cell-split-line': images && images.length > 0})}
               title='照片'
-              clickable
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改个人照片',
-                type: 'photo',
-                photoUrls: user.images ? user.images : [],
-                open: true,
-                confirm: onConfirmImages
-              })}
+              clickable={user.isChangeable}
+              onClick={() => {
+                setPopUp({
+                  ...popup,
+                  title: '修改个人照片',
+                  type: 'photo',
+                  photoUrls: user.images ? user.images : [],
+                  open: true,
+                  confirm: onConfirmImages
+                })
+              }}
             >
               <>
                 {images && images.length > 0 && <View className='personal-info-img-box'>
                   {images.map((item) => (
                       item.imageUrl && item.imageUrl != '' &&
-                      <Image className='personal-info-img' src={item.imageUrl}/>
+                      <View className='personal-img-wrapper'>
+                        <Image lazyLoad mode='aspectFill' className='personal-img' src={item.imageUrl}/>
+                      </View>
                     )
                   )}
                 </View>}
@@ -632,30 +691,29 @@ const Index = () => {
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && checkMultiChoices(personInfo.interest)})}
               title='兴趣爱好'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
                 title: '修改兴趣爱好',
                 type: 'check',
                 checkType: CHECK_TYPE.INTEREST,
-                initialValue: completeChoices(personInfo.interest, INTEREST),
+                initialValue:personInfo.interest,
                 open: true,
                 otherEnabled: true,
                 checkRestrict: -1,
-                otherValue: personInfo && personInfo.selfInterest ? personInfo.selfInterest : '',
                 confirm: onConfirmPersonInfo
               })}
             >
               <View className={classnames('value', {'qa-value': personInfo && checkMultiChoices(personInfo.interest)})}>
                 {personInfo && !checkMultiChoices(personInfo.interest) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.interest ? combineChoices(personInfo.interest) : '请选择'}</Text>
+                <Text>{personInfo && personInfo.interest ? combineChoices(personInfo.interest,true) : '请选择'}</Text>
               </View>
             </Cell>
             <Cell
               className='cell'
               title='运动频率'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -677,7 +735,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='熬夜频率'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -698,7 +756,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='喝酒习惯'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -719,7 +777,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='抽烟习惯'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -740,7 +798,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='蹦迪习惯'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -765,7 +823,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='恋爱经历（次数）'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -781,18 +839,18 @@ const Index = () => {
                 <Text>{personInfo && personInfo.loveHistory ? personInfo.loveHistory : '请填写'}</Text>
               </View>
             </Cell>
-            {user.userType === USER_TYPE.ENROLLED ? (
+            {user.userType === USER_TYPE.STUDENT &&
               <Cell
-                className={'cell'}
-                title='月消费水平'
-                clickable
+                className='cell'
+                title='月支出水平'
+                clickable={user.isChangeable}
                 align='center'
                 onClick={() => setPopUp({
                   ...popup,
-                  title: '修改月消费水平',
+                  title: '修改月支出水平',
                   type: 'check',
                   checkType: CHECK_TYPE.CONSUMPTION,
-                  initialValue: completeChoices(personInfo.consumption, CONSUMPTION),
+                  initialValue: personInfo.consumption,
                   open: true,
                   checkRestrict: 2,
                   confirm: onConfirmPersonInfo
@@ -800,39 +858,14 @@ const Index = () => {
               >
                 <View className='value'>
                   {!(personInfo && checkMultiChoices(personInfo.consumption)) && <View className='dot'/>}
-                  <Text>{personInfo && checkMultiChoices(personInfo.consumption) ? combineChoices(personInfo.consumption) : '请填写'}</Text>
+                  <Text>{personInfo && checkMultiChoices(personInfo.consumption) ? combineChoices(personInfo.consumption,true) : '请填写'}</Text>
                 </View>
               </Cell>
-            ) : (
-              <Cell
-                className='cell'
-                title='年收入水平'
-                clickable
-                align='center'
-                onClick={() => setPopUp({
-                  ...popup,
-                  title: '修改年收入',
-                  type: 'check',
-                  checkType: CHECK_TYPE.GRADUATE_INCOME,
-                  initialValue: completeChoices(personInfo.graduateIncome, GRADUATE_INCOME),
-                  open: true,
-                  checkRestrict: 2,
-                  confirm: onConfirmPersonInfo
-                })}
-              >
-                <View
-                  className='value'>
-                  {personInfo && personInfo.graduateIncome && !checkMultiChoices(personInfo.graduateIncome) &&
-                    <View className='dot'/>}
-                  <Text>{personInfo && checkMultiChoices(personInfo.graduateIncome) ? combineChoices(personInfo.graduateIncome) : '请填写'}</Text>
-                </View>
-              </Cell>
-            )
             }
             <Cell
               className='cell'
               title='恋爱支出'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -853,7 +886,7 @@ const Index = () => {
             <Cell
               className='cell'
               title='mbti'
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -880,7 +913,7 @@ const Index = () => {
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.superPower})}
               title={SUBJECT_QUESTION.super_power}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -901,7 +934,7 @@ const Index = () => {
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.emo})}
               title={SUBJECT_QUESTION.emo}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -922,7 +955,7 @@ const Index = () => {
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.say})}
               title={SUBJECT_QUESTION.say}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => setPopUp({
                 ...popup,
@@ -943,27 +976,27 @@ const Index = () => {
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.wechatFirstTime})}
               title={SUBJECT_QUESTION.wechatFirstTime.question}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setCheckPopup(
                   {
                     ...checkPopup, open: true, type: CHECK_TYPE.WECHAT_FIRST_TIME,
                     radioData: SUBJECT_QUESTION.wechatFirstTime,
-                    radioChecked: personInfo && personInfo.wechatFirstTime ? personInfo.wechatFirstTime : ''
+                    radioChecked: personInfo ?personInfo.wechatFirstTime: ''
                   })
               }}
             >
               <View className={classnames('value', {'qa-value': personInfo && personInfo.wechatFirstTime})}>
                 {!(personInfo && personInfo.wechatFirstTime) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.wechatFirstTime ? personInfo.wechatFirstTime : '请填写'}</Text>
+                <Text>{personInfo && personInfo.wechatFirstTime ?splitOthers(personInfo.wechatFirstTime) : '请填写'}</Text>
               </View>
             </Cell>
 
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.beFriend})}
               title={SUBJECT_QUESTION.beFriend.question}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setCheckPopup(
@@ -976,14 +1009,14 @@ const Index = () => {
             >
               <View className='value qa-value'>
                 {!(personInfo && personInfo.beFriend) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.beFriend ? personInfo.beFriend : '请填写'}</Text>
+                <Text>{personInfo && personInfo.beFriend ? splitOthers(personInfo.beFriend) : '请填写'}</Text>
               </View>
             </Cell>
 
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.showLove})}
               title={SUBJECT_QUESTION.showLove.question}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setCheckPopup(
@@ -996,14 +1029,14 @@ const Index = () => {
             >
               <View className='value qa-value'>
                 {!(personInfo && personInfo.showLove) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.showLove ? personInfo.showLove : '请填写'}</Text>
+                <Text>{personInfo && personInfo.showLove ? splitOthers(personInfo.showLove) : '请填写'}</Text>
               </View>
             </Cell>
 
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.isLover})}
               title={SUBJECT_QUESTION.isLover.question}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setCheckPopup(
@@ -1016,14 +1049,14 @@ const Index = () => {
             >
               <View className='value qa-value'>
                 {!(personInfo && personInfo.isLover) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.isLover ? personInfo.isLover : '请填写'}</Text>
+                <Text>{personInfo && personInfo.isLover ? splitOthers(personInfo.isLover) : '请填写'}</Text>
               </View>
             </Cell>
 
             <Cell
               className={classnames('cell', {'qa-cell': personInfo && personInfo.isLoveYou})}
               title={SUBJECT_QUESTION.isLoveYou.question}
-              clickable
+              clickable={user.isChangeable}
               align='center'
               onClick={() => {
                 setCheckPopup(
@@ -1036,7 +1069,7 @@ const Index = () => {
             >
               <View className='value qa-value'>
                 {!(personInfo && personInfo.isLoveYou) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.isLoveYou ? personInfo.isLoveYou : '请填写'}</Text>
+                <Text>{personInfo && personInfo.isLoveYou ? splitOthers(personInfo.isLoveYou) : '请填写'}</Text>
               </View>
             </Cell>
 
@@ -1044,7 +1077,7 @@ const Index = () => {
 
           <PersonalInfoPopUp
             title={popup.title}
-            open={popup.open}
+            open={popup.open && isChangeable}
             cancel={popup.cancel}
             confirm={popup.confirm}
             type={popup.type}
@@ -1058,7 +1091,7 @@ const Index = () => {
             checkRestrict={popup.checkRestrict}
           />
           <MultiChoice
-            open={checkPopup.open}
+            open={checkPopup.open && isChangeable}
             type={checkPopup.type}
             radioData={checkPopup.radioData}
             radioChecked={checkPopup.radioChecked}

@@ -1,3 +1,40 @@
+export const AddressData = [
+  '北京市',
+  '天津市',
+  '上海市',
+  '重庆市',
+  '河北省',
+  '山西省',
+  '辽宁省',
+  '吉林省',
+  '黑龙江省',
+  '江苏省',
+  '浙江省',
+  '安徽省',
+  '福建省',
+  '江西省',
+  '山东省',
+  '河南省',
+  '湖北省',
+  '湖南省',
+  '广东省',
+  '海南省',
+  '四川省',
+  '贵州省',
+  '云南省',
+  '陕西省',
+  '甘肃省',
+  '青海省',
+  '台湾省',
+  '内蒙古自治区',
+  '广西壮族自治区',
+  '西藏自治区',
+  '宁夏回族自治区',
+  '新疆维吾尔自治区',
+  '香港特别行政区',
+  '澳门特别行政区'
+]
+
 export const TOAST_SHOW_TIME = 3000
 
 export enum WARNING_NOTE{
@@ -24,10 +61,9 @@ export const WARNING_MSG=[
   '*请完成选项'
 ]
 
-
 export enum GENDER {
-  FEMALE=1,
-  MALE= 0,
+  FEMALE=2,
+  MALE= 1,
 }
 
 export enum INPUT_TYPE{
@@ -88,8 +124,10 @@ export enum PICKER_TYPE{
 }
 
 export enum USER_TYPE{
-  ENROLLED=1,
-  ALUMNUS=0
+  OTHER=0,
+  STUDENT=1,
+  GRADUATE_WITH_3_YEAR=2,
+  GRADUTE_MORE_THAN_3_TEAR=3
 }
 
 export const TEMPERAMENT = {
@@ -110,7 +148,7 @@ male: [{label:'清秀少年',selected:false},
 
 export const CURRENT_TYPE = ['在校生','毕业生','教职工']
 export const CURRENT_CAMPUS = [
-  '紫金港校区','玉泉校区','西溪校区','华家池校区','之江校区','舟山校区','海宁国际校区','工程师学院（城院）','杭州国际科创中心','宁波校区'
+  '紫金港校区','玉泉校区','西溪校区','华家池校区','之江校区','舟山校区','海宁国际校区','工程师学院','杭州国际科创中心','宁波校区'
 ]
 export const INTEREST = [
   {label:'健身',selected: false},
@@ -153,18 +191,18 @@ export const INDUSTRY = [
 
 export const FUTURE_BASE = [
   {label:'浙江杭州',selected:false},
-  {label:'浙江（杭州除外）',selected: false},
+  {label:'浙江省（杭州除外）',selected: false},
   {label:'江苏省',selected: false},
   {label:'上海市',selected: false},
   {label:'北京市',selected: false},
   {label:'珠三角',selected: false},
   {label:'川渝',selected: false},
-  {label:'其他',selected: false}]
+  {label:'我要自己选',selected: false}]
 
 
 
 export const CURRENT_STATUS = ['本科','全日制硕士','全日制博士','非全日制在读']
-export const CURRENT_GRADE = ['大一','大二','大三','大四','大五','研一','研二','研三','博一','博二','博三','博四','博五','其他']
+export const CURRENT_GRADE = ['一年级','二年级','三年级','四年级','五年级及以上']
 export const ONE_YEAR_STATUS = ['仍在学校','即将离校（工作、保研/考研外校等）','出国深造']
 export const SCHOOL_GRADUATE_IN_SEP = ['是','否']
 export const PHYSIQUE = ['瘦','微瘦','正常','微胖','胖']

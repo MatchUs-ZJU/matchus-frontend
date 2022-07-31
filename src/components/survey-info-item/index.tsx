@@ -1,6 +1,5 @@
-import {ScrollView, Text, View} from "@tarojs/components";
+import {View} from "@tarojs/components";
 import {Cell, Image} from "@taroify/core";
-import {ArrowDown, ArrowUp} from "@taroify/icons";
 import {useState} from "react";
 import {getFormatTime} from "@/utils/ftime";
 import {ISurveyFields} from "@/typings/types";
@@ -42,44 +41,46 @@ const SurveyInfoItem = (props: SurveyInfoItemProps) => {
       {/*    <ArrowDown className='arrow' onClick={() => setExpand(!expand)}/>}*/}
       {/*</View>*/}
       {/*<ScrollView className='collapse-content' scrollY scrollWithAnimation style={{height: (expand ? '' : '0')}}>*/}
-      {/*  */}
+
       {/*</ScrollView>*/}
       <View className='collapse-content'>
         {info && info.map((item, key) => (
-          <View className='field' key={key}>
-            <View className='field-name'>{item.name}</View>
-            {
-              item.fields && item.fields
-                .sort((o1, o2) => {
-                  return o1.index - o2.index
-                })
-                .map((field) => (
-                  field.type === 1 ? (
-                    <Cell title={field.key} brief={field.value} className='subfield brief'/>
-                  ) : field.type === 0 ? (
-                    <Cell title={field.key} className='subfield'>{field.value}</Cell>
-                  ) : field.type === 2 ? (
-                    <Cell
-                      title={field.key}
-                      brief={
-                        images && images.map((image, _) => {
-                          return (
-                            <Image
-                              src={image}
-                              lazyLoad
-                              mode='aspectFill'
-                              className='img'
-                              onClick={() => viewImages(images, image)}
-                            />
-                          )
-                        })
-                      }
-                      className='subfield brief'
-                    />
-                  ) : <></>
-                ))
-            }
-          </View>
+          item.name !== '主观天地' && <>
+              <View className='field' key={key}>
+                <View className='field-name'>{item.name}</View>
+                {
+                  item.fields && item.fields
+                    .sort((o1, o2) => {
+                      return o1.index - o2.index
+                    })
+                    .map((field) => (
+                      field.type === 1 ? (
+                        <Cell title={field.key} brief={field.value} className='subfield brief'/>
+                      ) : field.type === 0 ? (
+                        <Cell title={field.key} className='subfield'>{field.value}</Cell>
+                      ) : field.type === 2 ? (
+                        <Cell
+                          title={field.key}
+                          brief={
+                            images && images.map((image, _) => {
+                              return (
+                                <Image
+                                  src={image}
+                                  lazyLoad
+                                  mode='aspectFill'
+                                  className='img'
+                                  onClick={() => viewImages(images, image)}
+                                />
+                              )
+                            })
+                          }
+                          className='subfield brief'
+                        />
+                      ) : <></>
+                    ))
+                }
+              </View>
+            </>
         ))}
       </View>
 

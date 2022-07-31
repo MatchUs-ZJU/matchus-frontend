@@ -23,7 +23,7 @@ export const updateUserInfo = async (data) => {
 };
 
 export const identifyUserInfo = async (data) => {
-  console.log('网络请求：上传用户身份验证')
+  console.log('网络请求：上传用户身份验证',data)
   return request.post(`/user/identify`, {
     data,
     header: {
@@ -74,7 +74,7 @@ export const putPersonalImage = async (data) => {
 }
 
 export const delPersonalImage = async (data) => {
-  console.log('网络请求：删除用户个人照片',data)
+  console.log('网络请求：删除用户个人照片')
   return request.delete(`/user/images`,{
     data,
     header:{

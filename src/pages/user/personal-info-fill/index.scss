@@ -43,7 +43,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 60px 40px;
+  padding: 44px 40px 76px 40px;
 
   background: $white;
   border-radius: 16px;
@@ -80,11 +80,7 @@
       }
     }
 
-    .composed-item{
-      display: flex;
-      flex-direction: row;
-      column-gap: 24px;
-    }
+
 
     .pull-down{
       position: relative;
@@ -96,7 +92,6 @@
     .item{
       position: relative;
       margin-bottom: 44px;
-
       .taroify-cell {
         padding: 23px 30px 17px;
         align-items: center;
@@ -183,6 +178,10 @@
       }
     }
 
+    .item-fold{
+      z-index:10;
+    }
+
     .item-subject{
       display: flex;
       flex-direction: column;
@@ -259,6 +258,12 @@
       }
     }
 
+    .composed-item{
+      display: flex;
+      flex-direction: row;
+      column-gap: 24px;
+    }
+
     .disp{
       font-weight: 400;
       font-size: 24px;
@@ -288,12 +293,14 @@
           }
 
           &__preview-image {
-            width: 194px;
-            height: 194px;
+            object-fit: contain;
             border-radius: 16px;
           }
 
           &__preview {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
             margin-right:10px;
             width: 194px;
             height: 194px;
@@ -328,12 +335,14 @@
 .wrapper .btn-container{
   position: fixed;
   bottom: 0;
-  width: 80%;
+  width: 608px;
   height: 120px;
   align-items: center;
   justify-content: space-between;
-  padding: 32px 40px;
-  z-index: 4;
+  padding: 10px 40px;
+  z-index: 20;
+  background: white;
+  border-top: 1px solid $gray-2;
   .btn-save{
     display: flex;
     flex-direction: row;

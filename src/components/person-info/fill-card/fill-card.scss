@@ -1,0 +1,17 @@
+@import '../../../app';
+
+.backdrop{
+  --backdrop-background-color: rgba(0,0,0,0);
+  z-index: 9
+}
+
+.card-body{
+  position: absolute;
+  width: 100%;
+  margin-top: -36px;
+  flex-direction: row;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  z-index: 11;
+}
