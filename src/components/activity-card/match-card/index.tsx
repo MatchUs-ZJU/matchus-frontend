@@ -46,6 +46,7 @@ const MatchCard = (props: MatchCardProps) => {
     left,
     refund
   } = useSelector(rootState => rootState.activity.participate.match)
+  console.log('match',state,matchResult,message,left,refund)
   const leftTime = formatLeftTime(left)
   const [lightUp, setLightUp] = useState([false, false, false, false])
   const [fund, setFund] = useState(false)

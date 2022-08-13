@@ -62,7 +62,6 @@ export const completeChoices = (getInfo:IMultiChoice[],completeInfo:IMultiChoice
   let getInfoOther: IMultiChoice[] = []
   const otherArray = findOthers(getInfo)
   const other = otherArray.length>0?otherArray[0]:{label:'其他',selected:false}
-
   completeInfo.map((item)=>{
     // 已选
     const findRes = getInfo.filter((it) => it.label===item.label && it.selected)
@@ -74,7 +73,7 @@ export const completeChoices = (getInfo:IMultiChoice[],completeInfo:IMultiChoice
       }
       else{
         //填入未选
-        getInfoOther.push(item)
+        getInfoOther.push({...item,selected:false})
       }
     }else{
       // 判断怎么加上其他

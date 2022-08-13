@@ -27,7 +27,7 @@ const PhotoBox = (props: IPhotoProps)=>{
 
   useEffect(()=>{
     setImages(props.images)
-    onChange(props.images)
+    // onChange(props.images)
   },[props.images])
 
   async function onUpload() {

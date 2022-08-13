@@ -76,7 +76,7 @@ export default function user(state = INITIAL_STATE, action) {
     case USER_IMAGE_DELETE:
       return {
         ...state,
-        images: [...state.images.filter(item => item.imageUrl !== action.payload.imageUrl)]
+        images: [...state.images.filter(item => action.payload.delete && item.imageUrl !== action.payload.imageUrl)]
       }
     case USER_IMAGE_SAVE:
       return {

@@ -5,7 +5,8 @@ export const studentNumberRegTest = (input: string) => {
 
 export const phoneNumberRegTest = (input: string) => {
   const tel = /^0\d{2,3}-?\d{7,8}$/
-  const phone = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/
+  // const phone = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/
+  const phone = /^\d{11}$/
 
   if(input.length == 11){//手机号码
     if(phone.test(input)) {

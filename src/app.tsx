@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react'
 import {Provider, useSelector} from 'react-redux'
 import Taro, {useDidShow} from "@tarojs/taro";
-import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"
 import {CLOUD_ENV} from "@/config";
+import {checkMiniProgramUpdate} from "@/utils/taro-utils";
+import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"
 
-import './app.scss'
 import {getJWT} from "./services/jwt";
 import {store} from "./store";
-import {checkMiniProgramUpdate} from "@/utils/taro-utils";
+import './app.scss'
 
 function App(props) {
 

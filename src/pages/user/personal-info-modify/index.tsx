@@ -34,7 +34,7 @@ import {
   checkString,
   checkSubjectInfo,
   combineChoices,
-  completeChoices, splitOthers
+  splitOthers
 } from "@/utils/fcheck"
 import classnames from "classnames";
 import MultiChoice, {IMultiChoicePopup} from "@/components/personal-info-modal";
@@ -62,21 +62,24 @@ const Index = () => {
     dispatch(fetchPersonInfo())
   }
 
-  useDidShow(async () => {
+  useReady(async () => {
     if (user.isChangeable) {await Taro.showToast({title: '点击条目进行修改~', duration: TOAST_SHOW_TIME, icon: 'none'})}
-    if(!user.personInfo){
-      fetchData()
-    }else{
-      setPersonInfo(JSON.parse(JSON.stringify(user.personInfo)))
-    }
+    // if(!user.personInfo){
+    //   fetchData()
+    // }else{
+    //   setPersonInfo(JSON.parse(JSON.stringify(user.personInfo)))
+    // }
   })
 
-  // useEffect(() => {
-  //   if(!user.personInfo){
-  //     fetchData()
-  //   }},
-  //   []
-  // )
+  useEffect(() => {
+    if(!user.personInfo){
+      fetchData()
+    }
+
+    if(user.personInfo){
+      setPersonInfo(JSON.parse(JSON.stringify(user.personInfo)))
+    }},
+    [])
 
   useEffect(() => {setPersonInfo(user.personInfo!)}, [user.personInfo])
   useEffect(() => {setImages(user.images ? user.images : [])}, [user.images])
@@ -97,8 +100,9 @@ const Index = () => {
   const onConfirmPersonInfo = (value) => {
     setPersonInfo({...personInfo, ...value})
     dispatch(submitPersonalInfo({personInfo: {...value}, images: null}))
-    fetchData()
+    // fetchData()
   }
+
   const onConfirmImages = (value) => {
     setImages(value)
     dispatch(submitPersonalInfo(

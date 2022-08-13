@@ -103,7 +103,7 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
         }
         else return it
       })
-      console.log('confirmedChange',updatedMultiChoices)
+      // console.log('confirmedChange',updatedMultiChoices)
       setMultiChoices([...updatedMultiChoices])
       setCanSubmit(checkString(confirmedValue))
     }
@@ -122,6 +122,7 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
     if (props.type === 'input' || props.type === 'qa-input') {
       setInputValue(props.initialValue ? props.initialValue : '')
     } else if (props.type === 'check') {
+      console.log('on props change',props)
       setMultiChoices(props.initialValue ? props.initialValue : [])
       if (props.otherEnabled) {
         if(props.checkType === CHECK_TYPE.FUTURE_BASE){
@@ -301,15 +302,15 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
       if (props.checkType === CHECK_TYPE.INTEREST) {
         props.confirm({interest: [...multiChoices]})
       } else if (props.checkType === CHECK_TYPE.FUTURE_BASE) {
-        props.confirm({futureBase: multiChoices, selfFutureBase: confirmedValue})
+        props.confirm({futureBase: [...multiChoices], selfFutureBase: confirmedValue})
       } else if (props.checkType === CHECK_TYPE.TEMPER) {
-        props.confirm({temperament: multiChoices})
+        props.confirm({temperament: [...multiChoices]})
       } else if (props.checkType === CHECK_TYPE.INDUSTRY) {
-        props.confirm({industry: multiChoices})
+        props.confirm({industry: [...multiChoices]})
       } else if (props.checkType === CHECK_TYPE.GRADUATE_INCOME) {
-        props.confirm({graduateIncome: multiChoices})
+        props.confirm({graduateIncome: [...multiChoices]})
       } else if (props.checkType === CHECK_TYPE.CONSUMPTION) {
-        props.confirm({consumption: multiChoices})
+        props.confirm({consumption: [...multiChoices]})
       }
     } else if (props.type === 'photo') {
       props.confirm(photoUrls)
@@ -558,8 +559,8 @@ const PersonalInfoPopUp = (props: PopUpProps) => {
                             <Cell.Group inset clickable>
                               {AddressData.map((item) => (
                                 <Cell className='cell'
-                                      title={item}
-                                      onClick={() => {
+                                  title={item}
+                                  onClick={() => {
                                         setOtherValue(item)
                                         let updatedChoices = multiChoices.map((it) => {
                                           if (it.label === '我要自己选') return {label: '我要自己选', selected: true}
