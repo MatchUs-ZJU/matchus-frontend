@@ -1,0 +1,12 @@
+@import '../fill-card';
+
+.card-body .taroify-picker{
+  --picker-option-font-size: 30px;
+  --picker-option-color: #918AE3;
+  --picker-confirm-action-color:  #918AE3;
+  .taroify-picker-option{
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 24px;
+  }
+}

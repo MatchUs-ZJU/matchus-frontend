@@ -30,6 +30,7 @@ export interface IMatchState {
   imagesUrl: string[]
   favor: number,
   hasFilled: boolean,
+  isSecondMatch: boolean
 }
 
 const INITIAL_STATE: IMatchState = {
@@ -53,6 +54,7 @@ const INITIAL_STATE: IMatchState = {
 
   favor: 0,
   hasFilled: false,
+  isSecondMatch: false
 }
 
 export default function match(state = INITIAL_STATE, action) {

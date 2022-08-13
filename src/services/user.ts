@@ -23,7 +23,7 @@ export const updateUserInfo = async (data) => {
 };
 
 export const identifyUserInfo = async (data) => {
-  console.log('网络请求：上传用户身份验证')
+  console.log('网络请求：上传用户身份验证',data)
   return request.post(`/user/identify`, {
     data,
     header: {
@@ -40,6 +40,56 @@ export const uploadIdentificationImages = async (data) => {
     name: data.name,
     header: {
       Authorization: getJWT(),
+    }
+  })
+}
+
+export const getPersonalImage = async () =>{
+  console.log('网络请求：请求用户个人照片')
+  return request.get(`/user/images`,{
+    header:{
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const postPersonalImage = async (data) => {
+  console.log('网络请求：上传用户个人照片',data)
+  return request.post(`/user/images`,{
+    data,
+    header:{
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const putPersonalImage = async (data) => {
+  console.log('网络请求：更改用户个人照片',data)
+  return request.put(`/user/images`,{
+    data,
+    header:{
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const delPersonalImage = async (data) => {
+  console.log('网络请求：删除用户个人照片')
+  return request.delete(`/user/images`,{
+    data,
+    header:{
+      Authorization: getJWT()
+    }
+  })
+}
+
+
+export const postPersonalInfo = async (data)=>{
+  console.log('网络请求：上传用户个人信息')
+  return request.post(`/user/personInfo`,{
+    data,
+    header:{
+      Authorization: getJWT()
     }
   })
 }
@@ -87,4 +137,13 @@ export const getSurveyInfo = async () => {
       Authorization: getJWT(),
     },
   });
+}
+
+export const getPersonInfo = async ()=>{
+  console.log('网络请求：获取用户个人信息')
+  return request.get(`/user/personInfo`,{
+    header: {
+      Authorization: getJWT()
+    }
+  })
 }

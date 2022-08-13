@@ -98,6 +98,70 @@ export interface IParticipateState {
   }
 }
 
+export interface IPersonInfo{
+  id: number,
+  userId: number,
+  height: string,
+  weight: string,
+  physique: string,
+  birth: string,
+  wechatNumber: string,
+  hometown: string,
+
+  graduateEducation: string,
+  graduateWorkLocation: string,
+  graduateWorkDetail: string,
+  oneYearStatus: string,
+  currentSchoolStatus: string,
+  schoolGraduateInSep: string,
+  futureBase: IMultiChoice[],
+  selfFutureBase: string,
+
+  industry: IMultiChoice[],
+  currentSchoolGrade: string,
+  currentSchoolCampus: string,
+
+  temperament: IMultiChoice[],
+
+  interest: IMultiChoice[],
+  exerciseFrequency: string,
+  stayUpFrequency:string,
+  drinkHabit: string,
+  smokingHabit:string,
+  discoHabit:string,
+
+
+  takeDesire: string,
+  loveHistory: string,
+  graduateIncome: IMultiChoice[],
+  consumption: IMultiChoice[],
+  consumptionShare: string,
+  mbti: string,
+
+  superPower: string,
+  emo: string,
+  say: string,
+
+  selfWechatFirstTime: string,
+  wechatFirstTime:string,
+
+  selfBeFrind: string,
+  beFriend:string,
+
+  selfShowLove: string,
+  showLove:string,
+
+  selfIsLover: string,
+  isLover:string,
+
+  selfIsLoveYou: string,
+  isLoveYou:string
+
+  createTime: number,
+  updateTime: number
+}
+
+
 export interface ISurveyInfo {
   survey: ISurveyItem[]
   images: string[],
@@ -122,3 +186,28 @@ export interface ISurveyField {
   index: number,
   type: number // 数据类型枚举
 }
+
+export interface IPhotoUrls {
+  id?: number,
+  userId?: number,
+  imageUrl: string,
+  createTime?: string,
+  updateTime?: string,
+  delete?: boolean,
+  tmpUrl?: string,
+  maxAge?: number
+}
+
+export interface IMultiChoice{
+  label: string
+  selected: boolean
+  append?: string
+}
+
+
+export interface ISingleChoice{
+  question: string,
+  choices: string[],
+  selfAnswer?:string
+}
+

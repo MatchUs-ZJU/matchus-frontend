@@ -4,7 +4,14 @@ import Taro from "@tarojs/taro";
 import classnames from "classnames";
 import Watermark from "@/components/activity-card/watermark";
 import {Dialog, Field, Image, Switch, Textarea} from "@taroify/core";
-import {StepGreyIcon, StepIcon} from "@/assets/images";
+import {
+  ChooseAcceptChosen,
+  ChooseAcceptUnchosen,
+  ChooseRejectChosen,
+  ChooseRejectUnchosen,
+  StepGreyIcon,
+  StepIcon
+} from "@/assets/images";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {sendTwcResult, sendMessage} from "@/actions";
@@ -28,6 +35,8 @@ const ChooseCard = (props: ChooseCardProps) => {
     hasResult,
     chooseResult
   } = useSelector(rootState => rootState.activity.participate.choose)
+  const [rejectChosen,setRejectChosen] = useState(false)
+  const [acceptChosen,setAcceptChosen] = useState(false)
   const [thisChoice, setThisChoice] = useState(false)
   const [inputFocus,setInputFocus] = useState(false)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
@@ -94,7 +103,7 @@ const ChooseCard = (props: ChooseCardProps) => {
             {state !== 'ACTIVE' ? `双选通道会在${startTime}开放，请认真抉择哦` :
               hasResult && chooseResult ? '恭喜你们双选成功，希望未来能听到更多的好消息' :
                 hasResult && !chooseResult ? '别灰心，也许那个Ta正在不远的未来等你' :
-              '做出你的选择，向右滑动选 ➔ 选择Ta'}
+              '做出你的选择➔'}
           </View>
           <View
             className={classnames(
@@ -112,14 +121,36 @@ const ChooseCard = (props: ChooseCardProps) => {
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !hasResult ? (
-            <View className='col choose'>
-              <Switch size='30px' onChange={onChooseChange} checked={thisChoice}/>
-              <View
-                className={classnames(
-                  'note',
-                  {'checked': thisChoice}
-                )}
-              >{thisChoice ? '' : '不'}选Ta</View>
+            // <View className='col choose'>
+            //   <Switch size='30px' onChange={onChooseChange} checked={thisChoice}/>
+            //   <View
+            //     className={classnames(
+            //       'note',
+            //       {'checked': thisChoice}
+            //     )}
+            //   >{thisChoice ? '' : '不'}选Ta</View>
+            // </View>
+            <View className='row choose choose-active'>
+              <View className='col btn-wrapper'>
+                <Image
+                  className='btn'
+                  src={!thisChoice?ChooseRejectChosen:ChooseRejectUnchosen}
+                  onClick={()=> {
+                    onChooseChange(false)
+                  }}
+                />
+                <View className='note'>不选Ta</View>
+              </View>
+              <View className='col btn-wrapper'>
+                <Image
+                  className='btn'
+                  src={thisChoice?ChooseAcceptChosen:ChooseAcceptUnchosen}
+                  onClick={()=> {
+                    onChooseChange(true)
+                  }}
+                />
+                <View className='note'>选Ta</View>
+              </View>
             </View>
           ) : state === 'ACTIVE' && hasResult && chooseResult ? (
             <ActiveBtn type='seeResult' onClick={goToSeeResult}/>

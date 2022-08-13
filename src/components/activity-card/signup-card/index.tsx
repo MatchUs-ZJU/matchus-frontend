@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {ActiveBtn, DisableBtn, FinishedBtn} from "@/components/activity-card/right-buttons";
 import {useState} from "react";
 import Taro from "@tarojs/taro";
-
 import './index.scss'
 
 interface SignupCardProps extends ViewProps {
@@ -33,11 +32,12 @@ const SignUpNotStartBtn = (props: SignUpNotStartBtnProps) => {
 
 const SignupCard = (props: SignupCardProps) => {
   const dispatch = useDispatch()
+  const {user} =useSelector(state=>state)
   const {price, time, activity, bodyPrefix} = props
   const {state, paid, participated} = useSelector(rootState => rootState.activity.participate.signUp)
-  const {userType} = useSelector(rootState=>rootState.user)
-
+  const {userType,isComplete,isOldUser} = useSelector(rootState=>rootState.user)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  const [redirectDialogOpen,setRedirectDialogOpen] = useState(false)
 
   function goToSignUp() {
     if(userType === 3){
@@ -47,8 +47,20 @@ const SignupCard = (props: SignupCardProps) => {
         duration: 3000
       })
     }
+    else if(!isComplete){
+      setRedirectDialogOpen(true)
+    }
     else{
       setConfirmDialogOpen(true)
+    }
+  }
+
+  async function redirectToPersonInfo(){
+    if(!isComplete && isOldUser){
+      await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+    }
+    else {
+      await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
     }
   }
 
@@ -105,6 +117,18 @@ const SignupCard = (props: SignupCardProps) => {
             confirmJoin()
           }}
           >确认支付
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
+
+      <Dialog open={redirectDialogOpen} onClose={setRedirectDialogOpen}>
+        <Dialog.Header className='dialog-header dialog-header-redirect'>请先完善个人信息</Dialog.Header>
+        <Dialog.Actions>
+          <Button className='dialog-btn dialog-btn-redirect' onClick={() => {
+            setRedirectDialogOpen(false)
+            redirectToPersonInfo()
+          }}
+          >去完善
           </Button>
         </Dialog.Actions>
       </Dialog>

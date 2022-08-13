@@ -1,12 +1,12 @@
 import Taro from "@tarojs/taro";
 import {CLOUD_ENV} from "@/config";
+import {IPhotoUrls} from "@/typings/types";
 
 export async function viewImages(urls: string[], current?: string) {
   const res = await Taro.previewImage({
     urls: urls,
     current: current
   })
-  console.log(res)
 }
 
 export async function uploadIdentificationImage(realName: string, studentNumber: string, url: string) {
@@ -15,10 +15,48 @@ export async function uploadIdentificationImage(realName: string, studentNumber:
     const rn = realName === '' ? '微信用户' : realName
     return `${sn}-${rn}-${new Date().getTime()}`
   }
+
   return Taro.cloud.uploadFile({
     cloudPath: `identify/${generateFileName()}.png`,
     filePath: url,
     config: {
+      env: CLOUD_ENV
+    }
+  })
+}
+
+export async function uploadPersonInfoImage(realName: string,studentNumber: string,img: IPhotoUrls){
+  const generateFileName = () => {
+    const sn = studentNumber === '' ? '3180000000' : studentNumber
+    const rn = realName === '' ? '微信用户' : realName
+    return `${sn}-${rn}-${new Date().getTime()}`
+  }
+
+    return  Taro.cloud.uploadFile({
+      cloudPath: `person-info/${generateFileName()}.png`,
+      filePath: img.imageUrl,
+      config:{
+        env: CLOUD_ENV
+      }
+    })
+}
+
+// 仅删除一张图片
+export async function deletePersonInfoImage(imageUrl:string){
+  return Taro.cloud.deleteFile({
+    fileList: [imageUrl],
+    config:{
+      env: CLOUD_ENV
+    }
+  })
+}
+
+// 云文件的列表
+export async function getTmpUrl (images:IPhotoUrls[]){
+  const list = images.map((item)=> ({fileID:item.imageUrl,maxAge:60*60*60}))
+  return Taro.cloud.getTempFileURL({
+    fileList: list,
+    config:{
       env: CLOUD_ENV
     }
   })

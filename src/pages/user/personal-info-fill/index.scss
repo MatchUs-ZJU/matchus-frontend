@@ -1,0 +1,400 @@
+@import '../../../app.scss';
+
+.movable-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.wrapper {
+  align-items: center;
+  margin: 32px 32px 32px;
+  padding-bottom: 80px
+}
+
+.wrapper .tips {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  gap: 10px;
+  background: $purple-light;
+  border-radius: 16px;
+
+  margin: 20px 0 32px 0px;
+  padding: 12px 28px;
+
+  .text{
+    font-size: 26px;
+    color: $primary-color;
+  }
+  .icon{
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    margin-right: 16px;
+  }
+}
+
+.wrapper .customed-radio{
+
+}
+
+.wrapper .body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 44px 40px 76px 40px;
+
+  background: $white;
+  border-radius: 16px;
+  color: $text-color-1;
+  font-size: 28px;
+
+  transition: height 1s;
+  -o-transition: height 1s;
+  overflow: hidden;
+
+  .form{
+    position: relative;
+    width: 100%;
+
+    .title-bar{
+      display: flex;
+      margin-top: 32px;
+      margin-bottom:32px;
+      width:100%;
+      height: 48px;
+
+      align-items: center;
+
+      .title-text{
+        font-weight: 500;
+        font-size: 34px;
+        line-height: 48px;
+        color: $primary-color;
+      }
+
+      .title-split{
+        width: 450px;
+        margin-left: 16px;
+      }
+    }
+
+
+
+    .pull-down{
+      position: relative;
+    }
+    .pop-card{
+      position: absolute;
+    }
+
+    .item{
+      position: relative;
+      margin-bottom: 44px;
+      .taroify-cell {
+        padding: 23px 30px 17px;
+        align-items: center;
+        .taroify-input__placeholder--readonly{
+          color: #ADB7BE;
+        }
+      }
+
+      .field-note {
+        margin-top: 8px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        line-height: 24px;
+        color: $danger-color;
+      }
+
+      .field{
+        border: 2px solid #ADB7BE;
+        box-sizing: border-box;
+        border-radius: 6px;
+        background: $white;
+        .tag-array{
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-flow: row wrap;
+          gap: 10px;
+          .tag{
+            height: 48px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: 8px 16px;
+            background: #F3F4FB;;
+            border-radius: 16px;
+            //margin-right: 15px;
+            .tag-text{
+              margin-right: 5px;
+              font-weight: 400;
+              font-size: 28px;
+              line-height: 24px;
+              width: fit-content;
+              flex-flow: nowrap;
+              line-break: normal;
+              color: $primary-color;
+            }
+
+            .tag-delete{
+              width: 40px;
+              height: 40px;
+            }
+          }
+        }
+
+        &:hover {
+          border: 2px solid $primary-color;
+          box-sizing: border-box;
+          filter: drop-shadow(0px 0px 4px $primary-color);
+          border-radius: 6px;
+        }
+      }
+
+      .field-warn{
+        border: 2px solid $danger-color;
+        box-sizing: border-box;
+        border-radius: 6px;
+        background: $white;
+      }
+
+      .label{
+        position: absolute;
+        left: 32px;
+        top: -16px;
+
+        font-style: normal;
+        font-weight: 400;
+        font-size: 24px;
+        text-align: center;
+
+        background-color: $white;
+        color: #5E6366;
+        z-index: 1;
+      }
+    }
+
+    .item-fold{
+      z-index:10;
+    }
+
+    .item-subject{
+      display: flex;
+      flex-direction: column;
+      .question{
+        padding: 8px 0;
+      }
+
+      .radio-wrapper{
+        height: fit-content;
+        font-weight: 400;
+        font-size: 28px;
+        line-height: 24px;
+
+        --radio-border-color: #918AE3;
+        --radio-checked-icon-color: #918AE3;
+        --radio-checked-icon-border-color: #918AE3;
+
+        .taroify-radio{
+          padding: 8px;
+          align-items: center;
+
+          &__label{
+            font-size: 28px;
+          }
+
+          .taroify-cell {
+            padding: 23px 30px 17px;
+            .taroify-input__placeholder--readonly{
+              color: #ADB7BE;
+            }
+          }
+
+          .field{
+            border: 2px solid #ADB7BE;
+            box-sizing: border-box;
+            border-radius: 6px;
+            background: $white;
+            .tag-array{
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              flex-flow: row wrap;
+
+              .tag{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                height: fit-content;
+                padding: 0 10px;
+                background: #F3F4FB;
+                border-radius: 16px;
+                margin-right: 15px;
+                .tag-text{
+                  margin-right: 5px;
+                  width: fit-content;
+                  flex-flow: nowrap;
+                  line-break: normal;
+                  font-weight: 400;
+                  font-size: 24px;
+                  color: rgba(0, 0, 0, 0.7);
+                }
+              }
+            }
+
+            &:hover {
+              border: 2px solid $primary-color;
+              box-sizing: border-box;
+              filter: drop-shadow(0px 0px 4px $primary-color);
+              border-radius: 6px;
+            }
+          }
+        }
+
+      }
+    }
+
+    .composed-item{
+      display: flex;
+      flex-direction: row;
+      column-gap: 24px;
+    }
+
+    .disp{
+      font-weight: 400;
+      font-size: 24px;
+      color: #5E6366;
+    }
+
+    .photo{
+      display: flex;
+      margin-top: 16px;
+
+      .uploader {
+        width: 100%;
+        flex-direction: row;
+        column-gap: 10px;
+        align-items: center;
+
+        .uploader-img{
+          margin-top:5px;
+          width: 194px;
+          height: 194px;
+        }
+
+        .taroify-uploader {
+          &__wrapper {
+            width: 100%;
+            flex-direction: row;
+          }
+
+          &__preview-image {
+            object-fit: contain;
+            border-radius: 16px;
+          }
+
+          &__preview {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            margin-right:10px;
+            width: 194px;
+            height: 194px;
+          }
+
+          &__preview-remove{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            top:-3px;
+            right:-8px;
+
+            background-color:rgba(0, 0, 0, 0.3);
+            border-radius: 24px;
+          }
+
+          &__preview-remove-icon{
+            top: -6px;
+            right: -6px;
+            font-size: 40px;
+          }
+        }
+      }
+    }
+
+
+  }
+
+}
+
+.wrapper .btn-container{
+  position: fixed;
+  bottom: 0;
+  width: 608px;
+  height: 120px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  z-index: 20;
+  background: white;
+  border-top: 1px solid $gray-2;
+  .btn-save{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 88px;
+    border: 3px solid $primary-color;
+    border-radius: 60px;
+
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 24px;
+    background: white;
+    color: $primary-color;
+  }
+
+  .btn-confirm{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 88px;
+
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 24px;
+
+    background: $primary-color;
+    border-radius: 60px;
+
+    color: white;
+  }
+
+  .btn-confirm-disable{
+    background: #D3D0F4;
+  }
+
+}
+
+
+.info{
+  margin: 32px 0;
+
+  .taroify-cell {
+    line-height: 56px;
+    font-size: 30px;
+  }
+
+  .taroify-cell__brief {
+    font-size: 27px;
+    line-height: 36px;
+  }
+}
