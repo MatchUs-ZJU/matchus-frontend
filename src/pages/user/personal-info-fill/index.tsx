@@ -131,14 +131,15 @@ const Index = () => {
         personInfo: personForm,
         images: {realName: user.realName, studentNumber: user.studentNumber, images: images}
       }))
-      if(user.isComplete){
-        await Taro.showToast({
-          title: "个人信息已完善～",
-          duration: TOAST_SHOW_TIME,
-          icon: 'none'
-        })
-        await Taro.redirectTo({url:'/pages/activity/index/index'})
-      }
+
+      // await Taro.showToast({
+      //   title: "个人信息已完善～",
+      //   duration: TOAST_SHOW_TIME,
+      //   icon: 'none'
+      // })
+      // if(user.isComplete){
+      //   await Taro.redirectTo({url:'/pages/activity/index/index'})
+      // }
     } else {
       setShowRequired(true)
       await Taro.showToast({

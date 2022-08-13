@@ -41,6 +41,16 @@ export async function uploadPersonInfoImage(realName: string,studentNumber: stri
     })
 }
 
+// 仅删除一张图片
+export async function deletePersonInfoImage(imageUrl:string){
+  return Taro.cloud.deleteFile({
+    fileList: [imageUrl],
+    config:{
+      env: CLOUD_ENV
+    }
+  })
+}
+
 // 云文件的列表
 export async function getTmpUrl (images:IPhotoUrls[]){
   const list = images.map((item)=> ({fileID:item.imageUrl,maxAge:60*60*60}))

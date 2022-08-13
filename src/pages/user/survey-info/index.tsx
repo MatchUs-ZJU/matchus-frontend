@@ -36,9 +36,9 @@ const SurveyInfo = () => {
                 name={surveyInfo.survey[1].name} images={surveyInfo.images} key={1}
               />
             }
-            <MovableView className='movable-btn' direction='all' inertia x={windowWidth - 60} y={windowHeight - 60}>
-              <Edit style={{color: '#FFF', fontSize: '30px'}} onClick={goToFillForm}/>
-            </MovableView>
+            {/*<MovableView className='movable-btn' direction='all' inertia x={windowWidth - 60} y={windowHeight - 60}>*/}
+            {/*  <Edit style={{color: '#FFF', fontSize: '30px'}} onClick={goToFillForm}/>*/}
+            {/*</MovableView>*/}
           </MovableArea>
           :
           <View className='wrapper'>

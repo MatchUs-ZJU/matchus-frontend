@@ -21,7 +21,7 @@ import {
   TEMPERAMENT,
   TOAST_SHOW_TIME
 } from "@/utils/constant";
-import {getTmpUrl, uploadIdentificationImage, uploadPersonInfoImage} from "@/utils/taro-utils";
+import {deletePersonInfoImage, getTmpUrl, uploadIdentificationImage, uploadPersonInfoImage} from "@/utils/taro-utils";
 import {IPhotoUrls} from "@/typings/types";
 import {completeChoices} from "@/utils/fcheck";
 
@@ -76,7 +76,6 @@ export const fetchPersonInfo = () => {
             const completeIndustry = completeChoices(res.data.personInfo.industry,INDUSTRY)
             const completeConsumption = completeChoices(res.data.personInfo.consumption,CONSUMPTION)
             const completeGraduateIncome = completeChoices(res.data.personInfo.graduateIncome,GRADUATE_INCOME)
-
             dispatch(userSave({
               personInfo: {...res.data.personInfo,interest:completeInterest,futureBase:completeFutureBase,temperament:completeTemper,industry:completeIndustry,consumption:completeConsumption,graduateIncome:completeGraduateIncome},
               isComplete: res.data.isComplete,
@@ -348,19 +347,25 @@ export const  deletePersonalImages = (data) => {
   return async dispatch => {
     console.log("用户个人照片：删除用户个人照片")
     try{
-      const res = await delPersonalImage(data)
-
-      if (res && res.code === 0){
-        console.log("用户信息：删除用户个人照片成功")
-        dispatch(userSave(data,USER_IMAGE_DELETE))
-      }
-      else{
-        console.log("用户信息：删除个人照片失败")
-        await Taro.showToast({
-          icon: 'none',
-          title: '删除个人照片失败',
-          duration: TOAST_SHOW_TIME,
-        });
+      const delRes = await deletePersonInfoImage(data.imageUrl)
+      console.log('删除云文件照片')
+      if(delRes.errMsg !== 'cloud.deleteFile:ok'){
+        console.log("用户信息：删除用户个人照片失败")
+        dispatch(userSave({...data,delete:false},USER_IMAGE_DELETE))
+      }else{
+        const res = await delPersonalImage(data)
+        if (res && res.code === 0){
+          console.log("用户信息：删除用户个人照片成功")
+          dispatch(userSave(data,USER_IMAGE_DELETE))
+        }
+        else{
+          console.log("用户信息：删除个人照片失败")
+          await Taro.showToast({
+            icon: 'none',
+            title: '删除个人照片失败',
+            duration: TOAST_SHOW_TIME,
+          });
+        }
       }
     } catch (e) {
       await Taro.showToast({
