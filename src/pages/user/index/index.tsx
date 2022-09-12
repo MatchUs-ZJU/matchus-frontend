@@ -8,7 +8,7 @@ import {
   aboutusIcon,
   AnonymousImage,
   SurveyIcon,
-  IdentityIcon, LoveExperience, MatchCount
+  IdentityIcon, LoveExperience, MatchCount, QaQuestionIcon, CloverIcon, LoveIcon, DoubleLoveIcon
 } from "@/assets/images";
 import Taro, {useDidShow, useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
@@ -28,7 +28,7 @@ const notifyIdentifyMessage = '请您先完成用户认证'
 const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {nickName, avatarUrl, faculty, identified, login, userType, isComplete,isChangeable,isOldUser} = user
+  const {nickName, avatarUrl, faculty, identified, login, userType, isComplete, isChangeable, isOldUser} = user
 
   // 身份和认证状态
   const badge = getBadgeInfo(identified, userType)
@@ -41,7 +41,7 @@ const User = () => {
     fetchData()
   }, [])
 
-  useDidShow(async ()=>{
+  useDidShow(async () => {
     await fetchData()
   })
 
@@ -92,7 +92,7 @@ const User = () => {
     }
   }
 
-  const onClickOpenPersonalInfo = async ()=>{
+  const onClickOpenPersonalInfo = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
       setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
@@ -100,11 +100,10 @@ const User = () => {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
       await Taro.navigateTo({url: '/pages/introduction/index'})
-    } else{
-      if(isComplete || isOldUser){
+    } else {
+      if (isComplete || isOldUser) {
         await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
-      }
-      else if(!isComplete){
+      } else if (!isComplete) {
         await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
       }
     }
@@ -171,6 +170,30 @@ const User = () => {
         </View>
       </View>
 
+      <View className='lucky center-center row'>
+        <View className='item row'>
+          <Image src={CloverIcon} className='item-icon'/>
+          <View className='item-text'>
+            <View className='value'>16</View>
+            <View className='text'>幸运值</View>
+          </View>
+        </View>
+        <View className='item row'>
+          <Image src={LoveIcon} className='item-icon'/>
+          <View className='item-text'>
+            <View className='value'>4<Text className='value-lower-text'>次</Text></View>
+            <View className='text'>参与匹配</View>
+          </View>
+        </View>
+        <View className='item row'>
+          <Image src={DoubleLoveIcon} className='item-icon'/>
+          <View className='item-text'>
+            <View className='value'>3<Text className='value-lower-text'>次</Text></View>
+            <View className='text'>匹配成功</View>
+          </View>
+        </View>
+      </View>
+
       <View className='main'>
         <Cell.Group inset>
           <Cell
@@ -183,7 +206,6 @@ const User = () => {
           >
             <Text style={identified === '认证失败' ? {color: '#DA3F3F'} : {}}>{identifiedStatus}</Text>
           </Cell>
-
           <Cell
             icon={<Image src={PersonalInfoIcon} className='left-icon'/>}
             title='个人信息'
@@ -194,10 +216,9 @@ const User = () => {
           >
             <View className='value'>
               {(!isComplete) && <View className='dot'/>}
-              <Text>{!isComplete?'去填写':(isChangeable?'去修改':'')}</Text>
+              <Text>{!isComplete ? '去填写' : (isChangeable ? '去修改' : '')}</Text>
             </View>
           </Cell>
-
           <Cell
             icon={<Image src={SurveyIcon} className='left-icon'/>}
             title='匹配要求'
@@ -206,17 +227,6 @@ const User = () => {
             clickable
             onClick={onClickOpenSurveyInfo}
           >
-            {/*<View className='value'>*/}
-            {/*  /!*<View className='dot'/>*!/*/}
-            {/*  <Text>{user.surveyInfo?}去修改</Text>*/}
-            {/*</View>*/}
-
-            {/*{*/}
-            {/*  identified === '认证成功' &&*/}
-            {/*  <View className='badge-container'>*/}
-            {/*    <Badge dot className='badge'/>*/}
-            {/*  </View>*/}
-            {/*}*/}
           </Cell>
           <Cell
             icon={<Image src={consumeIcon} className='left-icon'/>}
