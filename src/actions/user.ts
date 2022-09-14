@@ -179,7 +179,7 @@ export const fetchUserProfile = () => {
   }
 }
 
-export const relogin = (func = () => {}) => {
+export const relogin = (func?: () => void) => {
   return async dispatch => {
     removeJWT()
 
@@ -205,7 +205,7 @@ export const relogin = (func = () => {}) => {
             dispatch(initRegister(resp.data.openid))
           }
           // 执行后续逻辑
-          func()
+          func?.()
         } else {
           console.log('用户登录：向服务器发送登录请求失败')
         }
