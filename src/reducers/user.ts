@@ -1,4 +1,4 @@
-import {USER_SAVE,USER_IMAGE_SAVE,USER_PERSONINFO_SAVE,USER_IMAGE_DELETE} from "@/constants";
+import {USER_SAVE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_IMAGE_DELETE} from "@/constants";
 import {IPersonInfo, IPhotoUrls, ISurveyInfo} from "@/typings/types";
 
 export interface IUserState {
@@ -9,7 +9,7 @@ export interface IUserState {
   gender: number;
   country: string;
   province: string;
-  language:string;
+  language: string;
   identified: '未认证' | '认证成功' | '认证失败' | '认证中';
   userType: number;
   school: string;
@@ -26,6 +26,11 @@ export interface IUserState {
   sessionKey: string;
   binded: boolean;
 
+  lucky: number;
+  luckyPercent: number;
+  matchTimes: number;
+  matchSuccessTimes: number;
+
   login: boolean;
   receivedData: boolean;
 
@@ -38,6 +43,10 @@ export interface IUserState {
 }
 
 const INITIAL_STATE: IUserState = {
+  luckyPercent: 0,
+  lucky: 0,
+  matchSuccessTimes: 0,
+  matchTimes: 0,
   binded: false,
   createTime: 0,
   openid: "",
@@ -61,8 +70,8 @@ const INITIAL_STATE: IUserState = {
   school: "",
   userType: 0,
   images: [],
-  isComplete:true,
-  isChangeable:true,
+  isComplete: true,
+  isChangeable: true,
   isOldUser: false
 }
 
@@ -86,7 +95,7 @@ export default function user(state = INITIAL_STATE, action) {
     case USER_PERSONINFO_SAVE:
       return {
         ...state,
-        personInfo:{...state.personInfo,...action.payload}
+        personInfo: {...state.personInfo, ...action.payload}
       }
     default:
       return state

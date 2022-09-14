@@ -145,3 +145,12 @@ export const getTwcResult = async (id) => {
     },
   })
 }
+
+export const getMatchAnalysisData = async (id) => {
+  console.log('网络请求：获取匹配分析数据')
+  return request.get(`/activity/analysis?activityId=${id}`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
