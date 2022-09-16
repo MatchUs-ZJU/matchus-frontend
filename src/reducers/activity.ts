@@ -5,7 +5,7 @@ import {
   ACTIVITY_SAVE,
   ACTIVITY_SIGN_UP_SAVE,
   ACTIVITY_DAILYQA_SAVE,
-  ACTIVITY_APPROVE_SAVE
+  ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE
 } from "@/constants";
 import {IMatchAnalysisState, IParticipateState} from "@/typings/types";
 
@@ -103,6 +103,13 @@ export default function activity(state = INITIAL_STATE, action) {
         participate: {
           ...state.participate,
           ...action.payload.participate
+        }
+      }
+    case ACTIVITY_ANALYSIS_SAVE:
+      return {
+        ...state,
+        analysis: {
+          ...action.payload,
         }
       }
     case ACTIVITY_SIGN_UP_SAVE:

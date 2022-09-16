@@ -17,8 +17,11 @@ const MatchAnalysisPage = () => {
   const {system} = useSelector(state => state.global)
   const {id, name} = useSelector(state => state.activity)
   const analysisData = useSelector(state => state.activity.analysis)
+  console.log(analysisData)
+  console.log(analysisData.conditions.length ? analysisData.conditions[0] : undefined)
   const [selectedCondition, setSelectedCondition] = useState(analysisData.conditions.length ? analysisData.conditions[0] : undefined)
-  const mostBrokenCondition = analysisData.conditions.length ? analysisData.conditions.reduce((o1, o2) => (o1.value > o2.value) ? o1 : o2) : undefined
+  console.log(selectedCondition)
+  const mostBrokenCondition = analysisData.conditions.length ? analysisData.conditions.reduce((o1, o2) => (o1.value > o2.value) ? o2 : o1) : undefined
 
   useEffect(() => {
     fetchData()
@@ -44,7 +47,7 @@ const MatchAnalysisPage = () => {
             匹配分析报告
             <View className='badge'>{name}</View>
           </View>
-          <View className='text-1'>根据您的匹配条件，我们计算了每一项符合您要求的双向匹配用户数</View>
+          <View className='text-1'>根据您的匹配条件，我们计算了每一项符合您要求的用户比例</View>
           <View className='text-2'>* 双向匹配指符合您的某个条件，且您也符合对方要求</View>
           <View className='statistic row'>
             <View className='item'>
@@ -74,7 +77,7 @@ const MatchAnalysisPage = () => {
         <NoticeBar.Icon>
           <InfoOutlined/>
         </NoticeBar.Icon>
-        <Text>条件顺序为您选择的顺序，1最重要！</Text>
+        <Text>条件顺序为您选择的顺序</Text>
         <Text>{'滑动查看 >>'}</Text>
       </NoticeBar>
 
@@ -113,7 +116,7 @@ const MatchAnalysisPage = () => {
         }
       </ScrollView>
       <View className='display col'>
-        <View className='display-value'>-{selectedCondition?.match_percent}%</View>
+        <View className='display-value'>{selectedCondition ? (selectedCondition.match_percent * 100).toFixed(2) : 0}%</View>
         <Image src={AnalysisHeartbrokenImage} className='display-heartbroken'/>
         <View className='display-content col'>
           <View className='text-1'>根据本次匹配结果，对您杀伤率最大的条件为：</View>
