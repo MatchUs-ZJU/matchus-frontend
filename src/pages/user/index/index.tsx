@@ -34,10 +34,6 @@ const User = () => {
   const [notifyContent, setNotifyContent] = useState('')
   const [notifyOpen, setNotifyOpen] = useState(false)
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
   useDidShow(async () => {
     await fetchData()
   })
@@ -173,21 +169,21 @@ const User = () => {
           <View className='item row'>
             <Image src={CloverIcon} className='item-icon'/>
             <View className='item-text'>
-              <View className='value'>{lucky}<Text className='value-lower-text'>前{luckyPercent}%</Text></View>
+              <View className='value'>{lucky ?? 0}<Text className='value-lower-text'>前{luckyPercent >> 0}%</Text></View>
               <View className='text'>幸运值</View>
             </View>
           </View>
           <View className='item row'>
             <Image src={LoveIcon} className='item-icon'/>
             <View className='item-text'>
-              <View className='value'>{matchTimes}<Text className='value-lower-text'>次</Text></View>
+              <View className='value'>{matchTimes ?? 0}<Text className='value-lower-text'>次</Text></View>
               <View className='text'>参与匹配</View>
             </View>
           </View>
           <View className='item row'>
             <Image src={DoubleLoveIcon} className='item-icon'/>
             <View className='item-text'>
-              <View className='value'>{matchSuccessTimes}<Text className='value-lower-text'>次</Text></View>
+              <View className='value'>{matchSuccessTimes ?? 0}<Text className='value-lower-text'>次</Text></View>
               <View className='text'>匹配成功</View>
             </View>
           </View>
