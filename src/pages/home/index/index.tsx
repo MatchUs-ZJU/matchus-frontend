@@ -33,7 +33,7 @@ const Home = () => {
     if(getJWT()) {
       fetchData()
     } else {
-      dispatch(relogin(fetchData()))
+      dispatch(relogin(fetchData))
     }
   })
 
@@ -192,9 +192,10 @@ const Home = () => {
         </View>
         <View className='articles'>
           {
-            articles.map((article, index) => (
+            articles && articles.length ? articles.map((article, index) => (
               <ArticleCard key={index} article={article}/>
-            ))
+            )) :
+            <></>
           }
         </View>
       </View>

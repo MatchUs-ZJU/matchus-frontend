@@ -211,3 +211,17 @@ export interface ISingleChoice{
   selfAnswer?:string
 }
 
+export interface IMatchCondition {
+  index: number,
+  condition: string,
+  value: string,
+  match_percent: number
+}
+
+export interface IMatchAnalysisState {
+  match: number,
+  matchSuccess: number,
+  lucky: number,
+  luckyAdd: number,
+  conditions: IMatchCondition[]
+}
