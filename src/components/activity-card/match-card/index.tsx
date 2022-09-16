@@ -10,10 +10,11 @@ import {
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
 import {DayCounter, QACard} from "@/components/activity-card/daily-question";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
 import './index.scss';
+import {notifySubscribe} from "@/actions/activity";
 
 interface MatchCardProps extends ViewProps {
   activity: number | string
@@ -37,6 +38,7 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
+  const dispatch = useDispatch()
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {approval, before, today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {
@@ -73,6 +75,12 @@ const MatchCard = (props: MatchCardProps) => {
   }
 
   async function goToSeeResult() {
+    // 用户订阅消息通知
+    dispatch(notifySubscribe([
+      '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk',
+      'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
+    ]))
+
     await Taro.navigateTo({
       url: '/pages/activity/match-result/index'
     })
@@ -110,7 +118,7 @@ const MatchCard = (props: MatchCardProps) => {
               'note',
               {'note-failed': state && state === 'ACTIVE' && !matchResult}
             )}
-          >若匹配失败，100%退全款</View>
+          >{state && state === 'ACTIVE' && !matchResult ? '退款将在2个工作日内返还！' : '若匹配失败，100%退全款'}</View>
         </View>
         <View className='col right'>
           {state === 'NOT_START' && !filled ? (
@@ -126,7 +134,6 @@ const MatchCard = (props: MatchCardProps) => {
               <FinishedBtn type='inRefund'/>
             )
           ) : (
-            // <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
             <DisableBtn type='disable'/>
           )}
         </View>

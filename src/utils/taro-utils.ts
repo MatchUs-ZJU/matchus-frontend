@@ -3,10 +3,10 @@ import {CLOUD_ENV} from "@/config";
 import {IPhotoUrls} from "@/typings/types";
 
 export async function viewImages(urls: string[], current?: string) {
-  const res = await Taro.previewImage({
+  await Taro.previewImage({
     urls: urls,
     current: current
-  })
+  });
 }
 
 export async function uploadIdentificationImage(realName: string, studentNumber: string, url: string) {

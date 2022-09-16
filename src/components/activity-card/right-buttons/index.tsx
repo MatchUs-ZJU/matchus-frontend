@@ -13,8 +13,8 @@ export const hasSignedUpText = '已报名'
 export const hasFilledFormText = '已提交'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
-export const inRefundText = '退款中'
-export const hasRefundedText = '已退款'
+export const inRefundText = '查看分析'
+export const hasRefundedText = '查看分析'
 
 interface ActiveBtnProps extends ViewProps {
   type: 'signup' | 'fillForm' | 'seeResult'
@@ -68,6 +68,9 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
         duration: 3000
       })
     }
+    await Taro.navigateTo({
+      url: '/pages/activity/analysis/index'
+    })
   }
 
   return (
