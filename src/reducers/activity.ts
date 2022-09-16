@@ -7,7 +7,7 @@ import {
   ACTIVITY_DAILYQA_SAVE,
   ACTIVITY_APPROVE_SAVE
 } from "@/constants";
-import {IParticipateState} from "@/typings/types";
+import {IMatchAnalysisState, IParticipateState} from "@/typings/types";
 
 export interface IActivityState {
   // basic
@@ -32,9 +32,19 @@ export interface IActivityState {
   // participated information
   participate: IParticipateState
 
+  // analysis
+  analysis: IMatchAnalysisState
 }
 
 const INITIAL_STATE: IActivityState = {
+  analysis: {
+    match: 0,
+    matchSuccess: 0,
+    lucky: 0,
+    luckyAdd: 0,
+    conditions: []
+  },
+
   participate: {
     state: 'NOT_ACTIVE',
 
@@ -56,7 +66,7 @@ const INITIAL_STATE: IActivityState = {
       lastChoose: 0,
       left: 0,
       refund: false,
-      message: 0
+      message: 0,
     },
 
     dailyQuestion: {
@@ -81,7 +91,7 @@ const INITIAL_STATE: IActivityState = {
   imageUrl: "",
   id: "",
   name: "",
-  price: 0,
+  price: 0
 }
 
 export default function activity(state = INITIAL_STATE, action) {
