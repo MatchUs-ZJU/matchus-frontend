@@ -5,7 +5,7 @@ import {
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
   CHOOSE_SAVE,
-  MATCH_SAVE, ACTIVITY_SIGN_UP_SAVE, ACTIVITY_DAILYQA_SAVE, ACTIVITY_APPROVE_SAVE
+  MATCH_SAVE, ACTIVITY_SIGN_UP_SAVE, ACTIVITY_DAILYQA_SAVE, ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE
 } from "@/constants";
 import {
   postFilledForm,
@@ -23,6 +23,13 @@ import {globalSave} from "@/actions/global";
 export const activitySave = (payload) => {
   return {
     type: ACTIVITY_SAVE,
+    payload
+  }
+}
+
+export const activityAnalysisSave = (payload) => {
+  return {
+    type: ACTIVITY_ANALYSIS_SAVE,
     payload
   }
 }
@@ -433,7 +440,7 @@ export const fetchMatchAnalysisData = (activityId) => {
       let res = await getMatchAnalysisData(activityId)
       if (res && res.code === 0) {
         console.log("活动页面：获取匹配分析数据成功")
-        dispatch(activitySave(res.data))
+        dispatch(activityAnalysisSave(res.data))
       } else {
         console.log("活动页面：获取匹配分析数据失败")
       }
