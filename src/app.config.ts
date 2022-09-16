@@ -21,8 +21,14 @@ export default defineAppConfig({
     'pages/user/survey-info/index',
     'pages/user/personal-info-modify/index',
     'pages/user/personal-info-fill/index',
-
-    'pages/introduction/index',
+  ],
+  subPackages: [
+    {
+      root: 'subPackageA',
+      pages: [
+        'pages/introduction/index',
+      ]
+    }
   ],
   window: {
     backgroundColor: '#F3F4FB',
