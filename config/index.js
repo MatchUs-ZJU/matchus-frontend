@@ -11,7 +11,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [],
+  plugins: ['taro-plugin-compiler-optimization'],
   defineConstants: {},
   alias: {
     '@': path.resolve(__dirname, '../src'),
