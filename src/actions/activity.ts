@@ -15,7 +15,7 @@ import {
   postSatisfiedFeedback,
   postSendTwcResult,
   getTwcResult,
-  postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer, getMatchAnalysisData
+  postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
 } from "@/services/activity";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {globalSave} from "@/actions/global";
@@ -141,8 +141,9 @@ export const preJoinActivity = ({id, price, body, attach}) => {
 
           // 用户订阅消息通知
           dispatch(notifySubscribe([
-            'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
             'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+            'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
+            '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk',
           ]))
         } else {
           console.log(payRes)
@@ -419,23 +420,6 @@ export const fetchTwcResult = (id) => {
         dispatch(twcStateSave(res.data))
       } else {
         console.log("活动页面：获取双选结果失败")
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
-
-export const fetchMatchAnalysisData = (activityId) => {
-  return async dispatch => {
-    console.log("活动页面：获取匹配分析数据")
-    try {
-      let res = await getMatchAnalysisData(activityId)
-      if (res && res.code === 0) {
-        console.log("活动页面：获取匹配分析数据成功")
-        dispatch(activitySave(res.data))
-      } else {
-        console.log("活动页面：获取匹配分析数据失败")
       }
     } catch (e) {
       console.log(e)

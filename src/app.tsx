@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
-import {Provider} from 'react-redux'
-import Taro from "@tarojs/taro";
+import {Provider, useSelector} from 'react-redux'
+import Taro, {useDidShow} from "@tarojs/taro";
 import {CLOUD_ENV} from "@/config";
 import {checkMiniProgramUpdate} from "@/utils/taro-utils";
 import {fetchUserInfo, globalSave, relogin, userSave} from "./actions"

@@ -5,7 +5,6 @@ export default defineAppConfig({
 
     'pages/activity/index/index',
     'pages/activity/match-result/index',
-    'pages/activity/analysis/index',
     'pages/activity/choose-result/index',
     'pages/activity/rules/index',
 
@@ -50,13 +49,6 @@ export default defineAppConfig({
       {
         text: '我的',
         pagePath: 'pages/user/index/index',
-        iconPath: 'assets/images/tablist/my.jpg',
-        selectedIconPath: 'assets/images/tablist/my-s.jpg',
-      },
-      // TEST
-      {
-        text: '111',
-        pagePath: 'pages/activity/analysis/index',
         iconPath: 'assets/images/tablist/my.jpg',
         selectedIconPath: 'assets/images/tablist/my-s.jpg',
       },
