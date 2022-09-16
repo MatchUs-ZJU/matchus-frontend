@@ -42,7 +42,7 @@ const MatchAnalysisPage = () => {
         <View className='header-content col'>
           <View className='title'>
             匹配分析报告
-            <View className='badge'>第{name}期</View>
+            <View className='badge'>{name}</View>
           </View>
           <View className='text-1'>根据您的匹配条件，我们计算了每一项符合您要求的双向匹配用户数</View>
           <View className='text-2'>* 双向匹配指符合您的某个条件，且您也符合对方要求</View>
@@ -104,7 +104,7 @@ const MatchAnalysisPage = () => {
             )
             :
             <>
-              <Skeleton/>
+              <Skeleton animation='wave'/>
               <WhiteSpace/>
               <Skeleton animation='wave'/>
               <WhiteSpace/>
