@@ -1,8 +1,8 @@
-@import "../../app";
+@import "../../../app";
 
 page {
-  --radio-checked-icon-cbackground-color: #918AE3;
-  --radio-checked-icon-border-color: #918AE3;
+  --radio-checked-icon-cbackground-color: $primary-color;
+  --radio-checked-icon-border-color: $primary-color;
 }
 
 .wrapper {
