@@ -96,57 +96,6 @@
   color: $text-color-1
 }
 
-.lucky {
-  margin: 32px 0;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 28px 36px;
-
-  height: 100px;
-  background: $white;
-  border-radius: 16px;
-
-  .item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    height: 80px;
-
-    .item-icon {
-      height: 54px;
-      width: 54px;
-    }
-
-    .item-text {
-
-      .value {
-        font-weight: 500;
-        font-size: 44px;
-        line-height: 56px;
-        color: $primary-color;
-      }
-
-      .value-lower-text {
-        margin-left: 4px;
-
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 32px;
-        color: $primary-color;
-      }
-
-      .text {
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 32px;
-        color: $note-color
-      }
-    }
-  }
-}
-
 .main {
   margin: 32px 0;
 
