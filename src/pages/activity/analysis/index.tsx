@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import classnames from "classnames";
 import {useEffect, useState} from "react";
 import {fetchMatchAnalysisData} from "@/actions/activity";
+import {IMatchCondition} from "@/typings/types";
 
 import './index.scss'
 
@@ -17,15 +18,18 @@ const MatchAnalysisPage = () => {
   const {system} = useSelector(state => state.global)
   const {id, name} = useSelector(state => state.activity)
   const analysisData = useSelector(state => state.activity.analysis)
-  console.log(analysisData)
-  console.log(analysisData.conditions.length ? analysisData.conditions[0] : undefined)
-  const [selectedCondition, setSelectedCondition] = useState(analysisData.conditions.length ? analysisData.conditions[0] : undefined)
-  console.log(selectedCondition)
-  const mostBrokenCondition = analysisData.conditions.length ? analysisData.conditions.reduce((o1, o2) => (o1.value > o2.value) ? o2 : o1) : undefined
+  const [selectedCondition, setSelectedCondition] = useState<IMatchCondition | undefined>(undefined)
+  const mostBrokenCondition = analysisData?.conditions?.length ? analysisData.conditions.reduce((o1, o2) => (o1.value > o2.value) ? o2 : o1) : undefined
 
   useEffect(() => {
     fetchData()
   }, [])
+
+  useEffect(() => {
+    if(analysisData?.conditions?.length) {
+      setSelectedCondition(analysisData.conditions[0])
+    }
+  }, [analysisData.conditions])
 
   function fetchData() {
     dispatch(fetchMatchAnalysisData(id))
@@ -88,7 +92,7 @@ const MatchAnalysisPage = () => {
         style={{width: (system?.windowWidth! - SideMargin).toString() + 'px'}}
       >
         {
-          analysisData.conditions.length ? analysisData.conditions.map(item =>
+          analysisData?.conditions?.length ? analysisData?.conditions?.map(item =>
               <View
                 className={classnames(
                   'condition-item',
