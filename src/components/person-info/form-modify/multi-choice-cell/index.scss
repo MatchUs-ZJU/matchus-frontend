@@ -1,0 +1,150 @@
+@import '../../../../app';
+@import '../form-modify';
+
+.form-popup .card-scroll{
+  position: relative;
+  margin-left: 78px;
+  .check-body{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+    width: 90%;
+    max-height: 60%;
+
+    .check-label{
+      align-items: center;
+      height: 80px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      .check-text{
+        flex-flow: nowrap;
+        font-size: 30px;
+        line-break: normal;
+        padding: 16px 32px;
+        color: rgba(0, 0, 0, 0.7);
+      }
+
+      .check-text-selected{
+        color: #FFFFFF;
+        padding: 16px 0 16px 32px;
+        word-break: keep-all;
+      }
+
+      .selected-icon{
+        width: 48px;
+        height: 48px;
+        padding: 0 32px 0 16px;
+      }
+    }
+
+    .check-label-selected{
+      background: $primary-color;
+    }
+
+    .cell-other {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      height: 40px;
+      font-weight: 400;
+      font-size: 28px;
+      line-height: 24px;
+      color: rgba(0, 0, 0, 0.3);
+      margin-right: 20px;
+      margin-bottom: 20px;
+      .icon{
+        width: 28px;
+        height: 28px;
+        margin-right: 10px;
+      }
+    }
+
+    .cell-other-input{
+      padding:15px 0;
+      position: relative;
+      width: 100%;
+      .taroify-cell {
+        padding: 23px 30px 17px;
+        .taroify-input__placeholder--readonly{
+          color: #ADB7BE;
+          flex-flow: nowrap;
+          font-size: 30px;
+          line-break: normal;
+          color: rgba(0, 0, 0, 0.7);
+        }
+      }
+
+      .field{
+        border: 2px solid #ADB7BE;
+        box-sizing: border-box;
+        border-radius: 6px;
+        background: $white;
+
+        &:hover {
+          border: 2px solid $primary-color;
+          box-sizing: border-box;
+          filter: drop-shadow(0px 0px 4px $primary-color);
+          border-radius: 6px;
+        }
+
+        .icon{
+          width: 40px;
+          height: 40px;
+        }
+      }
+
+      .icon{
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .append-view{
+      width: 100%;
+      height: 200px;
+      padding:15px 0;
+      .append-scroll{
+        position: relative;
+
+        .taroify-cell-group--inset {
+          margin: 0;
+          width: 100%;
+
+          .taroify-cell {
+            font-size: 28px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.5);
+            padding: 15px 30px;
+
+            &__value{
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+            }
+
+            //&:after{
+            //  left: 0;
+            //  right: 0;
+            //}
+
+            .icon{
+              width: 40px;
+              height: 40px;
+            }
+          }
+
+          .cell-checked{
+            color: $primary-color;
+            font-weight: 500;
+            .svg-checked{
+              stroke: $primary-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}

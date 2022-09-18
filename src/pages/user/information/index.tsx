@@ -1,42 +1,49 @@
-import {View, Text} from "@tarojs/components";
-import {Cell} from "@taroify/core";
+import {Text, View} from "@tarojs/components";
+import {Cell, Image, Picker, Popup, Uploader} from "@taroify/core";
 import "@taroify/core/cell/style"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getBadgeInfo, getFormatGender} from "@/utils/fstring";
 import {Close, MoreOutlined, Passed} from "@taroify/icons";
 import classnames from "classnames";
 import Taro from "@tarojs/taro";
-import PersonalInfoPopUp, {PopUpProps} from "@/components/personal-info-popup";
 import {useState} from "react";
+import {USER_TYPE, USER_TYPE_STEPS, USER_TYPE_STRING} from "@/utils/constant";
+
+import {UploadIcon} from "@/assets/images";
 import './index.scss'
-// import {IUserState} from "@/reducers/user";
 
 const Information = () => {
   const {user} = useSelector((state) => state)
-  const {realName, gender, faculty, studentNumber, phoneNumber, identified,userType} = user
-  const {currentUserType,setCurrentUserType} = useState(user.userType)
-
-  const onPopupCancel = ()=>{
-    setPopUp({...popup,open:false})
-  }
-
-  const onConfirmUserType = ()=>{
-    // submit
-  }
-
-  const [popup,setPopUp] = useState<PopUpProps>({
-    title: '当前身份',
-    open: false,
-    gender: 1,
-    type: 'picker',
-    cancel: onPopupCancel,
-    confirm: onConfirmUserType,
-    pickerType: 'currentType',
-    photoUrls:[]
+  const {realName, gender, faculty, studentNumber, phoneNumber, identified,userType,isComplete,isOldUser,material} = user
+  const dispatch = useDispatch()
+  const [form, setForm] = useState({
+    realName,
+    studentNumber,
+    school: '浙江大学',
+    gender,
+    faculty,
+    phoneNumber,
+    userType,
+    imageFile:{...material}
   })
+
+  const [userTypeStep,setUserTypeStep] = useState(USER_TYPE_STEPS.CLOSE)
+  const [pickerValue,setPickerValue] = useState(0)
 
   async function refillForm() {
     await Taro.navigateTo({url: '/pages/user/identify/index'})
+  }
+
+  function onUpload() {
+    Taro.chooseImage({
+      count: 1, sizeType: ["original", "compressed"], sourceType: ["album", "camera"],
+    }).then(({tempFiles}) => {
+      setForm({
+        ...form, imageFile: {
+          url: tempFiles[0].path,
+        }
+      })
+    })
   }
 
   return (
@@ -58,22 +65,95 @@ const Information = () => {
           <Cell title='性别'>{getFormatGender(gender)}</Cell>
           <Cell title='学号'>{studentNumber}</Cell>
           <Cell title='当前身份'
-            onClick={()=>setPopUp({...popup,open: true})}
-          >{getBadgeInfo(identified, userType)}</Cell>
+            onClick={()=>setUserTypeStep(USER_TYPE_STEPS.CHOOSE)}
+          >
+            <View className='badge-container'>
+              {(!userType) && <View className='dot'/>}
+              <Text>{!userType?'待完善':getBadgeInfo(identified, userType)}</Text>
+            </View>
+          </Cell>
           <Cell title='学院'>{faculty}</Cell>
           <Cell title='手机号'>{phoneNumber}</Cell>
         </Cell.Group>
       </View>
-      <PersonalInfoPopUp
-        title={popup.title}
-        open={popup.open}
-        cancel={popup.cancel}
-        confirm={popup.confirm}
-        gender={popup.gender}
-        type={popup.type}
-        photoUrls={popup.photoUrls}
-        pickerType={popup.pickerType}
-      />
+
+      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.CHOOSE} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
+        <Popup.Backdrop/>
+        <Text className='popup-title'>
+          选择当前身份
+        </Text>
+          <Picker siblingCount={3} onCancel={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)} onChange={(value) => setPickerValue(value)}>
+              <Picker.Column>
+                {
+                  USER_TYPE_STRING.map((item,idx)=>
+                    (<Picker.Option value={idx}>{item}</Picker.Option>)
+                  )
+                }
+              </Picker.Column>
+              )
+          </Picker>
+        <View className='confirm-btn' onClick={() => {
+          setForm({...form, userType: pickerValue + 1})
+          if(pickerValue+1 === USER_TYPE.STUDENT){
+            setUserTypeStep(USER_TYPE_STEPS.UPLOAD)
+          }
+          else{
+            setUserTypeStep(USER_TYPE_STEPS.FINISH)
+          }
+          }
+        }
+
+        >下一步</View>
+      </Popup>
+
+      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.UPLOAD} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
+        <Popup.Backdrop/>
+        <Text className='popup-title'>
+          请上传证明材料
+        </Text>
+        <Uploader
+          className={classnames('col', 'material-uploader', {'uploader__preview-image': form.imageFile.url})}
+          maxFiles={1}
+        >
+          {form.imageFile.url ? (<Uploader.Image
+            key={form.imageFile.url}
+            url={form.imageFile.url}
+            onRemove={() => setForm({...form, imageFile: {url: ''}})}
+            className='uploader-preview'
+            // onClick={() => viewImages([form.imageFile.url])}
+          />) : (<View onClick={onUpload}>
+            <View className='row center-center'>
+              <Image src={UploadIcon} className='uploader-img'/>
+            </View>
+            <View className='uploader-title'>点击拍照或打开相册</View>
+            <View className='uploader-desc'>【在校生】校园卡/学生证/学信网学籍证明/蓝码截图</View>
+            <View className='uploader-desc'>【毕业生】毕业证/学位证/学信网学籍证明</View>
+          </View>)}
+        </Uploader>
+        <View className='confirm-btn' onClick={() => {
+          setForm({...form,userType: pickerValue+1})
+          setUserTypeStep(USER_TYPE_STEPS.UPLOAD)}}
+        >下一步</View>
+      </Popup>
+
+      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.FINISH} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
+        <View className='col popup-memo'>
+          <Text className='memo-text'>已完成身份信息修改～</Text>
+          <Text className='memo-text'>请及时完善个人信息</Text>
+        </View>
+
+        <View className='confirm-btn' onClick={async () => {
+          setUserTypeStep(USER_TYPE_STEPS.CLOSE)
+          if(isComplete || isOldUser){
+            await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+          }
+          else if(!isComplete){
+            await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+          }
+        }}
+        >去完善</View>
+      </Popup>
+
       {
         (identified === '认证失败' || identified === '未认证') && <View className='refill-btn' onClick={refillForm}>重填信息</View>
       }

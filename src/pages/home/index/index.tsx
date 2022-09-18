@@ -1,24 +1,24 @@
 import {Text, View} from "@tarojs/components";
-import {Swiper, Image, Countdown} from "@taroify/core";
+import {Swiper, Image, Countdown, Popup} from "@taroify/core";
 import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBanners, fetchRecommends, relogin} from "@/actions";
-import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon} from "@/assets/images";
+import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon, welcomeImage} from "@/assets/images";
 import {fetchHomeData} from "@/actions/home";
 import {fetchResourceImages} from "@/actions/resource";
 import {ArticleCard} from "@/components";
 import {getJWT} from "@/services/jwt";
 import classnames from "classnames";
-
+import {confirmNotify} from "@/actions/user";
 import './index.scss'
 
 const Home = () => {
   // store
   const dispatch = useDispatch()
-  const {home} = useSelector((state) => state)
+  const {home,user} = useSelector((state) => state)
   const {articles, banners, data} = home
-
+  const {needUpdate,needRead,userType} = user
   const currentTime = new Date().getTime()
   const [, setReady] = useState(false);
   const [activityTime, setActivityTime] = useState('')
@@ -209,6 +209,30 @@ const Home = () => {
           onClick={goToHelp}
         />
       </View>
+
+      <Popup
+        className='custom-modal'
+        open={needRead} rounded
+        onClose={() => {
+          if(!needUpdate){
+            dispatch(confirmNotify())
+          }
+        }
+      }
+      >
+        <View className='info-part'>
+          <View className='title'>Welcome back 👏</View>
+            <Image className='background-img' src={welcomeImage}/>
+          <View className='desp'>{needUpdate?'新学期开学，请更新你的身份信息～':'新学期开学，已为您自动升高年级～'}</View>
+        </View>
+        <View className='button' onClick={async ()=>{
+          if(needUpdate){
+            await Taro.navigateTo({url: '/pages/user/information/index'})
+          }
+          dispatch(confirmNotify())
+        }}
+        >{needUpdate?'去更新':'知道了'}</View>
+      </Popup>
     </View>
   )
 }

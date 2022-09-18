@@ -65,6 +65,8 @@ import ChooseResultTopImageFailure from './choose-failure-top.svg'
 import MatchResultTopImage from './match-result-top.svg'
 import Rules from './activity-rules.png'
 
+import welcome from './welcome-image.svg'
+
 import LoveIcon from './love.svg'
 import DoubleLoveIcon from './double-love.svg'
 import CloverIcon from './clover.svg'
@@ -72,6 +74,8 @@ import CloverIcon from './clover.svg'
 import AnalysisHeaderImage from './analysis-header.svg'
 import AnalysisHeartbrokenImage from './analysis-heartbroken.svg'
 
+
+export const welcomeImage = welcome
 export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo,ChooseAcceptChosen,ChooseAcceptUnchosen,ChooseRejectChosen,ChooseRejectUnchosen}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {artiService, commonQuestions, report}
@@ -84,4 +88,6 @@ export const helpIcon = help
 export const aboutusIcon = aboutus
 export {LoveIcon, DoubleLoveIcon, CloverIcon}
 export {AnalysisHeaderImage, AnalysisHeartbrokenImage}
+
+
 

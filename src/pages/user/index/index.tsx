@@ -13,7 +13,7 @@ import {
 import Taro, {useDidShow, useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {fetchPersonInfo, fetchUserInfo} from "@/actions";
+import {fetchPersonInfo, fetchUserInfo,fetchUserProfile} from "@/actions";
 import classnames from "classnames";
 import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
@@ -118,7 +118,12 @@ const User = () => {
   return (
     <View className='container wrapper'>
       <View className='row header' onClick={onClickMainInfo}>
-        <View className='col avatar'>
+        <View className='col avatar' onClick={()=>{
+          if(login){
+          dispatch(fetchUserProfile())
+          }}
+        }
+        >
           {avatarUrl && avatarUrl.length ? (
             <Image
               shape='circle'
@@ -210,7 +215,7 @@ const User = () => {
             clickable
             onClick={onClickOpenPersonalInfo}
           >
-            <View className='value'>
+            <View className='badge-container'>
               {(!isComplete) && <View className='dot'/>}
               <Text>{!isComplete ? '去填写' : (isChangeable ? '去修改' : '')}</Text>
             </View>

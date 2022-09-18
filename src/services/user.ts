@@ -12,6 +12,26 @@ export const getUserInfo = async () => {
   });
 }
 
+export const getUserNeedUpdate = async () => {
+  console.log('网络请求：获取用户是否更新')
+  return request.get(`/user/needUpdate`,{
+    header: {
+      Authorization: getJWT(),
+    }
+  })
+}
+
+export const postUserNeedNotify = async ()=>{
+  console.log('网络请求：通知已读')
+  const data = {success:true}
+  return request.post(`/user/notify`,{
+    data,
+    header: {
+      Authorization: getJWT(),
+    }
+  })
+}
+
 export const updateUserInfo = async (data) => {
   console.log('网络请求：更新用户信息')
   return request.post(`/user/info`, {

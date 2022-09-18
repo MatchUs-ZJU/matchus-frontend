@@ -217,35 +217,13 @@
     font-size: 30px;
   }
 
-  .value{
-    float: right;
-    display: flex;
-    width: fit-content;
-    flex-direction: row;
-    align-items: center;
-    text-align: right;
-  }
-
-  .dot{
-    width: 16px;
-    height: 16px;
-    background-color: #ee0a24;
-    border-radius: 100%;
-
-    margin-right: 16px;
-  }
-
-  .badge-container {
-    //position: relative;
-    width: 48px;
-    height: 48px;
-  }
-
   .badge {
     position: absolute;
     right: 16px;
   }
 }
+
+
 
 .main .left-icon {
   width: 48px;

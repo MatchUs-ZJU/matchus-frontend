@@ -1,24 +1,24 @@
 import {Text, View} from "@tarojs/components";
 import "@taroify/core/cell/style"
 import {useDispatch, useSelector} from "react-redux";
-// import {Arrow, Edit} from "@taroify/icons";
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchPersonInfo, submitPersonalInfo} from "@/actions/user";
-import {Cell, Image} from "@taroify/core";
-import PersonalInfoPopUp, {PopUpProps} from "@/components/personal-info-popup";
-import Taro, {useDidShow, useReady} from "@tarojs/taro";
+import {Cell} from "@taroify/core";
+import Taro, {useReady} from "@tarojs/taro";
 import {
-  CHECK_TYPE,
-  CONSUMPTION,
-  FUTURE_BASE,
-  GENDER,
-  GRADUATE_INCOME,
-  INDUSTRY,
+  CONSUMPTION_SHARE,
+  CURRENT_CAMPUS,
+  CURRENT_GRADE,
+  CURRENT_STATUS,
+  GRADUATE_EDUCATION,
+  HABIT_FREQUENCY,
   INPUT_TYPE,
-  INTEREST,
+  LOVE_HISTORY,
+  ONE_YEAR_STATUS,
+  PHYSIQUE,
   PICKER_TYPE,
+  SCHOOL_GRADUATE_IN_SEP,
   SUBJECT_QUESTION,
-  TEMPERAMENT,
   TOAST_SHOW_TIME,
   USER_TYPE
 } from "@/utils/constant";
@@ -28,17 +28,15 @@ import {
   checkHabitInfo,
   checkLoveInfo,
   checkMajorInfo,
-  checkMultiChoices,
-  checkPhotos,
   checkStatusInfo,
-  checkString,
   checkSubjectInfo,
-  combineChoices,
-  splitOthers
 } from "@/utils/fcheck"
 import classnames from "classnames";
-import MultiChoice, {IMultiChoicePopup} from "@/components/personal-info-modal";
-import {getDateFromStamp} from "@/utils/ftime";
+import PickerCell from "@/components/person-info/form-modify/picker-cell";
+import InputCell from "@/components/person-info/form-modify/input-cell";
+import SingleChoiceCell from "@/components/person-info/form-modify/single-choice-cell";
+import MultiChoiceCell from "@/components/person-info/form-modify/multi-choice-cell";
+import PhotoCell from "@/components/person-info/form-modify/photo-cell";
 import './index.scss';
 
 const Index = () => {
@@ -64,11 +62,6 @@ const Index = () => {
 
   useReady(async () => {
     if (user.isChangeable) {await Taro.showToast({title: '点击条目进行修改~', duration: TOAST_SHOW_TIME, icon: 'none'})}
-    // if(!user.personInfo){
-    //   fetchData()
-    // }else{
-    //   setPersonInfo(JSON.parse(JSON.stringify(user.personInfo)))
-    // }
   })
 
   useEffect(() => {
@@ -102,7 +95,6 @@ const Index = () => {
     dispatch(submitPersonalInfo({personInfo: {...value}, images: null}))
     // fetchData()
   }
-
   const onConfirmImages = (value) => {
     setImages(value)
     dispatch(submitPersonalInfo(
@@ -116,32 +108,6 @@ const Index = () => {
       }))
     fetchData()
   }
-  const onPopupCancel = () => {setPopUp({...popup, open: false})}
-  const closeCheckPopup = () => {setCheckPopup({...checkPopup, open: false})}
-
-  const [checkPopup, setCheckPopup] = useState<IMultiChoicePopup>({
-    open: false,
-    type: CHECK_TYPE.INTEREST,
-    radioChecked: "",
-    radioData: {question: '', choices: []},
-    selfChoice: personInfo ? personInfo.selfFutureBase : '',
-    onCancel: closeCheckPopup,
-    onConfirm: onConfirmPersonInfo
-  })
-  const [popup, setPopUp] = useState<PopUpProps>({
-    title: '修改微信',
-    open: false,
-    type: 'input',
-    inputType: INPUT_TYPE.WECHAT_NUMBER,
-    pickerType: PICKER_TYPE.BIRTH,
-    checkType: CHECK_TYPE.INTEREST,
-    photoUrls: user.images,
-    otherEnabled: false,
-    otherValue: '',
-    checkRestrict: 0,
-    cancel: onPopupCancel,
-    confirm: onConfirmPersonInfo,
-  })
 
   return (
     <View className='container'>
@@ -151,193 +117,81 @@ const Index = () => {
             <Text className='title'>基本信息</Text>
           </View>
           <Cell.Group>
-            <Cell
-              className='cell'
+            <InputCell
               title='真实姓名'
-              clickable={isChangeable}
-              align='center'
-              onClick={
-                async () => {
-                  if (isChangeable) {
-                    await Taro.showToast({
-                      title: "暂不支持修改～",
-                      duration: TOAST_SHOW_TIME,
-                      icon: 'none'
-                    })
-                  }
-                }
-              }
-            >
-              <Text>{user.realName}</Text>
-            </Cell>
+              modifiable={false}
+              cellValue={user.realName}
+              inputType={INPUT_TYPE.REQUIRED}
+              onConfirm={() => {}}
+            />
 
-            <Cell
-              className='cell'
+            <InputCell
               title='学号'
-              clickable={isChangeable}
-              align='center'
-              onClick={async () => {
-                if (isChangeable) {
-                  await Taro.showToast({
-                    title: "暂不支持修改～",
-                    duration: TOAST_SHOW_TIME,
-                    icon: 'none'
-                  })
-                }
-              }
-              }
-            >
-              <Text>{user.studentNumber}</Text>
-            </Cell>
-            <Cell
-              className='cell'
-              title='身高'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改身高',
-                  type: 'input',
-                  inputType: INPUT_TYPE.HEIGHT,
-                  initialValue: personInfo && personInfo.height ? personInfo.height : '',
-                  open: true,
-                  confirm: onConfirmPersonInfo
-                })
-              }}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.height) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.height ? personInfo.height : '请填写'}</Text>
-              </View>
-            </Cell>
-            <Cell
-              className='cell'
-              title='体重'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改体重',
-                  type: 'input',
-                  inputType: INPUT_TYPE.WEIGHT,
-                  initialValue: personInfo && personInfo.weight ? personInfo.weight : '',
-                  open: true,
-                  confirm: onConfirmPersonInfo
-                })
-              }}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.weight) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.weight ? personInfo.weight : '请填写'}</Text>
-              </View>
-            </Cell>
-            <Cell
-              className='cell'
-              title='体型自评'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改体型',
-                  type: 'picker',
-                  pickerType: PICKER_TYPE.PHYSIQUE,
-                  open: true,
-                  confirm: onConfirmPersonInfo
-                })
-              }}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.physique) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.physique ? personInfo.physique : '请填写'}</Text>
-              </View>
-            </Cell>
-            <Cell
-              className='cell'
-              title='生日'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改生日',
-                  type: 'picker',
-                  pickerType: PICKER_TYPE.BIRTH,
-                  open: true,
-                  confirm: onConfirmPersonInfo
-                })
-              }}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.birth) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.birth ? getDateFromStamp(personInfo.birth) : '请选择'}</Text>
-              </View>
-            </Cell>
-            <Cell
-              className='cell'
-              title='家乡'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改家乡',
-                type: 'picker',
-                pickerType: PICKER_TYPE.HOMETOWN,
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.hometown) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.hometown ? personInfo.hometown : '请选择'}</Text>
-              </View>
-            </Cell>
-            <Cell
-              className='cell'
-              title='手机号'
-              clickable={isChangeable}
-              align='center'
-              onClick={async () => {
-                if (isChangeable) {
-                  await Taro.showToast({
-                    title: "暂不支持修改～",
-                    duration: TOAST_SHOW_TIME,
-                    icon: 'none'
-                  })
-                }
-              }
-              }
-            >
-              <View className='value'>
-                {!(user.phoneNumber) && <View className='dot'/>}
-                <Text>{user.phoneNumber}</Text>
-              </View>
+              modifiable={false}
+              cellValue={user.studentNumber}
+              inputType={INPUT_TYPE.STUDENT_NUMBER}
+              onConfirm={() => {}}
+            />
 
-            </Cell>
-            <Cell
-              className='cell'
+            <InputCell
+              title='身高'
+              modifiable
+              cellValue={personInfo ? personInfo.height : undefined}
+              inputType={INPUT_TYPE.NUMBER}
+              rightText='cm'
+              onConfirm={(value) => onConfirmPersonInfo({height: value})}
+            />
+
+            <InputCell
+              title='体重'
+              modifiable
+              cellValue={personInfo ? personInfo.weight : undefined}
+              inputType={INPUT_TYPE.NUMBER}
+              rightText='kg'
+              onConfirm={(value) => onConfirmPersonInfo({weight: value})}
+            />
+
+            <PickerCell
+              title='体型'
+              modifiable
+              cellValue={personInfo ? personInfo.physique : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={PHYSIQUE}
+              onConfirm={(value) => onConfirmPersonInfo({physique: value})}
+            />
+
+            <PickerCell
+              title='生日'
+              modifiable
+              cellValue={personInfo ? personInfo.birth : undefined}
+              pickerType={PICKER_TYPE.DATE}
+              onConfirm={(value) => onConfirmPersonInfo({birth: value})}
+            />
+
+            <PickerCell
+              title='家乡'
+              modifiable
+              cellValue={personInfo ? personInfo.hometown : undefined}
+              pickerType={PICKER_TYPE.ADDRESS}
+              onConfirm={(value) => onConfirmPersonInfo({hometown: value})}
+            />
+
+            <InputCell
+              title='手机号'
+              modifiable={false}
+              cellValue={user.phoneNumber}
+              inputType={INPUT_TYPE.PHONE_NUMBER}
+              onConfirm={() => {}}
+            />
+
+            <InputCell
               title='微信'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改微信',
-                  type: 'input',
-                  inputType: INPUT_TYPE.WECHAT_NUMBER,
-                  initialValue: personInfo && personInfo.wechatNumber ? personInfo.wechatNumber : '',
-                  open: true,
-                  confirm: onConfirmPersonInfo
-                })
-              }}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.wechatNumber) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.wechatNumber ? personInfo.wechatNumber : '去填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.wechatNumber : undefined}
+              inputType={INPUT_TYPE.WECHAT_NUMBER}
+              onConfirm={(value) => onConfirmPersonInfo({wechatNumber: value})}
+            />
+
           </Cell.Group>
 
           <View className={classnames('personal-info-divider', {'personal-info-divider-highlight': highlight.status})}>
@@ -347,179 +201,89 @@ const Index = () => {
             {
               user.userType === USER_TYPE.STUDENT ? (
                 <>
-                  <Cell
-                    className='cell'
+                  <PickerCell
                     title='在校状态'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改在校状态',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.CURRENT_STATUS,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View className='value'>
-                      {!(personInfo && personInfo.currentSchoolStatus) && <View className='dot'/>}
-                      <Text>{personInfo && personInfo.currentSchoolStatus ? personInfo.currentSchoolStatus : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                    modifiable
+                    cellValue={personInfo ? personInfo.currentSchoolStatus : undefined}
+                    pickerType={PICKER_TYPE.COMMON}
+                    pickerContent={CURRENT_STATUS}
+                    onConfirm={(value) => onConfirmPersonInfo({currentStudentStatus: value})}
+                  />
 
-                  <Cell
-                    className='cell'
-                    title='接下来一年的状态'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改一年内状态',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.ONE_YEAR_STATUS,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View className='value'>
-                      {!(personInfo && personInfo.oneYearStatus) && <View className='dot'/>}
-                      <Text>{personInfo && personInfo.oneYearStatus ? personInfo.oneYearStatus : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                  <PickerCell
+                    title='一年内状态'
+                    modifiable
+                    cellValue={personInfo ? personInfo.oneYearStatus : undefined}
+                    pickerType={PICKER_TYPE.COMMON}
+                    pickerContent={ONE_YEAR_STATUS}
+                    onConfirm={(value) => onConfirmPersonInfo({oneYearStatus: value})}
+                  />
 
-                  <Cell
-                    className='cell'
-                    title='是否今年九月前毕业'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => {
-                      setPopUp({
-                        ...popup,
-                        title: '修改是否九月前毕业',
-                        type: 'picker',
-                        pickerType: PICKER_TYPE.SCHOOL_GRADUATE_IN_SEP,
-                        open: true,
-                        confirm: onConfirmPersonInfo
-                      })
-                    }}
-                  >
-                    <View className='value'>
-                      {!(personInfo && personInfo.schoolGraduateInSep) && <View className='dot'/>}
-                      <Text>{personInfo && personInfo.schoolGraduateInSep ? personInfo.schoolGraduateInSep : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                  <PickerCell
+                    title='是否九月前毕业'
+                    modifiable
+                    cellValue={personInfo ? personInfo.schoolGraduateInSep : undefined}
+                    pickerType={PICKER_TYPE.COMMON}
+                    pickerContent={SCHOOL_GRADUATE_IN_SEP}
+                    onConfirm={(value) => onConfirmPersonInfo({schoolGraduateInSep: value})}
+                  />
 
-                  <Cell
-                    className={classnames('cell', {'qa-cell': checkMultiChoices(personInfo.futureBase)})}
+                  <MultiChoiceCell
                     title='未来发展地'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改未来发展地',
-                      type: 'check',
-                      checkType: CHECK_TYPE.FUTURE_BASE,
-                      initialValue: personInfo.futureBase,
-                      checkRestrict: -1,
-                      open: true,
-                      otherEnabled: true,
-                      otherValue: personInfo && personInfo.selfFutureBase ? personInfo.selfFutureBase : '',
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View className={classnames('value', {'qa-value': checkMultiChoices(personInfo.futureBase)})}>
-                      {!(personInfo && checkMultiChoices(personInfo.futureBase)) && <View className='dot'/>}
-                      <Text>{personInfo && checkMultiChoices(personInfo.futureBase) ? combineChoices(personInfo.futureBase,false,personInfo.selfFutureBase) : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                    modifiable
+                    multiChoices={personInfo?personInfo.futureBase:[]}
+                    multiChoiceLimitRestrict={-1}
+                    otherType='picker'
+                    otherValue={personInfo?personInfo.selfFutureBase:''}
+                    onConfirm={
+                      (value)=>{
+                        if(value.choice) {onConfirmPersonInfo({futureBase:[...value.choice]})}
+                        if(value.other){onConfirmPersonInfo({selfFutureBase:value.other})}
+                      }
+                    }
+                  />
                 </>
               ) : (
                 <>
-                  <Cell
-                    className='cell'
+                  <PickerCell
                     title='当前学历'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改学历',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.GRADUATE_EDUCATION,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View className='value'>
-                      {!(personInfo && personInfo.graduateEducation) && <View className='dot'/>}
-                      <Text>{personInfo && personInfo.graduateEducation ? personInfo.graduateEducation : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                    modifiable
+                    cellValue={personInfo ? personInfo.graduateEducation : undefined}
+                    pickerType={PICKER_TYPE.COMMON}
+                    pickerContent={GRADUATE_EDUCATION}
+                    onConfirm={(value) => onConfirmPersonInfo({graduateEducation: value})}
+                  />
 
-                  <Cell
-                    className='cell'
+                  <PickerCell
                     title='当前工作所在地'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改工作所在地',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.GRADUATE_WORK_LOCATION,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View className='value'>
-                      {!(personInfo && personInfo.graduateWorkLocation) && <View className='dot'/>}
-                      <Text>{personInfo && personInfo.graduateWorkLocation ? personInfo.graduateWorkLocation : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                    modifiable
+                    cellValue={personInfo ? personInfo.graduateWorkLocation : undefined}
+                    pickerType={PICKER_TYPE.ADDRESS}
+                    onConfirm={(value) => onConfirmPersonInfo({graduateWorkLocation: value})}
+                  />
 
-                  <Cell
-                    className='cell'
+                  <InputCell
                     title='具体工作岗位'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改工作岗位',
-                      type: 'input',
-                      inputType: INPUT_TYPE.GRADUATE_WORK_DETAIL,
-                      initialValue: personInfo && personInfo.graduateWorkDetail ? personInfo.graduateWorkDetail : '',
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View className='value'>
-                      {!(personInfo && personInfo.graduateWorkDetail) && <View className='dot'/>}
-                      <Text>{personInfo && personInfo.graduateWorkDetail ? personInfo.graduateWorkDetail : '请选择'}</Text>
-                    </View>
-                  </Cell>
+                    modifiable
+                    cellValue={personInfo ? personInfo.graduateWorkDetail : undefined}
+                    inputType={INPUT_TYPE.REQUIRED}
+                    onConfirm={(value) => onConfirmPersonInfo({graduateWorkDetail: value})}
+                  />
 
-                  <Cell
-                    className='cell'
-                    title='年收入水平'
-                    clickable={user.isChangeable}
-                    align='center'
-                    onClick={() => setPopUp({
-                      ...popup,
-                      title: '修改年收入',
-                      type: 'check',
-                      checkType: CHECK_TYPE.GRADUATE_INCOME,
-                      initialValue: personInfo.graduateIncome,
-                      open: true,
-                      checkRestrict: 2,
-                      confirm: onConfirmPersonInfo
-                    })}
-                  >
-                    <View
-                      className='value'
-                    >
-                      {personInfo && personInfo.graduateIncome && !checkMultiChoices(personInfo.graduateIncome) &&
-                        <View className='dot'/>}
-                      <Text>{personInfo && checkMultiChoices(personInfo.graduateIncome) ? combineChoices(personInfo.graduateIncome,true) : '请填写'}</Text>
-                    </View>
-                  </Cell>
+                  <MultiChoiceCell
+                    title='年收入'
+                    modifiable
+                    multiChoices={personInfo?personInfo.graduateIncome:[]}
+                    multiChoiceLimitRestrict={2}
+                    otherType='none'
+                    onConfirm={
+                      (value)=>{
+                        if(value.choice) {
+                          onConfirmPersonInfo({graduateIncome:[...value.choice]})
+                        }
+                      }
+                    }
+                  />
                 </>
               )
             }
@@ -531,100 +295,49 @@ const Index = () => {
           <Cell.Group>
             {user.userType === USER_TYPE.STUDENT &&
               <>
-                <Cell
-                  className='cell'
+                <PickerCell
                   title='年级'
-                  clickable={user.isChangeable}
-                  align='center'
-                  onClick={() => {
-                    setPopUp({
-                      ...popup,
-                      title: '修改年级',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.CURRENT_SCHOOL_GRADE,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })
-                  }}
-                >
-                  <View className='value'>
-                    {!(personInfo && personInfo.currentSchoolGrade) && <View className='dot'/>}
-                    <Text>{personInfo && personInfo.currentSchoolGrade ? personInfo.currentSchoolGrade : '请修改'}</Text>
-                  </View>
-                </Cell>
+                  modifiable
+                  cellValue={personInfo ? personInfo.currentSchoolGrade : undefined}
+                  pickerType={PICKER_TYPE.COMMON}
+                  pickerContent={CURRENT_GRADE}
+                  onConfirm={(value) => onConfirmPersonInfo({currentSchoolGrade: value})}
+                />
 
-                <Cell
-                  className='cell'
+                <PickerCell
                   title='所在校区'
-                  clickable={user.isChangeable}
-                  align='center'
-                  onClick={() => {
-                    setPopUp({
-                      ...popup,
-                      title: '修改校区',
-                      type: 'picker',
-                      pickerType: PICKER_TYPE.CURRENT_SCHOOL_CAMPUS,
-                      open: true,
-                      confirm: onConfirmPersonInfo
-                    })
-                  }}
-                >
-                  <View className='value'>
-                    {!(personInfo && personInfo.currentSchoolCampus) && <View className='dot'/>}
-                    <Text>{personInfo && personInfo.currentSchoolCampus ? personInfo.currentSchoolCampus : '请选择'}</Text>
-                  </View>
-                </Cell>
+                  modifiable
+                  cellValue={personInfo ? personInfo.currentSchoolCampus : undefined}
+                  pickerType={PICKER_TYPE.COMMON}
+                  pickerContent={CURRENT_CAMPUS}
+                  onConfirm={(value) => onConfirmPersonInfo({currentSchoolCampus: value})}
+                />
               </>
             }
 
-            <Cell
-              className='cell'
+            <PickerCell
               title='学院'
-              clickable={isChangeable}
-              align='center'
-              onClick={async () => {
-                if (isChangeable) {
-                  await Taro.showToast({
-                    title: "暂不支持修改～",
-                    duration: TOAST_SHOW_TIME,
-                    icon: 'none'
-                  })
+              modifiable={false}
+              cellValue={user.faculty}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={[]}
+              onConfirm={() => {}}
+            />
+
+            <MultiChoiceCell
+              title='行业'
+              modifiable
+              multiChoices={personInfo?personInfo.industry:[]}
+              multiChoiceLimitRestrict={3}
+              otherType='none'
+              onConfirm={
+                (value)=>{
+                  if(value.choice) {
+                    onConfirmPersonInfo({industry:[...value.choice]})
+                  }
                 }
               }
-              }
-            >
-              <View className='value'>
-                {!(user.faculty) && <View className='dot'/>}
-                <Text>{user.faculty}</Text>
-              </View>
-
-            </Cell>
-
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && checkMultiChoices(personInfo.industry)})}
-              title='行业'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改行业',
-                  type: 'check',
-                  checkType: CHECK_TYPE.INDUSTRY,
-                  initialValue: personInfo.industry,
-                  open: true,
-                  checkRestrict: 3,
-                  confirm: onConfirmPersonInfo
-                })
-              }}
-            >
-              <View
-                className={classnames('value', {'qa-value': personInfo && checkMultiChoices(personInfo.industry)})}
-              >
-                {personInfo && !checkMultiChoices(personInfo.industry) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.industry ? combineChoices(personInfo.industry,true) : '去填写'}</Text>
-              </View>
-            </Cell>
+            />
           </Cell.Group>
 
           <View
@@ -633,280 +346,138 @@ const Index = () => {
             <Text className='title'>形象信息</Text>
           </View>
           <Cell.Group>
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && checkMultiChoices(personInfo.temperament)})}
-              title='气质外表'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改气质外表',
-                type: 'check',
-                checkType: CHECK_TYPE.TEMPER,
-                initialValue: personInfo.temperament,
-                checkRestrict: 2,
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className={classnames('value', {'qa-value': personInfo && personInfo.temperament})}>
-                {!(personInfo && personInfo.temperament && personInfo.temperament.length) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.temperament ? combineChoices(personInfo.temperament,true) : '请填写'}</Text>
-              </View>
-            </Cell>
 
-            <Cell
-              className={classnames('cell', {'cell-split-line': images && images.length > 0})}
+            <MultiChoiceCell
+              title='气质外表'
+              modifiable
+              multiChoices={personInfo?personInfo.temperament:[]}
+              multiChoiceLimitRestrict={2}
+              otherType='none'
+              onConfirm={
+                (value)=>{
+                  if(value.choice) {
+                    onConfirmPersonInfo({temperament:[...value.choice]})
+                  }
+                }
+              }
+            />
+
+            <PhotoCell
               title='照片'
-              clickable={user.isChangeable}
-              onClick={() => {
-                setPopUp({
-                  ...popup,
-                  title: '修改个人照片',
-                  type: 'photo',
-                  photoUrls: user.images ? user.images : [],
-                  open: true,
-                  confirm: onConfirmImages
-                })
-              }}
-            >
-              <>
-                {images && images.length > 0 && <View className='personal-info-img-box'>
-                  {images.map((item) => (
-                      item.imageUrl && item.imageUrl != '' &&
-                      <View className='personal-img-wrapper'>
-                        <Image lazyLoad mode='aspectFill' className='personal-img' src={item.imageUrl}/>
-                      </View>
-                    )
-                  )}
-                </View>}
-                {personInfo && !checkPhotos(images) &&
-                  <View className='value qa-value'>
-                    <View className='dot'/>
-                    <Text> 请选择</Text>
-                  </View>}
-              </>
-            </Cell>
+              photoUrls={user.images}
+              onConfirm={(value)=>onConfirmImages(value)}
+            />
           </Cell.Group>
           <View className={classnames('personal-info-divider', {'personal-info-divider-highlight': highlight.habit})}>
             <Text className='title'>生活爱好</Text>
           </View>
           <Cell.Group>
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && checkMultiChoices(personInfo.interest)})}
+            <MultiChoiceCell
               title='兴趣爱好'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改兴趣爱好',
-                type: 'check',
-                checkType: CHECK_TYPE.INTEREST,
-                initialValue:personInfo.interest,
-                open: true,
-                otherEnabled: true,
-                checkRestrict: -1,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className={classnames('value', {'qa-value': personInfo && checkMultiChoices(personInfo.interest)})}>
-                {personInfo && !checkMultiChoices(personInfo.interest) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.interest ? combineChoices(personInfo.interest,true) : '请选择'}</Text>
-              </View>
-            </Cell>
-            <Cell
-              className='cell'
-              title='运动频率'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改运动频率',
-                type: 'picker',
-                pickerType: PICKER_TYPE.EXERICE_HABIT,
-                initialValue: personInfo && personInfo.exerciseFrequency ? personInfo.exerciseFrequency : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.exerciseFrequency && personInfo.exerciseFrequency) &&
-                  <View className='dot'/>}
-                <Text>{personInfo && personInfo.exerciseFrequency ? personInfo.exerciseFrequency : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              multiChoices={personInfo?personInfo.interest:[]}
+              multiChoiceLimitRestrict={-1}
+              otherType='input'
+              onConfirm={
+                (value)=>{
+                  if(value.choice) {
+                    onConfirmPersonInfo({interest:[...value.choice]})
+                  }
+                }
+              }
+            />
 
-            <Cell
-              className='cell'
-              title='熬夜频率'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改熬夜频率',
-                type: 'picker',
-                pickerType: PICKER_TYPE.STAYUP_HABIT,
-                initialValue: personInfo && personInfo.stayUpFrequency ? personInfo.stayUpFrequency : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.stayUpFrequency && personInfo.stayUpFrequency) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.stayUpFrequency ? personInfo.stayUpFrequency : '请填写'}</Text>
-              </View>
-            </Cell>
+            <PickerCell
+              title='运动习惯'
+              modifiable
+              cellValue={personInfo ? personInfo.exerciseFrequency : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={HABIT_FREQUENCY}
+              onConfirm={(value) => onConfirmPersonInfo({exerciseFrequency: value})}
+            />
 
-            <Cell
-              className='cell'
+            <PickerCell
+              title='熬夜习惯'
+              modifiable
+              cellValue={personInfo ? personInfo.stayUpFrequency : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={HABIT_FREQUENCY}
+              onConfirm={(value) => onConfirmPersonInfo({stayUpFrequency: value})}
+            />
+
+            <PickerCell
               title='喝酒习惯'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改喝酒习惯',
-                type: 'picker',
-                pickerType: PICKER_TYPE.DRINK_HABIT,
-                initialValue: personInfo && personInfo.drinkHabit ? personInfo.drinkHabit : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.drinkHabit && personInfo.drinkHabit) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.drinkHabit ? personInfo.drinkHabit : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.drinkHabit : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={HABIT_FREQUENCY}
+              onConfirm={(value) => onConfirmPersonInfo({drinkHabit: value})}
+            />
 
-            <Cell
-              className='cell'
+            <PickerCell
               title='抽烟习惯'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改抽烟习惯',
-                type: 'picker',
-                pickerType: PICKER_TYPE.SMOKING_HABIT,
-                initialValue: personInfo && personInfo.smokingHabit ? personInfo.smokingHabit : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.smokingHabit && personInfo.smokingHabit) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.smokingHabit ? personInfo.smokingHabit : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.smokingHabit : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={HABIT_FREQUENCY}
+              onConfirm={(value) => onConfirmPersonInfo({smokingHabit: value})}
+            />
 
-            <Cell
-              className='cell'
+            <PickerCell
               title='蹦迪习惯'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改蹦迪习惯',
-                type: 'picker',
-                pickerType: PICKER_TYPE.DISCO_HABIT,
-                initialValue: personInfo && personInfo.discoHabit ? personInfo.discoHabit : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.discoHabit && personInfo.discoHabit) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.discoHabit ? personInfo.discoHabit : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.discoHabit : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={HABIT_FREQUENCY}
+              onConfirm={(value) => onConfirmPersonInfo({discoHabit: value})}
+            />
           </Cell.Group>
           <View className={classnames('personal-info-divider', {'personal-info-divider-highlight': highlight.love})}>
             <Text className='title'>恋爱相关</Text>
           </View>
           <Cell.Group>
-            <Cell
-              className='cell'
+            <PickerCell
               title='恋爱经历（次数）'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改恋爱经历（次数）',
-                type: 'picker',
-                pickerType: PICKER_TYPE.LOVE_HISTORY_,
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.loveHistory) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.loveHistory ? personInfo.loveHistory : '请填写'}</Text>
-              </View>
-            </Cell>
-            {user.userType === USER_TYPE.STUDENT &&
-              <Cell
-                className='cell'
-                title='月支出水平'
-                clickable={user.isChangeable}
-                align='center'
-                onClick={() => setPopUp({
-                  ...popup,
-                  title: '修改月支出水平',
-                  type: 'check',
-                  checkType: CHECK_TYPE.CONSUMPTION,
-                  initialValue: personInfo.consumption,
-                  open: true,
-                  checkRestrict: 2,
-                  confirm: onConfirmPersonInfo
-                })}
-              >
-                <View className='value'>
-                  {!(personInfo && checkMultiChoices(personInfo.consumption)) && <View className='dot'/>}
-                  <Text>{personInfo && checkMultiChoices(personInfo.consumption) ? combineChoices(personInfo.consumption,true) : '请填写'}</Text>
-                </View>
-              </Cell>
-            }
-            <Cell
-              className='cell'
-              title='恋爱支出'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改恋爱支出',
-                type: 'picker',
-                pickerType: PICKER_TYPE.CONSUMPTION_SHARE,
-                initialValue: personInfo && personInfo.consumptionShare ? personInfo.consumptionShare : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {!(personInfo && personInfo.consumptionShare) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.consumptionShare ? personInfo.consumptionShare : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.loveHistory : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={LOVE_HISTORY}
+              onConfirm={(value) => onConfirmPersonInfo({loveHistory: value})}
+            />
 
-            <Cell
-              className='cell'
+            {user.userType === USER_TYPE.STUDENT &&
+              <MultiChoiceCell
+                title='月支出'
+                modifiable
+                multiChoices={personInfo?personInfo.consumption:[]}
+                multiChoiceLimitRestrict={2}
+                otherType='none'
+                onConfirm={
+                  (value)=>{
+                    if(value.choice) {
+                      onConfirmPersonInfo({consumption:[...value.choice]})
+                    }
+                  }
+                }
+              />
+            }
+
+            <PickerCell
+              title='恋爱支出'
+              modifiable
+              cellValue={personInfo ? personInfo.consumptionShare : undefined}
+              pickerType={PICKER_TYPE.COMMON}
+              pickerContent={CONSUMPTION_SHARE}
+              onConfirm={(value) => onConfirmPersonInfo({consumptionShare: value})}
+            />
+
+            <InputCell
               title='mbti'
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改mbti',
-                type: 'input',
-                inputType: INPUT_TYPE.MBTI,
-                initialValue: personInfo && personInfo.mbti ? personInfo.mbti : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value'>
-                {/*{!(personInfo && personInfo.mbti) && <View className='dot'/>}*/}
-                <Text>{personInfo && personInfo.mbti ? personInfo.mbti : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.mbti : undefined}
+              inputType={INPUT_TYPE.NOT_REQUIRED}
+              onConfirm={(value) => onConfirmPersonInfo({mbti: value})}
+            />
           </Cell.Group>
 
           <View className={classnames('personal-info-divider', {'personal-info-divider-highlight': highlight.subject})}>
@@ -914,198 +485,70 @@ const Index = () => {
           </View>
 
           <Cell.Group>
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.superPower})}
+            <InputCell
               title={SUBJECT_QUESTION.super_power}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改回答',
-                type: 'qa-input',
-                inputType: INPUT_TYPE.SUPER_POWER,
-                initialValue: personInfo && personInfo.superPower ? personInfo.superPower : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && checkString(personInfo.superPower)) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.superPower ? personInfo.superPower : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.superPower : undefined}
+              inputType={INPUT_TYPE.LONG_INPUT}
+              onConfirm={(value) => onConfirmPersonInfo({superPower: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.emo})}
+            <InputCell
               title={SUBJECT_QUESTION.emo}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改回答',
-                type: 'qa-input',
-                inputType: INPUT_TYPE.EMO,
-                initialValue: personInfo && personInfo.emo ? personInfo.emo : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && checkString(personInfo.emo)) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.emo ? personInfo.emo : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.emo : undefined}
+              inputType={INPUT_TYPE.LONG_INPUT}
+              onConfirm={(value) => onConfirmPersonInfo({emo: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.say})}
+            <InputCell
               title={SUBJECT_QUESTION.say}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => setPopUp({
-                ...popup,
-                title: '修改回答',
-                type: 'qa-input',
-                inputType: INPUT_TYPE.SAY,
-                initialValue: personInfo && personInfo.say ? personInfo.say : '',
-                open: true,
-                confirm: onConfirmPersonInfo
-              })}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && checkString(personInfo.say)) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.say ? personInfo.say : '请填写'}</Text>
-              </View>
-            </Cell>
+              modifiable
+              cellValue={personInfo ? personInfo.say : undefined}
+              inputType={INPUT_TYPE.LONG_INPUT}
+              onConfirm={(value) => onConfirmPersonInfo({say: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.wechatFirstTime})}
+            <SingleChoiceCell
               title={SUBJECT_QUESTION.wechatFirstTime.question}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setCheckPopup(
-                  {
-                    ...checkPopup, open: true, type: CHECK_TYPE.WECHAT_FIRST_TIME,
-                    radioData: SUBJECT_QUESTION.wechatFirstTime,
-                    radioChecked: personInfo ?personInfo.wechatFirstTime: ''
-                  })
-              }}
-            >
-              <View className={classnames('value', {'qa-value': personInfo && personInfo.wechatFirstTime})}>
-                {!(personInfo && personInfo.wechatFirstTime) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.wechatFirstTime ?splitOthers(personInfo.wechatFirstTime) : '请填写'}</Text>
-              </View>
-            </Cell>
+              singleChoice={SUBJECT_QUESTION.wechatFirstTime}
+              selectedChoice={personInfo ?personInfo.wechatFirstTime :undefined}
+              onConfirm={(value) => onConfirmPersonInfo({wechatFirstTime: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.beFriend})}
+            <SingleChoiceCell
               title={SUBJECT_QUESTION.beFriend.question}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setCheckPopup(
-                  {
-                    ...checkPopup, open: true, type: CHECK_TYPE.BE_FRIEND,
-                    radioData: SUBJECT_QUESTION.beFriend,
-                    radioChecked: personInfo ? personInfo.beFriend : ''
-                  })
-              }}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && personInfo.beFriend) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.beFriend ? splitOthers(personInfo.beFriend) : '请填写'}</Text>
-              </View>
-            </Cell>
+              singleChoice={SUBJECT_QUESTION.beFriend}
+              selectedChoice={personInfo ?personInfo.beFriend :undefined}
+              onConfirm={(value) => onConfirmPersonInfo({beFriend: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.showLove})}
+            <SingleChoiceCell
               title={SUBJECT_QUESTION.showLove.question}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setCheckPopup(
-                  {
-                    ...checkPopup, open: true, type: CHECK_TYPE.SHOW_LOVE,
-                    radioData: SUBJECT_QUESTION.showLove,
-                    radioChecked: personInfo ? personInfo.showLove : ''
-                  })
-              }}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && personInfo.showLove) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.showLove ? splitOthers(personInfo.showLove) : '请填写'}</Text>
-              </View>
-            </Cell>
+              singleChoice={SUBJECT_QUESTION.showLove}
+              selectedChoice={personInfo ?personInfo.showLove :undefined}
+              onConfirm={(value) => onConfirmPersonInfo({showLove: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.isLover})}
+            <SingleChoiceCell
               title={SUBJECT_QUESTION.isLover.question}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setCheckPopup(
-                  {
-                    ...checkPopup, open: true, type: CHECK_TYPE.IS_LOVER,
-                    radioData: SUBJECT_QUESTION.isLover,
-                    radioChecked: personInfo ? personInfo.isLover : ''
-                  })
-              }}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && personInfo.isLover) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.isLover ? splitOthers(personInfo.isLover) : '请填写'}</Text>
-              </View>
-            </Cell>
+              singleChoice={SUBJECT_QUESTION.isLover}
+              selectedChoice={personInfo ?personInfo.isLover :undefined}
+              onConfirm={(value) => onConfirmPersonInfo({isLover: value})}
+            />
 
-            <Cell
-              className={classnames('cell', {'qa-cell': personInfo && personInfo.isLoveYou})}
+            <SingleChoiceCell
               title={SUBJECT_QUESTION.isLoveYou.question}
-              clickable={user.isChangeable}
-              align='center'
-              onClick={() => {
-                setCheckPopup(
-                  {
-                    ...checkPopup, open: true, type: CHECK_TYPE.IS_LOVE_YOU,
-                    radioData: SUBJECT_QUESTION.isLoveYou,
-                    radioChecked: personInfo ? personInfo.isLoveYou : ''
-                  })
-              }}
-            >
-              <View className='value qa-value'>
-                {!(personInfo && personInfo.isLoveYou) && <View className='dot'/>}
-                <Text>{personInfo && personInfo.isLoveYou ? splitOthers(personInfo.isLoveYou) : '请填写'}</Text>
-              </View>
-            </Cell>
+              singleChoice={SUBJECT_QUESTION.isLoveYou}
+              selectedChoice={personInfo ?personInfo.isLoveYou :undefined}
+              onConfirm={(value) => onConfirmPersonInfo({isLoveYou: value})}
+            />
 
           </Cell.Group>
 
-          <PersonalInfoPopUp
-            title={popup.title}
-            open={popup.open && isChangeable}
-            cancel={popup.cancel}
-            confirm={popup.confirm}
-            type={popup.type}
-            photoUrls={popup.photoUrls}
-            pickerType={popup.pickerType}
-            inputType={popup.inputType}
-            checkType={popup.checkType}
-            initialValue={popup.initialValue}
-            otherValue={popup.otherValue}
-            otherEnabled={popup.otherEnabled}
-            checkRestrict={popup.checkRestrict}
-          />
-          <MultiChoice
-            open={checkPopup.open && isChangeable}
-            type={checkPopup.type}
-            radioData={checkPopup.radioData}
-            radioChecked={checkPopup.radioChecked}
-            selfChoice={checkPopup.selfChoice}
-            onCancel={checkPopup.onCancel}
-            onConfirm={checkPopup.onConfirm}
-          />
         </>}
     </View>
-  );
+  )
 }
 
 export default Index;

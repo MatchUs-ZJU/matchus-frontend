@@ -1,6 +1,5 @@
 import {IMultiChoice, IPersonInfo, IPhotoUrls} from "@/typings/types";
 import {USER_TYPE} from "@/utils/constant";
-import MultiChoices from "@/components/person-info/fill-card/multi-choices";
 
 export const isOthers = (input: string) => {
   if (input && input.slice(0, 2) === '其他') return true
@@ -38,10 +37,15 @@ export const showOthers = (input: string) => {
   else return '其他-未完善'
 }
 
-export const updateOther = (choices:IMultiChoice[],append?:string)=>{
+export const updateOther = (choices:IMultiChoice[],append:string)=>{
   let updatedData:IMultiChoice[] = []
   choices.map((item)=>{
-    if(isOthers(item.label)) updatedData.push({label:combineOthers(append?append:''),selected:true})
+    if(isOthers(item.label)) {
+      updatedData.push({label:combineOthers(append),selected:true})
+    }
+    else if(item.label === '我要自己选'){
+      updatedData.push({...item,selected:true})
+    }
     else updatedData.push(item)
   })
   return updatedData
@@ -115,13 +119,13 @@ export const checkRadio = (input: string) => {
 }
 
 // 多选无其他
-export const checkMultiChoices = (choices:IMultiChoice[])=>{
+export const checkMultiChoices = (choices:IMultiChoice[] | undefined)=>{
   if(!choices || choices.length===0) return false
   return choices.filter((item)=>item.selected).length !== 0
 }
 
 // 多选+其他
-export const checkMultiChoicesWithOther = (choices:IMultiChoice[],otherValue:string | undefined) =>{
+export const checkMultiChoicesWithOther = (choices:IMultiChoice[] | undefined,otherValue:string | undefined) =>{
   if(!checkMultiChoices(choices)) return false
   else if(checkOtherChoiceState(choices) && !otherValue) return false
   return true
