@@ -1,0 +1,44 @@
+@import '../../../../app';
+@import '../form-modify';
+.form-popup .input-box{
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 32px 48px;
+
+    .input-field{
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      height: 112px;
+      background-color: white;
+
+      .corner-text{
+        font-weight: 400;
+        font-size: 29px;
+        line-height: 48px;
+        color: rgba(0, 0, 0, 0.3);
+      }
+
+      .corner-icon{
+        width: 40px;
+        height: 40px;
+        z-index: 10;
+      }
+    }
+
+    .input-memo{
+      height: 48px;
+      margin-left: 48px;
+
+      font-size: 29px;
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    .warning-note{
+      padding: 0 8px;
+      color: $danger-color;
+    }
+
+  }

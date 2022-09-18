@@ -1,4 +1,5 @@
 import {areaList} from "@vant/area-data"
+import {USER_TYPE} from "@/utils/constant";
 
 export const getFormatNickname = (nickname: string) => {
   return nickname.length > 4 ? `${nickname.substring(0, 4)}..` : nickname
@@ -13,7 +14,7 @@ export const getFormatUserType = (userType: number) => {
 }
 
 export const getBadgeInfo = (identified, userType) => {
-  return identified === '认证成功' ? (userType === 1 ? '在校生' : '毕业生')
+  return identified === '认证成功' ? (userType === USER_TYPE.STUDENT ? '在校生' : '毕业生')
     : identified === '认证中' ? '审核中' : identified === '认证失败' ? '审核不通过' : '未认证'
 }
 

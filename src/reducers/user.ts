@@ -21,7 +21,7 @@ export interface IUserState {
 
   faculty: string;
   createTime: number;
-
+  material: {url:string};
   openid: string;
   sessionKey: string;
   binded: boolean;
@@ -33,6 +33,8 @@ export interface IUserState {
 
   login: boolean;
   receivedData: boolean;
+  needUpdate:boolean;
+  needRead: boolean;
 
   images: IPhotoUrls[];
   personInfo?: IPersonInfo;
@@ -62,10 +64,15 @@ const INITIAL_STATE: IUserState = {
   language: "",
   province: "",
   realName: "",
+  material: {
+      url: '',
+    },
   id: "",
   identified: '未认证',
   login: false,
   receivedData: false,
+  needUpdate:false,
+  needRead:false,
   nickName: "",
   school: "",
   userType: 0,
@@ -80,7 +87,7 @@ export default function user(state = INITIAL_STATE, action) {
     case USER_SAVE:
       return {
         ...state,
-        ...action.payload,
+        ...action.payload
       }
     case USER_IMAGE_DELETE:
       return {

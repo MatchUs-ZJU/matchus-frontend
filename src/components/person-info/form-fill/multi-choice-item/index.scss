@@ -1,4 +1,4 @@
-@import '../fill-card';
+@import '../form-fill';
 .card-body .card-scroll{
     position: relative;
   .taroify-cell-group--inset {
@@ -116,11 +116,16 @@
       .cell-other-input{
         padding:15px 0;
         position: relative;
+        align-items: flex-start;
         width: 100%;
         .taroify-cell {
           padding: 23px 30px 17px;
           .taroify-input__placeholder--readonly{
             color: #ADB7BE;
+          }
+
+          .taroify-form-control{
+            width: 100%;
           }
         }
 

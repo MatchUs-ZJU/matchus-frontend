@@ -56,7 +56,7 @@ export const WARNING_MSG=[
   '*请输入正确微信号',
   '*不可提交空内容><',
   '*至少上传一张照片',
-  '*其他为空',
+  '*其他不可为空',
   '*请至少选择一项',
   '*请完成选项'
 ]
@@ -78,7 +78,12 @@ export enum INPUT_TYPE{
   SUPER_POWER = 8,
   EMO = 9,
   SAY = 10,
-  REAL_NAME=11
+  REAL_NAME=11,
+
+  REQUIRED = 12,
+  NOT_REQUIRED = 13,
+  NUMBER = 14,
+  LONG_INPUT = 15
 }
 
 export enum CHECK_TYPE{
@@ -121,6 +126,9 @@ export enum PICKER_TYPE{
 
   TAKE_DESIRE=22,
   CURRENT_TYPE=23,
+  COMMON=24,
+  ADDRESS=25,
+  DATE=26
 }
 
 export enum USER_TYPE{
@@ -129,6 +137,15 @@ export enum USER_TYPE{
   GRADUATE_WITH_3_YEAR=2,
   GRADUTE_MORE_THAN_3_TEAR=3
 }
+
+export enum USER_TYPE_STEPS{
+  CLOSE,
+  CHOOSE,
+  UPLOAD,
+  FINISH
+}
+
+export const USER_TYPE_STRING=['在校生','毕业三年内','毕业超过三年']
 
 export const TEMPERAMENT = {
 female: [{label:'可爱清秀',selected:false},

@@ -186,3 +186,20 @@ page {
   color: $danger-color;
 }
 
+.badge-container{
+  float: right;
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+  align-items: center;
+  text-align: right;
+
+  .dot{
+    width: 16px;
+    height: 16px;
+    background-color: #ee0a24;
+    border-radius: 100%;
+
+    margin-right: 16px;
+  }
+}

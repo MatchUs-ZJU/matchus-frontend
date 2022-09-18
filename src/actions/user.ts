@@ -4,9 +4,9 @@ import {
   decodePhoneNumber, delPersonalImage, getPersonalImage,
   getPersonInfo,
   getSurveyInfo,
-  getUserInfo,
+  getUserInfo, getUserNeedUpdate,
   identifyUserInfo,
-  login, personalUserInfo, postPersonalImage, postPersonalInfo, putPersonalImage,
+  login, personalUserInfo, postPersonalImage, postPersonalInfo, postUserNeedNotify, putPersonalImage,
   register,
   updateUserInfo
 } from "@/services/user";
@@ -32,15 +32,41 @@ export const userSave = (payload,saveType=USER_SAVE) => {
   }
 }
 
+export const confirmNotify = () => {
+  return async dispatch => {
+    try {
+      console.log('用户更新：已读确认')
+      const res = await postUserNeedNotify()
+      if(res && res.code === 0){
+        console.log('已读确认成功')
+        dispatch(userSave({needRead: false}))
+      }else{
+        console.log('已读确认失败')
+      }
+    }catch (e){
+      console.log(e)
+    }
+  }
+}
+
 export const fetchUserInfo = () => {
   return async dispatch => {
     try {
       console.log('用户登录：从服务器获取用户信息')
       const res = await getUserInfo()
+      const updateRes = await getUserNeedUpdate()
+
       if (res && res.code === 0) {
         console.log('用户登录：获取用户信息成功')
-        dispatch(userSave({...res.data, receivedData: true}))
+        dispatch(userSave({...res.data,receivedData: true}))
       } else {
+        console.log('用户登录：从服务器获取个人信息失败')
+      }
+      if(updateRes && updateRes.code === 0){
+        console.log('用户登录：获取用户是否需要更新成功')
+        dispatch(userSave({ needUpdate: updateRes.data.need}))
+      }
+      else{
         console.log('用户登录：从服务器获取个人信息失败')
       }
     } catch (e) {
@@ -520,3 +546,4 @@ export const submitPersonalInfo=(data)=>{
     }
   }
 }
+
