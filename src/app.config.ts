@@ -60,12 +60,12 @@ export default defineAppConfig({
         selectedIconPath: 'assets/images/tablist/my-s.jpg',
       },
       // TEST
-      {
-        text: '111',
-        pagePath: 'pages/activity/analysis/index',
-        iconPath: 'assets/images/tablist/my.jpg',
-        selectedIconPath: 'assets/images/tablist/my-s.jpg',
-      },
+      // {
+      //   text: '111',
+      //   pagePath: 'pages/activity/analysis/index',
+      //   iconPath: 'assets/images/tablist/my.jpg',
+      //   selectedIconPath: 'assets/images/tablist/my-s.jpg',
+      // },
     ],
   },
   navigateToMiniProgramAppIdList: ["wxd947200f82267e58", "wxd947200f82267e57"],
