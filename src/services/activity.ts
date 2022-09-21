@@ -154,3 +154,13 @@ export const getMatchAnalysisData = async (id) => {
     },
   })
 }
+
+export const notifyMatchSubscribe = async () =>{
+  console.log('網絡請求：確認訂閲通知')
+  return request.get(`/activity/subscribe`,{
+    data: {success: true},
+    header: {
+      Authorization: getJWT(),
+    }
+  })
+}

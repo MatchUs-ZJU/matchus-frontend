@@ -61,7 +61,7 @@ const Index = () => {
   }
 
   useReady(async () => {
-    if (user.isChangeable) {await Taro.showToast({title: '点击条目进行修改~', duration: TOAST_SHOW_TIME, icon: 'none'})}
+    if (user.isChangeable) {await Taro.showToast({title: '点击条目进行修改~', duration: 2000, icon: 'none'})}
   })
 
   useEffect(() => {

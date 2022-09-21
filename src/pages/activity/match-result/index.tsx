@@ -14,7 +14,7 @@ import './index.scss';
 const Index = () => {
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
-  const {matchInfo, imagesUrl,isSecondMatch} = match
+  const {matchInfo, imagesUrl,isTwice} = match
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -111,14 +111,14 @@ const Index = () => {
           </View>
         </View>
 
-        {isSecondMatch &&
+        {isTwice &&
           <View className='second-match-bar'>
           <Image className='icon' src={WhiteInfo}/>
           <View className='desp'>本次结果为放宽条件后的二次匹配</View>
         </View>}
       </View>
 
-      <View className={classnames('wrapper', {'wrapper-second-match':isSecondMatch})}>
+      <View className={classnames('wrapper', {'wrapper-second-match':isTwice})}>
         <View className='content margin-bottom-16'>
           <View className='wrapper-insider'>
             <View className='divider row'>

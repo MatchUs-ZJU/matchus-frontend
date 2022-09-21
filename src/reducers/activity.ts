@@ -67,6 +67,7 @@ const INITIAL_STATE: IActivityState = {
       left: 0,
       refund: false,
       message: 0,
+      subscribe: false
     },
 
     dailyQuestion: {
