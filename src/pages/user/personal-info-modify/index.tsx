@@ -207,7 +207,7 @@ const Index = () => {
                     cellValue={personInfo ? personInfo.currentSchoolStatus : undefined}
                     pickerType={PICKER_TYPE.COMMON}
                     pickerContent={CURRENT_STATUS}
-                    onConfirm={(value) => onConfirmPersonInfo({currentStudentStatus: value})}
+                    onConfirm={(value) => onConfirmPersonInfo({currentSchoolStatus: value})}
                   />
 
                   <PickerCell

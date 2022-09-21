@@ -71,9 +71,9 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
         setCellValue(combineChoices(props.multiChoices,true))
         return
       }
-    }else{
-      setCellValue('请选择')
+
     }
+    setCellValue('请选择')
   },[props])
 
   useEffect(() => {
