@@ -7,7 +7,7 @@ import {
   getUserInfo, getUserNeedUpdate,
   identifyUserInfo,
   login, personalUserInfo, postPersonalImage, postPersonalInfo, postUserNeedNotify, putPersonalImage,
-  register,
+  register, updateUserAvatar,
   updateUserInfo
 } from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
@@ -63,8 +63,8 @@ export const fetchUserInfo = () => {
         console.log('用户登录：从服务器获取个人信息失败')
       }
       if(updateRes && updateRes.code === 0){
-        console.log('用户登录：获取用户是否需要更新成功')
-        dispatch(userSave({ needUpdate: updateRes.data.need}))
+        console.log('用户登录：获取用户是否需要更新成功',updateRes)
+        dispatch(userSave(updateRes.data))
       }
       else{
         console.log('用户登录：从服务器获取个人信息失败')
@@ -171,6 +171,25 @@ export const initRegister = (openid) => {
   }
 }
 
+export const fetchUserAvatar = () => {
+  return dispatch =>{
+    console.log("用户更新头像")
+    Taro.getUserProfile({
+      desc: "用于完善您的个人资料",
+    }).then(async (e) => {
+      const {userInfo} = e
+      const {avatarUrl} = userInfo
+      const res = await updateUserAvatar({avatarUrl});
+      if(res && res.code===0){
+        console.log("用户更新：用户更新头像成功")
+        dispatch(userSave({avatarUrl}))
+      }else{
+        console.log("用户更新：更新用户头像失败")
+      }
+    }).catch()
+  }
+}
+
 export const fetchUserProfile = () => {
   return dispatch => {
     console.log("用户注册：授权获取个人信息并更新用户信息")
@@ -266,43 +285,58 @@ export const fetchPhoneNumber = (data: {iv: string, encryptedData: string, sessi
   }
 }
 
-export const submitIdentificationInfo = (data) => {
+export const submitIdentificationInfo = (data,newMaterial: boolean = true,redirectToActivity: boolean=true) => {
   return async dispatch => {
-    console.log("用户信息：提交用户身份验证信息")
+    console.log("用户信息：提交用户身份验证信息",data,newMaterial)
     try {
       // 上传照片到云托管
-      const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
-      if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
-        console.log("用户信息：提交用户身份验证照片到云托管失败")
-        await Taro.showToast({
-          icon: 'none',
-          title: '提交身份认证照片失败',
-          duration: TOAST_SHOW_TIME,
-        });
-        return
+      let material = data.imageFile.url
+
+      if(newMaterial){
+        const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
+        if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+          console.log("用户信息：提交用户身份验证照片到云托管失败")
+          await Taro.showToast({
+            icon: 'none',
+            title: '提交身份认证照片失败',
+            duration: TOAST_SHOW_TIME,
+          });
+          return
+        }
+        console.log("用户信息：提交用户身份验证照片到云托管成功")
+        material = uploadRes.fileID
       }
 
-      console.log("用户信息：提交用户身份验证照片到云托管成功")
       // 提交认证信息
       const res = await identifyUserInfo({
         ...data,
         faculty: data.facultyId, // faculty这里传的是id，不是名字
-        material: uploadRes.fileID
+        material
       })
       if (res && res.code === 0) {
         console.log("用户信息：提交用户身份验证信息成功")
-        dispatch(userSave({
-          ...data,
-          identified: '认证中'
-        }))
+        if(newMaterial){
+          dispatch(userSave({
+            ...data,
+            material,
+            identified: '认证中'
+          }))
+        }else{
+          dispatch(userSave({
+            ...data,material
+          }))
+        }
+
         await Taro.showToast({
           icon: 'none',
           title: '提交身份信息成功',
           duration: TOAST_SHOW_TIME,
         });
-        await Taro.switchTab({
-          url: '/pages/activity/index/index'
-        })
+        if(redirectToActivity){
+          await Taro.switchTab({
+            url: '/pages/activity/index/index'
+          })
+        }
       } else {
         console.log("用户信息：提交用户身份验证信息失败")
         await Taro.showToast({

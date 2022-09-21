@@ -6,29 +6,42 @@ import {getBadgeInfo, getFormatGender} from "@/utils/fstring";
 import {Close, MoreOutlined, Passed} from "@taroify/icons";
 import classnames from "classnames";
 import Taro from "@tarojs/taro";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {USER_TYPE, USER_TYPE_STEPS, USER_TYPE_STRING} from "@/utils/constant";
 
 import {UploadIcon} from "@/assets/images";
 import './index.scss'
+import {fetchFaculties, submitIdentificationInfo} from "@/actions";
 
 const Information = () => {
-  const {user} = useSelector((state) => state)
+  const {user,resource} = useSelector((state) => state)
   const {realName, gender, faculty, studentNumber, phoneNumber, identified,userType,isComplete,isOldUser,material} = user
+  const {faculties} = resource
   const dispatch = useDispatch()
+
+  const findFacultyId = (name) => {
+    if(!faculty) return 0
+
+    const target = faculties.filter((item)=>item.name===name)
+    return target.length>0?target[0].id:0
+  }
+
   const [form, setForm] = useState({
     realName,
     studentNumber,
     school: '浙江大学',
     gender,
     faculty,
+    facultyId: findFacultyId(faculty),
     phoneNumber,
     userType,
     imageFile:{...material}
   })
 
   const [userTypeStep,setUserTypeStep] = useState(USER_TYPE_STEPS.CLOSE)
+  const [userFacultyOpen,setUserFacultyOpen] = useState(false)
   const [pickerValue,setPickerValue] = useState(0)
+  const [facultyPicker,setFacultyPicker] = useState(0)
 
   async function refillForm() {
     await Taro.navigateTo({url: '/pages/user/identify/index'})
@@ -72,17 +85,48 @@ const Information = () => {
               <Text>{!userType?'待完善':getBadgeInfo(identified, userType)}</Text>
             </View>
           </Cell>
-          <Cell title='学院'>{faculty}</Cell>
+          <Cell title='学院'
+            onClick={()=>setUserFacultyOpen(true)}
+          >{faculty}</Cell>
           <Cell title='手机号'>{phoneNumber}</Cell>
         </Cell.Group>
       </View>
 
-      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.CHOOSE} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
+      <Popup className='form-popup' open={userFacultyOpen} rounded placement='bottom' onClose={()=>setUserFacultyOpen(false)}>
+        <Popup.Backdrop/>
+        <Text className='popup-title'>
+          选择学院
+        </Text>
+        <Picker siblingCount={3} onChange={(value) => setFacultyPicker(value)}>
+          <Picker.Column>
+            {
+              faculties.map((item,idx)=>
+                (<Picker.Option value={idx}>{item.name}</Picker.Option>)
+              )
+            }
+          </Picker.Column>
+          )
+        </Picker>
+        <View className='confirm-btn' onClick={() => {
+            dispatch(submitIdentificationInfo({...form, facultyId: facultyPicker, faculty: faculties[facultyPicker].name},false,false))
+            setUserFacultyOpen(false)
+        }
+        }
+
+        >确定</View>
+      </Popup>
+
+      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.CHOOSE} rounded placement='bottom'
+        onClose={()=> {setUserTypeStep(USER_TYPE_STEPS.CLOSE)}}
+      >
         <Popup.Backdrop/>
         <Text className='popup-title'>
           选择当前身份
         </Text>
-          <Picker siblingCount={3} onCancel={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)} onChange={(value) => setPickerValue(value)}>
+          <Picker siblingCount={3} onCancel={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}
+                  onChange={(value) => {
+                    setPickerValue(value)
+                  }}>
               <Picker.Column>
                 {
                   USER_TYPE_STRING.map((item,idx)=>
@@ -93,16 +137,17 @@ const Information = () => {
               )
           </Picker>
         <View className='confirm-btn' onClick={() => {
-          setForm({...form, userType: pickerValue + 1})
-          if(pickerValue+1 === USER_TYPE.STUDENT){
+          if(pickerValue+1 === USER_TYPE.STUDENT || !form.imageFile.url){
             setUserTypeStep(USER_TYPE_STEPS.UPLOAD)
+            setForm({...form,userType: pickerValue+1})
           }
           else{
+            console.log('picker',pickerValue)
+            dispatch(submitIdentificationInfo({...form,userType: pickerValue+1},false,false))
             setUserTypeStep(USER_TYPE_STEPS.FINISH)
           }
           }
         }
-
         >下一步</View>
       </Popup>
 
@@ -131,12 +176,12 @@ const Information = () => {
           </View>)}
         </Uploader>
         <View className='confirm-btn' onClick={() => {
-          setForm({...form,userType: pickerValue+1})
-          setUserTypeStep(USER_TYPE_STEPS.UPLOAD)}}
+          dispatch(submitIdentificationInfo(form,true,false))
+          setUserTypeStep(USER_TYPE_STEPS.FINISH)}}
         >下一步</View>
       </Popup>
 
-      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.FINISH} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
+      <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.FINISH} rounded placement='bottom'>
         <View className='col popup-memo'>
           <Text className='memo-text'>已完成身份信息修改～</Text>
           <Text className='memo-text'>请及时完善个人信息</Text>

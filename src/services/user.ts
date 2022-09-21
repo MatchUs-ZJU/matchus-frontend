@@ -32,6 +32,16 @@ export const postUserNeedNotify = async ()=>{
   })
 }
 
+export const updateUserAvatar = async (data) =>{
+  console.log('网络请求：更新用户头像')
+  return request.post(`/user/avatar`,{
+    data,
+    header:{
+      Authorization: getJWT()
+    }
+  })
+}
+
 export const updateUserInfo = async (data) => {
   console.log('网络请求：更新用户信息')
   return request.post(`/user/info`, {

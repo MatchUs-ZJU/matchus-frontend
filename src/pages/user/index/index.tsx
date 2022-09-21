@@ -13,11 +13,12 @@ import {
 import Taro, {useDidShow, useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-import {fetchPersonInfo, fetchUserInfo,fetchUserProfile} from "@/actions";
+import {fetchFaculties, fetchPersonInfo, fetchUserInfo, fetchUserProfile} from "@/actions";
 import classnames from "classnames";
 import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import './index.scss'
+import {fetchUserAvatar} from "@/actions/user";
 
 const notifyLoginMessage = '您还没有登录哦'
 const notifyIdentifyMessage = '请您先完成用户认证'
@@ -50,6 +51,7 @@ const User = () => {
     if (login) {
       dispatch(fetchUserInfo())
       dispatch(fetchPersonInfo())
+      dispatch(fetchFaculties())
     }
   }
 
@@ -120,7 +122,7 @@ const User = () => {
       <View className='row header' onClick={onClickMainInfo}>
         <View className='col avatar' onClick={()=>{
           if(login){
-          dispatch(fetchUserProfile())
+            dispatch(fetchUserAvatar())
           }}
         }
         >
