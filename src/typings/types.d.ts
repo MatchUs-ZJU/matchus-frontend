@@ -80,7 +80,8 @@ export interface IParticipateState {
     lastChoose: number,
     left: number,
     refund: boolean,
-    message: number
+    message: number,
+    subscribe: boolean
   }
 
   dailyQuestion: {

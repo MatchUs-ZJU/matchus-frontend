@@ -82,14 +82,14 @@ const QACard = (props: QAProps) => {
   }, [value])
 
   const handleSubmitAnswer = () => {
-    if (inputValue != '' && id !== -1) {
+    if (inputValue != '' && id && id !== -1) {
       dispatch(answerQuestion({activityId, questionId: id, answer: inputValue}))
       setInputFocus(false)
     }
   }
 
   const handleApproval = () => {
-    if (value && id !== -1) {
+    if (value && id && id !== -1) {
       dispatch(approvalAnswer({activityId, questionId: id, approval: !approved}))
     }
   }

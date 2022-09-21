@@ -212,9 +212,9 @@ const Home = () => {
 
       <Popup
         className='custom-modal'
-        open={needRead} rounded
+        open={needRead || needUpdate} rounded
         onClose={() => {
-          if(!needUpdate){
+          if(!needRead){
             dispatch(confirmNotify())
           }
         }
@@ -229,7 +229,9 @@ const Home = () => {
           if(needUpdate){
             await Taro.navigateTo({url: '/pages/user/information/index'})
           }
-          dispatch(confirmNotify())
+          if(!needRead){
+            dispatch(confirmNotify())
+          }
         }}
         >{needUpdate?'去更新':'知道了'}</View>
       </Popup>

@@ -51,7 +51,7 @@ const MatchAnalysisPage = () => {
             匹配分析报告
             <View className='badge'>{name}</View>
           </View>
-          <View className='text-1'>根据您的匹配条件，我们计算了每一项符合您要求的用户比例</View>
+          <View className='text-1'>根据您的匹配条件，我们计算了每一项符合您要求双向匹配的用户比例</View>
           <View className='text-2'>* 双向匹配指符合您的某个条件，且您也符合对方要求</View>
           <View className='statistic row'>
             <View className='item'>

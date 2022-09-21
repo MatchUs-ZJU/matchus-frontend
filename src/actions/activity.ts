@@ -15,7 +15,12 @@ import {
   postSatisfiedFeedback,
   postSendTwcResult,
   getTwcResult,
-  postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer, getMatchAnalysisData
+  postSendFeedback,
+  getMatchQuestion,
+  postMatchQuestionApproval,
+  postMatchQuestionAnswer,
+  getMatchAnalysisData,
+  notifyMatchSubscribe
 } from "@/services/activity";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {globalSave} from "@/actions/global";
@@ -174,8 +179,24 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   }
 }
 
-export const notifySubscribe = (tmplIds: string[]) => {
-  return async () => {
+export const confirmSubscribe = () => {
+  return async dispatch => {
+    console.log('匹配訂閲確認：匹配結果通知已確認')
+    try{
+      const res = await notifyMatchSubscribe()
+      if(res && res.code === 0){
+        dispatch(matchStateSave({subscribe: true}))
+      }else{
+        console.log('匹配訂閲確認：未成功確認')
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+}
+
+export const notifySubscribe = (tmplIds: string[],notifyConfirm: boolean =  false) => {
+  return async dispatch => {
     console.log('活动页面：用户订阅消息')
     let subscribeRes = await Taro.requestSubscribeMessage({
       tmplIds: tmplIds
@@ -183,6 +204,9 @@ export const notifySubscribe = (tmplIds: string[]) => {
 
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
       console.log('活动页面：用户订阅消息成功')
+      if(notifyConfirm){
+        dispatch(confirmSubscribe())
+      }
     } else {
       console.log('活动页面：用户订阅消息失败')
       await Taro.showToast({
@@ -450,3 +474,4 @@ export const fetchMatchAnalysisData = (activityId) => {
     }
   }
 }
+

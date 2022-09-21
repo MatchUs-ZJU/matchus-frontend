@@ -102,9 +102,9 @@ export enum CHECK_TYPE{
 }
 
 export enum PICKER_TYPE{
-  COMMON,
-  ADDRESS,
-  DATE
+  COMMON=1,
+  ADDRESS=2,
+  DATE=3
 }
 
 export enum USER_TYPE{

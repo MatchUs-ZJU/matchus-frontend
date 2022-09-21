@@ -7,15 +7,16 @@ import {Close, MoreOutlined, Passed} from "@taroify/icons";
 import classnames from "classnames";
 import Taro from "@tarojs/taro";
 import {useEffect, useState} from "react";
-import {USER_TYPE, USER_TYPE_STEPS, USER_TYPE_STRING} from "@/utils/constant";
+import {TOAST_SHOW_TIME, USER_TYPE, USER_TYPE_STEPS, USER_TYPE_STRING} from "@/utils/constant";
 
 import {UploadIcon} from "@/assets/images";
 import './index.scss'
-import {fetchFaculties, submitIdentificationInfo} from "@/actions";
+import {submitIdentificationInfo} from "@/actions";
+import {notifySubscribe} from "@/actions/activity";
 
 const Information = () => {
   const {user,resource} = useSelector((state) => state)
-  const {realName, gender, faculty, studentNumber, phoneNumber, identified,userType,isComplete,isOldUser,material} = user
+  const {realName, gender, faculty, studentNumber, phoneNumber, identified,userType,isComplete,isOldUser,material,needUpdate,isChangeable} = user
   const {faculties} = resource
   const dispatch = useDispatch()
 
@@ -23,7 +24,7 @@ const Information = () => {
     if(!faculty) return 0
 
     const target = faculties.filter((item)=>item.name===name)
-    return target.length>0?target[0].id:0
+    return target.length>0?target[0].id+1:0
   }
 
   const [form, setForm] = useState({
@@ -78,7 +79,19 @@ const Information = () => {
           <Cell title='性别'>{getFormatGender(gender)}</Cell>
           <Cell title='学号'>{studentNumber}</Cell>
           <Cell title='当前身份'
-            onClick={()=>setUserTypeStep(USER_TYPE_STEPS.CHOOSE)}
+            onClick={
+            async ()=> {
+              if(isChangeable){
+                setUserTypeStep(USER_TYPE_STEPS.CHOOSE)
+              }else{
+                await Taro.showToast({
+                  title: "您已成功报名，暂时不可修改～",
+                  duration: TOAST_SHOW_TIME,
+                  icon: 'none'
+                })
+              }
+            }
+          }
           >
             <View className='badge-container'>
               {(!userType) && <View className='dot'/>}
@@ -86,7 +99,17 @@ const Information = () => {
             </View>
           </Cell>
           <Cell title='学院'
-            onClick={()=>setUserFacultyOpen(true)}
+            onClick={async ()=> {
+              if(isChangeable){
+                setUserFacultyOpen(true)
+              }else{
+                await Taro.showToast({
+                  title: "您已成功报名，暂时不可修改～",
+                  duration: 2000,
+                  icon: 'none'
+                })
+              }
+            }}
           >{faculty}</Cell>
           <Cell title='手机号'>{phoneNumber}</Cell>
         </Cell.Group>
@@ -108,7 +131,7 @@ const Information = () => {
           )
         </Picker>
         <View className='confirm-btn' onClick={() => {
-            dispatch(submitIdentificationInfo({...form, facultyId: facultyPicker, faculty: faculties[facultyPicker].name},false,false))
+            dispatch(submitIdentificationInfo({...form, facultyId: facultyPicker+1, faculty: faculties[facultyPicker].name},false,false))
             setUserFacultyOpen(false)
         }
         }
@@ -123,10 +146,12 @@ const Information = () => {
         <Text className='popup-title'>
           选择当前身份
         </Text>
-          <Picker siblingCount={3} onCancel={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}
-                  onChange={(value) => {
-                    setPickerValue(value)
-                  }}>
+          <Picker
+            siblingCount={3}
+            onCancel={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}
+            onChange={(value) => {
+              setPickerValue(value)
+            }}>
               <Picker.Column>
                 {
                   USER_TYPE_STRING.map((item,idx)=>
@@ -137,18 +162,17 @@ const Information = () => {
               )
           </Picker>
         <View className='confirm-btn' onClick={() => {
-          if(pickerValue+1 === USER_TYPE.STUDENT || !form.imageFile.url){
+          if(pickerValue+1 === USER_TYPE.STUDENT && needUpdate){
             setUserTypeStep(USER_TYPE_STEPS.UPLOAD)
             setForm({...form,userType: pickerValue+1})
           }
           else{
-            console.log('picker',pickerValue)
             dispatch(submitIdentificationInfo({...form,userType: pickerValue+1},false,false))
             setUserTypeStep(USER_TYPE_STEPS.FINISH)
-          }
+           }
           }
         }
-        >下一步</View>
+        >{needUpdate?'下一步':'确定'}</View>
       </Popup>
 
       <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.UPLOAD} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
@@ -172,11 +196,13 @@ const Information = () => {
             </View>
             <View className='uploader-title'>点击拍照或打开相册</View>
             <View className='uploader-desc'>【在校生】校园卡/学生证/学信网学籍证明/蓝码截图</View>
-            <View className='uploader-desc'>【毕业生】毕业证/学位证/学信网学籍证明</View>
+            {/*<View className='uploader-desc'>【毕业生】毕业证/学位证/学信网学籍证明</View>*/}
           </View>)}
         </Uploader>
         <View className='confirm-btn' onClick={() => {
+          dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
           dispatch(submitIdentificationInfo(form,true,false))
+
           setUserTypeStep(USER_TYPE_STEPS.FINISH)}}
         >下一步</View>
       </Popup>

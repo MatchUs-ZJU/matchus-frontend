@@ -68,9 +68,11 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
         duration: 3000
       })
     }
-    await Taro.navigateTo({
-      url: '/pages/activity/analysis/index'
-    })
+    if(type === 'inRefund' || type === 'hasRefund'){
+      await Taro.navigateTo({
+        url: '/pages/activity/analysis/index'
+      })
+    }
   }
 
   return (

@@ -14,7 +14,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
 import './index.scss';
-import {notifySubscribe} from "@/actions/activity";
+import {confirmSubscribe, notifySubscribe} from "@/actions/activity";
 
 interface MatchCardProps extends ViewProps {
   activity: number | string
@@ -39,6 +39,7 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
   const dispatch = useDispatch()
+  const {subscribe} = useSelector(rootState => rootState.activity.participate.match)
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {approval, before, today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {
@@ -48,7 +49,6 @@ const MatchCard = (props: MatchCardProps) => {
     left,
     refund
   } = useSelector(rootState => rootState.activity.participate.match)
-  console.log('match',state,matchResult,message,left,refund)
   const leftTime = formatLeftTime(left)
   const [lightUp, setLightUp] = useState([false, false, false, false])
   const [fund, setFund] = useState(false)
@@ -76,10 +76,12 @@ const MatchCard = (props: MatchCardProps) => {
 
   async function goToSeeResult() {
     // 用户订阅消息通知
-    dispatch(notifySubscribe([
-      '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk',
-      'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
-    ]))
+    if(!subscribe){
+      dispatch(notifySubscribe([
+        '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk',
+        'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
+      ],true))
+    }
 
     await Taro.navigateTo({
       url: '/pages/activity/match-result/index'
