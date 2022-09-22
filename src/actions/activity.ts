@@ -204,7 +204,7 @@ export const notifySubscribe = (tmplIds: string[],notifyConfirm: boolean =  fals
 
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
       console.log('活动页面：用户订阅消息成功')
-      if(notifyConfirm){
+      if(notifyConfirm && subscribeRes['49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'] === 'accept'){
         dispatch(confirmSubscribe())
       }
     } else {

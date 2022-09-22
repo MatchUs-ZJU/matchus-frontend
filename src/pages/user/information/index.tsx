@@ -94,8 +94,8 @@ const Information = () => {
           }
           >
             <View className='badge-container'>
-              {(!userType) && <View className='dot'/>}
-              <Text>{!userType?'待完善':getBadgeInfo(identified, userType)}</Text>
+              {/*{identified && needUpdate && <View className='dot'/>}*/}
+              <Text>{getBadgeInfo(identified, userType)}</Text>
             </View>
           </Cell>
           <Cell title='学院'
@@ -110,7 +110,13 @@ const Information = () => {
                 })
               }
             }}
-          >{faculty}</Cell>
+          >
+            {faculty}
+            {/*<View className='badge-container'>*/}
+            {/*  {needUpdate && <View className='dot'/>}*/}
+            {/*  <Text>{needUpdate?'待完善':{faculty}</Text>*/}
+            {/*</View>*/}
+          </Cell>
           <Cell title='手机号'>{phoneNumber}</Cell>
         </Cell.Group>
       </View>
@@ -131,8 +137,9 @@ const Information = () => {
           )
         </Picker>
         <View className='confirm-btn' onClick={() => {
-            dispatch(submitIdentificationInfo({...form, facultyId: facultyPicker+1, faculty: faculties[facultyPicker].name},false,false))
-            setUserFacultyOpen(false)
+          // dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
+          dispatch(submitIdentificationInfo({...form, facultyId: facultyPicker+1, faculty: faculties[facultyPicker].name},false,false))
+          setUserFacultyOpen(false)
         }
         }
 
@@ -151,7 +158,8 @@ const Information = () => {
             onCancel={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}
             onChange={(value) => {
               setPickerValue(value)
-            }}>
+            }}
+          >
               <Picker.Column>
                 {
                   USER_TYPE_STRING.map((item,idx)=>
@@ -202,7 +210,6 @@ const Information = () => {
         <View className='confirm-btn' onClick={() => {
           dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
           dispatch(submitIdentificationInfo(form,true,false))
-
           setUserTypeStep(USER_TYPE_STEPS.FINISH)}}
         >下一步</View>
       </Popup>
