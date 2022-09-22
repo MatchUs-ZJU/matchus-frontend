@@ -214,6 +214,7 @@ const Home = () => {
         className='custom-modal'
         open={needRead || needUpdate} rounded
         onClose={() => {
+          // TODO
           if(!needRead){
             dispatch(confirmNotify())
           }
@@ -229,7 +230,8 @@ const Home = () => {
           if(needUpdate){
             await Taro.navigateTo({url: '/pages/user/information/index'})
           }
-          if(!needRead){
+          // TODO
+          if(!needRead && !needUpdate){
             dispatch(confirmNotify())
           }
         }}

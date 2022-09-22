@@ -53,7 +53,7 @@ export const updateUserInfo = async (data) => {
 };
 
 export const identifyUserInfo = async (data) => {
-  console.log('网络请求：上传用户身份验证',data)
+  console.log('网络请求：上传用户身份验证')
   return request.post(`/user/identify`, {
     data,
     header: {
