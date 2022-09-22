@@ -7,7 +7,7 @@ import {
   getUserInfo, getUserNeedUpdate,
   identifyUserInfo,
   login, personalUserInfo, postPersonalImage, postPersonalInfo, postUserNeedNotify, putPersonalImage,
-  register, updateUserAvatar,
+  register, updateUserAvatar, updateUserFaculty,
   updateUserInfo
 } from "@/services/user";
 import {removeJWT, setJWT} from "@/services/jwt";
@@ -285,9 +285,27 @@ export const fetchPhoneNumber = (data: {iv: string, encryptedData: string, sessi
   }
 }
 
+export const submitUserFaculty = (data) => {
+  return async dispatch => {
+    console.log("用户信息：提交用户学院信息")
+    try{
+      const res = await updateUserFaculty({id: data.facultyId})
+      if(res && res.code === 0){
+        console.log("用户信息：提交学院信息成功")
+        dispatch(userSave({faculty: data.faculty}))
+      }
+      else{
+        console.log("用户信息：提交学院信息失败")
+      }
+    }catch(e){
+      console.log(e)
+    }
+  }
+}
+
 export const submitIdentificationInfo = (data,newMaterial: boolean = true,redirectToActivity: boolean=true) => {
   return async dispatch => {
-    console.log("用户信息：提交用户身份验证信息",data,newMaterial)
+    console.log("用户信息：提交用户身份验证信息",data)
     try {
       // 上传照片到云托管
       let material = data.imageFile.url

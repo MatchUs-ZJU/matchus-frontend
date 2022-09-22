@@ -52,6 +52,16 @@ export const updateUserInfo = async (data) => {
   });
 };
 
+export const updateUserFaculty = async (data) => {
+  console.log('网络请求：更新用户学院',data)
+  return request.post(`/user/faculty`,{
+    data,
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
 export const identifyUserInfo = async (data) => {
   console.log('网络请求：上传用户身份验证')
   return request.post(`/user/identify`, {
