@@ -10,9 +10,10 @@ import {useEffect, useState} from "react";
 import {TOAST_SHOW_TIME, USER_TYPE, USER_TYPE_STEPS, USER_TYPE_STRING} from "@/utils/constant";
 
 import {UploadIcon} from "@/assets/images";
-import './index.scss'
-import {submitIdentificationInfo} from "@/actions";
+import {fetchFaculties, submitIdentificationInfo} from "@/actions";
 import {notifySubscribe} from "@/actions/activity";
+import {submitUserFaculty} from "@/actions/user";
+import './index.scss'
 
 const Information = () => {
   const {user,resource} = useSelector((state) => state)
@@ -20,11 +21,14 @@ const Information = () => {
   const {faculties} = resource
   const dispatch = useDispatch()
 
+  useEffect(()=>{
+    dispatch(fetchFaculties())
+  },[])
+
   const findFacultyId = (name) => {
     if(!faculty) return 0
-
     const target = faculties.filter((item)=>item.name===name)
-    return target.length>0?target[0].id+1:0
+    return target.length>0?target[0].id:0
   }
 
   const [form, setForm] = useState({
@@ -38,6 +42,10 @@ const Information = () => {
     userType,
     imageFile:{...material}
   })
+
+  useEffect(()=>{
+    setForm({...form,faculty: faculty,facultyId: findFacultyId(faculty)})
+  },[faculty])
 
   const [userTypeStep,setUserTypeStep] = useState(USER_TYPE_STEPS.CLOSE)
   const [userFacultyOpen,setUserFacultyOpen] = useState(false)
@@ -138,11 +146,9 @@ const Information = () => {
         </Picker>
         <View className='confirm-btn' onClick={() => {
           // dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
-          dispatch(submitIdentificationInfo({...form, facultyId: facultyPicker+1, faculty: faculties[facultyPicker].name},false,false))
+          dispatch(submitUserFaculty({facultyId: faculties[facultyPicker].id,faculty:faculties[facultyPicker].name}))
           setUserFacultyOpen(false)
-        }
-        }
-
+        }}
         >确定</View>
       </Popup>
 
@@ -203,7 +209,7 @@ const Information = () => {
               <Image src={UploadIcon} className='uploader-img'/>
             </View>
             <View className='uploader-title'>点击拍照或打开相册</View>
-            <View className='uploader-desc'>【在校生】校园卡/学生证/学信网学籍证明/蓝码截图</View>
+            <View className='uploader-desc'>校园卡/学生证/学信网学籍证明/蓝码截图</View>
             {/*<View className='uploader-desc'>【毕业生】毕业证/学位证/学信网学籍证明</View>*/}
           </View>)}
         </Uploader>
