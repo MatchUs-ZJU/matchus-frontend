@@ -13,21 +13,21 @@ export default () => (
       <View className='data'>
         <View className='row margin-bottom-24'>
           <View className='col gradedata'>
-            <View className='upper'>4<View className='inner'>期</View></View>
+            <View className='upper'>8<View className='inner'>期</View></View>
             <View className='lower'>校内匹配活动</View>
           </View>
           <View className='col gradedata'>
-            <View className='upper'>2700+</View>
+            <View className='upper'>9000+</View>
             <View className='lower'>活动参与人数</View>
           </View>
         </View>
         <View className='row margin-bottom-24'>
           <View className='col gradedata'>
-            <View className='upper'>1800+</View>
+            <View className='upper'>5900+</View>
             <View className='lower'>匹配成功人数</View>
           </View>
           <View className='col gradedata'>
-            <View className='upper'>80+</View>
+            <View className='upper'>290+</View>
             <View className='lower'>成功脱单人数</View>
           </View>
         </View>

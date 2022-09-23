@@ -24,7 +24,6 @@ const Home = () => {
   const [activityTime, setActivityTime] = useState('')
   const [countDownTime, setCountDownTime] = useState(0)
   const [countDownType, setCountDownType] = useState<'NOT_START' | 'ACTIVE' | 'FINISHED'>('NOT_START')
-
   useDidShow(() => {
     setReady(true);
   });
@@ -214,8 +213,7 @@ const Home = () => {
         className='custom-modal'
         open={needRead || needUpdate} rounded
         onClose={() => {
-          // TODO
-          if(!needRead){
+          if(needRead){
             dispatch(confirmNotify())
           }
         }
@@ -228,10 +226,9 @@ const Home = () => {
         </View>
         <View className='button' onClick={async ()=>{
           if(needUpdate){
-            await Taro.navigateTo({url: '/pages/user/information/index'})
+            await Taro.redirectTo({url: '/pages/user/information/index'})
           }
-          // TODO
-          if(!needRead && !needUpdate){
+          if(needRead){
             dispatch(confirmNotify())
           }
         }}
