@@ -63,7 +63,7 @@ export const fetchUserInfo = () => {
         console.log('用户登录：从服务器获取个人信息失败')
       }
       if(updateRes && updateRes.code === 0){
-        console.log('用户登录：获取用户是否需要更新成功',updateRes)
+        console.log('用户登录：获取用户是否需要更新成功')
         dispatch(userSave(updateRes.data))
       }
       else{
