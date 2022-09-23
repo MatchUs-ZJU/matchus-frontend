@@ -37,15 +37,10 @@ const Information = () => {
     school: '浙江大学',
     gender,
     faculty,
-    facultyId: findFacultyId(faculty),
     phoneNumber,
     userType,
     imageFile:{...material}
   })
-
-  useEffect(()=>{
-    setForm({...form,faculty: faculty,facultyId: findFacultyId(faculty)})
-  },[faculty])
 
   const [userTypeStep,setUserTypeStep] = useState(USER_TYPE_STEPS.CLOSE)
   const [userFacultyOpen,setUserFacultyOpen] = useState(false)
@@ -138,11 +133,10 @@ const Information = () => {
           <Picker.Column>
             {
               faculties.map((item,idx)=>
-                (<Picker.Option value={idx}>{item.name}</Picker.Option>)
+                <Picker.Option value={idx}>{item.name}</Picker.Option>
               )
             }
           </Picker.Column>
-          )
         </Picker>
         <View className='confirm-btn' onClick={() => {
           // dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
@@ -181,7 +175,7 @@ const Information = () => {
             setForm({...form,userType: pickerValue+1})
           }
           else{
-            dispatch(submitIdentificationInfo({...form,userType: pickerValue+1},false,false))
+            dispatch(submitIdentificationInfo({...form,userType: pickerValue+1,facultyId: findFacultyId(faculty)},false,false))
             setUserTypeStep(USER_TYPE_STEPS.FINISH)
            }
           }
@@ -215,7 +209,7 @@ const Information = () => {
         </Uploader>
         <View className='confirm-btn' onClick={() => {
           dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
-          dispatch(submitIdentificationInfo(form,true,false))
+          dispatch(submitIdentificationInfo({...form,facultyId:findFacultyId(faculty)},true,false))
           setUserTypeStep(USER_TYPE_STEPS.FINISH)}}
         >下一步</View>
       </Popup>
@@ -229,10 +223,10 @@ const Information = () => {
         <View className='confirm-btn' onClick={async () => {
           setUserTypeStep(USER_TYPE_STEPS.CLOSE)
           if(isComplete || isOldUser){
-            await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+            await Taro.redirectTo({url: '/pages/user/personal-info-modify/index'})
           }
           else if(!isComplete){
-            await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+            await Taro.redirectTo({url: '/pages/user/personal-info-fill/index'})
           }
         }}
         >去完善</View>
