@@ -49,19 +49,10 @@ export const confirmNotify = () => {
   }
 }
 
-export const fetchUserInfo = () => {
+export const fetchNeedUpdate = () => {
   return async dispatch => {
-    try {
-      console.log('用户登录：从服务器获取用户信息')
-      const res = await getUserInfo()
+    try{
       const updateRes = await getUserNeedUpdate()
-
-      if (res && res.code === 0) {
-        console.log('用户登录：获取用户信息成功')
-        dispatch(userSave({...res.data,receivedData: true}))
-      } else {
-        console.log('用户登录：从服务器获取个人信息失败')
-      }
       if(updateRes && updateRes.code === 0){
         console.log('用户登录：获取用户是否需要更新成功')
         dispatch(userSave(updateRes.data))
@@ -69,6 +60,25 @@ export const fetchUserInfo = () => {
       else{
         console.log('用户登录：从服务器获取个人信息失败')
       }
+    } catch(e){
+      console.log(e)
+    }
+  }
+}
+
+export const fetchUserInfo = () => {
+  return async dispatch => {
+    try {
+      console.log('用户登录：从服务器获取用户信息')
+      const res = await getUserInfo()
+
+      if (res && res.code === 0) {
+        console.log('用户登录：获取用户信息成功')
+        dispatch(userSave({...res.data,receivedData: true}))
+      } else {
+        console.log('用户登录：从服务器获取个人信息失败')
+      }
+
     } catch (e) {
       console.log(e)
     }

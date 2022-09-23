@@ -10,7 +10,7 @@ import {fetchResourceImages} from "@/actions/resource";
 import {ArticleCard} from "@/components";
 import {getJWT} from "@/services/jwt";
 import classnames from "classnames";
-import {confirmNotify} from "@/actions/user";
+import {confirmNotify, fetchNeedUpdate} from "@/actions/user";
 import './index.scss'
 
 const Home = () => {
@@ -27,6 +27,7 @@ const Home = () => {
   useDidShow(() => {
     setReady(true);
   });
+
 
   usePullDownRefresh(() => {
     if(getJWT()) {
@@ -79,6 +80,7 @@ const Home = () => {
 
 
   function fetchData() {
+    dispatch(fetchNeedUpdate())
     dispatch(fetchBanners())
     dispatch(fetchRecommends())
     dispatch(fetchHomeData())
@@ -211,11 +213,9 @@ const Home = () => {
 
       <Popup
         className='custom-modal'
-        open={needRead || needUpdate} rounded
+        open={needRead} rounded
         onClose={() => {
-          if(needRead){
-            dispatch(confirmNotify())
-          }
+          dispatch(confirmNotify())
         }
       }
       >
@@ -225,11 +225,9 @@ const Home = () => {
           <View className='desp'>{needUpdate?'新学期开学，请更新你的身份信息～':'新学期开学，已为您自动升高年级～'}</View>
         </View>
         <View className='button' onClick={async ()=>{
+          await dispatch(confirmNotify())
           if(needUpdate){
             await Taro.redirectTo({url: '/pages/user/information/index'})
-          }
-          if(needRead){
-            dispatch(confirmNotify())
           }
         }}
         >{needUpdate?'去更新':'知道了'}</View>
