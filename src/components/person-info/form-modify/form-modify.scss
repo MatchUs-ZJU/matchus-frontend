@@ -5,7 +5,8 @@
   flex-direction: column;
   align-items: center;
   background: #F3F4FB;
-  max-height: 60%;
+  max-height: 800px;
+
   padding-bottom: 164px;
 
   .popup-title{
@@ -201,6 +202,7 @@
     }
   }
 
+
   .confirm-btn{
     position: fixed;
     bottom: 0;
@@ -208,6 +210,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
     width: 620px;
     height: 88px;
     margin: 48px 0;
@@ -219,10 +222,12 @@
     line-height: 24px;
     color: #FFFFFF;
   }
-
   .confirm-btn-disabled{
     background: #D3D0F4;
   }
+
+
+
 
 }
 
@@ -382,7 +387,7 @@
     padding: 8px 0;
     align-items: center;
     --radio-border-color: #918AE3;
-    --radio-checked-icon-color: #918AE3;
+    --radio-checked-icon-background-color: #918AE3;
     --radio-checked-icon-border-color: #918AE3;
 
     &__label {

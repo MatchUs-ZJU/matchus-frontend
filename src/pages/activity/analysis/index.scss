@@ -286,6 +286,10 @@
       font-size: 28px;
       line-height: 40px;
       color: $primary-color;
+      width: 100%;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
 
     .text-4 {

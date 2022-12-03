@@ -91,6 +91,7 @@ const Index = () => {
 
   // 信息修改
   const onConfirmPersonInfo = (value) => {
+    console.log('onConfirm',value)
     setPersonInfo({...personInfo, ...value})
     dispatch(submitPersonalInfo({personInfo: {...value}, images: null}))
     // fetchData()
@@ -237,8 +238,7 @@ const Index = () => {
                     otherValue={personInfo?personInfo.selfFutureBase:''}
                     onConfirm={
                       (value)=>{
-                        if(value.choice) {onConfirmPersonInfo({futureBase:[...value.choice]})}
-                        if(value.other){onConfirmPersonInfo({selfFutureBase:value.other})}
+                        if(value.choice) {onConfirmPersonInfo({futureBase:[...value.choice],selfFutureBase:value.other})}
                       }
                     }
                   />

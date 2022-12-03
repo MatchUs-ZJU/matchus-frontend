@@ -38,7 +38,7 @@ export interface MultiChoicePopupProps {
 
 const MultiChoiceCell = (props: MultiChoicePopupProps) => {
   const {user,global} = useSelector((state) => state)
-  const {windowHeight} = global.system!
+  const {windowWidth} = global.system!
   const [popupOpen,setPopupOpen] = useState(false)
   const [cellValue,setCellValue] = useState('')
   const [multiChoices, setMultiChoices] = useState(props.multiChoices ? props.multiChoices : [])
@@ -115,7 +115,6 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
   useEffect(() => {
     const thisCheck = checkCanSubmit()
     setCanSubmit(thisCheck)
-
     if (checkMultiChoices(multiChoices)) {
       if (props.otherType !== 'none' && !thisCheck) {
         setFeedbackValue(WARNING_MSG[WARNING_NOTE.REQUIRED_OTHER])
@@ -172,11 +171,12 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
 
       <Popup className='form-popup' open={popupOpen} rounded placement='bottom' onClose={()=>setPopupOpen(false)}>
         <Popup.Backdrop/>
-        <Text className='popup-title'>
+        <View className='popup-title'>
           {props.title}
-        </Text>
-        <ScrollView className='card-scroll' scrollY scrollWithAnimation style={{maxHeight: `${0.5*windowHeight}`}}>
+        </View>
+
           <View className='check-body'>
+            <ScrollView className='card-scroll' showScrollbar={false} enableFlex scrollY scrollWithAnimation style={{width: `${0.9*windowWidth}`}}>
             {multiChoices &&
               <>
                 {multiChoices.map((item, idx) => (
@@ -212,6 +212,9 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
                           updatedMultiChoices[idx].selected = true
                           setConfirmedValue('')
                           setMultiChoices([...updatedMultiChoices])
+                          if(props.otherType === 'picker'){
+                            setAddressPickerOpen(true)
+                          }
                         }}
                       >
                         <Image src={PersonalAddOther} className='icon'/>
@@ -233,7 +236,7 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
                             setConfirmedValue('')
                           }}
                         >
-                          <Text className={classnames('check-text', {'check-text-selected': true})}>{'其他 '+`${props.otherType==='input'?splitOthers(item.label):confirmedValue}`}</Text>
+                          <Text className={classnames('check-text', {'check-text-selected': true})}>{'（其他）'+`${props.otherType==='input'?splitOthers(item.label):confirmedValue}`}</Text>
                           <Image src={PersonalInfoUnchosen} className='selected-icon'/>
                         </View>
                         {
@@ -294,7 +297,6 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
                                 <Cell className='cell'
                                   title={item}
                                   onClick={() => {
-
                                     let updatedChoices = multiChoices.map((it) => {
                                       if (it.label === '我要自己选') return {label: '我要自己选', selected: true}
                                       else return it
@@ -316,13 +318,15 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
               </>}
             {showFeedback && feedbackValue && feedbackValue !== '' &&
               <View className='warning-note'>{feedbackValue}</View>}
-          </View>
         </ScrollView>
+
+      </View>
 
         <View className={classnames('confirm-btn', {'confirm-btn-disabled': !canSubmit})} onClick={() => {
           onConfirm()
         }}
         >确认</View>
+
       </Popup>
     </>
   );
