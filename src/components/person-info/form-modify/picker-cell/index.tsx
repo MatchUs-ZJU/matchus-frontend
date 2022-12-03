@@ -34,7 +34,7 @@ const PickerCell = (props: PickerCellProps) => {
   const [popupOpen,setPopupOpen] = useState(false)
 
   useEffect(() => {
-    setPickerValue(0)
+    // setPickerValue(0)
     if(props.cellValue){
       if(props.pickerType === PICKER_TYPE.DATE) setCellValue(getDateFromStamp(props.cellValue))
       else return setCellValue(props.cellValue)

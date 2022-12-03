@@ -17,8 +17,8 @@ import {fetchFaculties, fetchPersonInfo, fetchUserInfo, fetchUserProfile} from "
 import classnames from "classnames";
 import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
-import './index.scss'
 import {fetchUserAvatar} from "@/actions/user";
+import './index.scss'
 
 const notifyLoginMessage = '您还没有登录哦'
 const notifyIdentifyMessage = '请您先完成用户认证'
@@ -57,7 +57,7 @@ const User = () => {
 
   const onClickMainInfo = async () => {
     if (!nickName || !avatarUrl || !avatarUrl.length) {
-      await Taro.navigateTo({url: '/pages/introduction/index'})
+      await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     }
   }
 
@@ -68,7 +68,7 @@ const User = () => {
     } else if (identified === '未认证') {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
-      await Taro.navigateTo({url: '/pages/introduction/index'})
+      await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     } else {
       await Taro.navigateTo({url: '/pages/user/information/index'})
     }
@@ -81,7 +81,7 @@ const User = () => {
     } else if (identified === '未认证') {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
-      await Taro.navigateTo({url: '/pages/introduction/index'})
+      await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     } else {
       await Taro.navigateTo({url: '/pages/user/survey-info/index'})
     }
@@ -94,7 +94,7 @@ const User = () => {
     } else if (identified === '未认证') {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
-      await Taro.navigateTo({url: '/pages/introduction/index'})
+      await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     } else {
       if (isComplete || isOldUser) {
         await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})

@@ -44,11 +44,12 @@ const Index = () => {
       }
 
       if (!nickName || !avatarUrl || identified === '未认证') {
-        await Taro.reLaunch({url: '/pages/introduction/index'})
+        await Taro.reLaunch({url: '/subPackageA/pages/introduction/index'})
         return
       }
 
       if (identified === '认证失败') {
+
         await Taro.reLaunch({url: '/pages/user/information/index'})
         return
       }

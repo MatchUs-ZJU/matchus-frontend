@@ -1,19 +1,22 @@
 @import '../../../../app';
 @import '../form-modify';
 
-.form-popup .card-scroll{
+.form-popup .check-body{
+  display: flex;
   position: relative;
-  margin-left: 78px;
-  .check-body{
+  width: 100%;
+
+  .card-scroll{
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-flow: row wrap;
-    width: 90%;
-    max-height: 60%;
-
+    margin-left: 40px;
+    margin-right: 40px;
+    max-height: 600px;
     .check-label{
       align-items: center;
+      width: fit-content;
       height: 80px;
       background: #FFFFFF;
       border-radius: 16px;
@@ -63,8 +66,8 @@
     }
 
     .cell-other-input{
-      padding:15px 0;
       position: relative;
+      padding-right: 20px;
       width: 100%;
       .taroify-cell {
         padding: 23px 30px 17px;

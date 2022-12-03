@@ -13,8 +13,8 @@ import {DayCounter, QACard} from "@/components/activity-card/daily-question";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
-import './index.scss';
 import {confirmSubscribe, notifySubscribe} from "@/actions/activity";
+import './index.scss';
 
 interface MatchCardProps extends ViewProps {
   activity: number | string
@@ -113,7 +113,7 @@ const MatchCard = (props: MatchCardProps) => {
           <View className='title'>相识·智能匹配</View>
           <View className='detail'>
             {state && state === 'ACTIVE' && !matchResult ?
-              (message && message === -1 ? '您的身份审核未通过，请重新申请，期待下一次相遇' : message === -2 ? `您没有填写新修改的问卷` : `本次活动有${message}%的用户与您双向符合，缘分还在路上`)
+              (message && message === -1 ? '您的身份审核未通过，请重新申请，期待下一次相遇' : message === -2 ? `您没有填写新修改的问卷` : `本次活动匹配失败，缘分还在路上，请查看匹配失败分析报告`)
               : `匹配结果会在${resultShowTime}前公布，请耐心等待`}</View>
           <View
             className={classnames(

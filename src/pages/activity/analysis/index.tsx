@@ -19,7 +19,7 @@ const MatchAnalysisPage = () => {
   const {id, name} = useSelector(state => state.activity)
   const analysisData = useSelector(state => state.activity.analysis)
   const [selectedCondition, setSelectedCondition] = useState<IMatchCondition | undefined>(undefined)
-  const mostBrokenCondition = analysisData?.conditions?.length ? analysisData.conditions.reduce((o1, o2) => (o1.value > o2.value) ? o2 : o1) : undefined
+  const mostBrokenCondition = analysisData?.conditions?.length ? analysisData.conditions.reduce((o1, o2) => (o1.match_percent > o2.match_percent) ? o2 : o1) : undefined
 
   useEffect(() => {
     fetchData()
