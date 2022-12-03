@@ -1,10 +1,12 @@
 const APP_URI = '/app'
+
 const ROOT_URL = process.env.NODE_ENV === 'development' ?
     // 线下开发地址（通过npm run dev命令）
     'https://matchuszju.com' : process.env.NODE_ENV === 'development-test' ?
     // 模拟生产环境、真机测试地址（通过npm run dev-test命令）
     'https://matchuszju.com' :
     // 线上及默认地址（通过npm run build命令）
+    // 'https://matchuszju.com' ;
     'https://springboot-sipn-1869495-1309499644.ap-shanghai.run.tcloudbase.com';
 
 const CLOUD_ENV = process.env.NODE_ENV === 'development' ?
