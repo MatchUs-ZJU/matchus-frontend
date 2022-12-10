@@ -291,17 +291,6 @@ const Index = () => {
 
             <PickerItem
               type='common'
-              label='年级'
-              readonly={false}
-              placeholder='请选择'
-              value={CURRENT_GRADE}
-              showValue={personForm?personForm.currentSchoolGrade:''}
-              showMsg={showRequired}
-              onConfirm={(value)=>{setPersonForm({...personForm,currentSchoolGrade:value})}}
-            />
-
-            <PickerItem
-              type='common'
               label='学院'
               readonly
               placeholder='请选择'

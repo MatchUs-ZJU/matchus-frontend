@@ -1,6 +1,7 @@
 import Taro from "@tarojs/taro";
-import {CLOUD_ENV} from "@/config";
+import {BASE_URL, CLOUD_ENV} from "@/config";
 import {IPhotoUrls} from "@/typings/types";
+import {getJWT} from "@/services/jwt";
 
 export async function viewImages(urls: string[], current?: string) {
   await Taro.previewImage({
@@ -39,6 +40,22 @@ export async function uploadPersonInfoImage(realName: string,studentNumber: stri
         env: CLOUD_ENV
       }
     })
+}
+
+export async function uploadUserAvatar (avatarUrl: string, realName: string,studentNumber: string) {
+  const generateFileName = () => {
+    const sn = studentNumber ? '3180000000' : studentNumber
+    const rn = realName ? '微信用户' : realName
+    return `${sn}-${rn}-${new Date().getTime()}`
+  }
+
+  return Taro.cloud.uploadFile({
+    cloudPath: `avatar/${generateFileName()}.png`,
+    filePath: avatarUrl,
+    header: {
+      Authorization: getJWT(),
+    }
+  })
 }
 
 // 仅删除一张图片

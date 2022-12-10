@@ -79,7 +79,7 @@ const InputCell = (props: InputCellProps) => {
   return (
     <>
       <Cell
-        className={classnames('form-cell', {'form-qa-cell': props.inputType===INPUT_TYPE.LONG_INPUT&&props.cellValue})}
+        className={classnames('form-cell', {'form-qa-cell': props.inputType===INPUT_TYPE.LONG_INPUT})}
         title={props.title}
         clickable={user.isChangeable}
         align='center'
@@ -108,6 +108,7 @@ const InputCell = (props: InputCellProps) => {
         </View>
 
       </Cell>
+
       <Popup className='form-popup' open={popupOpen} rounded placement='bottom' onClose={()=>setPopupOpen(false)}>
         <Popup.Backdrop/>
         <Text className='popup-title'>

@@ -21,7 +21,13 @@ import {
   TEMPERAMENT,
   TOAST_SHOW_TIME
 } from "@/utils/constant";
-import {deletePersonInfoImage, getTmpUrl, uploadIdentificationImage, uploadPersonInfoImage} from "@/utils/taro-utils";
+import {
+  deletePersonInfoImage,
+  getTmpUrl,
+  uploadIdentificationImage,
+  uploadPersonInfoImage,
+  uploadUserAvatar
+} from "@/utils/taro-utils";
 import {IPhotoUrls} from "@/typings/types";
 import {completeChoices} from "@/utils/fcheck";
 
@@ -181,22 +187,44 @@ export const initRegister = (openid) => {
   }
 }
 
-export const fetchUserAvatar = () => {
-  return dispatch =>{
-    console.log("用户更新头像")
-    Taro.getUserProfile({
-      desc: "用于完善您的个人资料",
-    }).then(async (e) => {
-      const {userInfo} = e
-      const {avatarUrl} = userInfo
-      const res = await updateUserAvatar({avatarUrl});
-      if(res && res.code===0){
-        console.log("用户更新：用户更新头像成功")
-        dispatch(userSave({avatarUrl}))
-      }else{
+export const fetchUserAvatar = (data) => {
+  return async dispatch =>{
+    const uploadRes = await uploadUserAvatar(data.avatarUrl,data.realName,data.studentNumber)
+    if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+      console.log("用户信息：提交用户头像到云托管失败")
+      await Taro.showToast({
+        icon: 'none',
+        title: '提交用户头像失败',
+        duration: TOAST_SHOW_TIME,
+      });
+      return
+    }
+    else{
+      const res = await updateUserAvatar({avatarUrl:data.avatarUrl});
+      if (res && res.code === 0) {
+        console.log("用户信息：提交用户头像成功")
+        dispatch(userSave({avatarUrl:data.avatarUrl}))
+      }
+      else{
         console.log("用户更新：更新用户头像失败")
       }
-    }).catch()
+    }
+
+    // Taro.getUserProfile({
+    //   desc: "用于完善您的个人资料",
+    // }).then(async (e) => {
+    //   const {userInfo} = e
+    //   const {avatarUrl} = userInfo
+    //   const res = await updateUserAvatar({avatarUrl});
+    //   console.log("用户更新头像",res)
+    //   if(res && res.code===0){
+    //     console.log("用户更新：用户更新头像成功")
+    //     dispatch(userSave({avatarUrl}))
+    //   }else{
+    //     console.log("用户更新：更新用户头像失败")
+    //   }
+    // }).catch()
+
   }
 }
 
