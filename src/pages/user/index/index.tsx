@@ -1,4 +1,4 @@
-import {View, Text} from "@tarojs/components";
+import {Button,View, Text} from "@tarojs/components";
 import {Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {
@@ -26,7 +26,7 @@ const notifyIdentifyMessage = '请您先完成用户认证'
 const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {nickName, avatarUrl, faculty, identified, login, userType, isComplete, isChangeable, isOldUser, lucky, luckyPercent, matchTimes, matchSuccessTimes} = user
+  const {realName,studentNumber,nickName, avatarUrl, faculty, identified, login, userType, isComplete, isChangeable, isOldUser, lucky, luckyPercent, matchTimes, matchSuccessTimes} = user
 
   // 身份和认证状态
   const badge = getBadgeInfo(identified, userType)
@@ -117,29 +117,38 @@ const User = () => {
     }
   }
 
+  function onClickAvatar(e){
+    // TODO
+    if(login){
+      console.log(e)
+      dispatch(fetchUserAvatar({avatarUrl:e.detail.avatarUrl, realName, studentNumber}))
+    }
+  }
+
   return (
     <View className='container wrapper'>
       <View className='row header' onClick={onClickMainInfo}>
-        <View className='col avatar' onClick={()=>{
-          if(login){
-            dispatch(fetchUserAvatar())
-          }}
-        }
+        <Button
+          className='col avatar'
+          open-type='chooseAvatar'
+          onChooseAvatar={onClickAvatar}
         >
           {avatarUrl && avatarUrl.length ? (
             <Image
+              className='img'
               shape='circle'
               mode='aspectFit'
               src={avatarUrl}
             />
           ) : (
             <Image
+              className='img'
               shape='circle'
               mode='aspectFit'
               src={AnonymousImage}
             />
           )}
-        </View>
+        </Button>
         <View className='col info'>
           {nickName ? (
             <>

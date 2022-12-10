@@ -43,6 +43,7 @@
 		"@tarojs/components": "3.4.12",
 		"@tarojs/mini-runner": "^3.4.3",
 		"@tarojs/plugin-framework-react": "3.4.1",
+		"@tarojs/plugin-inject": "^1.0.2",
 		"@tarojs/react": "3.4.1",
 		"@tarojs/runtime": "3.4.1",
 		"@tarojs/taro": "3.4.12",
