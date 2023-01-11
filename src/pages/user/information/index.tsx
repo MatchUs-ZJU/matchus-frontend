@@ -223,10 +223,10 @@ const Information = () => {
         <View className='confirm-btn' onClick={async () => {
           setUserTypeStep(USER_TYPE_STEPS.CLOSE)
           if(isComplete || isOldUser){
-            await Taro.redirectTo({url: '/pages/user/personal-info-modify/index'})
+            await Taro.redirectTo({url: '/subPackageB/user/personal-info-modify/index'})
           }
           else if(!isComplete){
-            await Taro.redirectTo({url: '/pages/user/personal-info-fill/index'})
+            await Taro.redirectTo({url: '/subPackageB/user/personal-info-fill/index'})
           }
         }}
         >去完善</View>

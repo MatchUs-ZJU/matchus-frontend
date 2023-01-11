@@ -57,10 +57,10 @@ const SignupCard = (props: SignupCardProps) => {
 
   async function redirectToPersonInfo(){
     if(!isComplete && isOldUser){
-      await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+      await Taro.navigateTo({url: '/subPackageB/user/personal-info-modify/index'})
     }
     else {
-      await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+      await Taro.navigateTo({url: '/subPackageB/user/personal-info-fill/index'})
     }
   }
 

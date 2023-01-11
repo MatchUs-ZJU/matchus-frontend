@@ -1,17 +1,23 @@
-import {View, Text} from "@tarojs/components";
+import {View, Text,Button} from "@tarojs/components";
 import classnames from 'classnames';
-import {Checkbox, Image} from "@taroify/core"
+import {Checkbox, Field, Image, Input, Popup} from "@taroify/core"
 import {useState} from "react";
 import Taro from "@tarojs/taro";
-import {HeaderImage, SloganImage} from "@/assets/images";
+import {AnonymousImage, HeaderImage, SloganImage} from "@/assets/images";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchUserProfile} from "@/actions";
+import {Clear} from "@taroify/icons";
+import {TOAST_SHOW_TIME} from "@/utils/constant";
+
 import './index.scss'
 
 const Introduction = () => {
   const dispatch = useDispatch()
   const {user} = useSelector(state => state)
   const [agree, setAgree] = useState<boolean>(false)
+  const [popupOpen,setPopupOpen] = useState(false)
+  const [nickName,setNickName] = useState('')
+  const [avatarUrl,setAvatarUrl] = useState('')
 
   function onAgreePrivacy(e: boolean) {
     setAgree(e)
@@ -19,13 +25,13 @@ const Introduction = () => {
 
   async function navToUserAgreement() {
     await Taro.navigateTo({
-      url: '/pages/user/agreement/index'
+      url: '/subPackageA/pages/agreement/index'
     })
   }
 
   async function navToUserPrivacy() {
     await Taro.navigateTo({
-      url: '/pages/user/privacy/index'
+      url: '/subPackageA/pages/privacy/index'
     })
   }
 
@@ -43,8 +49,7 @@ const Introduction = () => {
           url: '/pages/user/register/index'
         })
       } else {
-        // 用户未上传基本信息
-        dispatch(fetchUserProfile())
+        setPopupOpen(true)
       }
     } else {
       await Taro.showToast({
@@ -53,6 +58,10 @@ const Introduction = () => {
         icon: 'none'
       })
     }
+  }
+
+  function onChooseAvatar(e){
+    setAvatarUrl(e.detail.avatarUrl)
   }
 
   return (
@@ -97,6 +106,71 @@ const Introduction = () => {
           </View>
         </View>
       </View>
+      <Popup className='form-popup' open={popupOpen} rounded placement='bottom' onClose={()=>setPopupOpen(false)}>
+        <Popup.Backdrop/>
+        <Text className='popup-title'>
+          完善头像与昵称
+        </Text>
+        <Button
+          className='popup-avatar'
+          open-type='chooseAvatar'
+          onChooseAvatar={onChooseAvatar}
+        >
+          {avatarUrl && avatarUrl.length ? (
+            <Image
+              className='img'
+              shape='circle'
+              mode='aspectFit'
+              src={avatarUrl}
+            />
+          ) : (
+            <Image
+              className='img'
+              shape='circle'
+              mode='aspectFit'
+              src={AnonymousImage}
+            />
+          )}
+        </Button>
+
+        <View className='input-box'>
+          <Field
+            className='input-field'
+          >
+            <Input
+              autoFocus
+              value={nickName}
+              type='nickname'
+
+              onChange={(e) => {
+                setNickName(e.detail.value)
+                if(e.detail.value.length < 20){
+                  setNickName(e.detail.value)
+                }
+              }}
+            />
+            <View className='corner-icon'>
+              <Clear style={{color: "rgba(0, 0, 0, 0.3)",zIndex:10}} onClick={() => setNickName('')}/>
+            </View>
+          </Field>
+        </View>
+        <View
+          className={classnames('confirm-btn', {'confirm-btn-disabled': !nickName || !avatarUrl})}
+          onClick={async () => {
+            if(!avatarUrl || !nickName){
+              await Taro.showToast({
+                icon: 'none',
+                title: '头像昵称不完善',
+                duration: TOAST_SHOW_TIME,
+              });
+            }else{
+              dispatch(fetchUserProfile({avatarUrl,nickName}))
+              setPopupOpen(false)
+            }
+          }}
+        >确认</View>
+      </Popup>
+
     </View>
   )
 

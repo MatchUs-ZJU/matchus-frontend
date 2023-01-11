@@ -18,7 +18,7 @@ const Home = () => {
   const dispatch = useDispatch()
   const {home,user} = useSelector((state) => state)
   const {articles, banners, data} = home
-  const {needUpdate,needRead,userType} = user
+  const {needUpdate,needRead} = user
   const currentTime = new Date().getTime()
   const [, setReady] = useState(false);
   const [activityTime, setActivityTime] = useState('')
@@ -62,7 +62,6 @@ const Home = () => {
       let processed: string = `${start}～${end}`;
       setActivityTime(processed)
     }
-
     // 处理是否能报名，计算剩余时间
     if (data && data.signUpStartTime && data.signUpEndTime) {
       if (currentTime <= data.signUpStartTime) {
@@ -140,6 +139,7 @@ const Home = () => {
                 value={countDownTime}
               >
                 {(current) => (
+
                   <View className='countdown'>
                     <View className='countdown-block'>{current.days < 10 ? `0${current.days}` : current.days}</View>
                     <View className='countdown-colon'>天</View>

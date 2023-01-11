@@ -1,12 +1,12 @@
 import {Text, View} from "@tarojs/components";
-import {Field, Image, Input, Textarea} from "@taroify/core";
-import {SUBJECT_QUESTION, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {Field, Input, Textarea} from "@taroify/core";
+import {WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
 import {floatRegTest, wechatNumberRegTest} from "@/utils/reg";
 import './index.scss'
 
 export interface IInputItemProps {
   label: string,
-  readonly: boolean,
+  readonly: boolean | undefined,
   value: string | undefined,
   placeholder: string,
   inputType: 'string' | 'number' | 'wechatnumber' | 'long-input',

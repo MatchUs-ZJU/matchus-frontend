@@ -14,6 +14,7 @@ import './index.scss';
 const Index = () => {
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
+
   const {matchInfo, imagesUrl,isTwice} = match
 
   const currentTime = new Date().getTime()
@@ -21,7 +22,7 @@ const Index = () => {
   const [heart, setHeart] = useState(0)
   const [isChecked, setChecked] = useState(false)
   const [isShowed, setShowed] = useState(false)
-  const [countDownTime, setCountDownTime] = useState(0)
+  const [countDownTime, setCountDownTime] = useState(1000)
 
   function onHeartChange(value) {
     if (isShowed) {
@@ -257,25 +258,22 @@ const Index = () => {
                 <Image src={LockedIcon} className='icon'/>
                 <View className='desc col'>
                   <Countdown
+                    autostart={false}
                     value={countDownTime}
                   >
-                    {(current) => (
-                      <View className='countdown'>
-                        <View className='countdown-colon'>距离公布照片还有</View>
-                        <View
-                          className='countdown-block'
-                        >{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
-                        <View className='countdown-colon'>时</View>
-                        <View
-                          className='countdown-block'
-                        >{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
-                        <View className='countdown-colon'>分</View>
-                        <View
-                          className='countdown-block'
-                        >{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
-                        <View className='countdown-colon'>秒</View>
-                      </View>
-                    )}
+                    {(current) =>{
+                      return (
+                        <View className='countdown'>
+                          <View className='countdown-colon'>距离公布照片还有</View>
+                          <View className='countdown-block'>{current.hours < 10 ? `0${current.hours}` : current.hours}</View>
+                          <View className='countdown-colon'>时</View>
+                          <View className='countdown-block'>{current.minutes < 10 ? `0${current.minutes}` : current.minutes}</View>
+                          <View className='countdown-colon'>分</View>
+                          <View className='countdown-block'>{current.seconds < 10 ? `0${current.seconds}` : current.seconds}</View>
+                          <View className='countdown-colon'>秒</View>
+                        </View>
+                      )
+                    }}
                   </Countdown>
                   <View className='countdown-colon'>匹配成功24小时后解锁照片</View>
                 </View>
