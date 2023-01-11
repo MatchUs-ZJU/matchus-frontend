@@ -30,6 +30,7 @@ import {
 } from "@/utils/taro-utils";
 import {IPhotoUrls} from "@/typings/types";
 import {completeChoices} from "@/utils/fcheck";
+import user from "@/reducers/user";
 
 export const userSave = (payload,saveType=USER_SAVE) => {
   return {
@@ -190,6 +191,7 @@ export const initRegister = (openid) => {
 export const fetchUserAvatar = (data) => {
   return async dispatch =>{
     const uploadRes = await uploadUserAvatar(data.avatarUrl,data.realName,data.studentNumber)
+
     if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
       console.log("用户信息：提交用户头像到云托管失败")
       await Taro.showToast({
@@ -200,10 +202,10 @@ export const fetchUserAvatar = (data) => {
       return
     }
     else{
-      const res = await updateUserAvatar({avatarUrl:data.avatarUrl});
+      const res = await updateUserAvatar({avatarUrl:uploadRes.fileID});
       if (res && res.code === 0) {
         console.log("用户信息：提交用户头像成功")
-        dispatch(userSave({avatarUrl:data.avatarUrl}))
+        dispatch(userSave({avatarUrl:uploadRes.fileID}))
       }
       else{
         console.log("用户更新：更新用户头像失败")
@@ -228,16 +230,21 @@ export const fetchUserAvatar = (data) => {
   }
 }
 
-export const fetchUserProfile = () => {
-  return dispatch => {
-    console.log("用户注册：授权获取个人信息并更新用户信息")
-    // 该方法暂时不支持await异步调用
-    Taro.getUserProfile({
-      desc: "用于完善您的个人资料",
-    }).then(async (e) => {
-      const {userInfo} = e
-      const res = await updateUserInfo({
-        ...userInfo,
+export const fetchUserProfile = (userInfo) => {
+  return async dispatch => {
+    console.log("用户注册：更新用户信息")
+    const uploadRes = await uploadUserAvatar(userInfo.avatarUrl,'','')
+    if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
+      console.log("用户信息：提交用户头像到云托管失败")
+      await Taro.showToast({
+        icon: 'none',
+        title: '提交用户头像失败',
+        duration: TOAST_SHOW_TIME,
+      });
+      return
+    }else{
+      const res =  await updateUserInfo({
+        ...userInfo,avatarUrl: uploadRes.fileID
       })
 
       if (res && res.code === 0) {
@@ -245,20 +252,51 @@ export const fetchUserProfile = () => {
         dispatch(userSave(userInfo))
 
         // 完成注册工作
-        await Taro.navigateTo({
-          url: '/pages/user/register/index'
-        })
+        if(userInfo.avatarUrl && userInfo.nickName){
+          await Taro.navigateTo({
+            url: '/pages/user/register/index'
+          })
+        }
       } else {
         console.log("用户注册：更新用户信息失败")
       }
-    }).catch(async () => {
-      console.log("用户注册：用户拒绝授权")
-      await Taro.showToast({
-        icon: 'none',
-        title: '授权失败! 您将无法参加我们的活动',
-        duration: 5000,
-      });
-    })
+    }
+
+
+
+
+
+    // 弃用
+    // 该方法暂时不支持await异步调用
+    // Taro.getUserProfile({
+    //   desc: "用于完善您的个人资料",
+    // }).then(async (e) => {
+    //   const {userInfo} = e
+    //   console.log(userInfo)
+    //   const res = await updateUserInfo({
+    //     ...userInfo,avatarUrl:'',nickName:''
+    //   })
+    //
+    //   if (res && res.code === 0) {
+    //     console.log("用户注册：更新用户信息成功")
+    //     dispatch(userSave(userInfo))
+    //
+    //     // 完成注册工作
+    //
+    //     await Taro.navigateTo({
+    //       url: '/pages/user/register/index'
+    //     })
+    //   } else {
+    //     console.log("用户注册：更新用户信息失败")
+    //   }
+    // }).catch(async () => {
+    //   console.log("用户注册：用户拒绝授权")
+    //   await Taro.showToast({
+    //     icon: 'none',
+    //     title: '授权失败! 您将无法参加我们的活动',
+    //     duration: 5000,
+    //   });
+    // })
   }
 }
 

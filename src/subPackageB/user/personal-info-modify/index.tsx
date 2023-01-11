@@ -19,7 +19,6 @@ import {
   PICKER_TYPE,
   SCHOOL_GRADUATE_IN_SEP,
   SUBJECT_QUESTION,
-  TOAST_SHOW_TIME,
   USER_TYPE
 } from "@/utils/constant";
 import {
@@ -42,7 +41,6 @@ import './index.scss';
 const Index = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {isChangeable} = user
   const [highlight, setHighlight] = useState({
     basic: false,
     status: false,

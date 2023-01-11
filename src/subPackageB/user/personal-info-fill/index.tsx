@@ -42,9 +42,9 @@ const Index = () => {
   const [personForm, setPersonForm] = useState<IPersonInfo>(user.personInfo!)
   const [canSubmit, setCanSubmit] = useState(false)
 
-  const fetchData =  async () => {
+  const fetchData = () => {
     // dispatch(fetchFaculties())
-    await dispatch(fetchPersonInfo())
+    dispatch(fetchPersonInfo())
   }
 
   useEffect(  ()=>{
@@ -252,6 +252,7 @@ const Index = () => {
                   inputType='string'
                   showMsg={showRequired}
                   onChange={(value)=>setPersonForm({...personForm,graduateWorkDetail:value})}
+                  readonly={false}
                 />
               </>
             )}
@@ -474,7 +475,7 @@ const Index = () => {
               inputType='long-input'
               showMsg={showRequired}
               onChange={(value)=>setPersonForm({...personForm,superPower:value})}
-            />
+              readonly={false}/>
 
             <InputItem
               label={SUBJECT_QUESTION.emo}
@@ -483,6 +484,7 @@ const Index = () => {
               inputType='long-input'
               showMsg={showRequired}
               onChange={(value)=>setPersonForm({...personForm,emo:value})}
+              readonly={false}
             />
 
             <InputItem

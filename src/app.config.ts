@@ -1,4 +1,5 @@
 export default defineAppConfig({
+  lazyCodeLoading: 'requiredComponents',
   pages: [
     'pages/home/index/index',
     'pages/home/article-view/index',
@@ -12,21 +13,26 @@ export default defineAppConfig({
     'pages/user/index/index',
     'pages/user/help/index',
     'pages/user/record/index',
-    'pages/user/about/index',
     'pages/user/identify/index',
     'pages/user/information/index',
-    'pages/user/privacy/index',
-    'pages/user/agreement/index',
     'pages/user/register/index',
     'pages/user/survey-info/index',
-    'pages/user/personal-info-modify/index',
-    'pages/user/personal-info-fill/index',
   ],
   subPackages: [
     {
       root: 'subPackageA',
       pages: [
         'pages/introduction/index',
+        'pages/privacy/index',
+        'pages/about/index',
+        'pages/agreement/index',
+      ]
+    },
+    {
+      root: 'subPackageB',
+      pages: [
+        'user/personal-info-modify/index',
+        'user/personal-info-fill/index',
       ]
     }
   ],

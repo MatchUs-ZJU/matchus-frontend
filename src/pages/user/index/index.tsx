@@ -1,5 +1,5 @@
-import {Button,View, Text} from "@tarojs/components";
-import {Cell, Image, Notify} from "@taroify/core"
+import {View, Text} from "@tarojs/components";
+import {Button,Cell, Image, Notify} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
 import {
   PersonalInfoIcon,
@@ -26,8 +26,7 @@ const notifyIdentifyMessage = '请您先完成用户认证'
 const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
-  const {realName,studentNumber,nickName, avatarUrl, faculty, identified, login, userType, isComplete, isChangeable, isOldUser, lucky, luckyPercent, matchTimes, matchSuccessTimes} = user
-
+  const {realName,studentNumber,nickName,avatarUrl, faculty, identified, login, userType, isComplete, isChangeable, isOldUser, lucky, luckyPercent, matchTimes, matchSuccessTimes} = user
   // 身份和认证状态
   const badge = getBadgeInfo(identified, userType)
   const identifiedStatus = getIdentifiedStatus(identified)
@@ -97,9 +96,9 @@ const User = () => {
       await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     } else {
       if (isComplete || isOldUser) {
-        await Taro.navigateTo({url: '/pages/user/personal-info-modify/index'})
+        await Taro.navigateTo({url: '/subPackageB/user/personal-info-modify/index'})
       } else if (!isComplete) {
-        await Taro.navigateTo({url: '/pages/user/personal-info-fill/index'})
+        await Taro.navigateTo({url: '/subPackageB/user/personal-info-fill/index'})
       }
     }
   }
@@ -118,7 +117,6 @@ const User = () => {
   }
 
   function onClickAvatar(e){
-    // TODO
     if(login){
       console.log(e)
       dispatch(fetchUserAvatar({avatarUrl:e.detail.avatarUrl, realName, studentNumber}))
@@ -272,7 +270,7 @@ const User = () => {
             clickable
             align='center'
             onClick={async () => {
-              await Taro.navigateTo({url: '/pages/user/about/index'});
+              await Taro.navigateTo({url: '/subPackageA/pages/about/index'});
             }}
           >
           </Cell>

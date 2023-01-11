@@ -44,8 +44,8 @@ export async function uploadPersonInfoImage(realName: string,studentNumber: stri
 
 export async function uploadUserAvatar (avatarUrl: string, realName: string,studentNumber: string) {
   const generateFileName = () => {
-    const sn = studentNumber ? '3180000000' : studentNumber
-    const rn = realName ? '微信用户' : realName
+    const sn = studentNumber ?studentNumber: '3180000000'
+    const rn = realName ?realName:'微信用户'
     return `${sn}-${rn}-${new Date().getTime()}`
   }
 

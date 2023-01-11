@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Cell, Field, Image, Input, Popup} from "@taroify/core";
 import {ScrollView, Text, View} from "@tarojs/components";
 import Taro from "@tarojs/taro";
@@ -51,6 +51,8 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
   const [showFeedback, setShowFeedback] = useState(false)
   const [canSubmit, setCanSubmit] = useState(false)
 
+  console.log(document.getElementById('浙江省'))
+
   useEffect(()=>{
     if(props.multiChoices){
       if(props.otherType === 'picker'){
@@ -75,6 +77,20 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
     }
     setCellValue('请选择')
   },[props])
+
+  useEffect(() => {
+    const thisCheck = checkCanSubmit()
+    setCanSubmit(thisCheck)
+    if (checkMultiChoices(multiChoices)) {
+      if (props.otherType !== 'none' && !thisCheck) {
+        setFeedbackValue(WARNING_MSG[WARNING_NOTE.REQUIRED_OTHER])
+      }else{
+        setFeedbackValue('')
+      }
+    } else {
+      setFeedbackValue(WARNING_MSG[WARNING_NOTE.AT_LEAST_ONE])
+    }
+  }, [multiChoices])
 
   useEffect(() => {
     setOtherValue(confirmedValue)
@@ -112,20 +128,6 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
     else return checkMultiChoices(props.multiChoices)
   }
 
-  useEffect(() => {
-    const thisCheck = checkCanSubmit()
-    setCanSubmit(thisCheck)
-    if (checkMultiChoices(multiChoices)) {
-      if (props.otherType !== 'none' && !thisCheck) {
-        setFeedbackValue(WARNING_MSG[WARNING_NOTE.REQUIRED_OTHER])
-      }else{
-        setFeedbackValue('')
-      }
-    } else {
-      setFeedbackValue(WARNING_MSG[WARNING_NOTE.AT_LEAST_ONE])
-    }
-  }, [multiChoices])
-
   const onCancel = () => {
     setPopupOpen(false)
   }
@@ -150,6 +152,8 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
         clickable={user.isChangeable}
         align='center'
         onClick={async () => {
+          setMultiChoices(props.multiChoices?props.multiChoices:[])
+          setPopupOpen(true)
           if(!user.isChangeable){
             await Taro.showToast({
               title: "您已成功报名，暂时不可修改～",
@@ -239,8 +243,7 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
                           <Text className={classnames('check-text', {'check-text-selected': true})}>{'（其他）'+`${props.otherType==='input'?splitOthers(item.label):confirmedValue}`}</Text>
                           <Image src={PersonalInfoUnchosen} className='selected-icon'/>
                         </View>
-                        {
-                          props.otherType === 'input' &&
+                        {props.otherType === 'input' &&
                           <View className='cell-other-input'>
                             <Field className='field'>
                               <Input
@@ -294,7 +297,8 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
                           <ScrollView className='append-scroll' scrollY scrollWithAnimation style={{height: `${addressPickerOpen?'200px':'0'}`}}>
                             <Cell.Group inset clickable>
                               {AddressData.map((item) => (
-                                <Cell className='cell'
+                                <Cell
+                                  className='cell'
                                   title={item}
                                   onClick={() => {
                                     let updatedChoices = multiChoices.map((it) => {
