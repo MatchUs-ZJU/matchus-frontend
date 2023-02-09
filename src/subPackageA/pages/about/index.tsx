@@ -1,9 +1,20 @@
 import {View, Text} from '@tarojs/components'
 import {Image} from "@taroify/core";
 import {AboutUsTopImage} from "@/assets/images";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchActivityData} from "@/actions/activity";
+import activity from "@/reducers/activity";
 import './index.scss'
 
-export default () => (
+export default () => {
+  const dispatch = useDispatch()
+  const {matched,totalTerm,totalParticipate,unavailable} = useSelector(state => state.activity)
+  useEffect(()=>{
+    dispatch(fetchActivityData())
+  },[])
+
+  return (
   <View className='container wrapper'>
     <Image src={AboutUsTopImage} className='img' />
     <View className='content'>
@@ -13,21 +24,21 @@ export default () => (
       <View className='data'>
         <View className='row margin-bottom-24'>
           <View className='col gradedata'>
-            <View className='upper'>8<View className='inner'>期</View></View>
+            <View className='upper'>{totalTerm}<View className='inner'>期</View></View>
             <View className='lower'>校内匹配活动</View>
           </View>
           <View className='col gradedata'>
-            <View className='upper'>9000+</View>
+            <View className='upper'>{totalParticipate}</View>
             <View className='lower'>活动参与人数</View>
           </View>
         </View>
         <View className='row margin-bottom-24'>
           <View className='col gradedata'>
-            <View className='upper'>5900+</View>
+            <View className='upper'>{matched}</View>
             <View className='lower'>匹配成功人数</View>
           </View>
           <View className='col gradedata'>
-            <View className='upper'>290+</View>
+            <View className='upper'>{unavailable}</View>
             <View className='lower'>成功脱单人数</View>
           </View>
         </View>
@@ -37,4 +48,4 @@ export default () => (
   如果你准备好了真诚地对待每一个可能性，就开启匹配吧！️</View>
     </View>
   </View>
-);
+)};

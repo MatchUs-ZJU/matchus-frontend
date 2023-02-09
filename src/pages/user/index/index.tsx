@@ -82,7 +82,7 @@ const User = () => {
       setNotifyOpen(true)
       await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     } else {
-      await Taro.navigateTo({url: '/pages/user/survey-info/index'})
+      await Taro.navigateTo({url: '/pages/user/survey-info-edit/index'})
     }
   }
 
@@ -118,7 +118,6 @@ const User = () => {
 
   function onClickAvatar(e){
     if(login){
-      console.log(e)
       dispatch(fetchUserAvatar({avatarUrl:e.detail.avatarUrl, realName, studentNumber}))
     }
   }

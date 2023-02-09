@@ -17,6 +17,7 @@ export default defineAppConfig({
     'pages/user/information/index',
     'pages/user/register/index',
     'pages/user/survey-info/index',
+    'pages/user/survey-info-edit/index'
   ],
   subPackages: [
     {
@@ -75,4 +76,5 @@ export default defineAppConfig({
     ],
   },
   navigateToMiniProgramAppIdList: ["wxd947200f82267e58", "wxd947200f82267e57"],
+  enablePullDownRefresh: true
 })

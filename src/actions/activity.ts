@@ -5,7 +5,12 @@ import {
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
   CHOOSE_SAVE,
-  MATCH_SAVE, ACTIVITY_SIGN_UP_SAVE, ACTIVITY_DAILYQA_SAVE, ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE
+  MATCH_SAVE,
+  ACTIVITY_SIGN_UP_SAVE,
+  ACTIVITY_DAILYQA_SAVE,
+  ACTIVITY_APPROVE_SAVE,
+  ACTIVITY_ANALYSIS_SAVE,
+  ACTIVITY_BASIC_DATA_SAVE
 } from "@/constants";
 import {
   postFilledForm,
@@ -20,7 +25,7 @@ import {
   postMatchQuestionApproval,
   postMatchQuestionAnswer,
   getMatchAnalysisData,
-  notifyMatchSubscribe
+  notifyMatchSubscribe, getActivityData
 } from "@/services/activity";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {globalSave} from "@/actions/global";
@@ -91,6 +96,13 @@ export const matchStateSave = (payload) => {
 export const twcStateSave = (payload) => {
   return {
     type: CHOOSE_SAVE,
+    payload
+  }
+}
+
+export const activityBasicDataSave = (payload) => {
+  return {
+    type: ACTIVITY_BASIC_DATA_SAVE,
     payload
   }
 }
@@ -244,13 +256,11 @@ export const fillForm = ({appId, path}) => {
   }
 }
 
-export const finishFillForm = (id) => {
+export const finishFillForm = (surveyDetail) => {
   return async dispatch => {
-    console.log("活动页面：用户完成填写问卷")
+    console.log("活动页面：用户完成填写问卷",surveyDetail)
     try {
-      let res = await postFilledForm({
-        id: id
-      })
+      let res = await postFilledForm(surveyDetail)
 
       if (res && res.code === 0) {
         console.log("活动页面：填写问卷结束状态变更成功")
@@ -475,3 +485,19 @@ export const fetchMatchAnalysisData = (activityId) => {
   }
 }
 
+export const fetchActivityData = () => {
+  return async dispatch => {
+    console.log("活动页面：获取活动相关信息")
+    try{
+      let res = await getActivityData()
+      if (res && res.code === 0) {
+        console.log("活动页面：获取活动相关信息成功")
+        dispatch(activityBasicDataSave(res.data))
+      } else {
+        console.log("活动页面：获取活动相关信息失败")
+      }
+    }catch (e) {
+      console.log(e)
+    }
+  }
+}

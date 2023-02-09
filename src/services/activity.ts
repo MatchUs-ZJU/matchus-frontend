@@ -52,7 +52,8 @@ export const postRefundRequest = async (data) => {
 
 export const postFilledForm = async (data) => {
   console.log('网络请求：用户完成问卷')
-  return request.post(`/activity/survey/finish`, {
+  return request.post(`/activity/matchRequest
+`, {
     data,
     header: {
       Authorization: getJWT(),
@@ -159,6 +160,15 @@ export const notifyMatchSubscribe = async () =>{
   console.log('網絡請求：確認訂閲通知')
   return request.post(`/activity/subscribe`,{
     data: {success: true},
+    header: {
+      Authorization: getJWT(),
+    }
+  })
+}
+
+export const getActivityData = async () => {
+  console.log('网络请求:获取小程序相关数据')
+  return request.post(`/activity/data`,{
     header: {
       Authorization: getJWT(),
     }

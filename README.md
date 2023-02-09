@@ -14,7 +14,7 @@
 
 ## 快速开始
 
-本项目使用 [Taro](https://docs.taro.zone/docs/version) 跨平台框架开发，使用的版本是v3.4.1。
+本项目使用 [Taro](https://docs.taro.zone/docs/version) 跨平台框架开发，使用的版本是v3.5.3。
 
 ### 版本管理
 
@@ -39,9 +39,9 @@ $ taro update project [版本号]
   rm -rf node_modules
 
   选择下列一种
-  npm install -g @tarojs/cli@3.4.1
-  cnpm install -g @tarojs/cli@3.4.1
-  yarn global add @tarojs/cli@3.4.1
+  npm install -g @tarojs/cli@3.5.3
+  cnpm install -g @tarojs/cli@3.5.3
+  yarn global add @tarojs/cli@3.5.3
 ```
 
 ### 安装依赖

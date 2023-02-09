@@ -120,7 +120,7 @@ const MatchAnalysisPage = () => {
         }
       </ScrollView>
       <View className='display col'>
-        <View className='display-value'>{selectedCondition ? (selectedCondition.match_percent * 100).toFixed(2) : 0}%</View>
+        <View className='display-value'>经过该条件筛选还剩{selectedCondition ? (selectedCondition.match_percent * 100).toFixed(2) : 0}%</View>
         <Image src={AnalysisHeartbrokenImage} className='display-heartbroken'/>
         <View className='display-content col'>
           <View className='text-1'>根据本次匹配结果，对您杀伤率最大的条件为：</View>
@@ -130,7 +130,7 @@ const MatchAnalysisPage = () => {
           <View
             className='display-button'
             onClick={async () => {
-              await Taro.navigateTo({url: '/pages/user/survey-info/index'})
+              await Taro.navigateTo({url: '/pages/user/survey-info-edit/index'})
             }}
           >查看匹配要求</View>
           <View className='display-note'>- 结果仅供参考，期待您的下次参与！-</View>

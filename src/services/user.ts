@@ -179,6 +179,25 @@ export const getSurveyInfo = async () => {
   });
 }
 
+export const getSurveyDetail = async () => {
+  console.log('网络请求：获取可编辑用户匹配问卷')
+  return request.get(`/user/matchRequest`,{
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const postSurveyDetail = async (data) => {
+  console.log('网络请求：编辑问卷信息')
+  return request.post(`/user/matchRequest`,{
+    data,
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
 export const getPersonInfo = async ()=>{
   console.log('网络请求：获取用户个人信息')
   return request.get(`/user/personInfo`,{

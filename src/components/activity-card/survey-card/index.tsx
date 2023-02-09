@@ -8,6 +8,8 @@ import {ActiveBtn, DisableBtn, FinishedBtn, NotStartBtn} from "@/components/acti
 import {useEffect, useState} from "react";
 import {Edit, Success} from "@taroify/icons";
 
+import Taro from "@tarojs/taro";
+import {fetchSurveyDetail} from "@/actions/user";
 import './index.scss';
 
 interface SurveyCardProps extends ViewProps {
@@ -19,9 +21,15 @@ interface SurveyCardProps extends ViewProps {
 const SurveyCard = (props: SurveyCardProps) => {
   const dispatch = useDispatch()
   const {wjxAppId, wjxPath, activity} = props
-  const {state, filled} = useSelector(rootState => rootState.activity.participate.fillForm)
+  const {surveyDetail} = useSelector(rootState => rootState.user)
+  const {state, filled,isComplete} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {pushFillForm} = useSelector(rootState => rootState.global)
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
+  const [surveyDialogOpen,setSurveyDialogOpen] = useState(false)
+
+  useEffect(()=>{
+    dispatch(fetchSurveyDetail())
+  },[])
 
   useEffect(() => {
     if(pushFillForm) {
@@ -30,21 +38,28 @@ const SurveyCard = (props: SurveyCardProps) => {
   }, [pushFillForm])
 
   function pushGoToFillForm() {
-    dispatch(fillForm({
-      appId: wjxAppId,
-      path: wjxPath
-    }))
+    // dispatch(fillForm({
+    //   appId: wjxAppId,
+    //   path: wjxPath
+    // }))
     dispatch(globalSave({
       pushFillForm: false
     }))
+    Taro.navigateTo({url: '/pages/user/survey-info-edit/index'})
   }
 
   function confirmFinishFillForm() {
-    dispatch(actionFinishFillForm(activity))
+    if(surveyDetail && isComplete){
+      dispatch(actionFinishFillForm([...surveyDetail.noRequireMatchRequests,...surveyDetail.requireMatchRequests]))
+    }
   }
 
   function finishFillForm() {
-    setConfirmDialogOpen(true)
+    if(isComplete){
+      setConfirmDialogOpen(true)
+    }else{
+      setSurveyDialogOpen(true)
+    }
   }
 
   // 继续填写表单组件
@@ -57,7 +72,7 @@ const SurveyCard = (props: SurveyCardProps) => {
         </View>
         <View className='col' onClick={finishFillForm} style={{marginLeft: '12px'}}>
           <View className='icon-container'><Success size='20px'/></View>
-          <View className='text'>确认完成</View>
+          <View className='text'>确认提交</View>
         </View>
       </View>
     )
@@ -85,7 +100,7 @@ const SurveyCard = (props: SurveyCardProps) => {
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !filled ? (
-            pushFillForm ? (
+            pushFillForm || !isComplete ? (
               <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
             ) : (
               <FillFormBtn/>
@@ -105,6 +120,18 @@ const SurveyCard = (props: SurveyCardProps) => {
               confirmFinishFillForm()
             }}
             >确认完成
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+
+        <Dialog open={surveyDialogOpen} onClose={setSurveyDialogOpen}>
+          <Dialog.Header className='dialog-header dialog-header-redirect'>您的匹配要求未完善</Dialog.Header>
+          <Dialog.Actions>
+            <Button className='dialog-btn dialog-btn-redirect' onClick={() => {
+              setSurveyDialogOpen(false)
+              Taro.navigateTo({url: '/pages/user/survey-info-edit/index'})
+            }}
+            >去完善匹配要求
             </Button>
           </Dialog.Actions>
         </Dialog>

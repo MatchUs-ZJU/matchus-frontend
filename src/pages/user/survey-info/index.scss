@@ -4,6 +4,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+
 }
 
 .movable-btn {
@@ -77,28 +78,3 @@
     line-height: 36px;
   }
 }
-
-//
-//.title {
-//  font-size: 24px;
-//  margin-left: 24px;
-//  margin-bottom: 16px;
-//  color: $note-color;
-//}
-//
-//.detail {
-//  :global {
-//    .at-list__item .item-extra__info {
-//      padding-right: 0;
-//    }
-//
-//    .item-extra__image {
-//      margin-right: 45px;
-//
-//      width: 80px;
-//      height: 80px;
-//      border-radius: 100px;
-//      overflow: hidden;
-//    }
-//  }
-//}

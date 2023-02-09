@@ -40,14 +40,14 @@ const SignupCard = (props: SignupCardProps) => {
   const [redirectDialogOpen,setRedirectDialogOpen] = useState(false)
 
   function goToSignUp() {
-    if(userType === 3){
-      Taro.showToast({
-        title: '抱歉，本期活动暂时仅面向三年内毕业生开放',
-        icon: 'none',
-        duration: 3000
-      })
-    }
-    else if(!isComplete){
+    // if(userType === 3){
+    //   Taro.showToast({
+    //     title: '抱歉，本期活动暂时仅面向三年内毕业生开放',
+    //     icon: 'none',
+    //     duration: 3000
+    //   })
+    // }
+    if(!isComplete){
       setRedirectDialogOpen(true)
     }
     else{

@@ -66,6 +66,15 @@ export enum GENDER {
   MALE= 1,
 }
 
+export enum QUESTION_TYPE{
+  MULTI_CHOICE = 'MULTI_CHOICE',
+  ORDER = 'ORDER',
+  RANGE = 'RANGE',
+  SINGLE = 'SINGLE',
+  OPTION_CHECK = 'OPTION_CHECK',
+  OPTION_SINGLE = 'OPTION_SINGLE'
+}
+
 export enum INPUT_TYPE{
   STUDENT_NUMBER=1,
   PHONE_NUMBER=2,
@@ -111,7 +120,8 @@ export enum USER_TYPE{
   OTHER=0,
   STUDENT=1,
   GRADUATE_WITH_3_YEAR=2,
-  GRADUTE_MORE_THAN_3_TEAR=3
+  GRADUTE_MORE_THAN_3_TEAR=3,
+  GRADUATE=4,
 }
 
 export enum USER_TYPE_STEPS{
@@ -121,7 +131,7 @@ export enum USER_TYPE_STEPS{
   FINISH
 }
 
-export const USER_TYPE_STRING=['在校生','毕业三年内','毕业超过三年']
+export const USER_TYPE_STRING=['在校生','校友']
 
 export const TEMPERAMENT = {
 female: [{label:'可爱清秀',selected:false},
@@ -192,8 +202,6 @@ export const FUTURE_BASE = [
   {label:'川渝',selected: false},
   {label:'我要自己选',selected: false}]
 
-
-
 export const CURRENT_STATUS = ['本科','全日制硕士','全日制博士','非全日制在读']
 export const CURRENT_GRADE = ['一年级','二年级','三年级','四年级','五年级及以上']
 export const ONE_YEAR_STATUS = ['仍在学校','即将离校（工作、保研/考研外校等）','出国深造']
@@ -202,23 +210,18 @@ export const PHYSIQUE = ['瘦','微瘦','正常','微胖','胖']
 export const LOVE_HISTORY = ['0次','1次','2次','3次','4次及以上']
 export const CONSUMPTION = [{label:'1k以下',selected:false}, {label:'1k-2k',selected: false}, {label:'2k-3k',selected: false}, {label:'3k-4k',selected:false}, {label:'4k以上',selected:false}]
 export const CONSUMPTION_SHARE = ['男生承担大部分','女生承担大部分','严格AA制','不用算清有来有往']
-
 export const HABIT_FREQUENCY = ['5-7次/周','3-4次/周','1-2次/周','1-3次/月','无']
-
 export const GRADUATE_EDUCATION = ['本科毕业','硕士毕业','博士毕业']
 export const GRADUATE_WORK_LOCATION = []
 export const GRADUATE_INCOME = [
   {label:'12w内',selected:false}, {label:'12w-18w',selected: false}, {label:'18w-25w',selected: false}, {label:'25w-50w',selected:false}, {label:'50w以上',selected: false}
 ]
-
-
 export const TAKE_DESIRE = [
   '脱单意愿较低：目前单身，但不着急，交个朋友',
   '脱单意愿不强：佛系随缘，不会主动，合适者来',
   '脱单意愿较强：乐于了解，条件合适，主动追求',
   '脱单意愿强烈：打开话匣，展示自己，直球出击'
 ]
-
 export const SUBJECT_QUESTION = {
   super_power: '如果你明天一觉醒来就能拥有某种才能或能力，你希望那会是什么能力呢？',
   emo: '当你有坏情绪（emo）的时候会怎么发泄？',

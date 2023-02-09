@@ -39,7 +39,7 @@ const Information = () => {
     faculty,
     phoneNumber,
     userType,
-    imageFile:{...material}
+    imageFile: {url: material}
   })
 
   const [userTypeStep,setUserTypeStep] = useState(USER_TYPE_STEPS.CLOSE)
@@ -161,18 +161,15 @@ const Information = () => {
             }}
           >
               <Picker.Column>
-                {
-                  USER_TYPE_STRING.map((item,idx)=>
-                    (<Picker.Option value={idx}>{item}</Picker.Option>)
-                  )
-                }
+                <Picker.Option value={USER_TYPE.STUDENT}>在校生</Picker.Option>
+                <Picker.Option value={USER_TYPE.GRADUATE}>毕业生</Picker.Option>
               </Picker.Column>
               )
           </Picker>
         <View className='confirm-btn' onClick={() => {
-          if(pickerValue+1 === USER_TYPE.STUDENT && needUpdate){
+          if(pickerValue === USER_TYPE.STUDENT && needUpdate || !form.imageFile.url){
             setUserTypeStep(USER_TYPE_STEPS.UPLOAD)
-            setForm({...form,userType: pickerValue+1})
+            setForm({...form,userType: pickerValue})
           }
           else{
             dispatch(submitIdentificationInfo({...form,userType: pickerValue+1,facultyId: findFacultyId(faculty)},false,false))
@@ -204,7 +201,6 @@ const Information = () => {
             </View>
             <View className='uploader-title'>点击拍照或打开相册</View>
             <View className='uploader-desc'>校园卡/学生证/学信网学籍证明/蓝码截图</View>
-            {/*<View className='uploader-desc'>【毕业生】毕业证/学位证/学信网学籍证明</View>*/}
           </View>)}
         </Uploader>
         <View className='confirm-btn' onClick={() => {

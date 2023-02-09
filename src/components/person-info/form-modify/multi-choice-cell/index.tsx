@@ -22,21 +22,21 @@ import {
   combineOthers, findOthers,
   isOthers, splitOthers
 } from "@/utils/fcheck";
-import {IMultiChoice} from "@/typings/types";
+import {IMultiChoice, IOption} from "@/typings/types";
 import './index.scss'
 
 
-export interface MultiChoicePopupProps {
+export interface MultiCellPopupProps {
   title: string,
   modifiable: boolean,
-  multiChoices: IMultiChoice[] | undefined,
+  multiChoices: IMultiChoice[] | IOption[] | undefined,
   multiChoiceLimitRestrict: number,
   otherType:'input' | 'picker' | 'none',
   otherValue?: string,
   onConfirm: any,
 }
 
-const MultiChoiceCell = (props: MultiChoicePopupProps) => {
+const MultiChoiceCell = (props: MultiCellPopupProps) => {
   const {user,global} = useSelector((state) => state)
   const {windowWidth} = global.system!
   const [popupOpen,setPopupOpen] = useState(false)
@@ -50,8 +50,6 @@ const MultiChoiceCell = (props: MultiChoicePopupProps) => {
   const [feedbackValue, setFeedbackValue] = useState('')
   const [showFeedback, setShowFeedback] = useState(false)
   const [canSubmit, setCanSubmit] = useState(false)
-
-  console.log(document.getElementById('浙江省'))
 
   useEffect(()=>{
     if(props.multiChoices){

@@ -1,5 +1,5 @@
-import {IMultiChoice, IPersonInfo, IPhotoUrls} from "@/typings/types";
-import {USER_TYPE} from "@/utils/constant";
+import {IMultiChoice, IOptionalItem, IPersonInfo, IPhotoUrls, IRequiredItem} from "@/typings/types";
+import {QUESTION_TYPE, USER_TYPE} from "@/utils/constant";
 
 export const isOthers = (input: string) => {
   if (input && input.slice(0, 2) === '其他') return true
@@ -156,8 +156,8 @@ export const combineFormatItem = (input:string,append?:string) => {
 }
 
 // 连接字符串
-export const combineChoices = (choices:IMultiChoice[],together: boolean,append?:string)=>{
-  if(!checkMultiChoices(choices)) return ''
+export const combineChoices = (choices:IMultiChoice[] | undefined,together: boolean,append?:string,toPost:boolean=false)=>{
+  if(!choices || !checkMultiChoices(choices)) return ''
   const selected = choices.filter((item)=>item.selected)
   if(selected.length === 0) return ''
   else if(selected.length === 1) {
@@ -174,11 +174,12 @@ export const combineChoices = (choices:IMultiChoice[],together: boolean,append?:
       else
         res.push(combineFormatItem(item.label,append))
     })
-    return res.join(' | ')
+    if(toPost){return res.join('┋')}
+    else return res.join(' | ')
   }
 }
 
-export const checkString = (input:string | undefined) => {
+export const checkString = (input:string | undefined | null) => {
   if(input && input !== '') return true
   return false
 }
@@ -225,10 +226,57 @@ export const checkSubjectInfo = (personInfo: IPersonInfo) => {
   return personInfo && checkString(personInfo.superPower) && checkString(personInfo.emo) && checkString(personInfo.say) &&
     checkRadio(personInfo.wechatFirstTime) && checkRadio(personInfo.beFriend) && checkRadio(personInfo.showLove) && checkRadio(personInfo.isLover) && checkRadio(personInfo.isLoveYou)
 }
-
 export const  checkRequired = (personInfo:IPersonInfo | undefined,images:IPhotoUrls[] | undefined,userType:number) => {
   if(!personInfo || !images) return false
 
   return checkBasicInfo(personInfo) && checkStatusInfo(personInfo,userType) && checkMajorInfo(personInfo,userType)
   && checkLoveInfo(personInfo,userType) && checkApperanceInfo(personInfo,images) && checkHabitInfo(personInfo) && checkSubjectInfo(personInfo)
+}
+
+export const generateProperAnswer = (question:IRequiredItem | IOptionalItem) => {
+  if(question.questionType !== QUESTION_TYPE.RANGE){
+    return question.option.sort((a,b)=>a.choiceIndex-b.choiceIndex).map((item)=>{
+      if(question.answer && question.answer.search(item.id.toString()) !== -1){
+        return {...item, label: item.choice,selected: true}
+      }else{
+        return {...item,label: item.choice,selected: false}
+      }
+    })
+  }else{
+    return question.answer?[+question.answer.split('┋')[0],+question.answer.split('┋')[1]]:[+question.option[0].choice,+question.option[1].choice]
+  }
+}
+
+export const generateViewString = (question,questionType = QUESTION_TYPE.MULTI_CHOICE) => {
+  if(questionType === QUESTION_TYPE.MULTI_CHOICE){
+    const res = combineChoices(question.properAnswer,true)
+    return res?res:'请选择'
+  }else{
+    return `${question.rangeAnswer[0]}cm~${question.rangeAnswer[1]}cm`
+  }
+
+}
+
+export const generateAnswerString = (answer,questionType:string)=>{
+  if (questionType === QUESTION_TYPE.SINGLE){
+    return answer
+  }else if(questionType === QUESTION_TYPE.MULTI_CHOICE){
+    if(!checkMultiChoices(answer)) return ''
+    const selected = answer.filter((item)=>item.selected)
+
+    if(selected.length === 0) return ''
+    else if(selected.length === 1) {
+        return selected[0].id.toString()
+    }else{
+      let res:string[]=[]
+      selected.map((item)=> {
+          res.push(combineFormatItem(item.id.toString()))
+      })
+      return res.join('┋')
+    }
+  }else{
+    return answer
+    // const range = answer.split('┋')
+    // return [+range[0],+range[1]]
+  }
 }

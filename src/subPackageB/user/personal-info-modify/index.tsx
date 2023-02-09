@@ -89,7 +89,6 @@ const Index = () => {
 
   // 信息修改
   const onConfirmPersonInfo = (value) => {
-    console.log('onConfirm',value)
     setPersonInfo({...personInfo, ...value})
     dispatch(submitPersonalInfo({personInfo: {...value}, images: null}))
     // fetchData()
