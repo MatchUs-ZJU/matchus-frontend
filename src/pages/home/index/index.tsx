@@ -109,7 +109,7 @@ const Home = () => {
           <Swiper.Indicator className='indicator'/>
           {banners &&
             banners
-              .filter(banner => banner.shows)
+              // .filter(banner => banner.shows)
               .map((banner) => (
                 <Swiper.Item>
                   <Image

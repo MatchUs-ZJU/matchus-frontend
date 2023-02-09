@@ -47,6 +47,8 @@ import PersonInfoChosenGreyLight from './mine-personalinfo-chosen-grey-light.svg
 import PersonInfoUnchosenPrimary from './mine-personalinfo-unchosen-primary.svg'
 import PersonalInfoUnchosen from './mine-personalinfo-unchosen.svg'
 import PersonalAddOther from './mine-personalinfo-addother.svg'
+import SurveySortBtn from './mine-survey-sort-btn.svg'
+import SurveyAddItem from './mine-survey-additem.svg'
 import consume from './mine-consume.svg'
 import help from './mine-help.svg'
 import aboutus from './mine-aboutus.svg'
@@ -79,7 +81,7 @@ export const welcomeImage = welcome
 export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo,ChooseAcceptChosen,ChooseAcceptUnchosen,ChooseRejectChosen,ChooseRejectUnchosen}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {artiService, commonQuestions, report}
-export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon,
+export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon,SurveySortBtn,SurveyAddItem,
   LockedIcon,IdentityIcon,
   PersonalInfoTipsIcon,PersonalInfoSplit,PersonalInfoAddPhoto,PersonalInfoChosen,PersonalAddOther,PersonInfoChosenPrimary,PersonInfoChosenGrey,PersonInfoChosenGreyLight,PersonInfoUnchosenPrimary,PersonalInfoUnchosen,
   LoveExperience,MatchCount}

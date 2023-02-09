@@ -6,7 +6,6 @@
   align-items: center;
   background: #F3F4FB;
   max-height: 800px;
-
   padding-bottom: 164px;
 
   .popup-avatar{
@@ -28,6 +27,7 @@
 
   .popup-title{
     align-items: center;
+    padding: 0 40px;
     margin-top:32px;
     margin-bottom: 32px;
     font-weight: 500;
@@ -219,7 +219,6 @@
     }
   }
 
-
   .confirm-btn{
     position: fixed;
     bottom: 0;
@@ -242,9 +241,6 @@
   .confirm-btn-disabled{
     background: #D3D0F4;
   }
-
-
-
 
 }
 

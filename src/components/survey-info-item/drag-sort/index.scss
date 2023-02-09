@@ -1,0 +1,91 @@
+@import '../../../app';
+
+.container .movable-container {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  pointer-events: none;
+  .movable-item{
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    background-color: white;
+    border: 2px solid #F7F7F7;
+    justify-content: space-between;
+    z-index: 2;
+    overflow: hidden;
+    .swipe-cell-custom{
+      display: flex;
+      align-items: center;
+      height: 100%;
+      .taroify-swipe-cell__actions {
+        .taroify-button {
+          width: 154px;
+          height: 100%;
+          background: #F85A5A;
+          border: none;
+          &__content{
+            color: white;
+          }
+
+        }
+      }
+
+      .swipe-card{
+        height: 100%;
+        width: 93vw;
+        align-items: center;
+        justify-content: space-between;
+        .left-card{
+          justify-content: space-between;
+          .title-bar{
+            align-items: flex-start;
+            .sort{
+              justify-content: space-around;
+              align-items: center;
+              text-align: center;
+              width: 48px;
+              height: 48px;
+              background-color: #E4E5FB;
+              border-radius: 50%;
+              line-height: 48px;
+              color: $primary-color;
+            }
+
+            .title{
+              font-weight: 400;
+              font-size: 29px;
+              line-height: 40px;
+              margin-left: 16px;
+              color: rgba(0, 0, 0, 0.7);
+            }
+          }
+
+          .answer{
+            font-weight: 400;
+            font-size: 29px;
+            line-height: 40px;
+            width: 600px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: rgba(0, 0, 0, 0.5);
+          }
+
+        }
+
+        .right-icon{
+          position: relative;
+          width: 40px;
+          height: 40px;
+        }
+      }
+
+    }
+
+  }
+
+  .touch-movable-item{
+    border: 4px solid #F7F7F7;
+  }
+}

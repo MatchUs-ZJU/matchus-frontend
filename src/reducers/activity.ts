@@ -5,7 +5,8 @@ import {
   ACTIVITY_SAVE,
   ACTIVITY_SIGN_UP_SAVE,
   ACTIVITY_DAILYQA_SAVE,
-  ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE
+  ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE,
+  ACTIVITY_BASIC_DATA_SAVE
 } from "@/constants";
 import {IMatchAnalysisState, IParticipateState} from "@/typings/types";
 
@@ -34,6 +35,12 @@ export interface IActivityState {
 
   // analysis
   analysis: IMatchAnalysisState
+
+  // activity data
+  totalTerm: number,
+  matched: number,
+  totalParticipate:number,
+  unavailable: number
 }
 
 const INITIAL_STATE: IActivityState = {
@@ -56,7 +63,8 @@ const INITIAL_STATE: IActivityState = {
 
     fillForm: {
       state: 'NOT_START',
-      filled: false
+      filled: false,
+      isComplete: false
     },
 
     match: {
@@ -92,7 +100,11 @@ const INITIAL_STATE: IActivityState = {
   imageUrl: "",
   id: "",
   name: "",
-  price: 0
+  price: 0,
+  totalTerm: 0,
+  matched: 0,
+  totalParticipate: 0,
+  unavailable: 0
 }
 
 export default function activity(state = INITIAL_STATE, action) {
@@ -181,6 +193,10 @@ export default function activity(state = INITIAL_STATE, action) {
             }
           }
         }
+      }
+    case ACTIVITY_BASIC_DATA_SAVE:
+      return {...state,
+        ...action.payload
       }
     default:
       return state

@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {AreaPicker, Cell, Field, Input, Popup, Radio, Textarea} from "@taroify/core";
 import {Text, View} from "@tarojs/components";
 import {checkRadio, combineOthers, fillOthers, isOthers, splitOthers} from "@/utils/fcheck";
-import Taro, {setPageInfo, useDidShow} from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 import classnames from "classnames";
 import {useSelector} from "react-redux";
 import './index.scss'

@@ -1,5 +1,6 @@
-import {USER_SAVE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_IMAGE_DELETE} from "@/constants";
-import {IPersonInfo, IPhotoUrls, ISurveyInfo} from "@/typings/types";
+import {USER_IMAGE_DELETE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_SAVE} from "@/constants";
+import {IPersonInfo, IPhotoUrls, ISurveyDetail, ISurveyInfo} from "@/typings/types";
+import {QUESTION_TYPE} from "@/utils/constant";
 
 export interface IUserState {
   nickName: string;
@@ -42,6 +43,7 @@ export interface IUserState {
   isChangeable: boolean;
   isOldUser: boolean;
   surveyInfo?: ISurveyInfo;
+  surveyDetail?: ISurveyDetail;
 }
 
 const INITIAL_STATE: IUserState = {

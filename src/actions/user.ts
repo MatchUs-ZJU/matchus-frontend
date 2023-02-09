@@ -2,11 +2,11 @@ import Taro from "@tarojs/taro";
 import {USER_IMAGE_DELETE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_SAVE} from "@/constants";
 import {
   decodePhoneNumber, delPersonalImage, getPersonalImage,
-  getPersonInfo,
+  getPersonInfo, getSurveyDetail,
   getSurveyInfo,
   getUserInfo, getUserNeedUpdate,
   identifyUserInfo,
-  login, personalUserInfo, postPersonalImage, postPersonalInfo, postUserNeedNotify, putPersonalImage,
+  login, personalUserInfo, postPersonalImage, postPersonalInfo, postSurveyDetail, postUserNeedNotify, putPersonalImage,
   register, updateUserAvatar, updateUserFaculty,
   updateUserInfo
 } from "@/services/user";
@@ -17,7 +17,7 @@ import {
   GENDER,
   GRADUATE_INCOME,
   INDUSTRY,
-  INTEREST,
+  INTEREST, QUESTION_TYPE,
   TEMPERAMENT,
   TOAST_SHOW_TIME
 } from "@/utils/constant";
@@ -29,7 +29,7 @@ import {
   uploadUserAvatar
 } from "@/utils/taro-utils";
 import {IPhotoUrls} from "@/typings/types";
-import {completeChoices} from "@/utils/fcheck";
+import {completeChoices, generateProperAnswer} from "@/utils/fcheck";
 import user from "@/reducers/user";
 
 export const userSave = (payload,saveType=USER_SAVE) => {
@@ -156,6 +156,60 @@ export const fetchSurveyInfo = () => {
   }
 }
 
+export const fetchSurveyDetail = () => {
+  return async dispatch => {
+    try{
+      console.log('用户信息：获取可编辑匹配问卷')
+      const res = await getSurveyDetail()
+      if(res && res.code === 0) {
+        console.log('用户信息：获取可编辑匹配问卷成功')
+        let surveyDetail = res.data
+
+        const noRequireMatchRequests = surveyDetail.noRequireMatchRequests.map((item)=>{
+          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+        const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
+          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+
+        dispatch(userSave({
+          surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
+            noRequireMatchRequests:[...noRequireMatchRequests],
+            requireMatchRequests:[...requireMatchRequests]}}))
+      }else{
+        console.log('用户信息：获取可编辑匹配问卷失败')
+      }
+    }catch (e){
+      console.log(e)
+    }
+  }
+}
+
+export const modifySurveyDetail = (data) => {
+  return async dispatch => {
+    try{
+      console.log('用户信息：编辑问卷')
+      const res = await postSurveyDetail(data)
+      if(res && res.code === 0){
+        console.log('用户信息：编辑问卷成功')
+        let surveyDetail = res.data
+        const noRequireMatchRequests = surveyDetail.noRequireMatchRequests.map((item)=>{
+          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+        const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
+          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+
+        dispatch(userSave({
+          surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
+            noRequireMatchRequests:[...noRequireMatchRequests],
+            requireMatchRequests:[...requireMatchRequests]}}))
+      }
+    }catch (e){
+      console.log(e)
+    }
+  }
+}
 // 初始化进入小程序的用户数据
 export const initRegister = (openid) => {
   return async dispatch => {

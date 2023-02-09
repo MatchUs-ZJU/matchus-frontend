@@ -1,3 +1,5 @@
+import {QUESTION_TYPE} from "@/utils/constant";
+
 export interface IFaculty {
   id: string,
   name: string
@@ -70,7 +72,8 @@ export interface IParticipateState {
 
   fillForm: {
     state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
-    filled: boolean
+    filled: boolean,
+    isComplete: boolean
   };
 
   match: {
@@ -162,6 +165,43 @@ export interface IPersonInfo{
   updateTime: number
 }
 
+interface IDepend{
+  id: number,
+  questionId: number,
+  dependQuestionId: number,
+  dependOptionId: number
+}
+
+export interface IOption{
+  id: number,
+  questionId: number,
+  choice: string,
+  choiceIndex: number,
+  label:string,
+  selected:boolean
+}
+
+export interface IOptionalItem {
+  questionId: number
+  questionIndex: number,
+  depends:IDepend[] | undefined,
+  title: string,
+  required: boolean,
+  option: IOption[],
+  answer?: string,
+  properAnswer?: IOption[],
+  rangeAnswer?: number[],
+  questionType: QUESTION_TYPE,
+  limit?: number,
+  order: number,
+  otherType?: 'input' | 'picker' | undefined
+}
+
+export interface ISurveyDetail{
+  noRequiredMax:number,
+  noRequireMatchRequests: IOptionalItem[],
+  requireMatchRequests: IOptionalItem[]
+}
 
 export interface ISurveyInfo {
   survey: ISurveyItem[]
@@ -202,9 +242,8 @@ export interface IPhotoUrls {
 export interface IMultiChoice{
   label: string
   selected: boolean
-  append?: string
+  // append?: string
 }
-
 
 export interface ISingleChoice{
   question: string,

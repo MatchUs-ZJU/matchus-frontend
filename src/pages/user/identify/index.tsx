@@ -10,9 +10,9 @@ import {fetchPhoneNumber, submitIdentificationInfo} from "@/actions/user";
 import {getFormatGender, getFormatUserType} from "@/utils/fstring";
 import {studentNumberRegTest} from "@/utils/reg";
 import classnames from "classnames";
-
-import './index.scss'
 import {notifySubscribe} from "@/actions/activity";
+import {USER_TYPE} from "@/utils/constant";
+import './index.scss'
 
 interface PickerState {
   open: boolean,
@@ -30,7 +30,6 @@ const Index = () => {
     type: 'gender'
   })
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
-  console.log(picker)
 
   const [form, setForm] = useState({
     realName: '',
@@ -251,7 +250,8 @@ const Index = () => {
               <View className='item'>
                 <Text className='label'>性别</Text>
                 <Field className='field' rightIcon={<ArrowDown/>}
-                       onClick={() => setPicker({open: true, type: 'gender'})}>
+                  onClick={() => setPicker({open: true, type: 'gender'})}
+                >
                   <Input
                     readonly
                     placeholder='请选择性别'
@@ -262,7 +262,8 @@ const Index = () => {
               <View className='item'>
                 <Text className='label'>当前身份</Text>
                 <Field className='field' rightIcon={<ArrowDown/>}
-                       onClick={() => setPicker({open: true, type: 'userType'})}>
+                  onClick={() => setPicker({open: true, type: 'userType'})}
+                >
                   <Input
                     readonly
                     placeholder='请选择当前身份'
@@ -273,7 +274,8 @@ const Index = () => {
               <View className='item'>
                 <Text className='label'>院系</Text>
                 <Field className='field' rightIcon={<ArrowDown/>}
-                       onClick={() => setPicker({open: true, type: 'faculty'})}>
+                  onClick={() => setPicker({open: true, type: 'faculty'})}
+                >
                   <Input readonly placeholder='请选择院系' value={form.faculty}/>
                 </Field>
               </View>
@@ -330,7 +332,8 @@ const Index = () => {
               'register-btn',
               {'register-btn-submit': canRegister}
             )}
-            onClick={onSubmitRegister}>
+            onClick={onSubmitRegister}
+          >
             注册
           </View>
         </View>
@@ -364,9 +367,8 @@ const Index = () => {
             </Picker.Column>
           ) : (
             <Picker.Column>
-              <Picker.Option value={1}>在校生（包括今年夏季毕业生）</Picker.Option>
-              <Picker.Option value={2}>2019年-2022年5月从浙大毕业的毕业生</Picker.Option>
-              <Picker.Option value={3}>2018年以前（包括2018）从浙大毕业的毕业生</Picker.Option>
+              <Picker.Option value={USER_TYPE.STUDENT}>在校生</Picker.Option>
+              <Picker.Option value={USER_TYPE.GRADUATE}>毕业生</Picker.Option>
             </Picker.Column>
           )}
         </Picker>
