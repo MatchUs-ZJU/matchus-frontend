@@ -23,14 +23,12 @@ import {
 } from "@/utils/constant";
 import {
   deletePersonInfoImage,
-  getTmpUrl,
   uploadIdentificationImage,
   uploadPersonInfoImage,
   uploadUserAvatar
 } from "@/utils/taro-utils";
 import {IPhotoUrls} from "@/typings/types";
 import {completeChoices, generateProperAnswer} from "@/utils/fcheck";
-import user from "@/reducers/user";
 
 export const userSave = (payload,saveType=USER_SAVE) => {
   return {
@@ -99,19 +97,7 @@ export const fetchPersonInfo = () => {
       const res = await getPersonInfo()
 
       if(res && res.code === 0){
-        if(res.data.images){
-          console.log('用户信息：获得个人照片临时链接')
-          const images = res.data.images
-          const tmpUrl = await getTmpUrl(images)
-          if(tmpUrl && tmpUrl.errMsg !== 'cloud.getTempFileURL:ok'){
-            console.log('用户信息：获得个人照片临时链接失败')
-          }
-          const photoUrls = images.map((item,idx)=>{
-            return {...item,imageUrl:tmpUrl.fileList[idx].fileID,tmpUrl:tmpUrl.fileList[idx].tempFileURL}
-          })
-          dispatch(userSave({images: photoUrls}))
-        }
-
+        const images = res.data.images
         if(res.data.personInfo){
             const completeInterest = completeChoices(res.data.personInfo.interest,INTEREST)
             const completeFutureBase = completeChoices(res.data.personInfo.futureBase,FUTURE_BASE)
@@ -123,7 +109,8 @@ export const fetchPersonInfo = () => {
               personInfo: {...res.data.personInfo,interest:completeInterest,futureBase:completeFutureBase,temperament:completeTemper,industry:completeIndustry,consumption:completeConsumption,graduateIncome:completeGraduateIncome},
               isComplete: res.data.isComplete,
               isChangeable: res.data.isChangeable,
-              isOldUser:res.data.isOldUser
+              isOldUser:res.data.isOldUser,
+              images: images
             }))
           }
 
@@ -690,12 +677,6 @@ export const submitPersonalInfo=(data)=>{
       const res = await postPersonalInfo({personInfo:data.personInfo,images:[...images]})
       if (res && res.code === 0) {
         console.log("用户个人信息：提交用户个人信息成功")
-        // if(!data.images){
-        //   dispatch(userSave({personInfo:data.personInfo},USER_PERSONINFO_SAVE))
-        //
-        // } else{
-        //   dispatch(fetchPersonInfo())
-        // }
         dispatch(fetchPersonInfo())
 
         await Taro.showToast({

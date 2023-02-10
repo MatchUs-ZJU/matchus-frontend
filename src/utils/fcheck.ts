@@ -236,11 +236,12 @@ export const  checkRequired = (personInfo:IPersonInfo | undefined,images:IPhotoU
 export const generateProperAnswer = (question:IRequiredItem | IOptionalItem) => {
   if(question.questionType !== QUESTION_TYPE.RANGE){
     return question.option.sort((a,b)=>a.choiceIndex-b.choiceIndex).map((item)=>{
-      if(question.answer && question.answer.search(item.id.toString()) !== -1){
-        return {...item, label: item.choice,selected: true}
-      }else{
-        return {...item,label: item.choice,selected: false}
+      if(question.answer){
+        const answers = question.answer.split('┋')
+        if(answers.indexOf(item.id.toString()) !== -1)
+          return {...item, label: item.choice,selected: true}
       }
+        return {...item,label: item.choice,selected: false}
     })
   }else{
     return question.answer?[+question.answer.split('┋')[0],+question.answer.split('┋')[1]]:[+question.option[0].choice,+question.option[1].choice]
