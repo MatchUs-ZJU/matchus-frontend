@@ -172,7 +172,7 @@ const Information = () => {
             setForm({...form,userType: pickerValue})
           }
           else{
-            dispatch(submitIdentificationInfo({...form,userType: pickerValue+1,facultyId: findFacultyId(faculty)},false,false))
+            dispatch(submitIdentificationInfo({...form,userType: pickerValue,facultyId: findFacultyId(faculty)},false,false))
             setUserTypeStep(USER_TYPE_STEPS.FINISH)
            }
           }

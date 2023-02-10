@@ -27,7 +27,6 @@ const PhotoBox = (props: IPhotoProps)=>{
 
   useEffect(()=>{
     setImages(props.images)
-    // onChange(props.images)
   },[props.images])
 
   async function onUpload() {
@@ -65,7 +64,6 @@ const PhotoBox = (props: IPhotoProps)=>{
         }
         else{
           setImages([...updatedImages])
-          onChange([...updatedImages])
         }
       })
     }
@@ -74,16 +72,14 @@ const PhotoBox = (props: IPhotoProps)=>{
   async function onRemove(idx,item) {
     if(isChangeable){
       let updatedImages = images
-      const deletResult = images.filter((img) => img !== item)
+      const deletResult = images.filter((img) => img.id !== item.id)
       if(updatedImages[idx].id){
         updatedImages[idx] = {...updatedImages[idx],delete: true}
         dispatch(deletePersonalImages(updatedImages[idx]))
         setImages([...deletResult])
-        onChange([...deletResult])
       }
       else{
         setImages([...deletResult])
-        onChange([...deletResult])
       }
     }else{
       await Taro.showToast({
@@ -97,19 +93,14 @@ const PhotoBox = (props: IPhotoProps)=>{
   return (
     <View className='photo-box'>
       <View className={classnames('row', 'uploader')}>
-      {/*  <Uploader*/}
-      {/*  multiple*/}
-      {/*  className={classnames('row', 'uploader')}*/}
-      {/*  maxFiles={3}*/}
-      {/*>*/}
         {images && images.map((item,idx) => (
           (item.imageUrl || item.tmpUrl) &&
           <View className='movable-img-box'>
             <View className='uploader-img-preview'>
               <Image
                 key={item.id}
-                src={item.tmpUrl?item.tmpUrl:item.imageUrl}
-                onClick={() => viewImages([item.tmpUrl?item.tmpUrl:item.imageUrl])}
+                src={item.imageUrl?item.imageUrl:''}
+                onClick={() => viewImages([item.imageUrl])}
                 className='uploader-img'
               />
             </View>
