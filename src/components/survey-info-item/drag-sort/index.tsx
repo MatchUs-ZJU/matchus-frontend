@@ -101,7 +101,9 @@ const DragSort = (props: DragSortProps) => {
                 disabled={!props.isChangeable || item.question.questionId !== changeId}
                 className={classnames('row movable-item', {'touch-movable-item': item.question.questionId === changeId})}
                 onLongPress={() => {
-                  setChangeId(item.question.questionId);
+                  if(props.isChangeable){
+                    setChangeId(item.question.questionId);
+                  }
                 }}
                 onTouchEnd={() => {
                   if (props.isChangeable) {
@@ -140,12 +142,12 @@ const DragSort = (props: DragSortProps) => {
                     setPopUpProps({...item.question, open: true})
                   } else {
                     await Taro.showToast({
-                      title: "您已提交本期活动问卷，暂时不可修改～", duration: TOAST_SHOW_TIME, icon: 'none'
+                      title: "您已提交本期活动问卷，暂时不可修改～", duration: 2000, icon: 'none'
                     })
                   }
                 }}
               >
-                <SwipeCell className='row swipe-cell-custom' defaultOpen='outside'
+                <SwipeCell className='row swipe-cell-custom' defaultOpen='outside' disabled={!props.isChangeable}
                   onOpen={() => setSwipeCellId(item.question.questionId)}
                   open={item.question.questionId === swipeCellId ? 'right' : 'outside'}
                 >
@@ -167,7 +169,7 @@ const DragSort = (props: DragSortProps) => {
                         deleteItem(item.question)
                       else {
                         await Taro.showToast({
-                          title: "您已提交本期活动问卷，暂时不可修改～", duration: TOAST_SHOW_TIME, icon: 'none'
+                          title: "您已提交本期活动问卷，暂时不可修改～", duration: 2000, icon: 'none'
                         })
                       }
                     }}
