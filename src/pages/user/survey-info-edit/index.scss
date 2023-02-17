@@ -172,3 +172,31 @@
     height: 44px;
   }
 }
+
+.container .btn-wrapper {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .btn-wrapper .confirm-btn{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 620px;
+  height: 88px;
+  margin: 24px 0;
+  background: $primary-color;
+  border-radius: 60px;
+
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+.container .btn-wrapper .confirm-btn-disabled{
+  background: #D3D0F4;
+}

@@ -38,13 +38,13 @@ const Information = () => {
     gender,
     faculty,
     phoneNumber,
-    userType,
+    userType: USER_TYPE.STUDENT,
     imageFile: {url: material}
   })
 
   const [userTypeStep,setUserTypeStep] = useState(USER_TYPE_STEPS.CLOSE)
   const [userFacultyOpen,setUserFacultyOpen] = useState(false)
-  const [pickerValue,setPickerValue] = useState(0)
+  const [pickerValue,setPickerValue] = useState(USER_TYPE.STUDENT)
   const [facultyPicker,setFacultyPicker] = useState(0)
 
   async function refillForm() {
@@ -167,7 +167,7 @@ const Information = () => {
               )
           </Picker>
         <View className='confirm-btn' onClick={() => {
-          if(pickerValue === USER_TYPE.STUDENT && needUpdate || !form.imageFile.url){
+          if(needUpdate || !form.imageFile.url){
             setUserTypeStep(USER_TYPE_STEPS.UPLOAD)
             setForm({...form,userType: pickerValue})
           }

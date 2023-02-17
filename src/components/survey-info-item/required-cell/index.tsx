@@ -95,22 +95,29 @@ const SurveyMultiCell = (props: SurveyMultiCellProps) => {
       <Cell
         className='form-cell form-qa-cell'
         title={props.title}
-        clickable={!(state==='ACTIVE' && filled)}
+        clickable={props.modifiable}
         align='center'
         onClick={async () => {
-          setMultiChoices(props.multiChoices?props.multiChoices:[])
-          setPopupOpen(true)
-          if(state==='ACTIVE' && filled){
-            await Taro.showToast({
-              title: "您已提交本期活动问卷，暂时不可修改～",
-              duration: TOAST_SHOW_TIME,
-              icon: 'none'
-            })
-          }
-          else {
+          if(props.modifiable){
             setMultiChoices(props.multiChoices?props.multiChoices:[])
             setPopupOpen(true)
+            if(state==='ACTIVE' && filled){
+              await Taro.showToast({
+                title: "您已提交本期活动问卷，暂时不可修改～",
+                duration: TOAST_SHOW_TIME,
+                icon: 'none'
+              })
+            }
+            else {
+              setMultiChoices(props.multiChoices?props.multiChoices:[])
+              setPopupOpen(true)
+            }
+          }else{
+            await Taro.showToast({
+              title: "您已提交本期活动问卷，暂时不可修改～", duration: 2000, icon: 'none'
+            })
           }
+
         }}
       >
         <View className='value qa-value'>

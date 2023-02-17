@@ -1,6 +1,6 @@
 import classnames from "classnames";
-import {Text, View} from "@tarojs/components";
-import {Cell, Image, Slider, Switch} from "@taroify/core"
+import {Button, Text, View} from "@tarojs/components";
+import {Cell, Dialog, Image, Slider, Switch} from "@taroify/core"
 import {QUESTION_TYPE, TOAST_SHOW_TIME} from "@/utils/constant";
 import MultiChoicePopUp from "@/components/survey-info-item/multi-choice-popup";
 import {IDepend, IOption, IOptionalItem} from "@/typings/types";
@@ -17,7 +17,7 @@ import DragSort from "@/components/survey-info-item/drag-sort";
 import Taro from "@tarojs/taro";
 import {checkString, combineChoices, generateAnswerString} from "@/utils/fcheck";
 import SurveyMultiCell from "@/components/survey-info-item/required-cell";
-
+import {fetchActivityData, finishFillForm as actionFinishFillForm} from "@/actions/activity";
 import './index.scss'
 
 interface ISurveyPopUp{
@@ -32,9 +32,12 @@ interface ISurveyPopUp{
 const SurveyInfoEdit = () => {
   const dispatch = useDispatch()
   const {user} = useSelector(state=>state)
-  const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
+  const {fillForm,match} = useSelector(rootState => rootState.activity.participate)
+  const {filled,isComplete} = fillForm
+  const {matchResult} = match
   const surveyDetail = user.surveyDetail!
 
+  const [changeable,setChangeable] = useState(false)
   const [required,setRequired] = useState<IOptionalItem[]>([])
   const [chosenOptional,setChosenOptional] = useState<IOptionalItem[]>([])
   const [unChosenOptional,setUnchosenOptional] = useState<IOptionalItem[]>([])
@@ -64,9 +67,11 @@ const SurveyInfoEdit = () => {
   })
   const [popUpOpenId,setPopUpOpenId] = useState(-1)
   const [filledRequired,setFilledRequired] = useState(false)
+  const [confirmDialogOpen,setConfirmDialogOpen] = useState(false)
 
   useEffect(()=>{
     dispatch(fetchSurveyDetail())
+    dispatch(fetchActivityData())
   },[])
 
   useEffect(()=>{
@@ -87,6 +92,13 @@ const SurveyInfoEdit = () => {
       setRequired([...surveyDetail.requireMatchRequests])
     }
   },[surveyDetail])
+  useEffect(()=>{
+    if(match.state === 'NOT_START' && filled) setChangeable(false)
+    else if(match.state === 'ACTIVE' && matchResult) setChangeable(false)
+    else{
+      setChangeable(true)
+    }
+  },[fillForm,match])
 
   const checkDepend = (depend : IDepend[] | undefined,allQuestions = [...surveyDetail.requireMatchRequests,...surveyDetail.noRequireMatchRequests]) => {
     if(depend && depend.length > 0){
@@ -144,6 +156,22 @@ const SurveyInfoEdit = () => {
     dispatch(modifySurveyDetail(postData))
   }
 
+  const onSubmit = ()=>{
+    if(fillForm.state === 'ACTIVE' && !filled){
+      // 对话框是否确认提交
+      setConfirmDialogOpen(true)
+    }else{
+      // 仅保存信息
+      onConfirmAll([...surveyDetail.noRequireMatchRequests,...surveyDetail.requireMatchRequests])
+    }
+  }
+
+  const confirmSubmit = ()=>{
+    if(surveyDetail && isComplete){
+      dispatch(actionFinishFillForm([...surveyDetail.noRequireMatchRequests,...surveyDetail.requireMatchRequests]))
+    }
+  }
+
   const addOptinal = async (item: IOptionalItem)=>{
     if(chosenOptional.length >= surveyDetail.noRequiredMax){
       await Taro.showToast({title:`最多选择${surveyDetail.noRequiredMax}项~`,duration:2000,icon:'none'})
@@ -167,7 +195,7 @@ const SurveyInfoEdit = () => {
                   <SurveyMultiCell
                     title={item.title}
                     answer={combineChoices(item.properAnswer,true)}
-                    modifiable
+                    modifiable={changeable}
                     multiChoices={item.properAnswer?[...item.properAnswer]:[]}
                     multiChoiceLimitRestrict={item.limit}
                     otherType='none'
@@ -196,9 +224,18 @@ const SurveyInfoEdit = () => {
                 ):item.questionType===QUESTION_TYPE.RANGE?(
                 <View className='col age-cell'>
                   <Text>{item.title}</Text>
-                  <Slider className='survey-slider' range defaultValue={[1996,2005]} step={1} min={+item.option[0].choice} max={+item.option[1].choice} size={3} value={item.rangeAnswer}
+                  <Slider
+                    className='survey-slider'
+                    range
+                    defaultValue={[1996,2005]}
+                    step={1}
+                    min={+item.option[0].choice}
+                    max={+item.option[1].choice}
+                    size={3}
+                    value={item.rangeAnswer}
+                    disabled={!changeable}
                     onChange={async (value)=>{
-                      if(!filled){
+                      if(changeable){
                         setRequired([...required.map((_item)=>{
                           if(_item.questionId === item.questionId) return {..._item,rangeAnswer:[...value],
                             answer:`${value[0]}┋${value[1]}`}
@@ -207,14 +244,16 @@ const SurveyInfoEdit = () => {
                       else{
                         await Taro.showToast({
                           title: "您已提交本期活动问卷，暂时不可修改～",
-                          duration: TOAST_SHOW_TIME,
+                          duration: 2000,
                           icon: 'none'
                         })
                       }
                       }
                     }
                     onTouchEnd={()=>{
-                      onConfirmRequired(required)
+                      if(changeable){
+                        onConfirmRequired(required)
+                      }
                     }}
                   >
                     <Slider.Thumb><Text className='slider-text'>{item.rangeAnswer?item.rangeAnswer[0]:item.option[0].choice}</Text></Slider.Thumb>
@@ -241,7 +280,7 @@ const SurveyInfoEdit = () => {
       ):(
         <>
           <DragSort
-            isChangeable={!filled}
+            isChangeable={changeable}
             dragList={chosenOptional.map((q)=> {
               return {question:q, y: 0}
             })}
@@ -266,7 +305,7 @@ const SurveyInfoEdit = () => {
                   className='switch-color'
                   checked={relaxCheck.answer === '是'}
                   onChange={async (value)=>{
-                    if(!filled){
+                    if(changeable){
                       if(value){
                         onConfirmRelax([{...relaxCheck,answer:'是'},relaxSingle])
                       }else{
@@ -276,7 +315,7 @@ const SurveyInfoEdit = () => {
                   else{
                       await Taro.showToast({
                         title: "您已提交本期活动问卷，暂时不可修改～",
-                        duration: TOAST_SHOW_TIME,
+                        duration: 2000,
                         icon: 'none'
                       })
                     }
@@ -297,13 +336,13 @@ const SurveyInfoEdit = () => {
                           {i !== 0 && <View className='relax-axis'/>}
                           <View className={classnames('col relax-radio-item',{'relax-radio-item-checked':`${item}` === relaxSingle.answer})}
                             onClick={async ()=>{
-                              if(!filled) {
+                              if(changeable) {
                                 onConfirmRelax([relaxCheck, {...relaxSingle, answer: `${item}`}])
                               }
                               else{
                                 await Taro.showToast({
                                   title: "您已提交本期活动问卷，暂时不可修改～",
-                                  duration: TOAST_SHOW_TIME,
+                                  duration: 2000,
                                   icon: 'none'
                                 })
                               }
@@ -331,13 +370,13 @@ const SurveyInfoEdit = () => {
             <View className='row survey-item'>
               <Text className='font'>{_item.title}</Text>
               <Image className='right-btn' src={SurveyAddItem} onClick={async ()=>{
-                if(!filled){
+                if(changeable){
                   addOptinal(_item)
                 }
                 else{
                   await Taro.showToast({
                     title: "您已提交本期活动问卷，暂时不可修改～",
-                    duration: TOAST_SHOW_TIME,
+                    duration: 2000,
                     icon: 'none'
                   })
                 }
@@ -367,6 +406,33 @@ const SurveyInfoEdit = () => {
             :<></>
         )
       })}
+
+      {fillForm.state === 'ACTIVE' && match.state !== 'ACTIVE' && !filled && <View className='row btn-wrapper'>
+        <View className={classnames('confirm-btn', {'confirm-btn-disabled': !isComplete})}
+          onClick={
+          async () => {
+            if(isComplete){
+              onSubmit()
+            }else{
+              await Taro.showToast({title:'您还有问卷内容未完善～',duration:2000,icon:'none'})
+            }
+
+          }}
+        >提交本期活动问卷</View>
+      </View>}
+
+      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
+        <Dialog.Header className='dialog-header'>确认提交问卷？确认后匹配问卷不可修改</Dialog.Header>
+        <Dialog.Actions>
+          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
+          <Button className='dialog-btn' onClick={() => {
+            setConfirmDialogOpen(false)
+            confirmSubmit()
+          }}
+          >确认提交
+          </Button>
+        </Dialog.Actions>
+      </Dialog>
 
     </View>
   )
