@@ -1,38 +1,25 @@
-import {useEffect, useRef, useState} from "react";
-import {Cell, Field, Image, Input, Popup} from "@taroify/core";
+import {useEffect, useState} from "react";
+import {Cell, Image, Picker, Popup} from "@taroify/core";
 import {ScrollView, Text, View} from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import {PersonalAddOther, PersonalInfoUnchosen, PersonInfoChosenGrey, PersonInfoChosenGreyLight} from "@/assets/images";
+import {PersonalInfoUnchosen} from "@/assets/images";
 import {useSelector} from "react-redux";
-import {
-  AddressData,
-  CHECK_TYPE,
-  TOAST_SHOW_TIME,
-  WARNING_MSG,
-  WARNING_NOTE
-} from "@/utils/constant";
+import {QUESTION_TYPE, TOAST_SHOW_TIME, WARNING_NOTE} from "@/utils/constant";
 import classnames from "classnames";
-import {ArrowDown, ArrowUp} from "@taroify/icons";
-import {
-  checkMultiChoices,
-  checkMultiChoicesWithOther,
-  checkMultiChoicesWithOtherTogether,
-  checkOtherChoiceState,
-  checkString, combineChoices,
-  combineOthers, findOthers, generateAnswerString,
-  isOthers, splitOthers
-} from "@/utils/fcheck";
-import {IMultiChoice, IOption} from "@/typings/types";
+import {checkMultiChoices, combineChoices, generateViewString} from "@/utils/fcheck";
+import {IOption, IOptionalItem} from "@/typings/types";
 import './index.scss'
 
 
 export interface SurveyMultiCellProps {
   title: string,
+  type: QUESTION_TYPE
+  question?: IOptionalItem | undefined,
   answer: string | undefined,
   modifiable: boolean,
-  multiChoices: IOption[] | undefined,
-  multiChoiceLimitRestrict: number | undefined,
-  otherType:'input' | 'picker' | 'none',
+  multiChoices?: IOption[] | undefined,
+  multiChoiceLimitRestrict?: number | undefined,
+  otherType?:'input' | 'picker' | 'none',
   otherValue?: string,
   onConfirm: any,
 }
@@ -44,35 +31,65 @@ const SurveyMultiCell = (props: SurveyMultiCellProps) => {
   const {windowWidth} = global.system!
   const [popupOpen,setPopupOpen] = useState(false)
   const [cellValue,setCellValue] = useState('')
-  const [multiChoices, setMultiChoices] = useState<IOption[]>(props.multiChoices?[...props.multiChoices]:[])
+  const [multiChoices, setMultiChoices] = useState<IOption[] | undefined>(props.multiChoices?[...props.multiChoices]:[])
+  const [question, setQuestion] = useState<IOptionalItem | undefined>(props.question?props.question:undefined)
+  const [range,setRange] = useState<number[]>([])
 
   const [feedbackValue, setFeedbackValue] = useState('')
   const [showFeedback, setShowFeedback] = useState(false)
   const [canSubmit, setCanSubmit] = useState(false)
 
   useEffect(()=>{
-    if(props.multiChoices){
+    if(props.question){
+      setQuestion({...props.question})
+      const cnt = +props.question.option[1].choice - +props.question.option[0].choice+1
+      setRange([...new Array(cnt).keys()].map( (i)=> i+(+ props.question.option[0].choice)))
+      if(props.question.answer){
+        setCellValue(generateViewString(props.question,props.question.questionType))
+        return
+      }
+
+    }else if(props.multiChoices){
       setMultiChoices([...props.multiChoices])
       if(checkMultiChoices(props.multiChoices)){
         setCellValue(combineChoices(props.multiChoices,true))
         return
       }
     }
-    setCellValue('请选择')
+      setCellValue('请选择')
   },[props])
 
   useEffect(() => {
-    const thisCheck = checkCanSubmit()
-    setCanSubmit(thisCheck)
-    if (checkMultiChoices(multiChoices)) {
+    if (props.type === QUESTION_TYPE.MULTI_CHOICE ) {
+      const thisCheck = checkCanSubmit()
+      setCanSubmit(thisCheck)
+      if(checkMultiChoices(multiChoices)){
         setFeedbackValue('')
-    } else {
-      setFeedbackValue(WARNING_MSG[WARNING_NOTE.AT_LEAST_ONE])
+      }
+      else {
+        setFeedbackValue(WARNING_NOTE.AT_LEAST_ONE)
+      }
     }
   }, [multiChoices])
 
+  useEffect(() => {
+    if(props.type === QUESTION_TYPE.RANGE){
+      const thisCheck = checkCanSubmit()
+      setCanSubmit(thisCheck)
+      if(question && question.rangeAnswer && question.rangeAnswer[1] < question.rangeAnswer[0]){
+        setFeedbackValue(WARNING_NOTE.INVALID_RANGE)
+      }else{
+        setFeedbackValue('')
+      }
+    }
+
+  },[question?.rangeAnswer])
+
   const checkCanSubmit = () => {
-      return checkMultiChoices(multiChoices)
+    if(props.type === QUESTION_TYPE.RANGE) {
+      return question && question.rangeAnswer ? question.rangeAnswer[0] <= question.rangeAnswer[1] : false
+    }
+    return checkMultiChoices(multiChoices)
   }
 
   const onCancel = () => {
@@ -81,12 +98,15 @@ const SurveyMultiCell = (props: SurveyMultiCellProps) => {
 
   const onConfirm = () => {
     if (checkCanSubmit()) {
-      props.onConfirm({choice:multiChoices})
+      if(props.type===QUESTION_TYPE.RANGE && question){
+        props.onConfirm({choice: `${question.rangeAnswer ? question.rangeAnswer[0] : +question.option[0].choice}┋${question.rangeAnswer ? question.rangeAnswer[1] : +question.option[1].choice}` })
+      }else if(props.type===QUESTION_TYPE.MULTI_CHOICE) {
+        props.onConfirm({choice: multiChoices})
+      }
       onCancel()
     } else {
+      Taro.showToast({title: feedbackValue,duration:2000,icon:'none'})
       setCanSubmit(false)
-      setShowFeedback(true)
-
     }
   }
 
@@ -101,27 +121,19 @@ const SurveyMultiCell = (props: SurveyMultiCellProps) => {
           if(props.modifiable){
             setMultiChoices(props.multiChoices?props.multiChoices:[])
             setPopupOpen(true)
-            if(state==='ACTIVE' && filled){
-              await Taro.showToast({
-                title: "您已提交本期活动问卷，暂时不可修改～",
-                duration: TOAST_SHOW_TIME,
-                icon: 'none'
-              })
-            }
-            else {
-              setMultiChoices(props.multiChoices?props.multiChoices:[])
-              setPopupOpen(true)
-            }
+            setMultiChoices(props.multiChoices?props.multiChoices:[])
+            setPopupOpen(true)
+
           }else{
             await Taro.showToast({
-              title: "您已提交本期活动问卷，暂时不可修改～", duration: 2000, icon: 'none'
+              title: "活动报名结束-匹配结果公布期间不能修改问卷", duration: 2000, icon: 'none'
             })
           }
 
         }}
       >
         <View className='value qa-value'>
-          {!checkString(props.answer) && <View className='dot'/>}
+          {cellValue==='请选择' && <View className='dot'/>}
           <Text>{cellValue}</Text>
         </View>
       </Cell>
@@ -131,46 +143,68 @@ const SurveyMultiCell = (props: SurveyMultiCellProps) => {
         <View className='popup-title'>
           {props.title}
         </View>
-
+        {props.type === QUESTION_TYPE.MULTI_CHOICE?(
           <View className='check-body'>
             <ScrollView className='card-scroll' showScrollbar={false} enableFlex scrollY scrollWithAnimation style={{width: `${0.9*windowWidth}`}}>
-            {multiChoices &&
-              <>
-                {multiChoices.map((item, idx) => (
+              {multiChoices &&
+                <>
+                  {multiChoices.map((item, idx) => (
 
-                    <View
-                      className={classnames('row', 'check-label', {'check-label-selected': item.selected})}
-                      onClick={async () => {
-                        if (props.multiChoiceLimitRestrict && props.multiChoiceLimitRestrict > 0 && !item.selected && multiChoices.filter((it => it.selected)).length >= props.multiChoiceLimitRestrict) {
-                          await Taro.showToast({
-                            title: `最多只能选择${props.multiChoiceLimitRestrict}项～`,
-                            duration: TOAST_SHOW_TIME,
-                            icon: 'none'
-                          })
-                        } else {
-                          let updatedMultiChoices = multiChoices
-                          updatedMultiChoices[idx].selected = !updatedMultiChoices[idx].selected
-                          setMultiChoices([...updatedMultiChoices])
-                        }
-                      }}
-                    >
-                      <Text
-                        className={classnames('check-text', {'check-text-selected': item.selected})}
-                      >{item.label}</Text>
-                      {item.selected && <Image src={PersonalInfoUnchosen} className='selected-icon'/>}
-                    </View>
+                      <View
+                        className={classnames('row', 'check-label', {'check-label-selected': item.selected})}
+                        onClick={async () => {
+                          if (props.multiChoiceLimitRestrict && props.multiChoiceLimitRestrict > 0 && !item.selected && multiChoices.filter((it => it.selected)).length >= props.multiChoiceLimitRestrict) {
+                            await Taro.showToast({
+                              title: `最多只能选择${props.multiChoiceLimitRestrict}项～`,
+                              duration: TOAST_SHOW_TIME,
+                              icon: 'none'
+                            })
+                          } else {
+                            let updatedMultiChoices = multiChoices
+                            updatedMultiChoices[idx].selected = !updatedMultiChoices[idx].selected
+                            setMultiChoices([...updatedMultiChoices])
+                          }
+                        }}
+                      >
+                        <Text
+                          className={classnames('check-text', {'check-text-selected': item.selected})}
+                        >{item.label}</Text>
+                        {item.selected && <Image src={PersonalInfoUnchosen} className='selected-icon'/>}
+                      </View>
+                    )
+                  )}
+                </>}
+            </ScrollView>
+          </View>
+        ):question && props.type === QUESTION_TYPE.RANGE?(
+          <View className='col range-picker'>
+            <View className='row range-title'>
+              <View>最低</View>
+              <View>最高</View>
+            </View>
+            <Picker value={question.rangeAnswer?question.rangeAnswer:[range[0],range[range.length-1]]} onCancel={onCancel} onChange={(value) => setQuestion({...question, rangeAnswer: [...value]})}>
+              <Picker.Column>
+                {
+                  range.map((_item)=>
+                    <Picker.Option value={_item}>{_item}</Picker.Option>
                   )
-                )}
-              </>}
-        </ScrollView>
-      </View>
-        {showFeedback && feedbackValue && feedbackValue !== '' &&
-          <View className='warning-note'>{feedbackValue}</View>}
+                }
+              </Picker.Column>
+              <Picker.Column>
+                {
+                  range.map((_item)=>
+                    <Picker.Option value={_item}>{_item}</Picker.Option>
+                  )
+                }
+              </Picker.Column>
+            </Picker>
+          </View>
+        ):(<></>)
+        }
         <View className={classnames('confirm-btn', {'confirm-btn-disabled': !canSubmit})} onClick={() => {
           onConfirm()
         }}
         >确认</View>
-
       </Popup>
     </>
   );

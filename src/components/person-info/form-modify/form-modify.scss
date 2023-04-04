@@ -244,6 +244,33 @@
 
 }
 
+.form-popup .range-picker{
+  width: 100%;
+  align-items: center;
+  .range-title{
+    width: 100%;
+    justify-content: space-around;
+    color: #918AE3;
+  }
+
+  .taroify-picker{
+    width:100%;
+    --picker-option-font-size: 30px;
+    //--picker-option-height: 80px;
+    --picker-background-color: #F3F4FB;
+    --picker-option-color: #918AE3;
+
+    &__mask{
+      background-image: linear-gradient(180deg, #F3F4FB, rgba(255, 255, 255, 0.4)), linear-gradient(0deg, #F3F4FB, rgba(255, 255, 255, 0.4));
+    }
+
+    &:after{
+      color: $primary-color;
+    }
+  }
+}
+
+
 .taroify-cell-group .form-cell{
   display: flex;
   flex-direction: row;

@@ -1,15 +1,14 @@
-import {useEffect, useState} from "react";
-import {AreaPicker, Backdrop, Cell, DatetimePicker, Field, Image, Input, Picker} from "@taroify/core";
+import {useState} from "react";
+import {AreaPicker, Backdrop, DatetimePicker, Field, Input, Picker} from "@taroify/core";
 import {Text, View} from "@tarojs/components";
 import {areaList} from "@vant/area-data"
-import {useSelector} from "react-redux";
 
 import classnames from "classnames";
 import {checkString, getAddressCode} from "@/utils/fcheck";
 import {getTimeStampFromDate} from "@/utils/ftime";
 import {getFormattedLocation} from "@/utils/fstring";
 import {ArrowDown, ArrowUp} from "@taroify/icons";
-import {WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {WARNING_NOTE} from "@/utils/constant";
 import './index.scss'
 
 export interface PickerCardProps {
@@ -57,7 +56,7 @@ const PickerCard = (props: PickerCardProps) => {
           <Input readonly placeholder={props.placeholder} value={props.showValue?props.showValue:''}/>
         </Field>
         {props.showMsg && !checkString(props.showValue) &&
-          <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED]}</View>}
+          <View className='field-note'>{WARNING_NOTE.REQUIRED}</View>}
       </View>
       <Backdrop className='backdrop' open={cardOpen} onClick={()=> setCardOpen(false)}/>
       {cardOpen && <View className={classnames('card-body')}>

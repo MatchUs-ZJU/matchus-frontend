@@ -8,7 +8,7 @@ import {
   PersonInfoChosenGreyLight,
   PersonInfoChosenPrimary, PersonInfoUnchosenPrimary
 } from "@/assets/images";
-import {TOAST_SHOW_TIME, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {TOAST_SHOW_TIME, WARNING_NOTE} from "@/utils/constant";
 
 import classnames from "classnames";
 import {IMultiChoice} from "@/typings/types";
@@ -139,11 +139,11 @@ const MultiChoiceItem = (props: IMultiChoicesItemProps) => {
 
         </Field>
         {props.showMsg && !checkMultiChoices(props.value) &&
-          <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED]}</View>}
+          <View className='field-note'>{WARNING_NOTE.REQUIRED}</View>}
         {props.showMsg && props.otherType==='input' &&  !checkMultiChoicesWithOtherTogether(props.value) &&
-          <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED_OTHER]}</View>}
+          <View className='field-note'>{WARNING_NOTE.REQUIRED_OTHER}</View>}
         {props.showMsg && props.otherType==='picker' && !checkMultiChoicesWithOther(props.value,props.otherValue) &&
-          <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED_OTHER]}</View>}
+          <View className='field-note'>{WARNING_NOTE.REQUIRED_OTHER}</View>}
       </View>
 
       <Backdrop open={cardOpen} className='backdrop' onClick={
@@ -215,7 +215,7 @@ const MultiChoiceItem = (props: IMultiChoicesItemProps) => {
                                 }
                               />
                               <Image src={otherValue && otherValue !== '' ? PersonInfoChosenGrey : PersonInfoChosenGreyLight}
-                                     className='icon'
+                                className='icon'
                               />
                             </Field>
                           </View>

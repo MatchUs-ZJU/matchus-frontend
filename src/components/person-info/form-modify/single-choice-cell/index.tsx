@@ -1,4 +1,4 @@
-import {CHECK_TYPE, SUBJECT_QUESTION, TOAST_SHOW_TIME, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {CHECK_TYPE, SUBJECT_QUESTION, TOAST_SHOW_TIME, WARNING_NOTE} from "@/utils/constant";
 import {IMultiChoice, ISingleChoice} from "@/typings/types";
 import {useEffect, useState} from "react";
 import {AreaPicker, Cell, Field, Input, Popup, Radio, Textarea} from "@taroify/core";
@@ -39,7 +39,7 @@ const SingleChoiceCell = (props: ISingleChoiceCellProps)=>{
 
   useEffect(()=>{
     if(!checkCanSubmit()){
-      setWarningMsg(WARNING_MSG[WARNING_NOTE.PLZ_CHOOSE_ONE])
+      setWarningMsg(WARNING_NOTE.PLZ_CHOOSE_ONE)
     }
     else {
       setShowWarning(false)

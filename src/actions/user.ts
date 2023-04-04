@@ -662,6 +662,7 @@ export const submitMultiPersonalImage=(data)=>{
 }
 
 // data: {personInfo,images{realName,stuNum,images}}
+
 export const submitPersonalInfo=(data)=>{
   return async dispatch => {
     console.log("用户个人信息：提交用户个人信息")

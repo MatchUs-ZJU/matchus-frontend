@@ -8,7 +8,6 @@ import {
   AddressData,
   CHECK_TYPE,
   TOAST_SHOW_TIME,
-  WARNING_MSG,
   WARNING_NOTE
 } from "@/utils/constant";
 import classnames from "classnames";
@@ -81,12 +80,12 @@ const MultiChoiceCell = (props: MultiCellPopupProps) => {
     setCanSubmit(thisCheck)
     if (checkMultiChoices(multiChoices)) {
       if (props.otherType !== 'none' && !thisCheck) {
-        setFeedbackValue(WARNING_MSG[WARNING_NOTE.REQUIRED_OTHER])
+        setFeedbackValue(WARNING_NOTE.REQUIRED_OTHER)
       }else{
         setFeedbackValue('')
       }
     } else {
-      setFeedbackValue(WARNING_MSG[WARNING_NOTE.AT_LEAST_ONE])
+      setFeedbackValue(WARNING_NOTE.AT_LEAST_ONE)
     }
   }, [multiChoices])
 

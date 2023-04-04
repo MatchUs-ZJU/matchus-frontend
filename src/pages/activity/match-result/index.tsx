@@ -1,7 +1,7 @@
 import {View} from "@tarojs/components";
-import {MatchResultTopImage, CopyIcon, AnonymousImage, LockedIcon, WhiteInfo} from "@/assets/images";
-import {Button, Rate, Image, Countdown} from "@taroify/core"
-import {ArrowLeft, Like, LikeOutlined} from '@taroify/icons';
+import {AnonymousImage, CopyIcon, LockedIcon, MatchResultTopImage, WhiteInfo} from "@/assets/images";
+import {Countdown, Image} from "@taroify/core"
+import {ArrowLeft} from '@taroify/icons';
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchMatchResult, sendSatisfiedFeedback} from "@/actions";
@@ -15,7 +15,7 @@ const Index = () => {
   const dispatch = useDispatch()
   const {match, activity} = useSelector(state => state)
 
-  const {matchInfo, imagesUrl,isTwice} = match
+  const {matchInfo,isTwice,imagesUrl} = match
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -185,74 +185,58 @@ const Index = () => {
               个人照片
               <View className='line'/>
             </View>
-            <View className='image-info'>
-              <View className={isShowed ? 'text' : 'text filter'}>记录你对Ta的第一印象，记录完成后可查看照片</View>
-              <View className={isShowed ? 'first-check row' : 'first-check row filter'}>
-                <View className='col center-center' style={{width: '60px'}}>
-                  <View className='heart-value'>{heartValue + "%"}</View>
-                  <View className='heart-text'>心动值</View>
-                </View>
-                <Rate
-                  className='custom-color'
-                  defaultValue={0}
-                  value={heart}
-                  allowHalf
-                  size={24}
-                  icon={<Like/>}
-                  emptyIcon={<LikeOutlined/>}
-                  onChange={(value) => onHeartChange(value)}
-                  readonly={(!isShowed) || isChecked}
-                />
-                {isChecked ?
-                  <Button className='check-button-clicked' disabled>已确认</Button> :
-                  <Button
-                    className='check-button'
-                    disabled={!isShowed}
-                    onClick={() => {
-                      // 倒计时已过可选择
-                      if (isShowed) {
-                        submitHeartValue()
-                      }
-                    }}
-                  >
-                    确认
-                  </Button>
-                }
-              </View>
+            {isShowed && <View className='image-info'>
+              {/*<View className={isShowed ? 'text' : 'text filter'}>记录你对Ta的第一印象，记录完成后可查看照片</View>*/}
+              {/*<View className={isShowed ? 'first-check row' : 'first-check row filter'}>*/}
+              {/*  <View className='col center-center' style={{width: '60px'}}>*/}
+              {/*    <View className='heart-value'>{heartValue + "%"}</View>*/}
+              {/*    <View className='heart-text'>心动值</View>*/}
+              {/*  </View>*/}
+              {/*  <Rate*/}
+              {/*    className='custom-color'*/}
+              {/*    defaultValue={0}*/}
+              {/*    value={heart}*/}
+              {/*    allowHalf*/}
+              {/*    size={24}*/}
+              {/*    icon={<Like/>}*/}
+              {/*    emptyIcon={<LikeOutlined/>}*/}
+              {/*    onChange={(value) => onHeartChange(value)}*/}
+              {/*    readonly={(!isShowed) || isChecked}*/}
+              {/*  />*/}
+              {/*  {isChecked ?*/}
+              {/*    <Button className='check-button-clicked' disabled>已确认</Button> :*/}
+              {/*    <Button*/}
+              {/*      className='check-button'*/}
+              {/*      disabled={!isShowed}*/}
+              {/*      onClick={() => {*/}
+              {/*        // 倒计时已过可选择*/}
+              {/*        if (isShowed) {*/}
+              {/*          submitHeartValue()*/}
+              {/*        }*/}
+              {/*      }}*/}
+              {/*    >*/}
+              {/*      确认*/}
+              {/*    </Button>*/}
+              {/*  }*/}
+              {/*</View>*/}
               <View className='image-show row'>
-                {isChecked ?
-                  <>
-                    {
-                      imagesUrl && imagesUrl.length ?
-                        imagesUrl.map((item, _) => {
-                          return (
-                            <Image
-                              src={item}
-                              lazyLoad
-                              mode='aspectFill'
-                              className='img'
-                              onClick={() => viewImages(imagesUrl, item)}
-                            />
-                          )
-                        }) :
-                        <></>
-                    }
-                  </>
-                  :
-                  <>
-                    {
-                      imagesUrl && imagesUrl.length ?
-                        imagesUrl.map(() => {
-                          return (
-                            <View className='img-placeholder'>照片</View>
-                          )
-                        }) :
-                        <></>
-                    }
-                  </>
+                {
+                  imagesUrl && imagesUrl.length ?
+                    imagesUrl.map((item, _) => {
+                      return (
+                        <Image
+                          src={item}
+                          lazyLoad
+                          mode='aspectFill'
+                          className='img'
+                          onClick={() => viewImages(imagesUrl, item)}
+                        />
+                      )
+                    }) :
+                    <></>
                 }
               </View>
-            </View>
+            </View>}
             {!isShowed ?
               <View className='locked row'>
                 <Image src={LockedIcon} className='icon'/>

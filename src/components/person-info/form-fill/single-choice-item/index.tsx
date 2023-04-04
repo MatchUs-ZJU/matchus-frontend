@@ -1,5 +1,5 @@
 import {Text, View} from "@tarojs/components";
-import {SUBJECT_QUESTION, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {WARNING_NOTE} from "@/utils/constant";
 import {Field, Radio, Textarea} from "@taroify/core";
 import {checkRadio, combineOthers, isOthers, splitOthers} from "@/utils/fcheck";
 import {ISingleChoice} from "@/typings/types";
@@ -53,7 +53,7 @@ const SingleChoiceItem = (props:ISingleChoiceProps)=>{
           </Field>
         }
         {props.showMsg && !checkRadio(props.selectedChoice) &&
-          <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED]}</View>}
+          <View className='field-note'>{WARNING_NOTE.REQUIRED}</View>}
       </View>
         ):(
       <></>

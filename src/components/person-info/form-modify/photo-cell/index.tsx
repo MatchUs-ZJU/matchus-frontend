@@ -4,7 +4,6 @@ import {Text, View} from "@tarojs/components";
 import {useSelector} from "react-redux";
 import {
   TOAST_SHOW_TIME,
-  WARNING_MSG,
   WARNING_NOTE
 } from "@/utils/constant";
 import classnames from "classnames";
@@ -41,7 +40,7 @@ const PhotoCell = (props: PhotoPopUpProps) => {
 
   useEffect(() => {
     if (!checkPhotos(photoUrls)) {
-      setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_PHOTO])
+      setFeedbackValue(WARNING_NOTE.INVALID_PHOTO)
     }else{
       setFeedbackValue('')
     }

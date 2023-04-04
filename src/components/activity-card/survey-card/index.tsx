@@ -1,5 +1,5 @@
 import {Button, View, ViewProps} from "@tarojs/components";
-import {Dialog, Image} from "@taroify/core";
+import {Dialog, Image, Progress} from "@taroify/core";
 import {StepIcon} from "@/assets/images";
 import classnames from "classnames";
 import {fillForm, finishFillForm as actionFinishFillForm, globalSave} from "@/actions";
@@ -22,10 +22,10 @@ const SurveyCard = (props: SurveyCardProps) => {
   const dispatch = useDispatch()
   const {wjxAppId, wjxPath, activity} = props
   const {surveyDetail} = useSelector(rootState => rootState.user)
-  const {state, filled,isComplete} = useSelector(rootState => rootState.activity.participate.fillForm)
+  const {matchResultShowTime,signUpEndTime} = useSelector(rootState => rootState.activity)
+
+  const {state,filled,percent} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {pushFillForm} = useSelector(rootState => rootState.global)
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false)
-  const [surveyDialogOpen,setSurveyDialogOpen] = useState(false)
 
   useEffect(()=>{
     dispatch(fetchSurveyDetail())
@@ -37,46 +37,18 @@ const SurveyCard = (props: SurveyCardProps) => {
     }
   }, [pushFillForm])
 
-  function pushGoToFillForm() {
-    // dispatch(fillForm({
-    //   appId: wjxAppId,
-    //   path: wjxPath
-    // }))
-    dispatch(globalSave({
-      pushFillForm: false
-    }))
+  function redirectToSurvey(){
     Taro.navigateTo({url: '/pages/user/survey-info-edit/index'})
   }
 
-  function confirmFinishFillForm() {
-    if(surveyDetail && isComplete){
-      dispatch(actionFinishFillForm([...surveyDetail.noRequireMatchRequests,...surveyDetail.requireMatchRequests]))
+  function getEndDateString(){
+    if(signUpEndTime){
+      const date = new Date(signUpEndTime)
+      return date.getMonth() + '月'+date.getDate() + '日'+ date.getHours()+'点'+date.getMinutes()+'分'
     }
+    return ''
   }
 
-  function finishFillForm() {
-    if(isComplete){
-      setConfirmDialogOpen(true)
-    }else{
-      setSurveyDialogOpen(true)
-    }
-  }
-
-  // 继续填写表单组件
-  const FillFormBtn = () => {
-    return (
-      <View className='fill-form-btn row'>
-        <View className='col' onClick={pushGoToFillForm}>
-          <View className='icon-container'><Edit size='20px'/></View>
-          <View className='text'>继续填写</View>
-        </View>
-        <View className='col' onClick={finishFillForm} style={{marginLeft: '12px'}}>
-          <View className='icon-container'><Success size='20px'/></View>
-          <View className='text'>确认提交</View>
-        </View>
-      </View>
-    )
-  }
 
   return (
     <View className='card-container'>
@@ -91,50 +63,39 @@ const SurveyCard = (props: SurveyCardProps) => {
           <View className='id'>2</View>
           <Image lazyLoad src={StepIcon} className='img'/>
         </View>
-        <View className='col main'>
-          <View className='title'>初知·问卷填写</View>
-          <View className='detail'>问卷可覆盖填写，取最后一次作为您的最终问卷结果</View>
-          <View className='note'>填问卷大约需10min</View>
-        </View>
+
+          <View className='col main'>
+            <View className='title'>初知·要求填写</View>
+            {!percent ? (
+              <>
+                <View className='detail'>问卷可覆盖填写，取最后一次作为您的最终问卷结果</View>
+                <View className='note'>填问卷大约需10min</View>
+              </>
+              ):(
+                <>
+                  <View className='progress-wrapper'>
+                    <Progress className='progress' percent={Math.floor(percent?percent.answer/percent.total * 100:0)} />
+                  </View>
+                  <View className='detail'>{percent && percent.answer>=percent.total?'已完成':`未完成 请在${getEndDateString()}前完成问卷填写`}</View>
+                </>
+              )
+
+            }
+          </View>
+
+
         <View className='col right'>
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
-          ) : state === 'ACTIVE' && !filled ? (
-            pushFillForm || !isComplete ? (
-              <ActiveBtn type='fillForm' onClick={pushGoToFillForm}/>
-            ) : (
-              <FillFormBtn/>
-            )
-          ) : state === 'ACTIVE' && filled ? (
-            <FinishedBtn type='fillForm' />
-          ) :
+          ) : state === 'ACTIVE' && signUpEndTime && signUpEndTime > new Date().getTime() ? (
+            <ActiveBtn type={percent && percent.answer < percent.total?'fillForm':'editForm'} onClick={redirectToSurvey}/>
+          ) : state === 'ACTIVE' &&  signUpEndTime && signUpEndTime <= new Date().getTime()?(
+              <FinishedBtn type={(percent && percent.answer >= percent.total)?'fillForm':'notFill'}/>
+            ) :
             <DisableBtn type='disable' />
           }
         </View>
-        <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
-          <Dialog.Header className='dialog-header'>确认完成填写？确认后问卷不可以修改</Dialog.Header>
-          <Dialog.Actions>
-            <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
-            <Button className='dialog-btn' onClick={() => {
-              setConfirmDialogOpen(false)
-              confirmFinishFillForm()
-            }}
-            >确认完成
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
 
-        <Dialog open={surveyDialogOpen} onClose={setSurveyDialogOpen}>
-          <Dialog.Header className='dialog-header dialog-header-redirect'>您的匹配要求未完善</Dialog.Header>
-          <Dialog.Actions>
-            <Button className='dialog-btn dialog-btn-redirect' onClick={() => {
-              setSurveyDialogOpen(false)
-              Taro.navigateTo({url: '/pages/user/survey-info-edit/index'})
-            }}
-            >去完善匹配要求
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
       </View>
     </View>
   )

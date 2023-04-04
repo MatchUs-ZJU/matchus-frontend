@@ -1,5 +1,5 @@
 import {View, ViewProps} from "@tarojs/components";
-import {Success} from "@taroify/icons";
+import {Cross, Success} from "@taroify/icons";
 import classnames from "classnames";
 import Taro from "@tarojs/taro";
 
@@ -8,22 +8,24 @@ import './index.scss'
 export const notStartText = '未开始'
 export const goToSignUpText = '去报名'
 export const goToFillFormText = '去填写'
+export const goToEditFormText = '去修改'
 export const goToSeeResultText = '查看结果'
 export const hasSignedUpText = '已报名'
-export const hasFilledFormText = '已提交'
+export const hasFilledFormText = '已截止'
+export const notFilledFormText = '未填写'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
 export const inRefundText = '查看分析'
 export const hasRefundedText = '查看分析'
 
 interface ActiveBtnProps extends ViewProps {
-  type: 'signup' | 'fillForm' | 'seeResult'
+  type: 'signup' | 'fillForm' | 'editForm' | 'seeResult'
 }
 
 export const ActiveBtn = (props: ActiveBtnProps) => {
   const {type, onClick} = props
 
-  const content = (type === 'signup' ? goToSignUpText : type === 'fillForm' ? goToFillFormText : type === 'seeResult' ? goToSeeResultText : defaultText)
+  const content = (type === 'signup' ? goToSignUpText : type === 'fillForm' ? goToFillFormText : type === 'editForm' ? goToEditFormText: type === 'seeResult' ? goToSeeResultText : defaultText)
 
   return (
     <View className='btn-active' onClick={onClick}>
@@ -51,13 +53,13 @@ export const DisableBtn = (props: DisableBtnProps) => {
 export const NotStartBtn = DisableBtn
 
 interface FinishedBtnProps {
-  type: 'signup' | 'fillForm' | 'hasRefund' | 'inRefund'
+  type: 'signup' | 'fillForm' | 'notFill' | 'hasRefund' | 'inRefund'
 }
 
 export const FinishedBtn = (props: FinishedBtnProps) => {
   const {type} = props
 
-  const content = (type === 'signup' ? hasSignedUpText : type === 'fillForm' ? hasFilledFormText : type === 'hasRefund'? hasRefundedText : type==='inRefund'? inRefundText : defaultText)
+  const content = (type === 'signup' ? hasSignedUpText : type === 'fillForm' ? hasFilledFormText:type === 'notFill'? notFilledFormText : type === 'hasRefund'? hasRefundedText : type==='inRefund'? inRefundText : defaultText)
   const fail = (type === 'hasRefund' || type === 'inRefund')
 
   async function onClickBtn() {
@@ -83,8 +85,8 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
       )}
       onClick={onClickBtn}
     >
-      {(type !== 'inRefund' && type !== 'fillForm') &&
-        <Success size='20px' style={{marginRight: '8px'}}/>}
+      {type !== 'inRefund' && type !== 'notFill' && <Success size='20px' style={{marginRight: '8px'}}/>}
+      {type === 'notFill' && <Cross size='20px' style={{marginRight: '8px'}}/>}
       <View>{content}</View>
     </View>
   )

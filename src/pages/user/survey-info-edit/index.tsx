@@ -1,9 +1,9 @@
 import classnames from "classnames";
-import {Button, Text, View} from "@tarojs/components";
-import {Cell, Dialog, Image, Slider, Switch} from "@taroify/core"
-import {QUESTION_TYPE, TOAST_SHOW_TIME} from "@/utils/constant";
+import {Text, View} from "@tarojs/components";
+import {Cell, Image, Switch} from "@taroify/core"
+import {QUESTION_TYPE} from "@/utils/constant";
 import MultiChoicePopUp from "@/components/survey-info-item/multi-choice-popup";
-import {IDepend, IOption, IOptionalItem} from "@/typings/types";
+import {IDepend, IOptionalItem} from "@/typings/types";
 
 import {PersonalInfoTipsIcon, SurveyAddItem} from "@/assets/images";
 import {useEffect, useState} from "react";
@@ -17,25 +17,19 @@ import DragSort from "@/components/survey-info-item/drag-sort";
 import Taro from "@tarojs/taro";
 import {checkString, combineChoices, generateAnswerString} from "@/utils/fcheck";
 import SurveyMultiCell from "@/components/survey-info-item/required-cell";
-import {fetchActivityData, finishFillForm as actionFinishFillForm} from "@/actions/activity";
+import {fetchActivityData} from "@/actions/activity";
 import './index.scss'
-
-interface ISurveyPopUp{
-  type: QUESTION_TYPE,
-  multichoices: IOption[] | undefined,
-  openId:number,
-  title:string,
-  limit: number | undefined,
-  otherType: 'input' | 'picker' | undefined
-}
 
 const SurveyInfoEdit = () => {
   const dispatch = useDispatch()
-  const {user} = useSelector(state=>state)
+  const {user,activity} = useSelector(state=>state)
+  const {signUpEndTime,matchResultShowTime} = activity
   const {fillForm,match} = useSelector(rootState => rootState.activity.participate)
-  const {filled,isComplete} = fillForm
   const {matchResult} = match
-  const surveyDetail = user.surveyDetail!
+  const [signUpEnd,setSignUpEnd] = useState(false)
+  const surveyDetail  = user.surveyDetail!
+
+  // const matchResultShowTime = new Date().getTime()
 
   const [changeable,setChangeable] = useState(false)
   const [required,setRequired] = useState<IOptionalItem[]>([])
@@ -67,12 +61,15 @@ const SurveyInfoEdit = () => {
   })
   const [popUpOpenId,setPopUpOpenId] = useState(-1)
   const [filledRequired,setFilledRequired] = useState(false)
-  const [confirmDialogOpen,setConfirmDialogOpen] = useState(false)
 
   useEffect(()=>{
     dispatch(fetchSurveyDetail())
     dispatch(fetchActivityData())
   },[])
+
+  useEffect(()=>{
+    isFillRequired()
+  },[required])
 
   useEffect(()=>{
     if(surveyDetail){
@@ -92,13 +89,17 @@ const SurveyInfoEdit = () => {
       setRequired([...surveyDetail.requireMatchRequests])
     }
   },[surveyDetail])
+
+
   useEffect(()=>{
-    if(match.state === 'NOT_START' && filled) setChangeable(false)
-    else if(match.state === 'ACTIVE' && matchResult) setChangeable(false)
+    if(matchResultShowTime && signUpEndTime) {
+      const now = new Date().getTime()
+      setChangeable(matchResultShowTime<=now || signUpEndTime >= now)
+    }
     else{
       setChangeable(true)
     }
-  },[fillForm,match])
+  },[match])
 
   const checkDepend = (depend : IDepend[] | undefined,allQuestions = [...surveyDetail.requireMatchRequests,...surveyDetail.noRequireMatchRequests]) => {
     if(depend && depend.length > 0){
@@ -133,10 +134,6 @@ const SurveyInfoEdit = () => {
     dispatch(modifySurveyDetail([...noRelaxOptional,...value]))
   }
 
-  const onConfirmRequired = (value) => {
-    // value: 需要更新的required request
-    dispatch(modifySurveyDetail([...value,...surveyDetail.noRequireMatchRequests]))
-  }
 
   const onConfirmAll = (value) => {
     dispatch(modifySurveyDetail(value))
@@ -156,21 +153,6 @@ const SurveyInfoEdit = () => {
     dispatch(modifySurveyDetail(postData))
   }
 
-  const onSubmit = ()=>{
-    if(fillForm.state === 'ACTIVE' && !filled){
-      // 对话框是否确认提交
-      setConfirmDialogOpen(true)
-    }else{
-      // 仅保存信息
-      onConfirmAll([...surveyDetail.noRequireMatchRequests,...surveyDetail.requireMatchRequests])
-    }
-  }
-
-  const confirmSubmit = ()=>{
-    if(surveyDetail && isComplete){
-      dispatch(actionFinishFillForm([...surveyDetail.noRequireMatchRequests,...surveyDetail.requireMatchRequests]))
-    }
-  }
 
   const addOptinal = async (item: IOptionalItem)=>{
     if(chosenOptional.length >= surveyDetail.noRequiredMax){
@@ -193,6 +175,7 @@ const SurveyInfoEdit = () => {
             return (
               item.questionType === QUESTION_TYPE.MULTI_CHOICE && checkDepend(item.depends) ? (
                   <SurveyMultiCell
+                    type={QUESTION_TYPE.MULTI_CHOICE}
                     title={item.title}
                     answer={combineChoices(item.properAnswer,true)}
                     modifiable={changeable}
@@ -222,44 +205,37 @@ const SurveyInfoEdit = () => {
                     }
                   />
                 ):item.questionType===QUESTION_TYPE.RANGE?(
-                <View className='col age-cell'>
-                  <Text>{item.title}</Text>
-                  <Slider
-                    className='survey-slider'
-                    range
-                    defaultValue={[1996,2005]}
-                    step={1}
-                    min={+item.option[0].choice}
-                    max={+item.option[1].choice}
-                    size={3}
-                    value={item.rangeAnswer}
-                    disabled={!changeable}
-                    onChange={async (value)=>{
-                      if(changeable){
-                        setRequired([...required.map((_item)=>{
-                          if(_item.questionId === item.questionId) return {..._item,rangeAnswer:[...value],
-                            answer:`${value[0]}┋${value[1]}`}
-                          else return _item})])
-                      }
-                      else{
-                        await Taro.showToast({
-                          title: "您已提交本期活动问卷，暂时不可修改～",
-                          duration: 2000,
-                          icon: 'none'
+                <SurveyMultiCell
+                  type={QUESTION_TYPE.RANGE}
+                  title={item.title}
+                  question={item}
+                  answer={combineChoices(item.properAnswer,true)}
+                  modifiable={changeable}
+                  multiChoices={item.properAnswer?[...item.properAnswer]:[]}
+                  multiChoiceLimitRestrict={item.limit}
+                  otherType='none'
+                  onConfirm={
+                    (value) => {
+                      if (value.choice) {
+                        const allQuestion = [...surveyDetail.requireMatchRequests,...surveyDetail.noRequireMatchRequests]
+                        const tmp = allQuestion.map(_item => {
+                          if(item.questionId === _item.questionId){
+                            return {..._item,answer:generateAnswerString(value.choice,_item.questionType)}
+                          }
+                          else
+                            return _item
                         })
-                      }
+                        const newRequired = tmp.map(_item => {
+                          if(!checkDepend(_item.depends,allQuestion)){
+                            return {..._item,answer:null,order:null}
+                          }else
+                            return _item
+                        })
+                        onConfirmAll([...newRequired])
                       }
                     }
-                    onTouchEnd={()=>{
-                      if(changeable){
-                        onConfirmRequired(required)
-                      }
-                    }}
-                  >
-                    <Slider.Thumb><Text className='slider-text'>{item.rangeAnswer?item.rangeAnswer[0]:item.option[0].choice}</Text></Slider.Thumb>
-                    <Slider.Thumb><Text className='slider-text'>{item.rangeAnswer?item.rangeAnswer[1]:item.option[1].choice}</Text></Slider.Thumb>
-                  </Slider>
-                </View>
+                  }
+                />
               ):(
                 <></>
               )
@@ -314,7 +290,7 @@ const SurveyInfoEdit = () => {
                     }
                   else{
                       await Taro.showToast({
-                        title: "您已提交本期活动问卷，暂时不可修改～",
+                        title: "活动报名结束-匹配结果公布期间不能修改问卷",
                         duration: 2000,
                         icon: 'none'
                       })
@@ -341,7 +317,7 @@ const SurveyInfoEdit = () => {
                               }
                               else{
                                 await Taro.showToast({
-                                  title: "您已提交本期活动问卷，暂时不可修改～",
+                                  title: "活动报名结束-匹配结果公布期间不能修改问卷",
                                   duration: 2000,
                                   icon: 'none'
                                 })
@@ -366,7 +342,8 @@ const SurveyInfoEdit = () => {
 
       {unChosenOptional && unChosenOptional.map((_item)=>{
         return (
-          checkDepend(_item.depends)?<>
+          checkDepend(_item.depends)?
+            <>
             <View className='row survey-item'>
               <Text className='font'>{_item.title}</Text>
               <Image className='right-btn' src={SurveyAddItem} onClick={async ()=>{
@@ -375,7 +352,7 @@ const SurveyInfoEdit = () => {
                 }
                 else{
                   await Taro.showToast({
-                    title: "您已提交本期活动问卷，暂时不可修改～",
+                    title: "活动报名结束-匹配结果公布期间不能修改问卷",
                     duration: 2000,
                     icon: 'none'
                   })
@@ -406,33 +383,6 @@ const SurveyInfoEdit = () => {
             :<></>
         )
       })}
-
-      {fillForm.state === 'ACTIVE' && match.state !== 'ACTIVE' && !filled && <View className='row btn-wrapper'>
-        <View className={classnames('confirm-btn', {'confirm-btn-disabled': !isComplete})}
-          onClick={
-          async () => {
-            if(isComplete){
-              onSubmit()
-            }else{
-              await Taro.showToast({title:'您还有问卷内容未完善～',duration:2000,icon:'none'})
-            }
-
-          }}
-        >提交本期活动问卷</View>
-      </View>}
-
-      <Dialog open={confirmDialogOpen} onClose={setConfirmDialogOpen}>
-        <Dialog.Header className='dialog-header'>确认提交问卷？确认后匹配问卷不可修改</Dialog.Header>
-        <Dialog.Actions>
-          <Button className='dialog-btn' onClick={() => setConfirmDialogOpen(false)}>我再看看</Button>
-          <Button className='dialog-btn' onClick={() => {
-            setConfirmDialogOpen(false)
-            confirmSubmit()
-          }}
-          >确认提交
-          </Button>
-        </Dialog.Actions>
-      </Dialog>
 
     </View>
   )
