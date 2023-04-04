@@ -48,7 +48,10 @@ $ taro update project [版本号]
 
 ```shell
 # in directory matchus-frontend
-npm install
+# npm install
+# npm doesn't work well with taro
+yarn
+
 ```
 
 ### 开发与编译
