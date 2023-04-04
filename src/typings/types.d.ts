@@ -73,7 +73,8 @@ export interface IParticipateState {
   fillForm: {
     state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
     filled: boolean,
-    isComplete: boolean
+    percent: {total: number,answer:number},
+    // isComplete: boolean
   };
 
   match: {

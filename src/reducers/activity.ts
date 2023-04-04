@@ -22,6 +22,7 @@ export interface IActivityState {
 
   // time
   signUpStartTime?: number,
+  signUpEndTime?: number,
   matchResultShowTime?: number,
   twoWayChooseStartTime?: number,
   twoWayChooseEndTime?: number,
@@ -64,7 +65,8 @@ const INITIAL_STATE: IActivityState = {
     fillForm: {
       state: 'NOT_START',
       filled: false,
-      isComplete: false
+      percent: {total: 1,answer:0},
+      // isComplete: false
     },
 
     match: {

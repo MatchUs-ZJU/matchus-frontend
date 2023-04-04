@@ -137,7 +137,9 @@ const Index = () => {
               cellValue={personInfo ? personInfo.height : undefined}
               inputType={INPUT_TYPE.NUMBER}
               rightText='cm'
-              onConfirm={(value) => onConfirmPersonInfo({height: value})}
+              lowerBound={120}
+              higherBound={220}
+              onConfirm={(value) => onConfirmPersonInfo({height: parseInt(value).toString()})}
             />
 
             <InputCell

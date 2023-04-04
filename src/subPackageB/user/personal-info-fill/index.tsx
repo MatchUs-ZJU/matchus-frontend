@@ -15,7 +15,6 @@ import {
   SUBJECT_QUESTION,
   TOAST_SHOW_TIME,
   USER_TYPE,
-  WARNING_MSG,
   WARNING_NOTE
 } from "@/utils/constant";
 
@@ -83,15 +82,6 @@ const Index = () => {
         personInfo: personForm,
         images: {realName: user.realName, studentNumber: user.studentNumber, images: images}
       }))
-
-      // await Taro.showToast({
-      //   title: "个人信息已完善～",
-      //   duration: TOAST_SHOW_TIME,
-      //   icon: 'none'
-      // })
-      // if(user.isComplete){
-      //   await Taro.redirectTo({url:'/pages/activity/index/index'})
-      // }
     } else {
       setShowRequired(true)
       await Taro.showToast({
@@ -105,7 +95,7 @@ const Index = () => {
   function onSave() {
     setShowRequired(false)
     dispatch(submitPersonalInfo({
-      personInfo: personForm,
+      personInfo: {...personForm,height:parseInt(personForm.height)},
       images: {realName: user.realName, studentNumber: user.studentNumber, images: images}
     }))
   }
@@ -128,7 +118,10 @@ const Index = () => {
             <InputItem label='学号' readonly value={user.studentNumber} placeholder='请输入学号' inputType='string' showMsg={showRequired} onChange={()=>{}}/>
 
             <View className='composed-item'>
-              <InputItem label='身高' readonly={false} value={personForm.height} placeholder='cm' inputType='number' showMsg={showRequired} onChange={(value)=>setPersonForm({...personForm,height:value})}/>
+              <InputItem lowerBound={120} higherBound={220} label='身高' readonly={false} value={personForm.height} placeholder='cm' inputType='number' showMsg={showRequired} onChange={(value)=> {
+                  setPersonForm({...personForm, height: value})
+              }}
+              />
               <InputItem label='体重' readonly={false} value={personForm.weight} placeholder='kg' inputType='number' showMsg={showRequired} onChange={(value)=>setPersonForm({...personForm,weight:value})}/>
             </View>
 
@@ -327,7 +320,7 @@ const Index = () => {
             <Text className='disp'>照片</Text>
             <PhotoBox images={user.images ? user.images : []} onChange={setImages}/>
             {showRequired && !checkPhotos(images) &&
-              <View className='warning-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED]}</View>}
+              <View className='warning-note'>{WARNING_NOTE.REQUIRED}</View>}
 
             <View className='title-bar'>
               <Text className='title-text'>生活爱好</Text>
@@ -475,7 +468,8 @@ const Index = () => {
               inputType='long-input'
               showMsg={showRequired}
               onChange={(value)=>setPersonForm({...personForm,superPower:value})}
-              readonly={false}/>
+              readonly={false}
+            />
 
             <InputItem
               label={SUBJECT_QUESTION.emo}

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Cell, Field, Input, Popup, Textarea} from "@taroify/core";
 import {Text, View} from "@tarojs/components";
-import {INPUT_TYPE, TOAST_SHOW_TIME, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {INPUT_TYPE, TOAST_SHOW_TIME, WARNING_NOTE} from "@/utils/constant";
 import classnames from "classnames";
 import {Clear} from "@taroify/icons";
 import {floatRegTest, wechatNumberRegTest} from "@/utils/reg";
@@ -18,6 +18,8 @@ export interface InputCellProps {
 
   inputType: INPUT_TYPE,
   rightText?:string,
+  lowerBound?:number,
+  higherBound?:number,
   onConfirm: any,
 }
 
@@ -37,7 +39,12 @@ const InputCell = (props: InputCellProps) => {
   const checkCanSubmit = () => {
     if (checkString(inputValue)) {
       if (props.inputType === INPUT_TYPE.NUMBER) {
-        return floatRegTest(inputValue)
+        if(floatRegTest(inputValue)){
+          if(props.lowerBound) return props.higherBound? parseInt(inputValue)<=props.higherBound && parseInt(inputValue)>=props.lowerBound:parseInt(inputValue)>=props.lowerBound
+          if(props.higherBound) return parseInt(inputValue)<=props.higherBound
+        } else{
+          return false
+        }
       } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER) {
         return wechatNumberRegTest(inputValue)
       }
@@ -52,15 +59,18 @@ const InputCell = (props: InputCellProps) => {
       if (checkString(inputValue)) {
         if (props.inputType === INPUT_TYPE.NUMBER) {
           if (!floatRegTest(inputValue)) {
-            setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_NUMBER])
+            setFeedbackValue(WARNING_NOTE.INVALID_NUMBER)
+            return
+          }else if( props.lowerBound && parseInt(inputValue) < props.lowerBound || props.higherBound && parseInt(inputValue)>props.higherBound){
+            setFeedbackValue(WARNING_NOTE.OUT_OF_BOUNDARY)
             return
           }
         } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER && !wechatNumberRegTest(inputValue)) {
-          setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_WECAHT])
+          setFeedbackValue(WARNING_NOTE.INVALID_WECAHT)
           return
         }
       } else if(props.inputType !== INPUT_TYPE.NOT_REQUIRED){
-        setFeedbackValue(WARNING_MSG[WARNING_NOTE.INVALID_BLANK])
+        setFeedbackValue(WARNING_NOTE.INVALID_BLANK)
       }
       setFeedbackValue('')
   }, [inputValue])
@@ -161,6 +171,7 @@ const InputCell = (props: InputCellProps) => {
               <View className='warning-note'>{feedbackValue}</View>}
           </View>
         ) }
+
         <View className={classnames('confirm-btn', {'confirm-btn-disabled': !canSubmit})} onClick={() => {
           onConfirm()
         }}

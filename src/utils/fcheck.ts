@@ -1,4 +1,4 @@
-import {IMultiChoice, IOptionalItem, IPersonInfo, IPhotoUrls, IRequiredItem} from "@/typings/types";
+import {IMultiChoice, IOptionalItem, IPersonInfo, IPhotoUrls} from "@/typings/types";
 import {QUESTION_TYPE, USER_TYPE} from "@/utils/constant";
 
 export const isOthers = (input: string) => {
@@ -253,7 +253,7 @@ export const generateViewString = (question,questionType = QUESTION_TYPE.MULTI_C
     const res = combineChoices(question.properAnswer,true)
     return res?res:'请选择'
   }else{
-    return `${question.rangeAnswer[0]}cm~${question.rangeAnswer[1]}cm`
+    return `${question.rangeAnswer[0]}~${question.rangeAnswer[1]}`
   }
 
 }

@@ -1,6 +1,6 @@
 import {Text, View} from "@tarojs/components";
 import {Field, Input, Textarea} from "@taroify/core";
-import {WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {WARNING_NOTE} from "@/utils/constant";
 import {floatRegTest, wechatNumberRegTest} from "@/utils/reg";
 import './index.scss'
 
@@ -12,12 +12,13 @@ export interface IInputItemProps {
   inputType: 'string' | 'number' | 'wechatnumber' | 'long-input',
   showMsg: boolean,
   omissible?:boolean,
+  lowerBound?:number,
+  higherBound?:number,
   onChange: any
 }
 
 const InputItem = (props: IInputItemProps)=>{
   return(
-
       props.inputType==='long-input'?(
         <View className='form-item form-item-subject'>
           <Text className='question'>{props.label}</Text>
@@ -36,7 +37,7 @@ const InputItem = (props: IInputItemProps)=>{
             />
           </Field>
           {props.showMsg && !props.value &&
-            <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED]}</View>}
+            <View className='field-note'>{WARNING_NOTE.REQUIRED}</View>}
         </View>
       ):(
         <View className='form-item'>
@@ -50,11 +51,14 @@ const InputItem = (props: IInputItemProps)=>{
             />
           </Field>
           {!props.omissible && props.showMsg && !props.value &&
-            <View className='field-note'>{WARNING_MSG[WARNING_NOTE.REQUIRED]}</View>}
+            <View className='field-note'>{WARNING_NOTE.REQUIRED}</View>}
           {!props.omissible && props.inputType === 'number' && props.value && !floatRegTest(props.value) &&
-            <View className='field-note'>{WARNING_MSG[WARNING_NOTE.INVALID_NUMBER]}</View>}
+            <View className='field-note'>{WARNING_NOTE.INVALID_NUMBER}</View>}
+          {!props.omissible && props.inputType === 'number' && props.value && floatRegTest(props.value)
+            && (props.lowerBound && parseInt(props.value) < props.lowerBound || props.higherBound && parseInt(props.value) > props.higherBound) &&
+            <View className='field-note'>{WARNING_NOTE.OUT_OF_BOUNDARY}</View>}
           {!props.omissible && props.inputType === 'wechatnumber' && props.value && !wechatNumberRegTest(props.value) &&
-            <View className='field-note'>{WARNING_MSG[WARNING_NOTE.INVALID_WECAHT]}</View>}
+            <View className='field-note'>{WARNING_NOTE.INVALID_WECAHT}</View>}
         </View>
       )
   )

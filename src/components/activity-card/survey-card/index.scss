@@ -39,3 +39,13 @@
 
   margin-top: 16px;
 }
+
+.activity-card .main .progress-wrapper {
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  .progress{
+    --progress-portion-primary-background-color: #918AE3;
+    //--progress-portion-color: #918AE3;
+  }
+}

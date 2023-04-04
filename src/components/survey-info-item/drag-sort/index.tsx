@@ -142,7 +142,7 @@ const DragSort = (props: DragSortProps) => {
                     setPopUpProps({...item.question, open: true})
                   } else {
                     await Taro.showToast({
-                      title: "您已提交本期活动问卷，暂时不可修改～", duration: 2000, icon: 'none'
+                      title: "活动报名结束-匹配结果公布期间不能修改问卷", duration: 2000, icon: 'none'
                     })
                   }
                 }}
@@ -169,7 +169,7 @@ const DragSort = (props: DragSortProps) => {
                         deleteItem(item.question)
                       else {
                         await Taro.showToast({
-                          title: "您已提交本期活动问卷，暂时不可修改～", duration: 2000, icon: 'none'
+                          title: "活动报名结束-匹配结果公布期间不能修改问卷", duration: 2000, icon: 'none'
                         })
                       }
                     }}

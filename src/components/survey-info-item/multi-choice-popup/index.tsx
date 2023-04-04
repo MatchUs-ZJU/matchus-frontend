@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {Image, Popup, Slider} from "@taroify/core";
+import {Image, Picker, Popup} from "@taroify/core";
 import {ScrollView, Text, View} from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import {PersonalInfoUnchosen} from "@/assets/images";
 import {useSelector} from "react-redux";
-import {QUESTION_TYPE, TOAST_SHOW_TIME, WARNING_MSG, WARNING_NOTE} from "@/utils/constant";
+import {QUESTION_TYPE, TOAST_SHOW_TIME, WARNING_NOTE} from "@/utils/constant";
 import classnames from "classnames";
 import {checkMultiChoices} from "@/utils/fcheck";
 import {IMultiChoice, IOptionalItem} from "@/typings/types";
@@ -24,7 +24,7 @@ export interface MultiChoicePopUpProps {
 }
 
 const MultiChoicePopUp = (props: MultiChoicePopUpProps) => {
-  const {user, global} = useSelector((state) => state)
+  const {global} = useSelector((state) => state)
   const {windowWidth} = global.system!
   // const [popupOpen,setPopupOpen] = useState(false)
   const [multiChoices, setMultiChoices] = useState(props.multiChoices ? props.multiChoices : [])
@@ -49,29 +49,47 @@ const MultiChoicePopUp = (props: MultiChoicePopUpProps) => {
   const [feedbackValue, setFeedbackValue] = useState('')
   const [showFeedback, setShowFeedback] = useState(false)
   const [canSubmit, setCanSubmit] = useState(false)
-
+  const [range,setRange] = useState<number[]>([])
   useEffect(() => {
-
-    if(props.type === QUESTION_TYPE.RANGE)
+    if(props.type === QUESTION_TYPE.RANGE && props.rangeQuestion){
+      const cnt = +props.rangeQuestion.option[1].choice - +props.rangeQuestion.option[0].choice+1
+      setRange([...new Array(cnt).keys()].map( (i)=> i+(+ props.rangeQuestion.option[0].choice)))
       setRangeQuestion(props.rangeQuestion)
+    }
     else if(props.type === QUESTION_TYPE.MULTI_CHOICE)
       setMultiChoices(props.multiChoices ? props.multiChoices : [])
+    setCanSubmit(checkCanSubmit())
   }, [props])
 
   useEffect(() => {
-    const thisCheck = checkCanSubmit()
-    setCanSubmit(thisCheck)
-    if (checkMultiChoices(multiChoices)) {
-      setFeedbackValue('')
-    } else {
-      setFeedbackValue(WARNING_MSG[WARNING_NOTE.AT_LEAST_ONE])
+    if(props.type === QUESTION_TYPE.MULTI_CHOICE){
+      const thisCheck = checkCanSubmit()
+      setCanSubmit(thisCheck)
+      if (checkMultiChoices(multiChoices)) {
+        setFeedbackValue('')
+      } else {
+        setFeedbackValue(WARNING_NOTE.AT_LEAST_ONE)
+      }
     }
   }, [multiChoices])
+
+  useEffect(() => {
+    if(props.type === QUESTION_TYPE.RANGE){
+      const thisCheck = checkCanSubmit()
+      setCanSubmit(thisCheck)
+      if(rangeQuestion && rangeQuestion.rangeAnswer && rangeQuestion.rangeAnswer[1] < rangeQuestion.rangeAnswer[0]){
+        setFeedbackValue(WARNING_NOTE.INVALID_RANGE)
+      }else{
+        setFeedbackValue('')
+      }
+    }
+
+  },[rangeQuestion])
 
   const checkCanSubmit = () => {
     if(props.type === QUESTION_TYPE.MULTI_CHOICE)
       return checkMultiChoices(multiChoices)
-    return true
+    return rangeQuestion && rangeQuestion.rangeAnswer ? rangeQuestion.rangeAnswer[0] <= rangeQuestion.rangeAnswer[1] : false
   }
 
   const onCancel = () => {
@@ -79,7 +97,6 @@ const MultiChoicePopUp = (props: MultiChoicePopUpProps) => {
   }
 
   const onConfirm = () => {
-
     if (checkCanSubmit()) {
       if(props.type === QUESTION_TYPE.MULTI_CHOICE)
           props.onConfirm({choice: multiChoices})
@@ -87,6 +104,7 @@ const MultiChoicePopUp = (props: MultiChoicePopUpProps) => {
         props.onConfirm({choice: `${rangeQuestion.rangeAnswer ? rangeQuestion.rangeAnswer[0] : +rangeQuestion.option[0].choice}┋${rangeQuestion.rangeAnswer ? rangeQuestion.rangeAnswer[1] : +rangeQuestion.option[1].choice}` })
       onCancel()
     } else {
+      Taro.showToast({title: feedbackValue,duration:2000,icon:'none'})
       setCanSubmit(false)
       setShowFeedback(true)
       return
@@ -139,23 +157,28 @@ const MultiChoicePopUp = (props: MultiChoicePopUpProps) => {
 
         </View>
       ) : props.type === QUESTION_TYPE.RANGE && rangeQuestion && rangeQuestion.option.length>=2 ? (
-        <View className='survey-slider-wrapper'>
-          <Slider className='survey-slider' range
-            defaultValue={[+rangeQuestion.option[0].choice, +rangeQuestion.option[1].choice]} step={1}
-            min={+rangeQuestion.option[0].choice} max={+rangeQuestion.option[1].choice} size={3}
-            value={rangeQuestion.rangeAnswer ? rangeQuestion.rangeAnswer : [+rangeQuestion.option[0].choice, +rangeQuestion.option[1].choice]}
-            onChange={(value) => {
-                    setRangeQuestion({...rangeQuestion, rangeAnswer: [...value]})
-                  }}
-          >
-            <Slider.Thumb><Text
-              className='slider-text'
-            >{rangeQuestion.rangeAnswer ? rangeQuestion.rangeAnswer[0] : rangeQuestion.option[0].choice}</Text></Slider.Thumb>
-            <Slider.Thumb><Text
-              className='slider-text'
-            >{rangeQuestion.rangeAnswer ? rangeQuestion.rangeAnswer[1] : rangeQuestion.option[1].choice}</Text></Slider.Thumb>
-          </Slider>
-        </View>
+          <View className='col range-picker'>
+            <View className='row range-title'>
+              <View>最低</View>
+              <View>最高</View>
+            </View>
+            <Picker value={rangeQuestion.rangeAnswer?rangeQuestion.rangeAnswer:[range[0],range[range.length-1]]} onCancel={onCancel} onChange={(value) => setRangeQuestion({...rangeQuestion, rangeAnswer: [...value]})}>
+              <Picker.Column>
+                {
+                  range.map((_item)=>
+                    <Picker.Option value={_item}>{_item}</Picker.Option>
+                  )
+                }
+              </Picker.Column>
+              <Picker.Column>
+                {
+                  range.map((_item)=>
+                    <Picker.Option value={_item}>{_item}</Picker.Option>
+                  )
+                }
+              </Picker.Column>
+            </Picker>
+          </View>
 
       ) : (
         <>

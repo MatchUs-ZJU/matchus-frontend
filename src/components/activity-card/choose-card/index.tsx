@@ -37,7 +37,7 @@ const ChooseCard = (props: ChooseCardProps) => {
   } = useSelector(rootState => rootState.activity.participate.choose)
   const [rejectChosen,setRejectChosen] = useState(false)
   const [acceptChosen,setAcceptChosen] = useState(false)
-  const [thisChoice, setThisChoice] = useState(false)
+  const [thisChoice, setThisChoice] = useState<boolean | null>(null)
   const [inputFocus,setInputFocus] = useState(false)
   const [textAreaFilled, setTextAreaFilled] = useState(false)
   const [textAreaContent, setTextAreaContent] = useState('')
@@ -48,7 +48,7 @@ const ChooseCard = (props: ChooseCardProps) => {
     })
   }
 
-  function onChooseChange(value: boolean) {
+  function onChooseChange(value: boolean | null) {
     setThisChoice(value)
     dispatch(sendTwcResult({id: activity, choose: value}))
   }
@@ -121,22 +121,18 @@ const ChooseCard = (props: ChooseCardProps) => {
           {state === 'NOT_START' ? (
             <NotStartBtn type='notStart'/>
           ) : state === 'ACTIVE' && !hasResult ? (
-            // <View className='col choose'>
-            //   <Switch size='30px' onChange={onChooseChange} checked={thisChoice}/>
-            //   <View
-            //     className={classnames(
-            //       'note',
-            //       {'checked': thisChoice}
-            //     )}
-            //   >{thisChoice ? '' : '不'}选Ta</View>
-            // </View>
             <View className='row choose choose-active'>
               <View className='col btn-wrapper'>
                 <Image
                   className='btn'
-                  src={!thisChoice?ChooseRejectChosen:ChooseRejectUnchosen}
+                  src={thisChoice === false ?ChooseRejectChosen:ChooseRejectUnchosen}
                   onClick={()=> {
-                    onChooseChange(false)
+                    if(thisChoice || thisChoice === null){
+                      onChooseChange(false)
+                    }
+                    else if(thisChoice === false){
+                      onChooseChange(null)
+                    }
                   }}
                 />
                 <View className='note'>不选Ta</View>
@@ -144,9 +140,13 @@ const ChooseCard = (props: ChooseCardProps) => {
               <View className='col btn-wrapper'>
                 <Image
                   className='btn'
-                  src={thisChoice?ChooseAcceptChosen:ChooseAcceptUnchosen}
+                  src={thisChoice === true ?ChooseAcceptChosen:ChooseAcceptUnchosen}
                   onClick={()=> {
-                    onChooseChange(true)
+                    if(!thisChoice){
+                      onChooseChange(true)
+                    }else{
+                      onChooseChange(null)
+                    }
                   }}
                 />
                 <View className='note'>选Ta</View>
