@@ -164,7 +164,7 @@ const Information = () => {
                 <Picker.Option value={USER_TYPE.STUDENT}>在校生</Picker.Option>
                 <Picker.Option value={USER_TYPE.GRADUATE}>毕业生</Picker.Option>
               </Picker.Column>
-              )
+              
           </Picker>
         <View className='confirm-btn' onClick={() => {
           if(needUpdate || !form.imageFile.url){
