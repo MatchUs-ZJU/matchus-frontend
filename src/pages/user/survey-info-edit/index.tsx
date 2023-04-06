@@ -155,7 +155,7 @@ const SurveyInfoEdit = () => {
     // })
     value = {...value , answer: '1'} 
     let tmp = [value]
-    dispatch(modifySurveyDetail({specialInfos:{tmp}}))
+    dispatch(modifySurveyDetail({specialInfos:[...tmp]}))
   }
   // const onConfirmSpecial = (value) => {
   //   dispatch(modifySurveyDetail([...value,...required]))
