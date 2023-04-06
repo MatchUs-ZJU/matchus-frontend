@@ -1,4 +1,4 @@
-import {QUESTION_TYPE} from "@/utils/constant";
+import { QUESTION_TYPE } from "@/utils/constant";
 
 export interface IFaculty {
   id: string,
@@ -73,7 +73,7 @@ export interface IParticipateState {
   fillForm: {
     state: 'NOT_START' | 'ACTIVE' | 'DISABLED',
     filled: boolean,
-    percent: {total: number,answer:number},
+    percent: { total: number, answer: number },
     // isComplete: boolean
   };
 
@@ -103,7 +103,7 @@ export interface IParticipateState {
   }
 }
 
-export interface IPersonInfo{
+export interface IPersonInfo {
   id: number,
   userId: number,
   height: string,
@@ -130,10 +130,10 @@ export interface IPersonInfo{
 
   interest: IMultiChoice[],
   exerciseFrequency: string,
-  stayUpFrequency:string,
+  stayUpFrequency: string,
   drinkHabit: string,
-  smokingHabit:string,
-  discoHabit:string,
+  smokingHabit: string,
+  discoHabit: string,
 
 
   takeDesire: string,
@@ -148,44 +148,44 @@ export interface IPersonInfo{
   say: string,
 
   selfWechatFirstTime: string,
-  wechatFirstTime:string,
+  wechatFirstTime: string,
 
   selfBeFrind: string,
-  beFriend:string,
+  beFriend: string,
 
   selfShowLove: string,
-  showLove:string,
+  showLove: string,
 
   selfIsLover: string,
-  isLover:string,
+  isLover: string,
 
   selfIsLoveYou: string,
-  isLoveYou:string
+  isLoveYou: string
 
   createTime: number,
   updateTime: number
 }
 
-interface IDepend{
+interface IDepend {
   id: number,
   questionId: number,
   dependQuestionId: number,
   dependOptionId: number
 }
 
-export interface IOption{
+export interface IOption {
   id: number,
   questionId: number,
   choice: string,
   choiceIndex: number,
-  label:string,
-  selected:boolean
+  label: string,
+  selected: boolean
 }
 
 export interface IOptionalItem {
   questionId: number
   questionIndex: number,
-  depends:IDepend[] | undefined,
+  depends: IDepend[] | undefined,
   title: string,
   required: boolean,
   option: IOption[],
@@ -198,10 +198,30 @@ export interface IOptionalItem {
   otherType?: 'input' | 'picker' | undefined
 }
 
-export interface ISurveyDetail{
-  noRequiredMax:number,
+export interface ISpecialChoice {
+  id: number,
+  createTime: number,
+  updateTime: number,
+  questionId: number,
+  choice: string,
+  choiceIndex: number,
+  checked: boolean,
+}
+export interface ISpecialItem {
+  questionId: number
+  title: string,
+  questionType: QUESTION_TYPE,
+  limit?: number,
+  index: number,
+  choices: ISpecialChoice[],
+  answer?: string,
+}
+
+export interface ISurveyDetail {
+  noRequiredMax: number,
   noRequireMatchRequests: IOptionalItem[],
-  requireMatchRequests: IOptionalItem[]
+  requireMatchRequests: IOptionalItem[],
+  specialRequests: ISpecialItem[]
 }
 
 export interface ISurveyInfo {
@@ -240,16 +260,16 @@ export interface IPhotoUrls {
   maxAge?: number
 }
 
-export interface IMultiChoice{
+export interface IMultiChoice {
   label: string
   selected: boolean
   // append?: string
 }
 
-export interface ISingleChoice{
+export interface ISingleChoice {
   question: string,
   choices: string[],
-  selfAnswer?:string
+  selfAnswer?: string
 }
 
 export interface IMatchCondition {

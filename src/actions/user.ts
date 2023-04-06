@@ -162,7 +162,9 @@ export const fetchSurveyDetail = () => {
         dispatch(userSave({
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
-            requireMatchRequests:[...requireMatchRequests]}}))
+            requireMatchRequests:[...requireMatchRequests],
+            specialRequests:[...surveyDetail.specialRequests]
+          }}))
       }else{
         console.log('用户信息：获取可编辑匹配问卷失败')
       }
@@ -176,27 +178,40 @@ export const modifySurveyDetail = (data) => {
   return async dispatch => {
     try{
       console.log('用户信息：编辑问卷')
+      console.log(data)
       const res = await postSurveyDetail(data)
       if(res && res.code === 0){
         console.log('用户信息：编辑问卷成功')
-        let surveyDetail = res.data
-        const noRequireMatchRequests = surveyDetail.noRequireMatchRequests.map((item)=>{
-          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
-        }).sort((a,b)=>a.questionIndex-b.questionIndex)
-        const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
-          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
-        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+        // let surveyDetail = res.data
+        // const noRequireMatchRequests = surveyDetail.noRequireMatchRequests.map((item)=>{
+        //   return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        // }).sort((a,b)=>a.questionIndex-b.questionIndex)
+        // const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
+        //   return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        // }).sort((a,b)=>a.questionIndex-b.questionIndex)
 
-        dispatch(userSave({
-          surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
-            noRequireMatchRequests:[...noRequireMatchRequests],
-            requireMatchRequests:[...requireMatchRequests]}}))
+        // dispatch(userSave({
+        //   surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
+        //     noRequireMatchRequests:[...noRequireMatchRequests],
+        //     requireMatchRequests:[...requireMatchRequests]}}))
       }
     }catch (e){
       console.log(e)
     }
   }
 }
+
+export const remakeSurveyDetail = (data) => {
+  return async dispatch => {
+    try{
+      // console.log(data);
+        
+    }catch (e){
+      console.log(e)
+    }
+  }
+}
+
 // 初始化进入小程序的用户数据
 export const initRegister = (openid) => {
   return async dispatch => {

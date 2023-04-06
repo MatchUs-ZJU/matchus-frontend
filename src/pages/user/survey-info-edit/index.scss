@@ -200,3 +200,48 @@
 .container .btn-wrapper .confirm-btn-disabled{
   background: #D3D0F4;
 }
+
+// .container .special-cell{
+//   position: relative;
+//   display: block;
+//   width: 30%;
+//   height: 88px;
+//   padding: 0 auto;
+//   background: #F7F7F7;
+// }
+
+.container .special-list{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.container .special-list .special-text-container-chosen{
+  width: 248rpx;
+  height: 173rpx;
+  line-height: 173rpx;
+  margin: 1rpx 2rpx;
+  text-align: center;
+  overflow: hidden;
+  font-size: 14.5pX;
+  background-color: #918AE3;
+  color: white;
+}
+
+
+.container .special-list .special-text-container-unchosen{
+  width: 248rpx;
+  height: 173rpx;
+  line-height: 173rpx;
+  margin: 1rpx 2rpx;
+  text-align: center;
+  overflow: hidden;
+  font-size: 14.5pX;
+  background-color: #ffffff;
+  color: black;
+}
+
+
