@@ -158,7 +158,6 @@ export const fetchSurveyDetail = () => {
         const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
           return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
         }).sort((a,b)=>a.questionIndex-b.questionIndex)
-
         dispatch(userSave({
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
@@ -178,22 +177,22 @@ export const modifySurveyDetail = (data) => {
   return async dispatch => {
     try{
       console.log('用户信息：编辑问卷')
-      console.log(data)
       const res = await postSurveyDetail(data)
       if(res && res.code === 0){
         console.log('用户信息：编辑问卷成功')
-        // let surveyDetail = res.data
-        // const noRequireMatchRequests = surveyDetail.noRequireMatchRequests.map((item)=>{
-        //   return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
-        // }).sort((a,b)=>a.questionIndex-b.questionIndex)
-        // const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
-        //   return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
-        // }).sort((a,b)=>a.questionIndex-b.questionIndex)
-
-        // dispatch(userSave({
-        //   surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
-        //     noRequireMatchRequests:[...noRequireMatchRequests],
-        //     requireMatchRequests:[...requireMatchRequests]}}))
+        let surveyDetail = res.data
+        const noRequireMatchRequests = surveyDetail.noRequireMatchRequests.map((item)=>{
+          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+        const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
+          return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
+        }).sort((a,b)=>a.questionIndex-b.questionIndex)
+        dispatch(userSave({
+          surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
+            noRequireMatchRequests:[...noRequireMatchRequests],
+            requireMatchRequests:[...requireMatchRequests],
+            specialRequests:[...surveyDetail.specialRequests]
+          }}))
       }
     }catch (e){
       console.log(e)

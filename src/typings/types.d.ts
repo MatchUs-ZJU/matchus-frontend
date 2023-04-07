@@ -208,7 +208,7 @@ export interface ISpecialChoice {
   checked: boolean,
 }
 export interface ISpecialItem {
-  questionId: number
+  questionId: number,
   title: string,
   questionType: QUESTION_TYPE,
   limit?: number,
