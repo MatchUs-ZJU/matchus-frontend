@@ -85,10 +85,19 @@ const SurveyInfoEdit = () => {
       if(findRelaxCheck.length > 0) setRelaxCheck({...findRelaxCheck[0]})
       if(findRelaxSingle.length > 0) setRelaxSingle({...findRelaxSingle[0]})
       let specialRequest = surveyDetail.specialRequests[0]
+      if(!specialRequest.answer) specialRequest.answer = ''
+      let answer = specialRequest.answer.split('┋')
+      specialRequest.choices = specialRequest.choices.map((item)=>{
+        if(answer && answer.indexOf(`${item.choiceIndex}`)!==-1){
+          return {...item,checked:true}
+        }else{
+          return {...item,checked:false}
+        }
+      })
       setChosenOptional([...chosen])
       setUnchosenOptional([...unChosen])
       setRequired([...surveyDetail.requireMatchRequests])
-      setSpecialRequest({...specialRequest, choices:specialRequest.choices.map(item=>({...item,checked:false}))})
+      setSpecialRequest({...specialRequest})
     }
   },[surveyDetail])
 
@@ -102,6 +111,7 @@ const SurveyInfoEdit = () => {
       setChangeable(true)
     }
   },[match])
+
 
   const checkDepend = (depend : IDepend[] | undefined,allQuestions = [...surveyDetail.requireMatchRequests,...surveyDetail.noRequireMatchRequests]) => {
     if(depend && depend.length > 0){
@@ -149,13 +159,11 @@ const SurveyInfoEdit = () => {
     //dispatch(remakeSurveyDetail([...value,...unChosenOptional,...required]))
   }
 
-  const onConfirmSpecialRequest = (value:ISpecialItem) => {
-    // value.choices.map((item)=>{
-    //   return {...item,checked:null}
-    // })
-    value = {...value , answer: '1'} 
-    let tmp = [value]
-    dispatch(modifySurveyDetail({specialInfos:[...tmp]}))
+  const onConfirmSpecialRequest = (value) => {
+    let answer = value.choices.filter(item=>item.checked).map(item=>item.choiceIndex).join('┋')
+    if(answer == null) answer = ''
+    value = {...value , answer: answer}
+    dispatch(modifySurveyDetail({specialInfos:[...[value]]}))
   }
   // const onConfirmSpecial = (value) => {
   //   dispatch(modifySurveyDetail([...value,...required]))
@@ -272,12 +280,12 @@ const SurveyInfoEdit = () => {
               <View 
                 className={item.checked?"special-text-container-chosen":"special-text-container-unchosen"}
                 onClick={() => {
-                  setSpecialRequest({...specialRequest, choices:specialRequest.choices.map((_item) => {
+                  let newSpecialRequest = {...specialRequest, choices:specialRequest.choices.map((_item) => {
                     if(_item.choiceIndex !== item.choiceIndex)
                       return _item;
                     return {..._item,checked:!_item.checked}
-                  })});
-                  onConfirmSpecialRequest({...specialRequest})
+                  })}
+                  onConfirmSpecialRequest({...newSpecialRequest})
                   // dispatch(modifySurveyDetail(
 
                 }}
