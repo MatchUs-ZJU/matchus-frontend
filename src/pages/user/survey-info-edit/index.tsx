@@ -93,7 +93,7 @@ const SurveyInfoEdit = () => {
         }else{
           return {...item,checked:false}
         }
-      })
+      }).sort((a,b)=>a.choiceIndex-b.choiceIndex)
       setChosenOptional([...chosen])
       setUnchosenOptional([...unChosen])
       setRequired([...surveyDetail.requireMatchRequests])
