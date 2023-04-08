@@ -1,21 +1,21 @@
-import {View} from "@tarojs/components";
-import {AnonymousImage, CopyIcon, LockedIcon, MatchResultTopImage, WhiteInfo} from "@/assets/images";
-import {Countdown, Image} from "@taroify/core"
-import {ArrowLeft} from '@taroify/icons';
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchMatchResult, sendSatisfiedFeedback} from "@/actions";
+import { View } from "@tarojs/components";
+import { AnonymousImage, CopyIcon, LockedIcon, MatchResultTopImage, WhiteInfo } from "@/assets/images";
+import { Countdown, Image } from "@taroify/core"
+import { ArrowLeft } from '@taroify/icons';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMatchResult, sendSatisfiedFeedback } from "@/actions";
 import Taro from "@tarojs/taro";
-import {viewImages} from "@/utils/taro-utils";
-import {getFormatNickname} from "@/utils/fstring";
+import { viewImages } from "@/utils/taro-utils";
+import { getFormatNickname } from "@/utils/fstring";
 import classnames from "classnames";
 import './index.scss';
 
 const Index = () => {
   const dispatch = useDispatch()
-  const {match, activity} = useSelector(state => state)
+  const { match, activity } = useSelector(state => state)
 
-  const {matchInfo,isTwice,imagesUrl} = match
+  const { matchInfo, isTwice, imagesUrl } = match
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -32,7 +32,7 @@ const Index = () => {
   }
 
   function submitHeartValue() {
-    dispatch(sendSatisfiedFeedback({id: activity.id, level: heartValue}))
+    dispatch(sendSatisfiedFeedback({ id: activity.id, level: heartValue }))
   }
 
   useEffect(() => {
@@ -82,11 +82,11 @@ const Index = () => {
   return (
     <View className='container'>
       <View className='custom-back' onClick={navigateBack}>
-        <ArrowLeft size='24px' style={{marginRight: '8px'}}/>
+        <ArrowLeft size='24px' style={{ marginRight: '8px' }} />
         匹配结果
       </View>
       <View className='header col'>
-        <Image src={MatchResultTopImage} className='top-img-success'/>
+        <Image src={MatchResultTopImage} className='top-img-success' />
         <View className='content'>
           <View className='col male'>
             <View className='male-avatar'>
@@ -114,17 +114,17 @@ const Index = () => {
 
         {isTwice &&
           <View className='second-match-bar'>
-          <Image className='icon' src={WhiteInfo}/>
-          <View className='desp'>本次结果为放宽条件后的二次匹配</View>
-        </View>}
+            <Image className='icon' src={WhiteInfo} />
+            <View className='desp'>本次结果为放宽条件后的二次匹配</View>
+          </View>}
       </View>
 
-      <View className={classnames('wrapper', {'wrapper-second-match':isTwice})}>
+      <View className={classnames('wrapper', { 'wrapper-second-match': isTwice })}>
         <View className='content margin-bottom-16'>
           <View className='wrapper-insider'>
             <View className='divider row'>
               基本信息
-              <View className='line'/>
+              <View className='line' />
             </View>
             <View className='basic-info'>
               {matchInfo && matchInfo.basicInfo && matchInfo.basicInfo.length &&
@@ -143,8 +143,31 @@ const Index = () => {
               }
             </View>
             <View className='divider row'>
+              美食赏味
+              <View className='line' />
+            </View>
+            <View className='special-Info'>
+              {matchInfo && matchInfo.specialInfo && matchInfo.specialInfo.length &&
+                matchInfo.specialInfo
+                  .sort((o1, o2) => {
+                    return o1.index - o2.index
+                  })
+                  .map((item, _) => {
+                    const value = item.value;
+                    const highlightedValue = value.replace(/\d+%/g, `<span style="color: #918AE3">$&</span>`);
+                    return (
+                      <View className='item'>
+                        <View className='title'>{item.key}</View>
+                        <View className='answer' dangerouslySetInnerHTML={{ __html: highlightedValue }}></View>
+                      </View>
+                    )
+                  })
+              }
+            </View>
+
+            <View className='divider row'>
               个性特点
-              <View className='line'/>
+              <View className='line' />
             </View>
             <View className='character-info'>
               {matchInfo && matchInfo.characteristics && matchInfo.characteristics.length &&
@@ -164,14 +187,14 @@ const Index = () => {
             </View>
             <View className='divider row'>
               联系方式
-              <View className='line'/>
+              <View className='line' />
             </View>
             <View className='contact-info'>
               <View className='item'>
                 <View className='title'>微信号</View>
                 <View className='answer row'>
                   {matchInfo.wechatNumber}
-                  <Image src={CopyIcon} className='icon' onClick={copyWechatNumber}/>
+                  <Image src={CopyIcon} className='icon' onClick={copyWechatNumber} />
                 </View>
               </View>
               <View className='tips purple'>
@@ -183,7 +206,7 @@ const Index = () => {
             </View>
             <View className='divider row'>
               个人照片
-              <View className='line'/>
+              <View className='line' />
             </View>
             {isShowed && <View className='image-info'>
               {/*<View className={isShowed ? 'text' : 'text filter'}>记录你对Ta的第一印象，记录完成后可查看照片</View>*/}
@@ -239,13 +262,13 @@ const Index = () => {
             </View>}
             {!isShowed ?
               <View className='locked row'>
-                <Image src={LockedIcon} className='icon'/>
+                <Image src={LockedIcon} className='icon' />
                 <View className='desc col'>
                   <Countdown
                     autostart={false}
                     value={countDownTime}
                   >
-                    {(current) =>{
+                    {(current) => {
                       return (
                         <View className='countdown'>
                           <View className='countdown-colon'>距离公布照片还有</View>
