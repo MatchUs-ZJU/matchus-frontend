@@ -3,13 +3,13 @@ import {Text, View} from "@tarojs/components";
 import {Cell, Image, Switch} from "@taroify/core"
 import {QUESTION_TYPE} from "@/utils/constant";
 import MultiChoicePopUp from "@/components/survey-info-item/multi-choice-popup";
-import {IDepend, IOptionalItem} from "@/typings/types";
+import {IDepend, IOptionalItem, ISpecialItem} from "@/typings/types";
 
 import {PersonalInfoTipsIcon, SurveyAddItem} from "@/assets/images";
 import {useEffect, useState} from "react";
 
 
-import {fetchSurveyDetail, modifySurveyDetail} from "@/actions/user";
+import {fetchSurveyDetail, modifySurveyDetail, remakeSurveyDetail} from "@/actions/user";
 import {useDispatch, useSelector} from "react-redux";
 
 
@@ -27,7 +27,7 @@ const SurveyInfoEdit = () => {
   const {fillForm,match} = useSelector(rootState => rootState.activity.participate)
   const {matchResult} = match
   const [signUpEnd,setSignUpEnd] = useState(false)
-  const surveyDetail  = user.surveyDetail!
+  const surveyDetail  = user.surveyDetail
 
   // const matchResultShowTime = new Date().getTime()
 
@@ -35,6 +35,7 @@ const SurveyInfoEdit = () => {
   const [required,setRequired] = useState<IOptionalItem[]>([])
   const [chosenOptional,setChosenOptional] = useState<IOptionalItem[]>([])
   const [unChosenOptional,setUnchosenOptional] = useState<IOptionalItem[]>([])
+  const [specialRequest,setSpecialRequest] = useState<ISpecialItem>()
   const [relaxCheck,setRelaxCheck] = useState<IOptionalItem>({
     limit: 0,
     option: [],
@@ -83,10 +84,20 @@ const SurveyInfoEdit = () => {
       const findRelaxCheck = surveyDetail.noRequireMatchRequests.filter(item => item.questionType === QUESTION_TYPE.OPTION_CHECK)
       if(findRelaxCheck.length > 0) setRelaxCheck({...findRelaxCheck[0]})
       if(findRelaxSingle.length > 0) setRelaxSingle({...findRelaxSingle[0]})
-
+      let specialRequest = surveyDetail.specialRequests[0]
+      if(!specialRequest.answer) specialRequest.answer = ''
+      let answer = specialRequest.answer.split('┋')
+      specialRequest.choices = specialRequest.choices.map((item)=>{
+        if(answer && answer.indexOf(`${item.choiceIndex}`)!==-1){
+          return {...item,checked:true}
+        }else{
+          return {...item,checked:false}
+        }
+      }).sort((a,b)=>a.choiceIndex-b.choiceIndex)
       setChosenOptional([...chosen])
       setUnchosenOptional([...unChosen])
       setRequired([...surveyDetail.requireMatchRequests])
+      setSpecialRequest({...specialRequest})
     }
   },[surveyDetail])
 
@@ -100,6 +111,7 @@ const SurveyInfoEdit = () => {
       setChangeable(true)
     }
   },[match])
+
 
   const checkDepend = (depend : IDepend[] | undefined,allQuestions = [...surveyDetail.requireMatchRequests,...surveyDetail.noRequireMatchRequests]) => {
     if(depend && depend.length > 0){
@@ -131,17 +143,31 @@ const SurveyInfoEdit = () => {
 
   const onConfirmRelax = (value)=>{
     const noRelaxOptional = surveyDetail.noRequireMatchRequests.filter(item => item.questionType !== QUESTION_TYPE.OPTION_CHECK && item.questionType !== QUESTION_TYPE.OPTION_SINGLE)
-    dispatch(modifySurveyDetail([...noRelaxOptional,...value]))
+    dispatch(modifySurveyDetail({matchRequestInfos:[...noRelaxOptional,...value]}))
   }
 
 
   const onConfirmAll = (value) => {
-    dispatch(modifySurveyDetail(value))
+    dispatch(modifySurveyDetail({matchRequestInfos:value}))
   }
 
   const onConfirmOrder = (value) => {
-    dispatch(modifySurveyDetail([...value,...unChosenOptional,...required]))
+    dispatch(modifySurveyDetail({matchRequestInfos:[...value,...unChosenOptional,...required]}))
   }
+
+  const onRemakeOrder = (value) => {
+    //dispatch(remakeSurveyDetail([...value,...unChosenOptional,...required]))
+  }
+
+  const onConfirmSpecialRequest = (value) => {
+    let answer = value.choices.filter(item=>item.checked).map(item=>item.choiceIndex).join('┋')
+    if(answer == null) answer = ''
+    value = {...value , answer: answer}
+    dispatch(modifySurveyDetail({specialInfos:[...[value]]}))
+  }
+  // const onConfirmSpecial = (value) => {
+  //   dispatch(modifySurveyDetail([...value,...required]))
+  // }
 
   const onConfirmSingleSurveyInfo = (value)=>{
     const requiredData = [...surveyDetail.requireMatchRequests,...surveyDetail.noRequireMatchRequests]
@@ -244,7 +270,37 @@ const SurveyInfoEdit = () => {
         }
 
       </Cell.Group>
+      {specialRequest?(
+      <><View className={classnames('survey-info-divider')}>
+          <Text className='title'>{`${specialRequest.title}`}</Text>
+        </View>
+        <View className="special-list">
+          {specialRequest.choices && specialRequest.choices.map((item) => {
+            return (
+              <View 
+                className={item.checked?"special-text-container-chosen":"special-text-container-unchosen"}
+                onClick={() => {
+                  let newSpecialRequest = {...specialRequest, choices:specialRequest.choices.map((_item) => {
+                    if(_item.choiceIndex !== item.choiceIndex)
+                      return _item;
+                    return {..._item,checked:!_item.checked}
+                  })}
+                  onConfirmSpecialRequest({...newSpecialRequest})
+                  // dispatch(modifySurveyDetail(
 
+                }}
+              >
+                <Text className="special-text">{item.choice}</Text>
+              </View>
+            );
+          })}
+        </View>
+      </>
+      ):(<></>)}
+
+
+      
+      
       <View className={classnames('survey-info-divider')}>
         <Text className='title'>{`选填条件（至多${surveyDetail?surveyDetail.noRequiredMax:0}个，按住拖动可调顺序，左滑删除）`}</Text>
       </View>
@@ -265,6 +321,9 @@ const SurveyInfoEdit = () => {
             }}
             onConfirmOrder={(value)=>{
               onConfirmOrder(value)
+            }}
+            onRemakeOrder={(value)=>{
+              onRemakeOrder(value)
             }}
           />
           <View className='col relax'>
