@@ -183,7 +183,7 @@ const User = () => {
           <View className='item row'>
             <Image src={CloverIcon} className='item-icon'/>
             <View className='item-text'>
-              <View className='value'>{lucky ?? 0}{luckyPercent <= 50 && <Text className='value-lower-text'>前{luckyPercent >> 0}%</Text>}</View>
+              <View className='value'>{lucky ?? 0}{luckyPercent <= 30 && <Text className='value-lower-text'>前{luckyPercent >> 0}%</Text>}</View>
               <View className='text'>幸运值</View>
             </View>
           </View>
