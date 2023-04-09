@@ -66,6 +66,7 @@ export default defineAppConfig({
         selectedIconPath: 'assets/images/tablist/my-s.jpg',
       },
 <<<<<<< HEAD
+<<<<<<< HEAD
       // TEST
       // {
       //   text: '111',
@@ -75,6 +76,8 @@ export default defineAppConfig({
       // },
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
     ],
   },
   navigateToMiniProgramAppIdList: ["wxd947200f82267e58", "wxd947200f82267e57"],

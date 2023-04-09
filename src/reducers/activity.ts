@@ -35,6 +35,7 @@ export interface IActivityState {
   participate: IParticipateState
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   // analysis
   analysis: IMatchAnalysisState
 
@@ -45,6 +46,8 @@ export interface IActivityState {
   unavailable: number
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
 }
 
 const INITIAL_STATE: IActivityState = {
@@ -72,11 +75,15 @@ const INITIAL_STATE: IActivityState = {
       left: 0,
       refund: false,
 <<<<<<< HEAD
+<<<<<<< HEAD
       message: 0,
       subscribe: false
 =======
       message: 0
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+      message: 0
+>>>>>>> origin/develop_ppp
     },
 
     dailyQuestion: {
@@ -103,12 +110,15 @@ const INITIAL_STATE: IActivityState = {
   name: "",
   price: 0,
 <<<<<<< HEAD
+<<<<<<< HEAD
   totalTerm: 0,
   matched: 0,
   totalParticipate: 0,
   unavailable: 0
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
 }
 
 export default function activity(state = INITIAL_STATE, action) {

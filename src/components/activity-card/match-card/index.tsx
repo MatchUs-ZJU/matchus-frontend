@@ -39,10 +39,13 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
 <<<<<<< HEAD
+<<<<<<< HEAD
   const dispatch = useDispatch()
   const {subscribe} = useSelector(rootState => rootState.activity.participate.match)
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {approval, before, today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {
@@ -79,6 +82,7 @@ const MatchCard = (props: MatchCardProps) => {
 
   async function goToSeeResult() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     // 用户订阅消息通知
     if(!subscribe){
       dispatch(notifySubscribe([
@@ -89,6 +93,8 @@ const MatchCard = (props: MatchCardProps) => {
 
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
     await Taro.navigateTo({
       url: '/pages/activity/match-result/index'
     })

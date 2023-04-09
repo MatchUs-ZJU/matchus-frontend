@@ -21,6 +21,7 @@ import {
   postSendTwcResult,
   getTwcResult,
 <<<<<<< HEAD
+<<<<<<< HEAD
   postSendFeedback,
   getMatchQuestion,
   postMatchQuestionApproval,
@@ -30,6 +31,9 @@ import {
 =======
   postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+  postSendFeedback, getMatchQuestion, postMatchQuestionApproval, postMatchQuestionAnswer
+>>>>>>> origin/develop_ppp
 } from "@/services/activity";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {globalSave} from "@/actions/global";
@@ -170,10 +174,13 @@ export const preJoinActivity = ({id, price, body, attach}) => {
           // 用户订阅消息通知
           dispatch(notifySubscribe([
 <<<<<<< HEAD
+<<<<<<< HEAD
             'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
             'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
             'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
             'kxVQfvpFZd3taINF-u2HrhO9iGDLiaaf6ICO2LCQvVk',
             '49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk',
@@ -477,6 +484,7 @@ export const fetchTwcResult = (id) => {
   }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 export const fetchMatchAnalysisData = (activityId) => {
   return async dispatch => {
@@ -513,3 +521,5 @@ export const fetchActivityData = () => {
 }
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp

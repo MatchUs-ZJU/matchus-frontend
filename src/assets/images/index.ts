@@ -68,6 +68,7 @@ import MatchResultTopImage from './match-result-top.svg'
 import Rules from './activity-rules.png'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import welcome from './welcome-image.svg'
 
 import LoveIcon from './love.svg'
@@ -81,6 +82,8 @@ import AnalysisHeartbrokenImage from './analysis-heartbroken.svg'
 export const welcomeImage = welcome
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
+=======
+>>>>>>> origin/develop_ppp
 export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo,ChooseAcceptChosen,ChooseAcceptUnchosen,ChooseRejectChosen,ChooseRejectUnchosen}
 export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
 export {artiService, commonQuestions, report}
@@ -91,6 +94,9 @@ export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon,SurveySort
 export const consumeIcon = consume
 export const helpIcon = help
 export const aboutusIcon = aboutus
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/develop_ppp
 
