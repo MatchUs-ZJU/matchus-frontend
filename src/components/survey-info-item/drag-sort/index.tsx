@@ -15,6 +15,7 @@ export interface DragSortProps {
   dragList: { question: IOptionalItem, y: number }[]
   onConfirm: any
   onConfirmOrder: any
+  onRemakeOrder: any
   isChangeable: boolean
 }
 
@@ -48,6 +49,8 @@ const DragSort = (props: DragSortProps) => {
     setInitData(dragList.map((item, index) => {
       if (index) {
         item.y = index * (itemHeight + 16 * 2);
+      } else if (item.question.questionId === changeId){
+                        
       } else {
         item.y = 0
       }
@@ -107,21 +110,22 @@ const DragSort = (props: DragSortProps) => {
                 }}
                 onTouchEnd={() => {
                   if (props.isChangeable) {
+                    
                     const newDragList = dragList.map(_item => {
                       if (_item.question.questionId == changeId) {
                         _item.y = movableY;
                       }
                       return _item;
                     }).sort((a, b) => {
-                      if (a.question.questionId === changeId) return a.y - b.y - itemHeight / 2; else if (b.question.questionId === changeId) return a.y - b.y - itemHeight / 2;
-                      return a.y - b.y - itemHeight
+                      //if (a.question.questionId === changeId) return a.y - b.y - itemHeight / 2; else if (b.question.questionId === changeId) return a.y - b.y - itemHeight / 2;
+                      if (a.question.order > b.question.order) return a.y - b.y - itemHeight / 3; else return a.y - b.y + itemHeight / 3;
                     }).map((_item, order) => {
                       return {..._item.question, order: order + 1}
                     })
-
-                    if (newDragList.filter((_item, i) => _item.questionId !== dragList[i].question.questionId).length > 0) {
-                      props.onConfirmOrder([...newDragList])
-                    }
+                    // always update
+                    // if (newDragList.filter((_item, i) => _item.questionId !== dragList[i].question.questionId).length > 0) {
+                    props.onConfirmOrder([...newDragList])
+                    // }
 
                     setChangeId(-1);
                     setMovableY(0);
@@ -134,7 +138,9 @@ const DragSort = (props: DragSortProps) => {
                 animation
                 y={item.y}
                 style={{
-                  height: `${itemHeight + 16 * 2}px`, zIndex: item.question.questionId == changeId ? 3 : 2,
+                  height: `${itemHeight + 16 * 2}px`, 
+                  zIndex: item.question.questionId == changeId ? 3 : 2,
+                  
                 }}
 
                 onClick={async () => {
