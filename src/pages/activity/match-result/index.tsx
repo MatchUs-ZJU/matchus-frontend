@@ -164,7 +164,6 @@ const Index = () => {
                   })
               }
             </View>
-
             <View className='divider row'>
               个性特点
               <View className='line' />
