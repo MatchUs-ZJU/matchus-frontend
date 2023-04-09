@@ -158,11 +158,12 @@ export const fetchSurveyDetail = () => {
         const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
           return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
         }).sort((a,b)=>a.questionIndex-b.questionIndex)
-
         dispatch(userSave({
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
-            requireMatchRequests:[...requireMatchRequests]}}))
+            requireMatchRequests:[...requireMatchRequests],
+            specialRequests:[...surveyDetail.specialRequests]
+          }}))
       }else{
         console.log('用户信息：获取可编辑匹配问卷失败')
       }
@@ -186,17 +187,30 @@ export const modifySurveyDetail = (data) => {
         const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
           return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
         }).sort((a,b)=>a.questionIndex-b.questionIndex)
-
         dispatch(userSave({
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
-            requireMatchRequests:[...requireMatchRequests]}}))
+            requireMatchRequests:[...requireMatchRequests],
+            specialRequests:[...surveyDetail.specialRequests]
+          }}))
       }
     }catch (e){
       console.log(e)
     }
   }
 }
+
+export const remakeSurveyDetail = (data) => {
+  return async dispatch => {
+    try{
+      // console.log(data);
+        
+    }catch (e){
+      console.log(e)
+    }
+  }
+}
+
 // 初始化进入小程序的用户数据
 export const initRegister = (openid) => {
   return async dispatch => {

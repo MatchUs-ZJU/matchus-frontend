@@ -181,7 +181,7 @@ export const getSurveyInfo = async () => {
 
 export const getSurveyDetail = async () => {
   console.log('网络请求：获取可编辑用户匹配问卷')
-  return request.get(`/user/matchRequest`,{
+  return request.get(`/activity/matchRequest`,{
     header: {
       Authorization: getJWT()
     }
@@ -190,7 +190,7 @@ export const getSurveyDetail = async () => {
 
 export const postSurveyDetail = async (data) => {
   console.log('网络请求：编辑问卷信息')
-  return request.post(`/user/matchRequest`,{
+  return request.post(`/activity/matchRequest`,{
     data,
     header: {
       Authorization: getJWT()
