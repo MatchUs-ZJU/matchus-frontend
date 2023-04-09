@@ -71,7 +71,6 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
       })
     }
 <<<<<<< HEAD
-<<<<<<< HEAD
     if(type === 'inRefund' || type === 'hasRefund'){
       await Taro.navigateTo({
         url: '/pages/activity/analysis/index'
@@ -79,8 +78,6 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
     }
 =======
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
-=======
->>>>>>> origin/develop_ppp
   }
 
   return (

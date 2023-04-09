@@ -1,13 +1,9 @@
 import {View, Text} from "@tarojs/components";
 <<<<<<< HEAD
-<<<<<<< HEAD
 import {Button,Cell, Image, Notify} from "@taroify/core"
 =======
 import {Badge, Cell, Image, Notify} from "@taroify/core"
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
-=======
-import {Badge, Cell, Image, Notify} from "@taroify/core"
->>>>>>> origin/develop_ppp
 import {Arrow} from "@taroify/icons"
 import {
   PersonalInfoIcon,
@@ -21,7 +17,6 @@ import {
 import Taro, {useDidShow, useShareAppMessage} from "@tarojs/taro";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
-<<<<<<< HEAD
 <<<<<<< HEAD
 import {fetchFaculties, fetchPersonInfo, fetchUserInfo, fetchUserProfile} from "@/actions";
 import classnames from "classnames";
@@ -37,15 +32,6 @@ import {fetchPersonInfo} from "@/actions/user";
 
 import {checkRequired} from "@/utils/fcheck";
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
-=======
-import {fetchUserInfo} from "@/actions";
-import classnames from "classnames";
-import {getBadgeInfo, getIdentifiedStatus} from "@/utils/fstring";
-import {TOAST_SHOW_TIME} from "@/utils/constant";
-import {fetchPersonInfo} from "@/actions/user";
-
-import {checkRequired} from "@/utils/fcheck";
->>>>>>> origin/develop_ppp
 import './index.scss'
 
 const notifyLoginMessage = '您还没有登录哦'
@@ -55,11 +41,8 @@ const User = () => {
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state)
 <<<<<<< HEAD
-<<<<<<< HEAD
   const {realName,studentNumber,nickName,avatarUrl, faculty, identified, login, userType, isComplete, isChangeable, isOldUser, lucky, luckyPercent, matchTimes, matchSuccessTimes} = user
 =======
-=======
->>>>>>> origin/develop_ppp
   const {nickName, avatarUrl, faculty, identified, login, userType, isComplete,isChangeable,isOldUser} = user
 
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
@@ -134,7 +117,6 @@ const User = () => {
       setNotifyContent(notifyIdentifyMessage)
       setNotifyOpen(true)
 <<<<<<< HEAD
-<<<<<<< HEAD
       await Taro.navigateTo({url: '/subPackageA/pages/introduction/index'})
     } else {
       if (isComplete || isOldUser) {
@@ -143,8 +125,6 @@ const User = () => {
       } else if (!isComplete) {
         await Taro.navigateTo({url: '/subPackageB/user/personal-info-fill/index'})
 =======
-=======
->>>>>>> origin/develop_ppp
       await Taro.navigateTo({url: '/pages/introduction/index'})
     } else{
       if(isComplete || isOldUser){

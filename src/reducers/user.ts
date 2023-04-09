@@ -1,11 +1,8 @@
 <<<<<<< HEAD
-<<<<<<< HEAD
 import {USER_IMAGE_DELETE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_SAVE} from "@/constants";
 import {IPersonInfo, IPhotoUrls, ISurveyDetail, ISurveyInfo} from "@/typings/types";
 import {QUESTION_TYPE} from "@/utils/constant";
 =======
-=======
->>>>>>> origin/develop_ppp
 import {USER_SAVE,USER_IMAGE_SAVE,USER_PERSONINFO_SAVE,USER_IMAGE_DELETE} from "@/constants";
 import {IPersonInfo, IPhotoUrls, ISurveyInfo} from "@/typings/types";
 >>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
