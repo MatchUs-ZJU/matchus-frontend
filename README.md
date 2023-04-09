@@ -14,11 +14,18 @@
 
 ## 快速开始
 
-本项目使用 [Taro](https://docs.taro.zone/docs/version) 跨平台框架开发，使用的版本是v3.5.3。
+本项目使用 [Taro](https://docs.taro.zone/docs/version) 跨平台框架开发，使用的版本是Taro最新版本v3.6.4。
 
 ### 版本管理
 
-Taro各个版本之间兼容性不佳，建议安装正确的版本。
+在开始开发前，需要配置正确的Taro版本。Taro各个版本之间兼容性不佳，建议安装正确的版本。我们希望项目的版本一直都是最新的Taro版本。
+
+使用下面的命令，首先 `$ cnpm install / yarn ` 安装一次依赖。然后使用 `$ taro update self` 更新Taro到最新版本（更新时使用cnpm或yarn进行）。之后
+使用检查一下项目依赖，看看是否有落后的依赖包。如果有，使 用`$ taro update project` 将项目依赖更新到最新版本。
+
+最后删除项目依赖文件，重新安装 `$ cnpm install / yarn `。
+
+详细的命令：
 
 ```shell
 # 使用Taro 升级命令更新CLI版本到最新版本
