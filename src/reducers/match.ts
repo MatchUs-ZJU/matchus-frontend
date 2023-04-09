@@ -1,4 +1,4 @@
-import {MATCH_SAVE} from "@/constants";
+import { MATCH_SAVE } from "@/constants";
 
 export interface IMatchState {
   female: {
@@ -13,6 +13,12 @@ export interface IMatchState {
 
   matchInfo: {
     basicInfo: {
+      index: number,
+      key: string,
+      value: string
+    }[],
+
+    specialInfo: {
       index: number,
       key: string,
       value: string
