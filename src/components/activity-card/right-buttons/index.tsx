@@ -15,8 +15,8 @@ export const hasFilledFormText = '已截止'
 export const notFilledFormText = '未填写'
 export const disabledText = '已结束'
 export const defaultText = '默认文案'
-export const inRefundText = '查看分析'
-export const hasRefundedText = '查看分析'
+export const inRefundText = '退款中'
+export const hasRefundedText = '已退款'
 
 interface ActiveBtnProps extends ViewProps {
   type: 'signup' | 'fillForm' | 'editForm' | 'seeResult'
@@ -70,11 +70,14 @@ export const FinishedBtn = (props: FinishedBtnProps) => {
         duration: 3000
       })
     }
+<<<<<<< HEAD
     if(type === 'inRefund' || type === 'hasRefund'){
       await Taro.navigateTo({
         url: '/pages/activity/analysis/index'
       })
     }
+=======
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
   }
 
   return (

@@ -8,7 +8,7 @@ import {
   ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE,
   ACTIVITY_BASIC_DATA_SAVE
 } from "@/constants";
-import {IMatchAnalysisState, IParticipateState} from "@/typings/types";
+import {IParticipateState} from "@/typings/types";
 
 export interface IActivityState {
   // basic
@@ -34,6 +34,7 @@ export interface IActivityState {
   // participated information
   participate: IParticipateState
 
+<<<<<<< HEAD
   // analysis
   analysis: IMatchAnalysisState
 
@@ -42,17 +43,11 @@ export interface IActivityState {
   matched: number,
   totalParticipate:number,
   unavailable: number
+=======
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
 }
 
 const INITIAL_STATE: IActivityState = {
-  analysis: {
-    match: 0,
-    matchSuccess: 0,
-    lucky: 0,
-    luckyAdd: 0,
-    conditions: []
-  },
-
   participate: {
     state: 'NOT_ACTIVE',
 
@@ -76,8 +71,12 @@ const INITIAL_STATE: IActivityState = {
       lastChoose: 0,
       left: 0,
       refund: false,
+<<<<<<< HEAD
       message: 0,
       subscribe: false
+=======
+      message: 0
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
     },
 
     dailyQuestion: {
@@ -103,10 +102,13 @@ const INITIAL_STATE: IActivityState = {
   id: "",
   name: "",
   price: 0,
+<<<<<<< HEAD
   totalTerm: 0,
   matched: 0,
   totalParticipate: 0,
   unavailable: 0
+=======
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
 }
 
 export default function activity(state = INITIAL_STATE, action) {

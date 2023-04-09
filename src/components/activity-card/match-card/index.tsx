@@ -10,7 +10,7 @@ import {
 import Taro from "@tarojs/taro";
 import Watermark from "@/components/activity-card/watermark";
 import {DayCounter, QACard} from "@/components/activity-card/daily-question";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 
 import {confirmSubscribe, notifySubscribe} from "@/actions/activity";
@@ -38,8 +38,11 @@ const LeftTimeBtn = (props: LeftTimeBtnProps) => {
 
 const MatchCard = (props: MatchCardProps) => {
   const {resultShowTime} = props
+<<<<<<< HEAD
   const dispatch = useDispatch()
   const {subscribe} = useSelector(rootState => rootState.activity.participate.match)
+=======
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
   const {filled} = useSelector(rootState => rootState.activity.participate.fillForm)
   const {approval, before, today} = useSelector(rootState => rootState.activity.participate.dailyQuestion)
   const {
@@ -75,6 +78,7 @@ const MatchCard = (props: MatchCardProps) => {
   }
 
   async function goToSeeResult() {
+<<<<<<< HEAD
     // 用户订阅消息通知
     if(!subscribe){
       dispatch(notifySubscribe([
@@ -83,6 +87,8 @@ const MatchCard = (props: MatchCardProps) => {
       ],true))
     }
 
+=======
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
     await Taro.navigateTo({
       url: '/pages/activity/match-result/index'
     })
@@ -120,7 +126,7 @@ const MatchCard = (props: MatchCardProps) => {
               'note',
               {'note-failed': state && state === 'ACTIVE' && !matchResult}
             )}
-          >{state && state === 'ACTIVE' && !matchResult ? '退款将在2个工作日内返还！' : '若匹配失败，100%退全款'}</View>
+          >若匹配失败，100%退全款</View>
         </View>
         <View className='col right'>
           {state === 'NOT_START' && !filled ? (
@@ -136,6 +142,7 @@ const MatchCard = (props: MatchCardProps) => {
               <FinishedBtn type='inRefund'/>
             )
           ) : (
+            // <ActiveBtn type='seeResult' onClick={goToSeeResult}/>
             <DisableBtn type='disable'/>
           )}
         </View>

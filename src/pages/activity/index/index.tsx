@@ -2,7 +2,7 @@ import {View, Text} from "@tarojs/components";
 import {useDispatch, useSelector} from "react-redux";
 import {Image} from "@taroify/core";
 import {useEffect, useState} from "react";
-import {fetchLatestActivityInfo} from "@/actions";
+import {fetchLatestActivityInfo, fetchUserInfo} from "@/actions";
 import {ActivityHelp} from "@/assets/images"
 import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
 import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";

@@ -4,10 +4,10 @@ import {IPhotoUrls} from "@/typings/types";
 import {getJWT} from "@/services/jwt";
 
 export async function viewImages(urls: string[], current?: string) {
-  await Taro.previewImage({
+  const res = await Taro.previewImage({
     urls: urls,
     current: current
-  });
+  })
 }
 
 export async function uploadIdentificationImage(realName: string, studentNumber: string, url: string) {

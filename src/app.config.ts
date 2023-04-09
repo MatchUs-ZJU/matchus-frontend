@@ -6,7 +6,6 @@ export default defineAppConfig({
 
     'pages/activity/index/index',
     'pages/activity/match-result/index',
-    'pages/activity/analysis/index',
     'pages/activity/choose-result/index',
     'pages/activity/rules/index',
 
@@ -66,6 +65,7 @@ export default defineAppConfig({
         iconPath: 'assets/images/tablist/my.jpg',
         selectedIconPath: 'assets/images/tablist/my-s.jpg',
       },
+<<<<<<< HEAD
       // TEST
       // {
       //   text: '111',
@@ -73,6 +73,8 @@ export default defineAppConfig({
       //   iconPath: 'assets/images/tablist/my.jpg',
       //   selectedIconPath: 'assets/images/tablist/my-s.jpg',
       // },
+=======
+>>>>>>> 4961d387d87eacff51bc75f0ed5b3293c2213e77
     ],
   },
   navigateToMiniProgramAppIdList: ["wxd947200f82267e58", "wxd947200f82267e57"],
