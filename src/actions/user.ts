@@ -158,14 +158,12 @@ export const fetchSurveyDetail = () => {
         const requireMatchRequests = surveyDetail.requireMatchRequests.map((item)=>{
           return item.questionType !== QUESTION_TYPE.RANGE?{...item,properAnswer:[...generateProperAnswer(item)]}:{...item,rangeAnswer:[...generateProperAnswer(item)]}
         }).sort((a,b)=>a.questionIndex-b.questionIndex)
-        console.log('surveyDetail',surveyDetail)
         dispatch(userSave({
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
             requireMatchRequests:[...requireMatchRequests],
             specialRequests:surveyDetail.specialRequests
           }}))
-        console.log('surveyDetail',surveyDetail)
       }else{
         console.log('用户信息：获取可编辑匹配问卷失败')
       }
