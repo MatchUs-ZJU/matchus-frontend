@@ -172,6 +172,7 @@ const SurveyInfoEdit = () => {
 
   const onConfirmSpecialRequest = (value) => {
     let answer = value.choices.filter(item => item.checked).map(item => item.choiceIndex).join('┋')
+    if (answer === '') answer = null
     value = { ...value, answer: answer }
     dispatch(modifySurveyDetail({ specialInfos: [...[value]] }))
   }
@@ -185,8 +186,9 @@ const SurveyInfoEdit = () => {
       if (item.questionId === value.questionId) return value;
       else return item
     })
+    console.log(postData)
 
-    dispatch(modifySurveyDetail(postData))
+    dispatch(modifySurveyDetail({ matchRequestInfos: postData}))
   }
 
 

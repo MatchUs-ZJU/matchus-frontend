@@ -14,8 +14,8 @@ const ROOT_URL = process.env.NODE_ENV === 'development' ?
 
 const CLOUD_ENV = process.env.NODE_ENV === 'development' ?
     // 线下开发地址（通过npm run dev命令）
-    // 'matchus-backend-dev-8cpqf11d7b0e'
-  'prod-3gmomtqs65fff710'
+     'matchus-backend-dev-8cpqf11d7b0e'
+  //'prod-3gmomtqs65fff710'
   : process.env.NODE_ENV === 'development-test' ?
     // 模拟生产环境、真机测试地址（通过npm run dev-test命令）
     'matchus-backend-dev-8cpqf11d7b0e' :
