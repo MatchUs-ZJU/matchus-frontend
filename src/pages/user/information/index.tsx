@@ -46,6 +46,7 @@ const Information = () => {
   const [userFacultyOpen,setUserFacultyOpen] = useState(false)
   const [pickerValue,setPickerValue] = useState(USER_TYPE.STUDENT)
   const [facultyPicker,setFacultyPicker] = useState(0)
+  const [isRemoved,setIsRemoved] = useState(false)
 
   async function refillForm() {
     await Taro.navigateTo({url: '/pages/user/identify/index'})
@@ -61,6 +62,7 @@ const Information = () => {
         }
       })
     })
+    setIsRemoved(true)
   }
 
   return (
@@ -167,7 +169,7 @@ const Information = () => {
               
           </Picker>
         <View className='confirm-btn' onClick={() => {
-          if(needUpdate || !form.imageFile.url){
+          if(userType === 4 || !form.imageFile.url){
             setUserTypeStep(USER_TYPE_STEPS.UPLOAD)
             setForm({...form,userType: pickerValue})
           }
@@ -177,7 +179,7 @@ const Information = () => {
            }
           }
         }
-        >{needUpdate?'下一步':'确定'}</View>
+        >{(userType === 4 || !form.imageFile.url)?'下一步':'确定'}</View>
       </Popup>
 
       <Popup className='form-popup' open={userTypeStep===USER_TYPE_STEPS.UPLOAD} rounded placement='bottom' onClose={()=>setUserTypeStep(USER_TYPE_STEPS.CLOSE)}>
@@ -192,7 +194,10 @@ const Information = () => {
           {form.imageFile.url ? (<Uploader.Image
             key={form.imageFile.url}
             url={form.imageFile.url}
-            onRemove={() => setForm({...form, imageFile: {url: ''}})}
+            onRemove={() => {
+              setForm({...form, imageFile: {url: ''}})
+              setIsRemoved(true)
+            }}
             className='uploader-preview'
             // onClick={() => viewImages([form.imageFile.url])}
           />) : (<View onClick={onUpload}>
@@ -205,7 +210,7 @@ const Information = () => {
         </Uploader>
         <View className='confirm-btn' onClick={() => {
           dispatch(notifySubscribe(['FGLXTk3ch9W5f8aUTiBddnhS0mlngL_0QFYe8l0FEuw']))
-          dispatch(submitIdentificationInfo({...form,facultyId:findFacultyId(faculty)},true,false))
+          dispatch(submitIdentificationInfo({...form,facultyId:findFacultyId(faculty)},isRemoved,false))
           setUserTypeStep(USER_TYPE_STEPS.FINISH)}}
         >下一步</View>
       </Popup>
