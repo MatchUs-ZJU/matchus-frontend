@@ -85,20 +85,24 @@ const SurveyInfoEdit = () => {
       const findRelaxCheck = surveyDetail.noRequireMatchRequests.filter(item => item.questionType === QUESTION_TYPE.OPTION_CHECK)
       if (findRelaxCheck.length > 0) setRelaxCheck({ ...findRelaxCheck[0] })
       if (findRelaxSingle.length > 0) setRelaxSingle({ ...findRelaxSingle[0] })
-      let specialRequest = surveyDetail.specialRequests[0]
-      if (!specialRequest.answer) specialRequest.answer = ''
-      let answer = specialRequest.answer.split('┋')
-      specialRequest.choices = specialRequest.choices.map((item) => {
-        if (answer && answer.indexOf(`${item.choiceIndex}`) !== -1) {
-          return { ...item, checked: true }
-        } else {
-          return { ...item, checked: false }
-        }
-      }).sort((a, b) => a.choiceIndex - b.choiceIndex)
+      if(surveyDetail.specialRequests == null){
+        setSpecialRequest(undefined)
+      } else {
+        let specialRequest = surveyDetail.specialRequests[0]
+        if (!specialRequest.answer) specialRequest.answer = ''
+        let answer = specialRequest.answer.split('┋')
+        specialRequest.choices = specialRequest.choices.map((item) => {
+          if (answer && answer.indexOf(`${item.choiceIndex}`) !== -1) {
+            return { ...item, checked: true }
+          } else {
+            return { ...item, checked: false }
+          }
+        }).sort((a, b) => a.choiceIndex - b.choiceIndex)
+        setSpecialRequest({ ...specialRequest })
+      }
       setChosenOptional([...chosen])
       setUnchosenOptional([...unChosen])
       setRequired([...surveyDetail.requireMatchRequests])
-      setSpecialRequest({ ...specialRequest })
     }
   }, [surveyDetail])
 
