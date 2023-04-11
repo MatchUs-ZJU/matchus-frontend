@@ -440,7 +440,6 @@ export const submitIdentificationInfo = (data,newMaterial: boolean = true,redire
     try {
       // 上传照片到云托管
       let material = data.imageFile.url
-
       if(newMaterial){
         const uploadRes = await uploadIdentificationImage(data.realName, data.studentNumber, data.imageFile.url)
         if(uploadRes.errMsg !== 'cloud.uploadFile:ok') {
@@ -495,6 +494,7 @@ export const submitIdentificationInfo = (data,newMaterial: boolean = true,redire
         });
       }
     } catch (e) {
+      console.log(e)
       await Taro.showToast({
         icon: 'none',
         title: '提交个人信息失败，请重新尝试',
