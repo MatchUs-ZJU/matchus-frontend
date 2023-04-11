@@ -1,6 +1,7 @@
 import {View, Text} from "@tarojs/components";
-import {Button,Cell, Image, Notify} from "@taroify/core"
+import {Button,Cell, Image, Notify, Popup} from "@taroify/core"
 import {Arrow} from "@taroify/icons"
+import {ActivityHelp} from "@/assets/images"
 import {
   PersonalInfoIcon,
   consumeIcon,
@@ -33,6 +34,8 @@ const User = () => {
   // 通知
   const [notifyContent, setNotifyContent] = useState('')
   const [notifyOpen, setNotifyOpen] = useState(false)
+  // 幸运值弹窗
+  const [luckyPopupOpen, setLuckyPopupOpen] = useState(false)
 
   useDidShow(async () => {
     await fetchData()
@@ -180,11 +183,33 @@ const User = () => {
       {
         nickName &&
         <View className='lucky center-center row'>
-          <View className='item row'>
+          <View className='item row' onClick={()=>{setLuckyPopupOpen(!luckyPopupOpen)}}>
             <Image src={CloverIcon} className='item-icon'/>
             <View className='item-text'>
               <View className='value'>{lucky ?? 0}{luckyPercent <= 30 && <Text className='value-lower-text'>前{luckyPercent >> 0}%</Text>}</View>
-              <View className='text'>幸运值</View>
+              <View className='text'>幸运值
+                <Image src={ActivityHelp} style={{ width: "30rpx", height: "30rpx" }}/>
+              </View>
+              <Popup placement="bottom" rounded open={luckyPopupOpen}>
+                <Popup.Close />
+                <View className='lucky-popup'>
+                  <View className='lucky-popup-title'>关于幸运值🍀</View>
+                </View>
+                <View className='lucky-popup-content'>
+                  <View className='lucky-popup-content-text'>幸运值是影响匹配成功率的重要指标，同等匹配条件下</View>
+                  <View className='lucky-popup-content-text'>幸运值高的用户能更优先匹配到对象。</View>
+                  <View className='lucky-popup-content-title'>「加分操作」</View>
+                  <View className='lucky-popup-content-text'> 💟 注册参加活动</View>
+                  <View className='lucky-popup-content-text'> 💟 初次完善并经常更新个人信息 </View>
+                  <View className='lucky-popup-content-text'> 💟 迟迟没匹配到那个TA </View>
+                  <View className='lucky-popup-content-text'> 💟 参加每日一问和双选等活动环节 </View>
+                  <View className='lucky-popup-content-title'>「扣分操作」</View>
+                  <View className='lucky-popup-content-text'> ⛔️ 上传不符合要求的照片 </View>
+                  <View className='lucky-popup-content-text'> ⛔️ 未完成匹配要求填写</View>
+                  <View className='lucky-popup-content-text'> ⛔️ 多次匹配成功的幸运儿</View>
+                  <View className='lucky-popup-content-text'> ⛔️ 长期不参加活动的老用户</View>
+                </View>
+              </Popup>
             </View>
           </View>
           <View className='item row'>

@@ -16,7 +16,6 @@ export async function uploadIdentificationImage(realName: string, studentNumber:
     const rn = realName === '' ? '微信用户' : realName
     return `${sn}-${rn}-${new Date().getTime()}`
   }
-
   return Taro.cloud.uploadFile({
     cloudPath: `identify/${generateFileName()}.png`,
     filePath: url,

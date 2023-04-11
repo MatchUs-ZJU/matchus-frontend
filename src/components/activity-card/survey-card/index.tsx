@@ -68,7 +68,7 @@ const SurveyCard = (props: SurveyCardProps) => {
             <View className='title'>初知·要求填写</View>
             {!percent ? (
               <>
-                <View className='detail'>问卷可覆盖填写，取最后一次作为您的最终问卷结果</View>
+                <View className='detail'>请在报名截止前，前往【我的】-【匹配要求】中完成要求填写</View>
                 <View className='note'>填问卷大约需10min</View>
               </>
               ):(
