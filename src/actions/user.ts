@@ -191,7 +191,7 @@ export const modifySurveyDetail = (data) => {
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
             requireMatchRequests:[...requireMatchRequests],
-            specialRequests:[...surveyDetail.specialRequests]
+            specialRequests:surveyDetail.specialRequests
           }}))
       }
     }catch (e){

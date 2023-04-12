@@ -110,7 +110,7 @@ const SurveyInfoEdit = () => {
   useEffect(() => {
     if (matchResultShowTime && signUpEndTime) {
       const now = new Date().getTime()
-      setChangeable(now <= signUpEndTime && now >= signUpStartTime)
+      setChangeable(now <= signUpEndTime || now >= matchResultShowTime)
     }
     else {
       setChangeable(true)
