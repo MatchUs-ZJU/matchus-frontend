@@ -162,7 +162,7 @@ export const fetchSurveyDetail = () => {
           surveyDetail:{noRequiredMax:surveyDetail.noRequiredMax,
             noRequireMatchRequests:[...noRequireMatchRequests],
             requireMatchRequests:[...requireMatchRequests],
-            specialRequests:[...surveyDetail.specialRequests]
+            specialRequests:surveyDetail.specialRequests
           }}))
       }else{
         console.log('用户信息：获取可编辑匹配问卷失败')
