@@ -44,7 +44,7 @@ const SurveyCard = (props: SurveyCardProps) => {
   function getEndDateString(){
     if(signUpEndTime){
       const date = new Date(signUpEndTime)
-      return date.getMonth() + '月'+date.getDate() + '日'+ date.getHours()+'点'+date.getMinutes()+'分'
+      return (date.getMonth()+1) + '月'+date.getDate() + '日'+ date.getHours()+'点'+date.getMinutes()+'分'
     }
     return ''
   }
