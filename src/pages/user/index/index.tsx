@@ -187,9 +187,7 @@ const User = () => {
             <Image src={CloverIcon} className='item-icon'/>
             <View className='item-text'>
               <View className='value'>{lucky ?? 0}{luckyPercent <= 30 && <Text className='value-lower-text'>前{luckyPercent >> 0}%</Text>}</View>
-              <View className='text'>幸运值
-                <Image src={ActivityHelp} style={{ width: "30rpx", height: "30rpx" }}/>
-              </View>
+              <View className='text'>幸运值</View>
               <Popup placement="bottom" rounded open={luckyPopupOpen}>
                 <Popup.Close />
                 <View className='lucky-popup'>
