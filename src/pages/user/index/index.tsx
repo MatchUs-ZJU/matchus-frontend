@@ -112,11 +112,12 @@ const User = () => {
       setNotifyContent(notifyLoginMessage)
       setNotifyOpen(true)
     } else {
-      await Taro.showToast({
-        title: "程序猿小哥哥正在开发该功能～",
-        duration: TOAST_SHOW_TIME,
-        icon: 'none'
-      })
+      // await Taro.showToast({
+      //   title: "程序猿小哥哥正在开发该功能～",
+      //   duration: TOAST_SHOW_TIME,
+      //   icon: 'none'
+      // })
+      await Taro.navigateTo({url: '/pages/user/wallet/index'})
     }
   }
 
@@ -263,7 +264,7 @@ const User = () => {
           </Cell>
           <Cell
             icon={<Image src={consumeIcon} className='left-icon'/>}
-            title='消费记录'
+            title='MU钱包'
             rightIcon={<Arrow size='16'/>}
             align='center'
             clickable

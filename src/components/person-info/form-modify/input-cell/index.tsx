@@ -46,7 +46,10 @@ const InputCell = (props: InputCellProps) => {
           return false
         }
       } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER) {
-        return wechatNumberRegTest(inputValue)
+        if(!wechatNumberRegTest(inputValue)) return false
+        //return wechatNumberRegTest(inputValue)
+        if(inputValue.substring(0,5)==='wxid_') return false
+        return true
       }
       return true
     } else return props.inputType === INPUT_TYPE.NOT_REQUIRED
@@ -67,6 +70,9 @@ const InputCell = (props: InputCellProps) => {
           }
         } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER && !wechatNumberRegTest(inputValue)) {
           setFeedbackValue(WARNING_NOTE.INVALID_WECAHT)
+          return
+        } else if (props.inputType === INPUT_TYPE.WECHAT_NUMBER && inputValue.substring(0,5)==='wxid_') {
+          setFeedbackValue("wxid_开头的微信号为原始微信号，对方将无法搜索到，请提供手机号或者新微信号")
           return
         }
       } else if(props.inputType !== INPUT_TYPE.NOT_REQUIRED){
