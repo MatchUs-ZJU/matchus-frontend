@@ -5,7 +5,7 @@ const Index = () => {
 
   return (
     <View>
-
+        
     </View>
   )
 }

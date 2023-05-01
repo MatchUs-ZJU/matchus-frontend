@@ -213,7 +213,7 @@ const Home = () => {
 
       <Popup
         className='custom-modal'
-        open={needRead} rounded
+        open={false} rounded
         onClose={() => {
           dispatch(confirmNotify())
         }
