@@ -52,8 +52,7 @@ export const postRefundRequest = async (data) => {
 
 export const postFilledForm = async (data) => {
   console.log('网络请求：用户完成问卷')
-  return request.post(`/activity/matchRequest
-`, {
+  return request.post(`/activity/matchRequest`, {
     data,
     header: {
       Authorization: getJWT(),
@@ -69,6 +68,26 @@ export const getMatchResult = async (id) => {
     },
   })
 }
+
+export const getMatchFeedback = async (activityId) => {
+  console.log('网络请求：获取匹配反馈')
+  return request.get(`/activity/matchFeedback?id=${activityId}`, {
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const postMatchFeedback = async (data) => {
+  console.log('网络请求：上传匹配反馈')
+  return request.post(`/activity/matchFeedback`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
 
 export const getMatchQuestion = async (id) => {
   console.log('网络请求：获取每日问答')

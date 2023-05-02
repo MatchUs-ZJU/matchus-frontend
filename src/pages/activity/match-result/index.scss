@@ -465,6 +465,7 @@
   align-items: center;
 
   margin-top: 16px;
+  margin-bottom: 24px;
 }
 
 .content .image-info .image-show .img {
@@ -490,6 +491,10 @@
   font-size: 24px;
   line-height: 32px;
   color: $black
+}
+
+.content .feedback-info {
+  margin-top: 1px;
 }
 
 .wrapper-insider {

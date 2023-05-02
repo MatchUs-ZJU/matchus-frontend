@@ -10,7 +10,8 @@ import {
   ACTIVITY_DAILYQA_SAVE,
   ACTIVITY_APPROVE_SAVE,
   ACTIVITY_ANALYSIS_SAVE,
-  ACTIVITY_BASIC_DATA_SAVE
+  ACTIVITY_BASIC_DATA_SAVE,
+  MATCH_FEEDBACK_SAVE
 } from "@/constants";
 import {
   postFilledForm,
@@ -25,7 +26,7 @@ import {
   postMatchQuestionApproval,
   postMatchQuestionAnswer,
   getMatchAnalysisData,
-  notifyMatchSubscribe, getActivityData
+  notifyMatchSubscribe, getActivityData, postMatchFeedback, getMatchFeedback
 } from "@/services/activity";
 import {TOAST_SHOW_TIME} from "@/utils/constant";
 import {globalSave} from "@/actions/global";
@@ -93,6 +94,13 @@ export const matchStateSave = (payload) => {
   }
 }
 
+export const matchFeedbackSave = (payload) => {
+  return {
+    type: MATCH_FEEDBACK_SAVE,
+    payload
+  }
+}
+
 export const twcStateSave = (payload) => {
   return {
     type: CHOOSE_SAVE,
@@ -106,6 +114,8 @@ export const activityBasicDataSave = (payload) => {
     payload
   }
 }
+
+
 
 export const fetchLatestActivityInfo = () => {
   return async dispatch => {
@@ -371,6 +381,43 @@ export const fetchMatchResult = (id) => {
   }
 }
 
+export const fetchMatchFeedback = (id) => {
+  return async dispatch => {
+    console.log("活动页面：获取匹配反馈")
+    try {
+      let res = await getMatchFeedback(id)
+      if (res && res.code === 0) {
+        console.log("活动页面：获取匹配反馈成功")
+        dispatch(matchFeedbackSave(res.data))
+      } else {
+        console.log("活动页面：获取匹配反馈失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const sendMatchFeedback = ({type, imageIds}) => {
+  return async dispatch => {
+    console.log("活动页面：发送匹配反馈")
+    try {
+      let res = await postMatchFeedback({
+        type: type,
+        imageIds: imageIds
+      })
+      if(res && res.code === 0) {
+        console.log("活动页面：发送匹配反馈成功")
+        dispatch(matchFeedbackSave(res.data))
+      } else {
+        console.log("活动页面：发送匹配反馈失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 export const fetchMatchQuestion = (id) => {
   return async dispatch => {
     console.log("活动页面：获取每日问答")
@@ -501,3 +548,5 @@ export const fetchActivityData = () => {
     }
   }
 }
+
+

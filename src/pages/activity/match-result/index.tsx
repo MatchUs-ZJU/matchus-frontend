@@ -10,12 +10,14 @@ import { viewImages } from "@/utils/taro-utils";
 import { getFormatNickname } from "@/utils/fstring";
 import classnames from "classnames";
 import './index.scss';
+import { fetchMatchFeedback } from "@/actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch()
   const { match, activity } = useSelector(state => state)
 
-  const { matchInfo, isTwice, imagesUrl } = match
+  const { matchInfo, isTwice, imagesUrl, feedback  } = match
+
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -61,6 +63,7 @@ const Index = () => {
 
   function fetchData() {
     dispatch(fetchMatchResult(activity.id))
+    dispatch(fetchMatchFeedback(activity.id))
   }
 
   async function navigateBack() {
@@ -287,6 +290,27 @@ const Index = () => {
               </View>
               : <></>
             }
+            <View className='divider row'>
+              反馈通道
+              <View className='line' />
+            </View>
+            <View className='feedback-info'>
+              <View className='item'>
+                <View className='title'>对方是否存在以下行为</View>
+                <View className='Feedback-List'>
+                  {
+                    feedback?.options?.map((item, _) => {
+                      console.log(item)
+                      return (
+                        <View className='Feedback-Item'>
+                          {item.description}
+                        </View>
+                      )
+                    }
+                  )}
+                </View>
+              </View>
+            </View>
           </View>
         </View>
       </View>
