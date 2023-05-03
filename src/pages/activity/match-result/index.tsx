@@ -25,6 +25,7 @@ const Index = () => {
   const [isChecked, setChecked] = useState(false)
   const [isShowed, setShowed] = useState(false)
   const [countDownTime, setCountDownTime] = useState(1000)
+  const [feedbackSelected, setFeedbackSelected] = useState(-1)
 
   function onHeartChange(value) {
     if (isShowed) {
@@ -48,6 +49,12 @@ const Index = () => {
       setHeart(match.favor / 20)
     }
   }, [match])
+
+  useEffect(() => {
+    if (feedback) {
+      setFeedbackSelected(feedback.type.code)
+    }
+  }, [feedback])
 
   useEffect(() => {
     if (activity && activity.matchResultShowTime) {
@@ -297,12 +304,12 @@ const Index = () => {
             <View className='feedback-info'>
               <View className='item'>
                 <View className='title'>对方是否存在以下行为</View>
-                <View className='Feedback-List'>
+                <View className='feedback-list'>
                   {
                     feedback?.options?.map((item, _) => {
                       console.log(item)
                       return (
-                        <View className='Feedback-Item'>
+                        <View className={classnames('feedback-item')}>
                           {item.description}
                         </View>
                       )
