@@ -1,7 +1,7 @@
 import Taro from "@tarojs/taro";
-import {BASE_URL} from "@/config";
+import { BASE_URL } from "@/config";
 import request from "./request";
-import {getJWT} from "./jwt";
+import { getJWT } from "./jwt";
 
 export const getUserInfo = async () => {
   console.log('网络请求：获取用户信息')
@@ -14,17 +14,17 @@ export const getUserInfo = async () => {
 
 export const getUserNeedUpdate = async () => {
   console.log('网络请求：获取用户是否更新')
-  return request.get(`/user/needUpdate`,{
+  return request.get(`/user/needUpdate`, {
     header: {
       Authorization: getJWT(),
     }
   })
 }
 
-export const postUserNeedNotify = async ()=>{
+export const postUserNeedNotify = async () => {
   console.log('网络请求：通知已读')
-  const data = {success:true}
-  return request.post(`/user/notify`,{
+  const data = { success: true }
+  return request.post(`/user/notify`, {
     data,
     header: {
       Authorization: getJWT(),
@@ -32,11 +32,11 @@ export const postUserNeedNotify = async ()=>{
   })
 }
 
-export const updateUserAvatar = async (data) =>{
+export const updateUserAvatar = async (data) => {
   console.log('网络请求：更新用户头像')
-  return request.post(`/user/avatar`,{
+  return request.post(`/user/avatar`, {
     data,
-    header:{
+    header: {
       Authorization: getJWT()
     }
   })
@@ -53,8 +53,8 @@ export const updateUserInfo = async (data) => {
 };
 
 export const updateUserFaculty = async (data) => {
-  console.log('网络请求：更新用户学院',data)
-  return request.post(`/user/faculty`,{
+  console.log('网络请求：更新用户学院', data)
+  return request.post(`/user/faculty`, {
     data,
     header: {
       Authorization: getJWT()
@@ -84,30 +84,30 @@ export const uploadIdentificationImages = async (data) => {
   })
 }
 
-export const getPersonalImage = async () =>{
+export const getPersonalImage = async () => {
   console.log('网络请求：请求用户个人照片')
-  return request.get(`/user/images`,{
-    header:{
+  return request.get(`/user/images`, {
+    header: {
       Authorization: getJWT()
     }
   })
 }
 
 export const postPersonalImage = async (data) => {
-  console.log('网络请求：上传用户个人照片',data)
-  return request.post(`/user/images`,{
+  console.log('网络请求：上传用户个人照片', data)
+  return request.post(`/user/images`, {
     data,
-    header:{
+    header: {
       Authorization: getJWT()
     }
   })
 }
 
 export const putPersonalImage = async (data) => {
-  console.log('网络请求：更改用户个人照片',data)
-  return request.put(`/user/images`,{
+  console.log('网络请求：更改用户个人照片', data)
+  return request.put(`/user/images`, {
     data,
-    header:{
+    header: {
       Authorization: getJWT()
     }
   })
@@ -115,20 +115,20 @@ export const putPersonalImage = async (data) => {
 
 export const delPersonalImage = async (data) => {
   console.log('网络请求：删除用户个人照片')
-  return request.delete(`/user/images`,{
+  return request.delete(`/user/images`, {
     data,
-    header:{
+    header: {
       Authorization: getJWT()
     }
   })
 }
 
 
-export const postPersonalInfo = async (data)=>{
+export const postPersonalInfo = async (data) => {
   console.log('网络请求：上传用户个人信息')
-  return request.post(`/user/personInfo`,{
+  return request.post(`/user/personInfo`, {
     data,
-    header:{
+    header: {
       Authorization: getJWT()
     }
   })
@@ -181,7 +181,7 @@ export const getSurveyInfo = async () => {
 
 export const getSurveyDetail = async () => {
   console.log('网络请求：获取可编辑用户匹配问卷')
-  return request.get(`/activity/matchRequest`,{
+  return request.get(`/activity/matchRequest`, {
     header: {
       Authorization: getJWT()
     }
@@ -190,7 +190,7 @@ export const getSurveyDetail = async () => {
 
 export const postSurveyDetail = async (data) => {
   console.log('网络请求：编辑问卷信息')
-  return request.post(`/activity/matchRequest`,{
+  return request.post(`/activity/matchRequest`, {
     data,
     header: {
       Authorization: getJWT()
@@ -198,9 +198,28 @@ export const postSurveyDetail = async (data) => {
   })
 }
 
-export const getPersonInfo = async ()=>{
+export const getPersonInfo = async () => {
   console.log('网络请求：获取用户个人信息')
-  return request.get(`/user/personInfo`,{
+  return request.get(`/user/personInfo`, {
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
+export const getVoucherInfo = async () => {
+  console.log('网络请求：获取匹配券信息')
+  return request.get(`/voucher/list`, {
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
+
+export const getVoucherReadInfo = async () => {
+  console.log('网络请求：获取匹配券是否更新信息')
+  return request.get(`/voucher/read`, {
     header: {
       Authorization: getJWT()
     }

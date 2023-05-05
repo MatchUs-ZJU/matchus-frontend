@@ -1,4 +1,5 @@
-import { MATCH_SAVE } from "@/constants";
+import { MATCH_FEEDBACK_SAVE, MATCH_SAVE } from "@/constants";
+import { IMatchFeedback } from "@/typings/types";
 
 export interface IMatchState {
   female: {
@@ -38,6 +39,8 @@ export interface IMatchState {
   hasFilled: boolean,
   isTwice: boolean,
 
+  feedback?: IMatchFeedback,
+
 }
 
 const INITIAL_STATE: IMatchState = {
@@ -55,6 +58,7 @@ const INITIAL_STATE: IMatchState = {
     basicInfo: [],
     characteristics: [],
     wechatNumber: '',
+    specialInfo: [],
   },
 
   imagesUrl: [],
@@ -71,6 +75,13 @@ export default function match(state = INITIAL_STATE, action) {
       return {
         ...state,
         ...action.payload
+      }
+    case MATCH_FEEDBACK_SAVE:
+      return {
+        ...state,
+        feedback: {
+          ...action.payload
+        }
       }
     default:
       return state

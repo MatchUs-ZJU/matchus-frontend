@@ -279,6 +279,63 @@ export interface IMatchCondition {
   match_percent: number
 }
 
+export interface MatchFeedBackEnum {
+  /**
+   * 类型
+   */
+  code: number;
+  /**
+   * 描述
+   */
+  description: string;
+}
+
+export interface CoS {
+  /**
+     * cloudId
+     */
+  cloudId: string;
+  /**
+   * 创建时间
+   */
+  createTime: any[] | boolean | number | number | { [key: string]: any } | null | string;
+  /**
+   * 下载链接
+   */
+  downloadUrl: null | string;
+  /**
+   * id
+   */
+  id: number;
+  /**
+   * 用户id
+   */
+  userId: number;
+}
+
+export interface IMatchFeedback {
+  /**
+     * 活动id
+     */
+  activityId: number;
+  /**
+   * 用户上传的图像
+   */
+  images: CoS[];
+  /**
+   * 可选选项
+   */
+  options?: MatchFeedBackEnum[];
+  /**
+   * 用户选择的类型
+   */
+  type: MatchFeedBackEnum;
+  /**
+   * 用户id
+   */
+  userId: number;
+}
+
 export interface IMatchAnalysisState {
   match: number,
   matchSuccess: number,

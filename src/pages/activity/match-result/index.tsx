@@ -10,12 +10,14 @@ import { viewImages } from "@/utils/taro-utils";
 import { getFormatNickname } from "@/utils/fstring";
 import classnames from "classnames";
 import './index.scss';
+import { fetchMatchFeedback } from "@/actions/activity";
 
 const Index = () => {
   const dispatch = useDispatch()
   const { match, activity } = useSelector(state => state)
 
-  const { matchInfo, isTwice, imagesUrl } = match
+  const { matchInfo, isTwice, imagesUrl, feedback  } = match
+
 
   const currentTime = new Date().getTime()
   const [heartValue, setHeartValue] = useState(0)
@@ -23,6 +25,7 @@ const Index = () => {
   const [isChecked, setChecked] = useState(false)
   const [isShowed, setShowed] = useState(false)
   const [countDownTime, setCountDownTime] = useState(1000)
+  const [feedbackSelected, setFeedbackSelected] = useState(-1)
 
   function onHeartChange(value) {
     if (isShowed) {
@@ -48,6 +51,12 @@ const Index = () => {
   }, [match])
 
   useEffect(() => {
+    if (feedback) {
+      setFeedbackSelected(feedback.type.code)
+    }
+  }, [feedback])
+
+  useEffect(() => {
     if (activity && activity.matchResultShowTime) {
       if (currentTime <= activity.matchResultShowTime + 24 * 60 * 60 * 1000) {
         setShowed(false)
@@ -61,6 +70,7 @@ const Index = () => {
 
   function fetchData() {
     dispatch(fetchMatchResult(activity.id))
+    dispatch(fetchMatchFeedback(activity.id))
   }
 
   async function navigateBack() {
@@ -287,6 +297,27 @@ const Index = () => {
               </View>
               : <></>
             }
+            <View className='divider row'>
+              反馈通道
+              <View className='line' />
+            </View>
+            <View className='feedback-info'>
+              <View className='item'>
+                <View className='title'>对方是否存在以下行为</View>
+                <View className='feedback-list'>
+                  {
+                    feedback?.options?.map((item, _) => {
+                      console.log(item)
+                      return (
+                        <View className={classnames('feedback-item')}>
+                          {item.description}
+                        </View>
+                      )
+                    }
+                  )}
+                </View>
+              </View>
+            </View>
           </View>
         </View>
       </View>
