@@ -75,21 +75,26 @@ import CloverIcon from './clover.svg'
 
 import AnalysisHeaderImage from './analysis-header.svg'
 import AnalysisHeartbrokenImage from './analysis-heartbroken.svg'
+import moneyIcon from './wallet-money.svg'
+import halfCircle from './wallet-half-circle.svg'
 
 
 export const welcomeImage = welcome
-export {HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon,  MaleIcon, FemaleIcon, CopyIcon,QaQuestionIcon,QaAnswerIcon,QaReachActiveFund,QaReachGreyFund,QaActiveReach,QaGreyReach,QaGreyFund,QaGreySteps,FullLike,BlankLike,ActivityHelp,WhiteInfo,ChooseAcceptChosen,ChooseAcceptUnchosen,ChooseRejectChosen,ChooseRejectUnchosen}
-export {reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules}
-export {artiService, commonQuestions, report}
-export {SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon,SurveySortBtn,SurveyAddItem,
-  LockedIcon,IdentityIcon,
-  PersonalInfoTipsIcon,PersonalInfoSplit,PersonalInfoAddPhoto,PersonalInfoChosen,PersonalAddOther,PersonInfoChosenPrimary,PersonInfoChosenGrey,PersonInfoChosenGreyLight,PersonInfoUnchosenPrimary,PersonalInfoUnchosen,
-  LoveExperience,MatchCount}
+export { HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon, MaleIcon, FemaleIcon, CopyIcon, QaQuestionIcon, QaAnswerIcon, QaReachActiveFund, QaReachGreyFund, QaActiveReach, QaGreyReach, QaGreyFund, QaGreySteps, FullLike, BlankLike, ActivityHelp, WhiteInfo, ChooseAcceptChosen, ChooseAcceptUnchosen, ChooseRejectChosen, ChooseRejectUnchosen }
+export { reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules }
+export { artiService, commonQuestions, report }
+export {
+  SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon, SurveySortBtn, SurveyAddItem,
+  LockedIcon, IdentityIcon,
+  PersonalInfoTipsIcon, PersonalInfoSplit, PersonalInfoAddPhoto, PersonalInfoChosen, PersonalAddOther, PersonInfoChosenPrimary, PersonInfoChosenGrey, PersonInfoChosenGreyLight, PersonInfoUnchosenPrimary, PersonalInfoUnchosen,
+  LoveExperience, MatchCount
+}
 export const consumeIcon = consume
 export const helpIcon = help
 export const aboutusIcon = aboutus
-export {LoveIcon, DoubleLoveIcon, CloverIcon}
-export {AnalysisHeaderImage, AnalysisHeartbrokenImage}
+export { LoveIcon, DoubleLoveIcon, CloverIcon }
+export { AnalysisHeaderImage, AnalysisHeartbrokenImage }
+export { moneyIcon, halfCircle }
 
 
 

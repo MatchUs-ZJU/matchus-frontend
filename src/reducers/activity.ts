@@ -3,12 +3,13 @@ import {
   ACTIVITY_CHOOSE_SAVE,
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
+  SAVE_VOUCHER_READ_INFO,
   ACTIVITY_SIGN_UP_SAVE,
   ACTIVITY_DAILYQA_SAVE,
   ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE,
   ACTIVITY_BASIC_DATA_SAVE
 } from "@/constants";
-import {IMatchAnalysisState, IParticipateState} from "@/typings/types";
+import { IMatchAnalysisState, IParticipateState } from "@/typings/types";
 
 export interface IActivityState {
   // basic
@@ -40,8 +41,12 @@ export interface IActivityState {
   // activity data
   totalTerm: number,
   matched: number,
-  totalParticipate:number,
+  totalParticipate: number,
   unavailable: number
+
+  //voucher
+  hasVoucher: boolean,
+  isVoucherUnread: boolean,
 }
 
 const INITIAL_STATE: IActivityState = {
@@ -65,7 +70,7 @@ const INITIAL_STATE: IActivityState = {
     fillForm: {
       state: 'NOT_START',
       filled: false,
-      percent: {total: 1,answer:0},
+      percent: { total: 1, answer: 0 },
       // isComplete: false
     },
 
@@ -81,12 +86,12 @@ const INITIAL_STATE: IActivityState = {
     },
 
     dailyQuestion: {
-      approval: [{index: 0, approval: false}, {index: 1, approval: false}, {index: 2, approval: false}, {
+      approval: [{ index: 0, approval: false }, { index: 1, approval: false }, { index: 2, approval: false }, {
         index: 3,
         approval: false
       }],
-      before: {id: -1, index: 0, question: '', value: '', approval: false},
-      today: {id: -1, index: 0, question: '', value: '', approval: false}
+      before: { id: -1, index: 0, question: '', value: '', approval: false },
+      today: { id: -1, index: 0, question: '', value: '', approval: false }
     },
 
     choose: {
@@ -106,7 +111,9 @@ const INITIAL_STATE: IActivityState = {
   totalTerm: 0,
   matched: 0,
   totalParticipate: 0,
-  unavailable: 0
+  unavailable: 0,
+  hasVoucher: false,
+  isVoucherUnread: false
 }
 
 export default function activity(state = INITIAL_STATE, action) {
@@ -119,6 +126,11 @@ export default function activity(state = INITIAL_STATE, action) {
           ...state.participate,
           ...action.payload.participate
         }
+      }
+    case SAVE_VOUCHER_READ_INFO:
+      return {
+        ...state,
+        isVoucherUnread: action.payload
       }
     case ACTIVITY_ANALYSIS_SAVE:
       return {
@@ -197,7 +209,8 @@ export default function activity(state = INITIAL_STATE, action) {
         }
       }
     case ACTIVITY_BASIC_DATA_SAVE:
-      return {...state,
+      return {
+        ...state,
         ...action.payload
       }
     default:

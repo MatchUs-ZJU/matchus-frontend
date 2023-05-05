@@ -1,5 +1,5 @@
 import request from "./request";
-import {getJWT} from "./jwt";
+import { getJWT } from "./jwt";
 
 export const getLatestActivityInfo = async () => {
   console.log('网络请求：获取最新一期活动信息和当前用户的参与情况')
@@ -22,6 +22,17 @@ export const getActivityInfoId = async (data) => {
 // 生成订单
 export const postPreJoinActivity = async (id, data) => {
   console.log('网络请求：加入活动预处理')
+  return request.post(`/activity/join?id=${id}`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  });
+}
+
+//使用匹配券生成订单
+export const useVoucherJoinActivity = async (id, data) => {
+  console.log('网络请求：使用匹配券加入活动预处理')
   return request.post(`/activity/join?id=${id}`, {
     data,
     header: {
@@ -72,7 +83,7 @@ export const getMatchResult = async (id) => {
 
 export const getMatchQuestion = async (id) => {
   console.log('网络请求：获取每日问答')
-  return request.get(`/activity/question?id=${id}`,{
+  return request.get(`/activity/question?id=${id}`, {
     header: {
       Authorization: getJWT()
     }
@@ -81,7 +92,7 @@ export const getMatchQuestion = async (id) => {
 
 export const postMatchQuestionApproval = async (data) => {
   console.log('网络请求：赞同')
-  return request.post(`/activity/approval`,{
+  return request.post(`/activity/approval`, {
     data,
     header: {
       Authorization: getJWT()
@@ -91,7 +102,7 @@ export const postMatchQuestionApproval = async (data) => {
 
 export const postMatchQuestionAnswer = async (data) => {
   console.log('网络请求：回答问题')
-  return request.post(`/activity/question`,{
+  return request.post(`/activity/question`, {
     data,
     header: {
       Authorization: getJWT()
@@ -156,10 +167,10 @@ export const getMatchAnalysisData = async (id) => {
   })
 }
 
-export const notifyMatchSubscribe = async () =>{
+export const notifyMatchSubscribe = async () => {
   console.log('網絡請求：確認訂閲通知')
-  return request.post(`/activity/subscribe`,{
-    data: {success: true},
+  return request.post(`/activity/subscribe`, {
+    data: { success: true },
     header: {
       Authorization: getJWT(),
     }
@@ -168,7 +179,7 @@ export const notifyMatchSubscribe = async () =>{
 
 export const getActivityData = async () => {
   console.log('网络请求:获取小程序相关数据')
-  return request.post(`/activity/data`,{
+  return request.post(`/activity/data`, {
     header: {
       Authorization: getJWT(),
     }

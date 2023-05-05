@@ -17,7 +17,8 @@ export default defineAppConfig({
     'pages/user/information/index',
     'pages/user/register/index',
     'pages/user/survey-info/index',
-    'pages/user/survey-info-edit/index'
+    'pages/user/survey-info-edit/index',
+    'pages/user/wallet/index'
   ],
   subPackages: [
     {

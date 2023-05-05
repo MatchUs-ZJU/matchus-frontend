@@ -1,24 +1,24 @@
-import {Text, View} from "@tarojs/components";
-import {Swiper, Image, Countdown, Popup} from "@taroify/core";
-import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
-import {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchBanners, fetchRecommends, relogin} from "@/actions";
-import {FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon, welcomeImage} from "@/assets/images";
-import {fetchHomeData} from "@/actions/home";
-import {fetchResourceImages} from "@/actions/resource";
-import {ArticleCard} from "@/components";
-import {getJWT} from "@/services/jwt";
+import { Text, View } from "@tarojs/components";
+import { Swiper, Image, Countdown, Popup } from "@taroify/core";
+import Taro, { useDidShow, usePullDownRefresh, useShareAppMessage } from "@tarojs/taro";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBanners, fetchRecommends, relogin, } from "@/actions";
+import { FeedBackImage, HeartsIcon, TrumpetIcon, TwoPeopleIcon, welcomeImage } from "@/assets/images";
+import { fetchHomeData } from "@/actions/home";
+import { fetchResourceImages } from "@/actions/resource";
+import { ArticleCard } from "@/components";
+import { getJWT } from "@/services/jwt";
 import classnames from "classnames";
-import {confirmNotify, fetchNeedUpdate} from "@/actions/user";
+import { confirmNotify, fetchNeedUpdate } from "@/actions/user";
 import './index.scss'
 
 const Home = () => {
   // store
   const dispatch = useDispatch()
-  const {home,user} = useSelector((state) => state)
-  const {articles, banners, data} = home
-  const {needUpdate,needRead} = user
+  const { home, user } = useSelector((state) => state)
+  const { articles, banners, data } = home
+  const { needUpdate, needRead } = user
   const currentTime = new Date().getTime()
   const [, setReady] = useState(false);
   const [activityTime, setActivityTime] = useState('')
@@ -30,7 +30,7 @@ const Home = () => {
 
 
   usePullDownRefresh(() => {
-    if(getJWT()) {
+    if (getJWT()) {
       fetchData()
     } else {
       dispatch(relogin(fetchData))
@@ -106,7 +106,7 @@ const Home = () => {
           autoplay={4000}
           lazyRender
         >
-          <Swiper.Indicator className='indicator'/>
+          <Swiper.Indicator className='indicator' />
           {banners &&
             banners
               // .filter(banner => banner.shows)
@@ -128,9 +128,9 @@ const Home = () => {
             <View className='col time'>
               <View className='title'>活动时间</View>
               <View className='content'>{activityTime}</View>
-              <View className='note' style={{color: '#918AE3'}}>第{data.currentTerm}期</View>
+              <View className='note' style={{ color: '#918AE3' }}>第{data.currentTerm}期</View>
             </View>
-            <View className='divider'/>
+            <View className='divider' />
             <View className='col data'>
               <View className='title'>
                 {countDownType === 'NOT_START' ? '距离报名开始还有' : countDownType === 'ACTIVE' ? '距离报名结束还有' : '活动报名已结束'}
@@ -155,7 +155,7 @@ const Home = () => {
               <View className='note'>已有<Text className='purple'>{data.currentParticipant}+</Text>人报名</View>
             </View>
           </View>
-          <View className={classnames('col', 'button', {'button-disable': countDownType === 'FINISHED'})} onClick={goToSignUp}>
+          <View className={classnames('col', 'button', { 'button-disable': countDownType === 'FINISHED' })} onClick={goToSignUp}>
             <Text className='button-text'>
               {countDownType === 'ACTIVE' ? '去报名' : countDownType === 'NOT_START' ? '未开始' : '已结束'}
             </Text>
@@ -163,8 +163,8 @@ const Home = () => {
         </View>
         <View className='row data-section'>
           <View className='col data-card purple'>
-            <Image src={TrumpetIcon} shape='circle' className='icon'/>
-            <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
+            <Image src={TrumpetIcon} shape='circle' className='icon' />
+            <View style={{ marginLeft: '12px', position: 'relative', bottom: '2px' }}>
               <View className='title'>
                 {!data.totalTerm ? 0 : data.totalTerm}<Text className='title-small'>期</Text>
               </View>
@@ -172,15 +172,15 @@ const Home = () => {
             </View>
           </View>
           <View className='col data-card yellow'>
-            <Image src={TwoPeopleIcon} shape='circle' className='icon'/>
-            <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
+            <Image src={TwoPeopleIcon} shape='circle' className='icon' />
+            <View style={{ marginLeft: '12px', position: 'relative', bottom: '2px' }}>
               <View className='title'>{!data.matched ? 0 : data.matched}+</View>
               <View className='content'>配对成功人数</View>
             </View>
           </View>
           <View className='col data-card pink'>
-            <Image src={HeartsIcon} shape='circle' className='icon'/>
-            <View style={{marginLeft: '12px', position: 'relative', bottom: '2px'}}>
+            <Image src={HeartsIcon} shape='circle' className='icon' />
+            <View style={{ marginLeft: '12px', position: 'relative', bottom: '2px' }}>
               <View className='title'>{!data.unavailable ? 0 : data.unavailable}+</View>
               <View className='content'>成功脱单人数</View>
             </View>
@@ -194,13 +194,13 @@ const Home = () => {
         <View className='articles'>
           {
             articles && articles.length ? articles.map((article, index) => (
-              <ArticleCard key={index} article={article}/>
+              <ArticleCard key={index} article={article} />
             )) :
-            <></>
+              <></>
           }
         </View>
       </View>
-      <View className='section' style={{margin: 0}}>
+      <View className='section' style={{ margin: 0 }}>
         <View className='section-name'>脱单反馈</View>
         <Image
           lazyLoad
@@ -217,20 +217,20 @@ const Home = () => {
         onClose={() => {
           dispatch(confirmNotify())
         }
-      }
+        }
       >
         <View className='info-part'>
           <View className='title'>Welcome back 👏</View>
-            <Image className='background-img' src={welcomeImage}/>
-          <View className='desp'>{needUpdate?'新学期开学，请更新你的身份信息～':'新学期开学，已为您自动升高年级～'}</View>
+          <Image className='background-img' src={welcomeImage} />
+          <View className='desp'>{needUpdate ? '新学期开学，请更新你的身份信息～' : '新学期开学，已为您自动升高年级～'}</View>
         </View>
-        <View className='button' onClick={async ()=>{
+        <View className='button' onClick={async () => {
           await dispatch(confirmNotify())
-          if(needUpdate){
-            await Taro.redirectTo({url: '/pages/user/information/index'})
+          if (needUpdate) {
+            await Taro.redirectTo({ url: '/pages/user/information/index' })
           }
         }}
-        >{needUpdate?'去更新':'知道了'}</View>
+        >{needUpdate ? '去更新' : '知道了'}</View>
       </Popup>
     </View>
   )
