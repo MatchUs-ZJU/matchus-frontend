@@ -4,6 +4,7 @@ import {
   ACTIVITY_CHOOSE_SAVE,
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
+  SET_HAS_VOUCHER,
   CHOOSE_SAVE,
   MATCH_SAVE,
   ACTIVITY_SIGN_UP_SAVE,
@@ -11,12 +12,14 @@ import {
   ACTIVITY_APPROVE_SAVE,
   ACTIVITY_ANALYSIS_SAVE,
   ACTIVITY_BASIC_DATA_SAVE,
-  MATCH_FEEDBACK_SAVE
+  MATCH_FEEDBACK_SAVE,
+  SAVE_VOUCHER_READ_INFO
 } from "@/constants";
 import {
   postFilledForm,
   getLatestActivityInfo,
   postPreJoinActivity,
+  useVoucherJoinActivity,
   getMatchResult,
   postSatisfiedFeedback,
   postSendTwcResult,
@@ -28,12 +31,26 @@ import {
   getMatchAnalysisData,
   notifyMatchSubscribe, getActivityData, postMatchFeedback, getMatchFeedback
 } from "@/services/activity";
-import {TOAST_SHOW_TIME} from "@/utils/constant";
-import {globalSave} from "@/actions/global";
+import { TOAST_SHOW_TIME } from "@/utils/constant";
+import { globalSave } from "@/actions/global";
 
 export const activitySave = (payload) => {
   return {
     type: ACTIVITY_SAVE,
+    payload
+  }
+}
+
+export const setHasVoucher = (payload) => {
+  return {
+    type: SET_HAS_VOUCHER,
+    payload
+  }
+}
+
+export const saveVoucherReadInfo = (payload) => {
+  return {
+    type: SAVE_VOUCHER_READ_INFO,
     payload
   }
 }
@@ -124,7 +141,8 @@ export const fetchLatestActivityInfo = () => {
       const res = await getLatestActivityInfo()
       if (res && res.code === 0) {
         console.log("活动页面：获取最新活动信息和用户参与情况成功")
-        dispatch(activitySave(res.data))
+        dispatch(activitySave(res.data));
+        dispatch(setHasVoucher(res.data.hasVoucher))
       } else {
         console.log("活动页面：获取最新活动信息和用户参与情况失败")
       }
@@ -134,7 +152,7 @@ export const fetchLatestActivityInfo = () => {
   }
 }
 
-export const preJoinActivity = ({id, price, body, attach}) => {
+export const preJoinActivity = ({ id, price, body, attach }) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     try {
@@ -146,7 +164,7 @@ export const preJoinActivity = ({id, price, body, attach}) => {
 
       if (preJoinRes && preJoinRes.code === 0) {
         console.log("活动页面：发起预处理请求成功，发起支付请求")
-        let {timeStamp, nonceStr, signType, paySign} = preJoinRes.data
+        let { timeStamp, nonceStr, signType, paySign } = preJoinRes.data
         let payRes = await Taro.requestPayment({
           timeStamp,
           nonceStr,
@@ -201,23 +219,72 @@ export const preJoinActivity = ({id, price, body, attach}) => {
   }
 }
 
+//使用匹配券发起支付
+export const preUseVoucherJoinActivity = ({ id, useVoucher }) => {
+  return async dispatch => {
+    console.log("活动页面：发起参与活动，进行购买预处理")
+    try {
+      let preJoinRes = await useVoucherJoinActivity(id, { useVoucher })
+
+      if (preJoinRes && preJoinRes.code === 0) {
+        console.log("活动页面：支付成功")
+        await Taro.showModal({
+          title: '操作提示',
+          content: '支付成功',
+          showCancel: false,
+          confirmText: '确定'
+        })
+        // 改变状态，主动让用户填写表单
+        dispatch(globalSave({
+          pushFillForm: true
+        }))
+        dispatch(activitySignUpSave({
+          paid: true,
+          participated: true,
+          state: 'ACTIVE'
+        }))
+        // 用户订阅消息通知
+        dispatch(notifySubscribe([
+          'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
+          'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
+          'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+        ]))
+
+      } else {
+        await Taro.showToast({
+          title: '支付失败',
+          duration: 3000,
+          icon: 'error'
+        })
+      }
+    } catch (e) {
+      console.log(e)
+      await Taro.showToast({
+        icon: 'none',
+        title: '购买失败',
+        duration: 3000,
+      });
+    }
+  }
+}
+
 export const confirmSubscribe = () => {
   return async dispatch => {
     console.log('匹配訂閲確認：匹配結果通知已確認')
-    try{
+    try {
       const res = await notifyMatchSubscribe()
-      if(res && res.code === 0){
-        dispatch(matchStateSave({subscribe: true}))
-      }else{
+      if (res && res.code === 0) {
+        dispatch(matchStateSave({ subscribe: true }))
+      } else {
         console.log('匹配訂閲確認：未成功確認')
       }
-    }catch(e){
+    } catch (e) {
       console.log(e)
     }
   }
 }
 
-export const notifySubscribe = (tmplIds: string[],notifyConfirm: boolean =  false) => {
+export const notifySubscribe = (tmplIds: string[], notifyConfirm: boolean = false) => {
   return async dispatch => {
     console.log('活动页面：用户订阅消息')
     let subscribeRes = await Taro.requestSubscribeMessage({
@@ -226,7 +293,7 @@ export const notifySubscribe = (tmplIds: string[],notifyConfirm: boolean =  fals
 
     if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
       console.log('活动页面：用户订阅消息成功')
-      if(notifyConfirm && subscribeRes['49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'] === 'accept'){
+      if (notifyConfirm && subscribeRes['49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'] === 'accept') {
         dispatch(confirmSubscribe())
       }
     } else {
@@ -241,7 +308,7 @@ export const notifySubscribe = (tmplIds: string[],notifyConfirm: boolean =  fals
   }
 }
 
-export const fillForm = ({appId, path}) => {
+export const fillForm = ({ appId, path }) => {
   return async () => {
     console.log("活动页面：用户填写问卷星")
     try {
@@ -268,7 +335,7 @@ export const fillForm = ({appId, path}) => {
 
 export const finishFillForm = (surveyDetail) => {
   return async dispatch => {
-    console.log("活动页面：用户完成填写问卷",surveyDetail)
+    console.log("活动页面：用户完成填写问卷", surveyDetail)
     try {
       let res = await postFilledForm(surveyDetail)
 
@@ -286,7 +353,7 @@ export const finishFillForm = (surveyDetail) => {
   }
 }
 
-export const sendFavor = ({id, level}) => {
+export const sendFavor = ({ id, level }) => {
   return async dispatch => {
     console.log("活动页面：发送每日好感度反馈")
     try {
@@ -311,7 +378,7 @@ export const sendFavor = ({id, level}) => {
   }
 }
 
-export const sendMessage = ({message, id}) => {
+export const sendMessage = ({ message, id }) => {
   return async dispatch => {
     console.log("活动页面：发送留言")
     try {
@@ -340,7 +407,7 @@ export const sendMessage = ({message, id}) => {
   }
 }
 
-export const sendSatisfiedFeedback = ({id, level}) => {
+export const sendSatisfiedFeedback = ({ id, level }) => {
   return async dispatch => {
     console.log("活动页面：发送满意度调查结果")
     try {
@@ -435,14 +502,14 @@ export const fetchMatchQuestion = (id) => {
   }
 }
 
-export const approvalAnswer = ({activityId, questionId, approval}) => {
+export const approvalAnswer = ({ activityId, questionId, approval }) => {
   return async dispatch => {
     try {
-      let res = await postMatchQuestionApproval({activityId, questionId, approval})
+      let res = await postMatchQuestionApproval({ activityId, questionId, approval })
       if (res && res.code === 0) {
         console.log("活动页面：点赞成功")
         if (res.data.success) {
-          dispatch(activityApproveSave({before: {approval: approval}}))
+          dispatch(activityApproveSave({ before: { approval: approval } }))
         }
       } else {
         console.log("活动页面：点赞失败")
@@ -454,10 +521,10 @@ export const approvalAnswer = ({activityId, questionId, approval}) => {
 }
 
 
-export const answerQuestion = ({activityId, questionId, answer}) => {
+export const answerQuestion = ({ activityId, questionId, answer }) => {
   return async dispatch => {
     try {
-      let res = await postMatchQuestionAnswer({activityId, questionId, answer})
+      let res = await postMatchQuestionAnswer({ activityId, questionId, answer })
       if (res && res.code === 0) {
         console.log("活动页面：回答成功", res)
         dispatch(fetchMatchQuestion(activityId))
@@ -475,7 +542,7 @@ export const answerQuestion = ({activityId, questionId, answer}) => {
   }
 }
 
-export const sendTwcResult = ({id, choose}) => {
+export const sendTwcResult = ({ id, choose }) => {
   return async dispatch => {
     console.log("活动页面：发送双选选择结果")
     try {
@@ -535,7 +602,7 @@ export const fetchMatchAnalysisData = (activityId) => {
 export const fetchActivityData = () => {
   return async dispatch => {
     console.log("活动页面：获取活动相关信息")
-    try{
+    try {
       let res = await getActivityData()
       if (res && res.code === 0) {
         console.log("活动页面：获取活动相关信息成功")
@@ -543,7 +610,7 @@ export const fetchActivityData = () => {
       } else {
         console.log("活动页面：获取活动相关信息失败")
       }
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
   }
