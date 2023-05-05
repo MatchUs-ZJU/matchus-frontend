@@ -196,6 +196,7 @@ export const preJoinActivity = ({ id, price, body, attach }) => {
             'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
             'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
             'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+            'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
           ]))
         } else {
           console.log(payRes)
