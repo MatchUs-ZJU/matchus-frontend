@@ -52,6 +52,7 @@ const User = () => {
   useEffect(() => {
     dispatch(fetchVoucherReadInfo());
   }, []);
+
   const isVoucherUnread = useSelector(
     state => state.activity.isVoucherUnread
   );
@@ -127,6 +128,7 @@ const User = () => {
     }
     else {
       await Taro.navigateTo({ url: '/pages/user/wallet/index' })
+      dispatch(fetchVoucherReadInfo());
     }
   }
 
