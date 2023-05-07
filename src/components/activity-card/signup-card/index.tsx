@@ -70,12 +70,13 @@ const SignupCard = (props: SignupCardProps) => {
   }
 
   async function redirectToPersonInfo() {
-    if (!isComplete && isOldUser) {
-      await Taro.navigateTo({ url: '/subPackageB/user/personal-info-modify/index' })
-    }
-    else {
-      await Taro.navigateTo({ url: '/subPackageB/user/personal-info-fill/index' })
-    }
+    await Taro.navigateTo({ url: '/subPackageB/user/personal-info-modify/index' })
+    // if (!isComplete && isOldUser) {
+    //   await Taro.navigateTo({ url: '/subPackageB/user/personal-info-modify/index' })
+    // }
+    // else {
+    //   await Taro.navigateTo({ url: '/subPackageB/user/personal-info-fill/index' })
+    // }
   }
 
   function confirmJoin() {

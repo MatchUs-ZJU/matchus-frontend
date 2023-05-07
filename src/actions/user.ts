@@ -737,7 +737,7 @@ export const fetchVoucherReadInfo = () => {
   return async dispatch => {
     try {
       const res = await getVoucherReadInfo();
-      console.log(res);
+      //console.log(res);
       if (res && res.code === 0) {
         const { unRead } = res.data;
         dispatch(saveVoucherReadInfo(unRead));
