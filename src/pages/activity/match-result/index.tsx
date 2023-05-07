@@ -68,7 +68,7 @@ const Index = () => {
   }, [feedback])
 
   useEffect(() => {
-    console.log('feedbackImages', feedbackImages)
+    //console.log('feedbackImages', feedbackImages)
     if (feedbackImages?.length) {
       dispatch(sendFeedbackImages(user.realName, user.studentNumber, feedbackImages,setFeedbackImages))
     }
