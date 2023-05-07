@@ -555,7 +555,7 @@ export const uploadMultiPersonImages = async (data) => {
 
   return photoUrls
 }
-
+ 
 // 单张
 export const deletePersonalImages = (data) => {
   return async dispatch => {
@@ -591,6 +591,8 @@ export const deletePersonalImages = (data) => {
   }
 
 }
+
+
 
 // 单张
 export const editPersonalImages = (data) => {

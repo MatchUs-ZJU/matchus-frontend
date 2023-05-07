@@ -29,10 +29,12 @@ import {
   postMatchQuestionApproval,
   postMatchQuestionAnswer,
   getMatchAnalysisData,
-  notifyMatchSubscribe, getActivityData, postMatchFeedback, getMatchFeedback
+  notifyMatchSubscribe, getActivityData, postMatchFeedback, getMatchFeedback, postFeedbackImages, postCoS, postFeedback
 } from "@/services/activity";
 import { TOAST_SHOW_TIME } from "@/utils/constant";
 import { globalSave } from "@/actions/global";
+import { CoS } from "@/typings/types";
+import { uploadFeedBackImage } from "@/utils/taro-utils";
 
 export const activitySave = (payload) => {
   return {
@@ -466,7 +468,7 @@ export const fetchMatchFeedback = (id) => {
   }
 }
 
-export const sendMatchFeedback = ({type, imageIds}) => {
+export const sendMatchFeedback = ({ type, imageIds }) => {
   return async dispatch => {
     console.log("活动页面：发送匹配反馈")
     try {
@@ -474,11 +476,35 @@ export const sendMatchFeedback = ({type, imageIds}) => {
         type: type,
         imageIds: imageIds
       })
-      if(res && res.code === 0) {
+      if (res && res.code === 0) {
         console.log("活动页面：发送匹配反馈成功")
         dispatch(matchFeedbackSave(res.data))
       } else {
         console.log("活动页面：发送匹配反馈失败")
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+
+export const sendFeedback = (data) => {
+  console.log("sendFeedback", data)
+  return async dispatch => {
+    console.log("活动页面：发送反馈")
+    try {
+      let res = await postFeedback(data)
+      dispatch(matchFeedbackSave(res.data))
+      if (res && res.code === 0) {
+        console.log("活动页面：发送反馈成功")
+        await Taro.showToast({
+          title: '反馈成功',
+          duration: 1000,
+          icon: 'success'
+        })
+      } else {
+        console.log("活动页面：发送反馈失败")
       }
     } catch (e) {
       console.log(e)
@@ -616,5 +642,60 @@ export const fetchActivityData = () => {
     }
   }
 }
+
+export const sendFeedbackImages = (realName,studentNumber,images:CoS[],setImages) => {
+  return async dispatch => {
+    console.log("活动页面：上传反馈图片")
+    let uploadimages = images.filter(item => item.id==undefined)
+    if(!uploadimages||uploadimages.length==0){
+      console.log("无图片上传")
+      return 
+    }
+    let image = uploadimages[0];
+    console.log("活动页面：上传反馈图片 data:",image)
+    let res:any;
+    try {
+      res = await uploadFeedBackImage(realName,studentNumber,image);
+      console.log("活动页面：上传反馈图片 res:",res)
+      if (res && res.errMsg == "cloud.uploadFile:ok") {
+        console.log("活动页面：上传反馈图片成功")
+      } else {
+        console.log("活动页面：上传反馈图片失败")
+      }
+    } catch (e) {
+      console.log(e)
+      return
+    }
+    console.log("活动页面：上传反馈图片到数据库")
+    try {
+      let t = await postCoS({cloudId:res.fileID})
+      console.log("活动页面：上传反馈图片到数据库 res:",t)
+      if (t && t.code === 0) {
+        console.log("活动页面：上传反馈图片到数据库成功")
+        image=t.data
+      } else {
+        console.log("活动页面：上传反馈图片到数据库失败")
+      }
+    } catch (e) {
+      console.log(e)
+      return
+    }
+    console.log("活动页面：更新图片状态")
+    images=images.filter(item => item.id!=undefined)
+    images.push(image)
+    setImages(images)
+    console.log("活动页面：更新图片状态成功")
+    await Taro.showToast({
+      title: '上传成功',
+      duration: 1000,
+      icon: 'success'
+    })
+    // let data
+
+    // try {
+  }
+}
+
+
 
 

@@ -204,3 +204,23 @@ export const getActivityData = async () => {
     }
   })
 }
+
+export const postCoS = async (data) => {
+  console.log('网络请求：上传CoS图片')
+  return request.post(`/cos/upload`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const postFeedback = async (data) => {
+  console.log('网络请求：上传反馈')
+  return request.post(`/activity/matchFeedback`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}

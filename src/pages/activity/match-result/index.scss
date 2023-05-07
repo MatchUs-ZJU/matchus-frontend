@@ -498,6 +498,14 @@
 }
 
 .content .feedback-info .item .feedback-list .feedback-item {
+  background-color: #F5F4FF;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  font-size: 24px;
+}
+
+.content .feedback-info .item .feedback-list .feedback-item-selected {
   background-color: #918AE3;
   border-radius: 8px;
   padding: 16px;
@@ -509,6 +517,61 @@
   font-size: 24px;
 }
 
+.content .feedback-info .tips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  height: 40px;
+  background: white;
+}
+
+.content .feedback-info .feedback-title{
+  height: 28px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+
+
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.content .feedback-info .check-button {
+  width: 148px;
+  height: 66px;
+
+  background: $primary-color;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 40px;
+  color: white;
+  border-radius: 8px;
+  margin-left: 0px;
+  padding: 12px 0px;
+}
+
+.content .feedback-info .check-button-disabled {
+  width: 148px;
+  height: 66px;
+
+  background: #D3D0F4;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 40px;
+  color: white;
+  border-radius: 8px;
+  margin-left: 0px;
+  padding: 12px 0px;
+}
 
 .wrapper-insider {
   margin: 36px 40px;
@@ -535,33 +598,32 @@
   margin-left: 20px;
 }
 
-.check-button {
-  width: 190px;
-  height: 60px;
+// .check-button {
+//   width: 190px;
+//   height: 60px;
 
-  background: $primary-color;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 40px;
-  color: white;
-  border-radius: 50px;
+//   background: $primary-color;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 28px;
+//   line-height: 40px;
+//   color: white;
+//   border-radius: 50px;
 
-  margin-left: 20px;
-}
+//   margin-left: 20px;
+// }
 
-.check-button-clicked {
-  width: 190px;
-  height: 60px;
+// .check-button-clicked {
+//   width: 190px;
+//   height: 60px;
 
-  background: white;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 40px;
-  color: $primary-color;
-  border-radius: 50px;
-  border: 2px solid $primary-color;
-
-  margin-left: 20px;
-}
+//   background: white;
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 28px;
+//   line-height: 40px;
+//   color: $primary-color;
+//   border-radius: 50px;
+//   border: 2px solid $primary-color;
+//   margin-left: 20px;
+// }
