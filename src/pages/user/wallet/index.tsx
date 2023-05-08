@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 const WalletInfo = () => {
   const [voucherValidity, setVoucherValidity] = useState('');
   const [voucher, setVoucher] = useState([]);
-  let voucherValidityText = '';
+  const [voucherValidityText, setVoucherValidityText] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -22,10 +22,14 @@ const WalletInfo = () => {
         const newVoucher = voucherData.map((coupon) => {
           const startTime = new Date(coupon.createTime).toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\//g, '.');
           const endTime = new Date(coupon.updateTime).toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\//g, '.');
-          voucherValidityText = `有效期 ${startTime}-${endTime}`;
+          const voucherValidityText = `有效期 ${startTime}-${endTime}`;
           console.log(startTime, endTime, voucherValidityText);
+          return (voucherValidityText)
         });
         setVoucher(newVoucher);
+        setVoucherValidityText(newVoucher[0]);
+        console.log('999', newVoucher)
+        console.log('888', voucherValidityText)
       }
     }
     fetchData();
@@ -59,6 +63,7 @@ const WalletInfo = () => {
     </View >
   )
 }
+
 
 
 export default WalletInfo;
