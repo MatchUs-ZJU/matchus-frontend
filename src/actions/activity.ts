@@ -687,11 +687,7 @@ export const sendFeedbackImages = (realName, studentNumber, images: CoS[], setIm
     images.push(image)
     setImages(images)
     console.log("活动页面：更新图片状态成功")
-    await Taro.showToast({
-      title: '上传成功',
-      duration: 1000,
-      icon: 'success'
-    })
+    
     // let data
 
     // try {

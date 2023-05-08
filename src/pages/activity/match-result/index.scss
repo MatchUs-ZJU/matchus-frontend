@@ -328,7 +328,7 @@
   margin-bottom: 0;
   font-style: normal;
   font-weight: 500;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 28px;
   height: 148px;
   background: white;
@@ -511,10 +511,19 @@
   padding: 16px;
   margin: 16px 0;
   font-size: 24px;
+  color: #FFFFFF;
 }
 
 .content .feedback-info .item .title{
-  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: $title-font-size;
+  line-height: 32px;
+
+  display: flex;
+  align-items: center;
+
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .content .feedback-info .tips {
@@ -536,7 +545,7 @@
 
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 28px;
 
 
@@ -571,6 +580,14 @@
   border-radius: 8px;
   margin-left: 0px;
   padding: 12px 0px;
+}
+
+.content .feedback-info .check-button::after {
+  border: 0 none;
+}
+
+.content .feedback-info .check-button-disabled::after {
+  border: 0 none;
 }
 
 .wrapper-insider {
