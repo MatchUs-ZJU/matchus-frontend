@@ -1,6 +1,6 @@
 import Taro from "@tarojs/taro";
 import {BASE_URL, CLOUD_ENV} from "@/config";
-import {IPhotoUrls} from "@/typings/types";
+import {CoS, IPhotoUrls} from "@/typings/types";
 import {getJWT} from "@/services/jwt";
 
 export async function viewImages(urls: string[], current?: string) {
@@ -39,6 +39,28 @@ export async function uploadPersonInfoImage(realName: string,studentNumber: stri
         env: CLOUD_ENV
       }
     })
+}
+
+export async function uploadFeedBackImage(realName: string,studentNumber: string,img: CoS){
+  const generateFileName = () => {
+    const sn = studentNumber === '' ? '3180000000' : studentNumber
+    const rn = realName === '' ? '微信用户' : realName
+    return `${sn}-${rn}-${new Date().getTime()}`
+  }
+  if(!img.cloudId)
+  {
+    console.log('图片不存在')
+    return Promise.reject('图片不存在')
+  }
+  
+    let t = await  Taro.cloud.uploadFile({
+      cloudPath: `feedback/${generateFileName()}.png`,
+      filePath: img.cloudId!,
+      config:{
+        env: CLOUD_ENV
+      }
+    })
+    return t
 }
 
 export async function uploadUserAvatar (avatarUrl: string, realName: string,studentNumber: string) {

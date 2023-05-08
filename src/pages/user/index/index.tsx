@@ -52,6 +52,7 @@ const User = () => {
   useEffect(() => {
     dispatch(fetchVoucherReadInfo());
   }, []);
+
   const isVoucherUnread = useSelector(
     state => state.activity.isVoucherUnread
   );
@@ -107,12 +108,13 @@ const User = () => {
       setNotifyOpen(true)
       await Taro.navigateTo({ url: '/subPackageA/pages/introduction/index' })
     } else {
-      if (isComplete || isOldUser) {
-        // await Taro.navigateTo({url: '/subPackageB/user/personal-info-fill/index'})
-        await Taro.navigateTo({ url: '/subPackageB/user/personal-info-modify/index' })
-      } else if (!isComplete) {
-        await Taro.navigateTo({ url: '/subPackageB/user/personal-info-fill/index' })
-      }
+      await Taro.navigateTo({ url: '/subPackageB/user/personal-info-modify/index' })
+      // if (isComplete || isOldUser) {
+      //   // await Taro.navigateTo({url: '/subPackageB/user/personal-info-fill/index'})
+      //   await Taro.navigateTo({ url: '/subPackageB/user/personal-info-modify/index' })
+      // } else if (!isComplete) {
+      //   await Taro.navigateTo({ url: '/subPackageB/user/personal-info-fill/index' })
+      // }
     }
   }
 
@@ -127,6 +129,7 @@ const User = () => {
     }
     else {
       await Taro.navigateTo({ url: '/pages/user/wallet/index' })
+      dispatch(fetchVoucherReadInfo());
     }
   }
 

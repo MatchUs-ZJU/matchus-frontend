@@ -1,4 +1,4 @@
-import { View } from "@tarojs/components";
+import { Button, Text, View } from "@tarojs/components";
 import { AnonymousImage, CopyIcon, LockedIcon, MatchResultTopImage, WhiteInfo } from "@/assets/images";
 import { Countdown, Image } from "@taroify/core"
 import { ArrowLeft } from '@taroify/icons';
@@ -6,17 +6,21 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMatchResult, sendSatisfiedFeedback } from "@/actions";
 import Taro from "@tarojs/taro";
-import { viewImages } from "@/utils/taro-utils";
+import { uploadFeedBackImage, viewImages } from "@/utils/taro-utils";
 import { getFormatNickname } from "@/utils/fstring";
 import classnames from "classnames";
 import './index.scss';
-import { fetchMatchFeedback } from "@/actions/activity";
+import { fetchMatchFeedback, sendFeedback, sendFeedbackImages, uploadFeedbackImages } from "@/actions/activity";
+import PhotoCell from "@/components/person-info/form-modify/photo-cell";
+import FeedbackImageCell from "@/components/activity-card/feedback-image-cell";
+import FeedbackImageBox from "@/components/activity-card/feedback-image-cell/feedback-image-box";
+import { CoS } from "@/typings/types";
 
 const Index = () => {
   const dispatch = useDispatch()
-  const { match, activity } = useSelector(state => state)
+  const { user, match, activity } = useSelector(state => state)
 
-  const { matchInfo, isTwice, imagesUrl, feedback  } = match
+  const { matchInfo, isTwice, imagesUrl, feedback } = match
 
 
   const currentTime = new Date().getTime()
@@ -26,6 +30,7 @@ const Index = () => {
   const [isShowed, setShowed] = useState(false)
   const [countDownTime, setCountDownTime] = useState(1000)
   const [feedbackSelected, setFeedbackSelected] = useState(-1)
+  const [feedbackImages, setFeedbackImages] = useState<CoS[]>([])
 
   function onHeartChange(value) {
     if (isShowed) {
@@ -36,6 +41,11 @@ const Index = () => {
 
   function submitHeartValue() {
     dispatch(sendSatisfiedFeedback({ id: activity.id, level: heartValue }))
+  }
+
+  function submitFeedback() {
+    let imageIds = feedbackImages.map(item => item.id)
+    dispatch(sendFeedback({ type: feedbackSelected, imageIds: imageIds }))
   }
 
   useEffect(() => {
@@ -52,9 +62,17 @@ const Index = () => {
 
   useEffect(() => {
     if (feedback) {
-      setFeedbackSelected(feedback.type.code)
+      setFeedbackSelected(feedback.type?.code ?? -1)
+      setFeedbackImages(feedback.images ?? [])
     }
   }, [feedback])
+
+  useEffect(() => {
+    //console.log('feedbackImages', feedbackImages)
+    if (feedbackImages?.length) {
+      dispatch(sendFeedbackImages(user.realName, user.studentNumber, feedbackImages,setFeedbackImages))
+    }
+  }, [feedbackImages])
 
   useEffect(() => {
     if (activity && activity.matchResultShowTime) {
@@ -307,16 +325,47 @@ const Index = () => {
                 <View className='feedback-list'>
                   {
                     feedback?.options?.map((item, _) => {
-                      console.log(item)
                       return (
-                        <View className={classnames('feedback-item')}>
+                        <View
+                          onClick={() => {
+                            if (feedback.type == null) {
+                              setFeedbackSelected(item.code)
+                            }
+                          }}
+                          className={classnames('feedback-item', feedbackSelected == item.code && 'feedback-item-selected')}
+                        >
                           {item.description}
                         </View>
                       )
                     }
-                  )}
+                    )}
                 </View>
               </View>
+
+              <Text className="feedback-title">*请上传截图方便核实</Text>
+              <FeedbackImageBox 
+                images={feedbackImages} 
+                onChange={setFeedbackImages} 
+                changeable={feedback?.type?.code == null}
+              />
+              {/* <FeedbackImageCell
+                title='照片'
+                photoUrls={[]}
+                onConfirm={() => { }}
+              /> */}
+
+              <View className='tips purple'>
+                <View>核实后我们将对其进行扣分处理，其他特殊情况可联系小助手反馈</View>
+              </View>
+              <Button
+                className={(feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0 || feedbackImages[0].id==null)?'check-button-disabled':'check-button'}
+                disabled={feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0 || feedbackImages[0].id==null}
+                onClick={() => {
+                  //if (feedbackSelected != -1) {
+                    submitFeedback()
+                  //}
+                }}
+              >确认</Button>
             </View>
           </View>
         </View>

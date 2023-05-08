@@ -31,10 +31,10 @@ export const postPreJoinActivity = async (id, data) => {
 }
 
 //使用匹配券生成订单
-export const useVoucherJoinActivity = async (id, data) => {
+export const useVoucherJoinActivity = async (id, useVoucher, data) => {
   console.log('网络请求：使用匹配券加入活动预处理')
-  return request.post(`/activity/join?id=${id}`, {
-    data,
+  return request.post(`/activity/join?id=${id}&useVoucher=${useVoucher}`, {
+    data: {},
     header: {
       Authorization: getJWT(),
     },
@@ -202,5 +202,25 @@ export const getActivityData = async () => {
     header: {
       Authorization: getJWT(),
     }
+  })
+}
+
+export const postCoS = async (data) => {
+  console.log('网络请求：上传CoS图片')
+  return request.post(`/cos/upload`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
+  })
+}
+
+export const postFeedback = async (data) => {
+  console.log('网络请求：上传反馈')
+  return request.post(`/activity/matchFeedback`, {
+    data,
+    header: {
+      Authorization: getJWT(),
+    },
   })
 }

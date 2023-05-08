@@ -291,26 +291,27 @@ export interface MatchFeedBackEnum {
 }
 
 export interface CoS {
+  //imageUrl?: string;
   /**
      * cloudId
      */
-  cloudId: string;
+  cloudId?: string;
   /**
    * 创建时间
    */
-  createTime: any[] | boolean | number | number | { [key: string]: any } | null | string;
+  createTime?: any[] | boolean | number | number | { [key: string]: any } | null | string;
   /**
    * 下载链接
    */
-  downloadUrl: null | string;
+  downloadUrl?: null | string;
   /**
    * id
    */
-  id: number;
+  id?: number;
   /**
    * 用户id
    */
-  userId: number;
+  userId?: number;
 }
 
 export interface IMatchFeedback {
