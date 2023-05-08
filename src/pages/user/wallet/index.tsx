@@ -10,14 +10,22 @@ import { useEffect, useState } from "react";
 
 const WalletInfo = () => {
   const [voucherValidity, setVoucherValidity] = useState('');
+  const [voucher, setVoucher] = useState([]);
+  let voucherValidityText = '';
+
   useEffect(() => {
     async function fetchData() {
       const res = await getVoucherInfo();
-      if (res && res.code === 0 && res.data.length > 0) {
-        const voucher = res.data[0];
-        const startTime = new Date(voucher.exchangeStartTime).toLocaleDateString();
-        const endTime = new Date(voucher.exchangeEndTime).toLocaleDateString();
-        setVoucherValidity(`有效期 ${startTime}-${endTime}`);
+      if (res && res.code === 0) {
+        const voucherData = res.data;
+        console.log('333', voucherData);
+        const newVoucher = voucherData.map((coupon) => {
+          const startTime = new Date(coupon.createTime).toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\//g, '.');
+          const endTime = new Date(coupon.updateTime).toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\//g, '.');
+          voucherValidityText = `有效期 ${startTime}-${endTime}`;
+          console.log(startTime, endTime, voucherValidityText);
+        });
+        setVoucher(newVoucher);
       }
     }
     fetchData();
@@ -26,41 +34,32 @@ const WalletInfo = () => {
   return (
     <View className="big-container">
       <View className='container'>
-        <View className="coupon">
-          <View className="icon-container">
-            <Image src={moneyIcon} className='item-icon' />
-            <Image src={halfCircle} className='item-circle' />
+        {voucher.map((coupon, index) => (
+          <View className="coupon" key={index}>
+            <View className="icon-container">
+              <Image src={moneyIcon} className='item-icon' />
+              <Image src={halfCircle} className='item-circle' />
+            </View>
+            <View className="text-container">
+              <Text className="text-title">匹配券</Text>
+              <View className="text-information-one">&#x1F497;免费参与一次匹配</View>
+              <View className="text-information-two">匹配失败恕不退回</View>
+              <Text className="text-time">{voucherValidityText}</Text>
+            </View>
+            <Button className='to-use-btn' onClick={() => {
+              Taro.switchTab({
+                url: '/pages/activity/index/index'
+              })
+            }}>
+              <Text className="to-use-txt" >去使用</Text>
+            </Button>
           </View>
-          {/* <View className="sawtooth-container">
-            {[...Array(17)].map((_, index) => (
-              <View
-                key={index}
-                className="ellipse"
-                style={{
-                  top: `${48 + index * 10}px`,
-                }}
-              />
-            ))}
-            <View className="blackbroad"></View>
-          </View> */}
-          <View className="text-container">
-            <Text className="text-title">匹配券</Text>
-            <View className="text-information-one">&#x1F497;免费参与一次匹配</View>
-            <View className="text-information-two">匹配失败恕不退回</View>
-            <Text className="text-time">{voucherValidity}</Text>
-          </View>
-          <Button className='to-use-btn' onClick={() => {
-            Taro.switchTab({
-              url: '/pages/activity/index/index'
-            })
-          }}>
-            <Text className="to-use-txt" >去使用</Text>
-          </Button>
-        </View>
-      </View >
-    </View>
+        ))}
+      </View>
+    </View >
   )
 }
+
 
 export default WalletInfo;
 

@@ -11,7 +11,6 @@
   width: 720px;
   height: auto;
   left: 15px;
-  top: 16px;
   border-radius: 8px;
 
   .coupon {
@@ -21,6 +20,11 @@
     justify-content: space-between;
     align-items: center;
     background-color: #FFFFFF;
+    margin: 23rpx;
+    border-radius: 20%;
+    overflow: hidden;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
 
     .icon-container {
       display: flex;
@@ -32,6 +36,7 @@
       left: -60px;
       top: 0px;
       background: #E4E5FB;
+      overflow: hidden;
 
       .item-icon {
         position: absolute;
@@ -45,9 +50,9 @@
       .item-circle {
         position: absolute;
         left: 6px;
-        right: 37.86%;
-        top: -10%;
-        bottom: 11%;
+        right: 82.54px;
+        top: -21.8px;
+        bottom: 23.98px;
       }
     }
 
@@ -98,29 +103,29 @@
 
       .text-information-one {
         position: absolute;
-        width: 200rpx;
+        width: 223rpx;
         height: 39rpx;
         left: -35rpx;
         top: 68rpx;
         font-family: "PingFang SC";
         font-style: normal;
         font-weight: 400;
-        font-size: 20rpx;
-        line-height: 18rpx;
+        font-size: 24rpx;
+        line-height: 24rpx;
         color: #737373;
       }
 
       .text-information-two {
         position: absolute;
-        width: 200rpx;
+        width: 223rpx;
         height: 39rpx;
         left: -35rpx;
         top: 100rpx;
         font-family: "PingFang SC";
         font-style: normal;
         font-weight: 400;
-        font-size: 20rpx;
-        line-height: 18rpx;
+        font-size: 24rpx;
+        line-height: 24rpx;
         color: #737373;
       }
 
@@ -150,10 +155,12 @@
       top: -10rpx;
       background: #918AE3;
       border-radius: 50rpx;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       .to-use-txt {
         position: absolute;
-        left: 51rpx;
         width: 92rpx;
         height: 72rpx;
         font-family: "PingFang SC";

@@ -223,11 +223,12 @@ export const preJoinActivity = ({ id, price, body, attach }) => {
 }
 
 //使用匹配券发起支付
-export const preUseVoucherJoinActivity = ({ id, useVoucher }) => {
+export const preUseVoucherJoinActivity = ({ id, useVoucher, data }) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
+    // console.log('usevoucher', useVoucher)
     try {
-      let preJoinRes = await useVoucherJoinActivity(id, { useVoucher })
+      let preJoinRes = await useVoucherJoinActivity(id, useVoucher, data)
 
       if (preJoinRes && preJoinRes.code === 0) {
         console.log("活动页面：支付成功")
@@ -251,6 +252,7 @@ export const preUseVoucherJoinActivity = ({ id, useVoucher }) => {
           'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
           'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
           'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+          'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
         ]))
 
       } else {
@@ -643,20 +645,20 @@ export const fetchActivityData = () => {
   }
 }
 
-export const sendFeedbackImages = (realName,studentNumber,images:CoS[],setImages) => {
+export const sendFeedbackImages = (realName, studentNumber, images: CoS[], setImages) => {
   return async dispatch => {
     console.log("活动页面：上传反馈图片")
-    let uploadimages = images.filter(item => item.id==undefined)
-    if(!uploadimages||uploadimages.length==0){
+    let uploadimages = images.filter(item => item.id == undefined)
+    if (!uploadimages || uploadimages.length == 0) {
       console.log("无图片上传")
-      return 
+      return
     }
     let image = uploadimages[0];
-    console.log("活动页面：上传反馈图片 data:",image)
-    let res:any;
+    console.log("活动页面：上传反馈图片 data:", image)
+    let res: any;
     try {
-      res = await uploadFeedBackImage(realName,studentNumber,image);
-      console.log("活动页面：上传反馈图片 res:",res)
+      res = await uploadFeedBackImage(realName, studentNumber, image);
+      console.log("活动页面：上传反馈图片 res:", res)
       if (res && res.errMsg == "cloud.uploadFile:ok") {
         console.log("活动页面：上传反馈图片成功")
       } else {
@@ -668,11 +670,11 @@ export const sendFeedbackImages = (realName,studentNumber,images:CoS[],setImages
     }
     console.log("活动页面：上传反馈图片到数据库")
     try {
-      let t = await postCoS({cloudId:res.fileID})
-      console.log("活动页面：上传反馈图片到数据库 res:",t)
+      let t = await postCoS({ cloudId: res.fileID })
+      console.log("活动页面：上传反馈图片到数据库 res:", t)
       if (t && t.code === 0) {
         console.log("活动页面：上传反馈图片到数据库成功")
-        image=t.data
+        image = t.data
       } else {
         console.log("活动页面：上传反馈图片到数据库失败")
       }
@@ -681,7 +683,7 @@ export const sendFeedbackImages = (realName,studentNumber,images:CoS[],setImages
       return
     }
     console.log("活动页面：更新图片状态")
-    images=images.filter(item => item.id!=undefined)
+    images = images.filter(item => item.id != undefined)
     images.push(image)
     setImages(images)
     console.log("活动页面：更新图片状态成功")

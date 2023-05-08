@@ -97,6 +97,7 @@ const SignupCard = (props: SignupCardProps) => {
     }
     dispatch(preUseVoucherJoinActivity
       (payload))
+    console.log("发起匹配券购买请求");
   }
 
   return (
