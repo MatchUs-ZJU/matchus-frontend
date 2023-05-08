@@ -358,12 +358,12 @@ const Index = () => {
                 <View>核实后我们将对其进行扣分处理，其他特殊情况可联系小助手反馈</View>
               </View>
               <Button
-                className={(feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0)?'check-button-disabled':'check-button'}
-                disabled={feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0}
+                className={(feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0 || feedbackImages[0].id==null)?'check-button-disabled':'check-button'}
+                disabled={feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0 || feedbackImages[0].id==null}
                 onClick={() => {
-                  if (feedbackSelected != -1) {
+                  //if (feedbackSelected != -1) {
                     submitFeedback()
-                  }
+                  //}
                 }}
               >确认</Button>
             </View>
