@@ -1,29 +1,32 @@
 @import '../../../app';
 
 .big-container {
-  height: 200px;
+  height: 100%;
   position: relative;
 }
 
 .container {
-  overflow: hidden;
+  overflow-y: scroll;
   position: absolute;
-  width: 720px;
-  height: auto;
-  left: 15px;
+  height: 100%;
   border-radius: 8px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 
   .coupon {
     height: 200px;
     display: flex;
+    align-items: center;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: #FFFFFF;
-    margin: 23rpx;
+    margin: 29rpx;
     border-radius: 20%;
     overflow: hidden;
-    border: 1px solid #FFFFFF;
     border-radius: 10px;
 
     .icon-container {
@@ -35,8 +38,15 @@
       height: 200px;
       left: -60px;
       top: 0px;
-      background: #E4E5FB;
-      overflow: hidden;
+
+
+      .item-knife {
+        position: relative;
+        width: 218px;
+        height: 200px;
+        left: 30rpx;
+        top: 0px;
+      }
 
       .item-icon {
         position: absolute;
@@ -55,33 +65,6 @@
         bottom: 23.98px;
       }
     }
-
-    // .sawtooth-container {
-    //   position: relative;
-    //   width: 60px;
-    //   height: 200px;
-    //   left: 158px;
-    //   top: 0px;
-
-    // .ellipse {
-    //   position: absolute;
-    //   width: 6px;
-    //   height: 6px;
-    //   top: 0;
-    //   left: 79px;
-    //   background: "#D9D9D9"
-    // }
-
-    // .blackbroad {
-    //   position: absolute;
-    //   top: 0;
-    //   left: 79px;
-    //   width: 6px;
-    //   height: 100px;
-    //   background-color: #E4E5FB;
-    // }
-
-    // }
 
     .text-container {
       position: relative;
@@ -103,7 +86,7 @@
 
       .text-information-one {
         position: absolute;
-        width: 223rpx;
+        width: 300rpx;
         height: 39rpx;
         left: -35rpx;
         top: 68rpx;
@@ -134,13 +117,12 @@
         width: 340px;
         height: 24px;
         left: -35rpx;
-        bottom: 25rpx;
+        bottom: 24px;
         font-family: 'PingFang SC';
         font-style: normal;
         font-weight: 400;
-        font-size: 20rpx;
+        font-size: 24rpx;
         line-height: 24px;
-
         color: #918AE3;
       }
     }
@@ -149,15 +131,16 @@
 
     .to-use-btn {
       position: relative;
-      width: 200rpx;
+      width: 190rpx;
       height: 72rpx;
-      left: 120rpx;
-      top: -10rpx;
+      left: 117rpx;
+      right: 30px;
       background: #918AE3;
       border-radius: 50rpx;
       display: flex;
       justify-content: center;
       align-items: center;
+      border: 0px #918AE3 solid;
 
       .to-use-txt {
         position: absolute;
@@ -178,7 +161,71 @@
         color: #FFFFFF;
       }
     }
+
+
   }
 
 
+}
+
+.unshow {
+  position: absolute;
+  width: 280px;
+  height: 88px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #000000;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 7PX;
+  opacity: 0;
+  transition: opacity 1s ease-out;
+
+  .text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24rpx;
+    line-height: 88px;
+    color: #FFFFFF;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
+}
+
+.cantParticipateToast-Container {
+  position: absolute;
+  width: 280px;
+  height: 88px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: #000000;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 7PX;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+
+  .text-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24rpx;
+    line-height: 88px;
+    color: #FFFFFF;
+    opacity: 1;
+    transition: opacity 1s ease-out;
+  }
 }

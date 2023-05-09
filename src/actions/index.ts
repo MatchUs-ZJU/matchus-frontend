@@ -2,6 +2,7 @@ export { globalSave } from './global'
 export { userSave, fetchUserInfo, fetchUserProfile, relogin, initRegister, submitIdentificationInfo, fetchPhoneNumber, fetchPersonInfo } from './user'
 export { fetchBanners, fetchRecommends } from './home'
 export {
+  saveActivityWallet,
   sendSatisfiedFeedback,
   sendTwcResult,
   fetchLatestActivityInfo,
