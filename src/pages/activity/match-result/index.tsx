@@ -355,7 +355,7 @@ const Index = () => {
               /> */}
 
               <View className='tips purple'>
-                <View>核实后我们将对其进行扣分处理，其他特殊情况可联系小助手反馈</View>
+                <View>核实后将对其进行扣分处理，其他特殊情况可联系小助手反馈</View>
               </View>
               <Button
                 className={(feedback?.type?.code != null || feedbackSelected == -1 || feedbackImages.length == 0 || feedbackImages[0].id==null)?'check-button-disabled':'check-button'}
