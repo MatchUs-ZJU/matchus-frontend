@@ -77,6 +77,7 @@ import AnalysisHeaderImage from './analysis-header.svg'
 import AnalysisHeartbrokenImage from './analysis-heartbroken.svg'
 import moneyIcon from './wallet-money.svg'
 import halfCircle from './wallet-half-circle.svg'
+import knife from './wallet-knife.svg'
 
 
 export const welcomeImage = welcome
@@ -94,7 +95,7 @@ export const helpIcon = help
 export const aboutusIcon = aboutus
 export { LoveIcon, DoubleLoveIcon, CloverIcon }
 export { AnalysisHeaderImage, AnalysisHeartbrokenImage }
-export { moneyIcon, halfCircle }
+export { moneyIcon, halfCircle, knife }
 
 
 

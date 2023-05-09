@@ -4,6 +4,7 @@ import {
   ACTIVITY_MATCH_SAVE,
   ACTIVITY_SAVE,
   SAVE_VOUCHER_READ_INFO,
+  ACTIVITY_WALLET_SAVE,
   ACTIVITY_SIGN_UP_SAVE,
   ACTIVITY_DAILYQA_SAVE,
   ACTIVITY_APPROVE_SAVE, ACTIVITY_ANALYSIS_SAVE,
@@ -101,6 +102,9 @@ const INITIAL_STATE: IActivityState = {
       hasResult: false,
       chooseResult: false,
     },
+    wallet: {
+      state: 'NOT_START'
+    }
   },
   wjxAppId: "wxd947200f82267e58",
   wjxPath: "pages/wjxqList/wjxqList?activityId=PfjBWtQ",
@@ -131,6 +135,16 @@ export default function activity(state = INITIAL_STATE, action) {
       return {
         ...state,
         isVoucherUnread: action.payload
+      }
+    case ACTIVITY_WALLET_SAVE:
+      return {
+        ...state,
+        participate: {
+          ...state.participate,
+          wallet: {
+            ...state.participate.wallet,
+          }
+        }
       }
     case ACTIVITY_ANALYSIS_SAVE:
       return {

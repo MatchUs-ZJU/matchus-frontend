@@ -8,6 +8,7 @@ import {
   CHOOSE_SAVE,
   MATCH_SAVE,
   ACTIVITY_SIGN_UP_SAVE,
+  ACTIVITY_WALLET_SAVE,
   ACTIVITY_DAILYQA_SAVE,
   ACTIVITY_APPROVE_SAVE,
   ACTIVITY_ANALYSIS_SAVE,
@@ -68,6 +69,17 @@ export const activitySignUpSave = (payload) => {
   return {
     type: ACTIVITY_SIGN_UP_SAVE,
     payload
+  }
+}
+
+export const saveActivityWallet = (wallet) => {
+  return {
+    type: ACTIVITY_WALLET_SAVE,
+    payload: {
+      participate: {
+        wallet: wallet
+      }
+    }
   }
 }
 
@@ -687,7 +699,7 @@ export const sendFeedbackImages = (realName, studentNumber, images: CoS[], setIm
     images.push(image)
     setImages(images)
     console.log("活动页面：更新图片状态成功")
-    
+
     // let data
 
     // try {

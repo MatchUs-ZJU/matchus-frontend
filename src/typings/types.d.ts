@@ -101,6 +101,10 @@ export interface IParticipateState {
     hasResult: boolean,
     chooseResult: boolean
   }
+
+  wallet: {
+    state: 'NOT_START' | 'ACTIVE' | 'DISABLED'
+  }
 }
 
 export interface IPersonInfo {
