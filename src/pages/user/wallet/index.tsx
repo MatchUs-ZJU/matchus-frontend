@@ -7,7 +7,7 @@ import {
 import './index.scss'
 import { getVoucherInfo } from '@/services/user';
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveActivityWallet } from '@/actions/activity';
 import { store } from "../../../../src/store";
 
@@ -21,14 +21,32 @@ const WalletInfo = () => {
   const [voucherValidityText, setVoucherValidityText] = useState('');
   const [voucher, setVoucher] = useState([]);
   const [showToast, setShowToast] = useState(false);
-  const { state } = useSelector(rootState => rootState.activity.participate.choose)
+  const dispatch = useDispatch()
+  const { home, user } = useSelector((state) => state)
+  const { articles, banners, data } = home
+  const { needUpdate, needRead } = user
+  const currentTime = new Date().getTime()
+  const [, setReady] = useState(false);
+  const [activityTime, setActivityTime] = useState('')
+  const [countDownTime, setCountDownTime] = useState(0)
+  const [countDownType, setCountDownType] = useState<'NOT_START' | 'ACTIVE' | 'FINISHED'>('NOT_START')
 
   const handleClick = () => {
+    Taro.showToast({
+      title: '非报名期内不可使用',
+      duration: 3000,
+      icon: 'error'
+    })
+
+
+
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
     }, 3000);
   }
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -44,10 +62,34 @@ const WalletInfo = () => {
         });
         setVoucher(newVoucher);
         setVoucherValidityText(newVoucher[0]);
+        if (data && data.startTime && data.endTime) {
+          const getFormatTime = (time: Date) => {
+            return `${time.getMonth() < 9 ? `0${time.getMonth() + 1}` : time.getMonth() + 1}.${time.getDate() < 10 ? `0${time.getDate()}` : time.getDate()}`
+          }
+          let startTime = new Date(data.startTime)
+          let endTime = new Date(data.endTime)
+          let start = getFormatTime(startTime)
+          let end = getFormatTime(endTime)
+          let processed: string = `${start}～${end}`;
+          setActivityTime(processed)
+        }
+        // 处理是否能报名，计算剩余时间
+        if (data && data.signUpStartTime && data.signUpEndTime) {
+          if (currentTime <= data.signUpStartTime) {
+            setCountDownType('NOT_START')
+            setCountDownTime(data.signUpStartTime - currentTime)
+          } else if (currentTime > data.signUpStartTime && currentTime < data.signUpEndTime) {
+            setCountDownType('ACTIVE')
+            setCountDownTime(data.signUpEndTime - currentTime)
+          } else {
+            setCountDownType('FINISHED')
+            setCountDownTime(0)
+          }
+        }
       }
     }
     fetchData();
-  }, []);
+  }, [data]);
 
 
 
@@ -68,11 +110,12 @@ const WalletInfo = () => {
               <Text className="text-time">{voucherValidityText}</Text>
             </View>
             <Button className='to-use-btn' onClick={() => {
-              if (state === 'ACTIVE') {
+              if (countDownType === 'ACTIVE') {
                 Taro.switchTab({
                   url: '/pages/activity/index/index'
                 })
-              } else if (state === 'NOT_START') {
+                // console.log(3636, countDownType)
+              } else if (countDownType === 'NOT_START') {
                 handleClick()
               }
             }}>
@@ -83,12 +126,6 @@ const WalletInfo = () => {
         ))
         }
       </View >
-      <View>
-        <View className={`${showToast ? 'cantParticipateToast-Container' : 'unshow'}`}>
-          <Text className="text-container">非报名期内不可使用</Text>
-        </View>
-      </View>
-
     </View >
   )
 }
