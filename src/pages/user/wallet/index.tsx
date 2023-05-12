@@ -114,8 +114,8 @@ const WalletInfo = () => {
                 Taro.switchTab({
                   url: '/pages/activity/index/index'
                 })
-                // console.log(3636, countDownType)
-              } else if (countDownType === 'NOT_START') {
+                console.log(3636, countDownType)
+              } else {
                 handleClick()
               }
             }}>
