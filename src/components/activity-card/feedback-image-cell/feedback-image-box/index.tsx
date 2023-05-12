@@ -65,7 +65,6 @@ const FeedbackImageBox = (props: IPhotoProps) => {
       })
       return
     }
-    console.log("test",props.changeable)
     let updatedImages = images
     const deletResult = images.filter((img) => img.id !== item.id)
     onChange([...deletResult])
