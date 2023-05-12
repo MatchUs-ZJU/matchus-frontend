@@ -18,7 +18,7 @@ store.dispatch(saveActivityWallet(myWallet))
 
 const WalletInfo = () => {
   const [voucherValidity, setVoucherValidity] = useState('');
-  const [voucherValidityText, setVoucherValidityText] = useState('');
+  const [voucherValidityText, setVoucherValidityText] = useState<any>('');
   const [voucher, setVoucher] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const dispatch = useDispatch()
@@ -30,6 +30,7 @@ const WalletInfo = () => {
   const [activityTime, setActivityTime] = useState('')
   const [countDownTime, setCountDownTime] = useState(0)
   const [countDownType, setCountDownType] = useState<'NOT_START' | 'ACTIVE' | 'FINISHED'>('NOT_START')
+  const [newVoucher, setNewVoucher] = useState<any[]>([]);
 
   const handleClick = () => {
     Taro.showToast({
@@ -51,28 +52,48 @@ const WalletInfo = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await getVoucherInfo();
+      console.log(2023, res);
+
+      function formatDate(cellValue) {
+        if (cellValue == null || cellValue == "") return "";
+        let date = new Date(parseInt(cellValue));//时间戳为10位需*1000，如果为13位的话不需乘1000。
+        let Y = date.getFullYear() + '.';
+        let M = date.getMonth() + 1 < 10 ? '' + (date.getMonth() + 1) + '.' : date.getMonth() + 1 + '.';
+        let D = date.getDate() < 10 ? '' + date.getDate() + '' : date.getDate();
+        return Y + M + D;
+      }
       if (res && res.code === 0) {
         const voucherData = res.data;
-        const newVoucher = voucherData.map((coupon) => {
-          const startTime = new Date(coupon.createTime).toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\//g, '.');
-          const endTime = new Date(coupon.updateTime).toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' }).replace(/\//g, '.');
+        const voucher = voucherData.map((coupon) => {
+          const startTime = formatDate(coupon.exchangeStartTime)
+          const endTime = formatDate(coupon.exchangeEndTime)
+          console.log(coupon.exchangeEndTime)
+          console.log(formatDate(1715443200000))
+          console.log(endTime)
           const voucherValidityText = `有效期 ${startTime}-${endTime}`;
-          // console.log(startTime, endTime, voucherValidityText);
-          return (voucherValidityText)
+          console.log(123, voucherValidityText);//这里是对的
+          return {
+            voucherValidityText
+          };
         });
-        setVoucher(newVoucher);
-        setVoucherValidityText(newVoucher[0]);
-        if (data && data.startTime && data.endTime) {
-          const getFormatTime = (time: Date) => {
-            return `${time.getMonth() < 9 ? `0${time.getMonth() + 1}` : time.getMonth() + 1}.${time.getDate() < 10 ? `0${time.getDate()}` : time.getDate()}`
-          }
-          let startTime = new Date(data.startTime)
-          let endTime = new Date(data.endTime)
-          let start = getFormatTime(startTime)
-          let end = getFormatTime(endTime)
-          let processed: string = `${start}～${end}`;
-          setActivityTime(processed)
-        }
+        // console.log(1999, newVoucher)
+        setVoucher(voucher.map((item) => item.voucherValidityText)); // 提取 voucherValidityText
+        console.log(2323, voucher)
+        // setVoucherValidityText(newVoucher)
+
+        // 设置完整的 newVoucher
+        // console.log(newVoucher)
+        // if (data && data.startTime && data.endTime) {
+        //   const getFormatTime = (time: Date) => {
+        //     return `${time.getMonth() < 9 ? `0${time.getMonth() + 1}` : time.getMonth() + 1}.${time.getDate() < 10 ? `0${time.getDate()}` : time.getDate()}`
+        //   }
+        //   let startTime = new Date(data.startTime)
+        //   let endTime = new Date(data.endTime)
+        //   let start = getFormatTime(startTime)
+        //   let end = getFormatTime(endTime)
+        //   let processed: string = `${start}～${end}`;
+        //   setActivityTime(processed)
+        // }
         // 处理是否能报名，计算剩余时间
         if (data && data.signUpStartTime && data.signUpEndTime) {
           if (currentTime <= data.signUpStartTime) {
@@ -96,7 +117,7 @@ const WalletInfo = () => {
   return (
     <View className="big-container">
       <View className='container'>
-        {voucher.map((coupon, index) => (
+        {voucher.map((voucherValidityText, index) => (
           <View className="coupon" key={index}>
             <View className="icon-container">
               <Image src={knife} className="item-knife" />
@@ -107,7 +128,10 @@ const WalletInfo = () => {
               <Text className="text-title">匹配券</Text>
               <View className="text-information-one">&#x1F497;免费参与一次匹配</View>
               <View className="text-information-two">匹配失败不退回</View>
-              <Text className="text-time">{voucherValidityText}</Text>
+              <Text>
+                <Text className="text-time" key={index}>{voucherValidityText}
+                </Text>
+              </Text>
             </View>
             <Button className='to-use-btn' onClick={() => {
               if (countDownType === 'ACTIVE') {
