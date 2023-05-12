@@ -267,18 +267,26 @@ export const preUseVoucherJoinActivity = ({ id, useVoucher, data }) => {
           state: 'ACTIVE'
         }))
         // 用户订阅消息通知
-        dispatch(notifySubscribe([
+        await notifySubscribe([
           'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
           'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
           // 'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
           // 'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
-        ]))
-        dispatch(notifySubscribe([
+        ])
+
+        await Taro.showModal({
+          title: '提示',
+          content: '订阅成功',
+          showCancel: false,
+          confirmText: '确定'
+        })
+
+        await notifySubscribe([
           // 'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
           // 'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
           'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
           'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
-        ]))
+        ])
 
       } else {
         await Taro.showToast({
@@ -314,14 +322,14 @@ export const confirmSubscribe = () => {
   }
 }
 
-export const notifySubscribe = (tmplIds: string[], notifyConfirm: boolean = false) => {
-  return async dispatch => {
+export const notifySubscribe = async (tmplIds: string[], notifyConfirm: boolean = false) => {
+  // return async dispatch => {
     console.log('活动页面：用户订阅消息')
     let subscribeRes = await Taro.requestSubscribeMessage({
       tmplIds: tmplIds
     })
 
-    if (subscribeRes.errMsg === 'requestSubscribeMessage:ok') {
+    if (subscribeRes?.errMsg === 'requestSubscribeMessage:ok') {
       console.log('活动页面：用户订阅消息成功')
       if (notifyConfirm && subscribeRes['49EFzIqjgDy4yVdz0Bo9pkKdT-cPP7K_99sXh51NIkk'] === 'accept') {
         dispatch(confirmSubscribe())
@@ -335,7 +343,7 @@ export const notifySubscribe = (tmplIds: string[], notifyConfirm: boolean = fals
       });
       return
     }
-  }
+  // }
 }
 
 export const fillForm = ({ appId, path }) => {
