@@ -226,6 +226,8 @@ export const preJoinActivity = ({ id, price, body, attach }) => {
             'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
             'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
           ])
+
+          dispatch(fetchLatestActivityInfo())
         } else {
           console.log(payRes)
           await Taro.showToast({
@@ -295,6 +297,7 @@ export const preUseVoucherJoinActivity = ({ id, useVoucher, data }) => {
           'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
           'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
         ])
+        dispatch(fetchLatestActivityInfo())
 
       } else {
         await Taro.showToast({
