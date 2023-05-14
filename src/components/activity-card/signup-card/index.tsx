@@ -50,6 +50,8 @@ const SignupCard = (props: SignupCardProps) => {
     dispatch(fetchLatestActivityInfo());
   }, []);
 
+  
+
   function goToSignUp() {
     // if(userType === 3){
     //   Taro.showToast({
@@ -97,8 +99,7 @@ const SignupCard = (props: SignupCardProps) => {
       useVoucher: 1,
       data: {}
     }
-    dispatch(preUseVoucherJoinActivity
-      (payload))
+    dispatch(preUseVoucherJoinActivity(payload))
     console.log("发起匹配券购买请求");
   }
 
