@@ -94,7 +94,8 @@ const SignupCard = (props: SignupCardProps) => {
     // 发起参与活动，购买请求
     const payload = {
       id: activity,
-      useVoucher: 1
+      useVoucher: 1,
+      data: {}
     }
     dispatch(preUseVoucherJoinActivity
       (payload))
