@@ -206,12 +206,12 @@ export const preJoinActivity = ({ id, price, body, attach }) => {
           }))
 
           // 用户订阅消息通知
-          dispatch(notifySubscribe([
+          await notifySubscribe([
             'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
             'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
             // 'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
             // 'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
-          ]))
+          ])
 
           await Taro.showModal({
             title: '提示',
@@ -220,12 +220,12 @@ export const preJoinActivity = ({ id, price, body, attach }) => {
             confirmText: '确定'
           })
 
-          dispatch(notifySubscribe([
+          await notifySubscribe([
             // 'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
             // 'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
             'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
             'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
-          ]))
+          ])
         } else {
           console.log(payRes)
           await Taro.showToast({
@@ -253,65 +253,65 @@ export const preUseVoucherJoinActivity = ({ id, useVoucher, data }) => {
   return async dispatch => {
     console.log("活动页面：发起参与活动，进行购买预处理")
     // console.log('usevoucher', useVoucher)
-    if (useVoucher) {
-      try {
-        let preJoinRes = await useVoucherJoinActivity(id, useVoucher, data)
+    // if (useVoucher) {
+    try {
+      let preJoinRes = await useVoucherJoinActivity(id, useVoucher, data)
 
-        if (preJoinRes && preJoinRes.code === 0) {
-          console.log("活动页面：支付成功")
-          await Taro.showModal({
-            title: '操作提示',
-            content: '支付成功',
-            showCancel: false,
-            confirmText: '确定'
-          })
-          // 改变状态，主动让用户填写表单
-          dispatch(globalSave({
-            pushFillForm: true
-          }))
-          dispatch(activitySignUpSave({
-            paid: true,
-            participated: true,
-            state: 'ACTIVE'
-          }))
-          // 用户订阅消息通知
-          await notifySubscribe([
-            'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
-            'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
-            // 'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
-            // 'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
-          ])
+      if (preJoinRes && preJoinRes.code === 0) {
+        console.log("活动页面：支付成功")
+        await Taro.showModal({
+          title: '操作提示',
+          content: '支付成功',
+          showCancel: false,
+          confirmText: '确定'
+        })
+        // 改变状态，主动让用户填写表单
+        dispatch(globalSave({
+          pushFillForm: true
+        }))
+        dispatch(activitySignUpSave({
+          paid: true,
+          participated: true,
+          state: 'ACTIVE'
+        }))
+        // 用户订阅消息通知
+        await notifySubscribe([
+          'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
+          'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
+          // 'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+          // 'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
+        ])
 
-          await Taro.showModal({
-            title: '提示',
-            content: '订阅成功',
-            showCancel: false,
-            confirmText: '确定'
-          })
+        await Taro.showModal({
+          title: '提示',
+          content: '订阅成功',
+          showCancel: false,
+          confirmText: '确定'
+        })
 
-          await notifySubscribe([
-            // 'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
-            // 'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
-            'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
-            'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
-          ])
+        await notifySubscribe([
+          // 'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
+          // 'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
+          'ABNu4cv1fPkKLAYqyWW-cXdAHd_Du76b5gQVWqYPG2M',
+          'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
+        ])
 
-        } else {
-          await Taro.showToast({
-            title: '支付失败',
-            duration: 3000,
-            icon: 'error'
-          })
-        }
-      } catch (e) {
-        console.log(e)
+      } else {
         await Taro.showToast({
-          icon: 'none',
-          title: '购买失败',
+          title: '支付失败',
           duration: 3000,
-        });
+          icon: 'error'
+        })
       }
+    } catch (e) {
+      console.log(e)
+      await Taro.showToast({
+        icon: 'none',
+        title: '购买失败',
+        duration: 3000,
+      });
     }
+    // }
   }
 }
 
