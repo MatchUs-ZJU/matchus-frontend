@@ -213,6 +213,13 @@ export const preJoinActivity = ({ id, price, body, attach }) => {
             // 'FcT_VexScd5cLvxf8wi_d9hMcBJQrDjUvQv63YN-7HU',
           ]))
 
+          await Taro.showModal({
+            title: '提示',
+            content: '订阅成功',
+            showCancel: false,
+            confirmText: '确定'
+          })
+
           dispatch(notifySubscribe([
             // 'FGLXTk3ch9W5f8aUTiBddud61bsWlr2F3KhU2c7inGU',
             // 'esF-o_Wy6QFhswmn3PpTXkkitvk1QxsqAQH7zH3EB5A',
