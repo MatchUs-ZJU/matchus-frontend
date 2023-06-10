@@ -1,23 +1,23 @@
-import {View, Text} from "@tarojs/components";
-import {useDispatch, useSelector} from "react-redux";
-import {Image} from "@taroify/core";
-import {useEffect, useState} from "react";
-import {fetchLatestActivityInfo} from "@/actions";
-import {ActivityHelp} from "@/assets/images"
-import Taro, {useDidShow, usePullDownRefresh, useShareAppMessage} from "@tarojs/taro";
-import {MatchCard, SurveyCard, SignUpCard, ChooseCard} from "@/components/";
-import {Like} from "@taroify/icons";
+import { View, Text } from "@tarojs/components";
+import { useDispatch, useSelector } from "react-redux";
+import { Image } from "@taroify/core";
+import { useEffect, useState } from "react";
+import { fetchLatestActivityInfo } from "@/actions";
+import { ActivityHelp } from "@/assets/images"
+import Taro, { useDidShow, usePullDownRefresh, useShareAppMessage } from "@tarojs/taro";
+import { MatchCard, SurveyCard, SignUpCard, ChooseCard } from "@/components/";
+import { Like } from "@taroify/icons";
 import classnames from "classnames";
-import {fetchMatchQuestion} from "@/actions/activity";
-import {fetchPersonInfo} from "@/actions/user";
+import { fetchMatchQuestion } from "@/actions/activity";
+import { fetchPersonInfo } from "@/actions/user";
 import './index.scss';
 
 const Index = () => {
   const dispatch = useDispatch()
-  const {user, activity} = useSelector(state => state)
-  const {nickName, avatarUrl, identified, login, receivedData} = user
-  const {id, price, wjxPath, wjxAppId, participate} = activity
-  const {match, state, choose} = participate
+  const { user, activity } = useSelector(state => state)
+  const { nickName, avatarUrl, identified, login, receivedData } = user
+  const { id, price, wjxPath, wjxAppId, participate } = activity
+  const { match, state, choose } = participate
 
   const [payBodyPrefix, setPayBodyPrefix] = useState('')
   const [signUpStartTime, setSignUpStartTime] = useState('')
@@ -39,18 +39,18 @@ const Index = () => {
   useDidShow(async () => {
     const checkUserState = async () => {
       if (!login || !receivedData) {
-        await Taro.switchTab({url: '/pages/home/index/index'})
+        await Taro.switchTab({ url: '/pages/home/index/index' })
         return
       }
 
       if (!nickName || !avatarUrl || identified === '未认证') {
-        await Taro.reLaunch({url: '/subPackageA/pages/introduction/index'})
+        await Taro.reLaunch({ url: '/subPackageA/pages/introduction/index' })
         return
       }
 
       if (identified === '认证失败') {
 
-        await Taro.reLaunch({url: '/pages/user/information/index'})
+        await Taro.reLaunch({ url: '/pages/user/information/index' })
         return
       }
     }
@@ -101,7 +101,7 @@ const Index = () => {
 
   async function fetchData() {
     dispatch(fetchLatestActivityInfo())
-    if(login){
+    if (login) {
       dispatch(fetchPersonInfo())
     }
   }
@@ -109,7 +109,7 @@ const Index = () => {
   return (
     <View className='container'>
       <View className='header'>
-        <Image src={activity.imageUrl}/>
+        <Image src={activity.imageUrl} />
       </View>
       <View className='wrapper'>
         <SignUpCard
@@ -143,18 +143,18 @@ const Index = () => {
           className={classnames(
             'row',
             'footer',
-            {'footer-failed': state === 'FAIL'},
-            {'footer-success': state === 'SUCCESS'}
+            { 'footer-failed': state === 'FAIL' },
+            { 'footer-success': state === 'SUCCESS' }
           )}
         >
           <Like
-            style={{marginRight: '8px'}}
+            style={{ marginRight: '8px' }}
             size='18px'
           />
           <Text
             className={classnames(
-              {'footer-failed': state === 'FAIL'},
-              {'footer-success': state !== 'FAIL'}
+              { 'footer-failed': state === 'FAIL' },
+              { 'footer-success': state !== 'FAIL' }
             )}
           >
             {state !== 'FAIL' ? '祝你度过一段愉快的MatchUs旅程！' : '很遗憾，没能帮你找到合适的Ta ！'}
@@ -166,11 +166,11 @@ const Index = () => {
         className='help'
         onClick={
           async () => {
-            await Taro.navigateTo({url: '/pages/user/help/index'});
+            await Taro.navigateTo({ url: '/pages/user/productFeedback/index' });
           }
         }
       >
-        <Image src={ActivityHelp}/>
+        <Image src={ActivityHelp} />
       </View>
 
     </View>

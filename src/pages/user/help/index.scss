@@ -1,6 +1,6 @@
 @import "../../../app";
 
-.container{
+.container {
   background: $background-color;
   min-height: 100vh;
   display: flex;
@@ -10,7 +10,7 @@
   justify-content: stretch;
 }
 
-.section{
+.section {
   margin: 24px 0;
 }
 
@@ -19,25 +19,83 @@
   margin-right: 32px;
 }
 
-.title{
+.title {
   margin-left: 32px;
   margin-bottom: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  .title-img{
+  .title-img {
     width: 1.5rem;
     height: 1.5rem;
   }
 
-  .title-text{
+  .title-text {
     color: $primary-color;
     margin-left: 16px;
   }
 }
 
-.arti-service{
+
+.feedback {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 156px;
+  width: 700px;
+  background: rgba(254, 224, 77, 0.8);
+  border-radius: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+
+
+  .report-btn {
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+
+    position: absolute;
+    height: 140px;
+    width: 98%;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    border-radius: 16px;
+    background: transparent;
+    z-index: 2;
+    box-sizing: border-box;
+
+    .arti-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      font-size: 28px;
+      line-height: 48px;
+      height: 220px;
+    }
+
+    .text {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 30px;
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .gift-img {
+    width: 244px;
+    height: 156px;
+    opacity: 1;
+    position: absolute;
+    right: 30px;
+  }
+}
+
+.arti-service {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -46,7 +104,7 @@
   padding: 0 28px;
 }
 
-.arti-text{
+.arti-text {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,11 +114,11 @@
   height: 220px;
 }
 
-.arti-text-color{
+.arti-text-color {
   color: $primary-color;
 }
 
-.arti-wechat{
+.arti-wechat {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,7 +127,7 @@
   margin-left: 16px;
 }
 
-.arti-img{
+.arti-img {
   width: 5rem;
   height: 5rem;
   border: 5px solid $primary-color;
@@ -97,9 +155,7 @@
     line-height: 36px;
   }
 
-  .taroify-collapse-item__content {
-
-  }
+  .taroify-collapse-item__content {}
 }
 
 .report {
