@@ -1,8 +1,8 @@
 import Taro from "@tarojs/taro";
-import {API_STATUS_CODE, HTTP_STATUS, HTTP_STATUS_CODE} from "@/utils/status";
-import {BASE_URL} from "@/config";
-import {checkHomePage} from "@/utils/taro-utils";
-import {removeJWT} from "@/services/jwt";
+import { API_STATUS_CODE, HTTP_STATUS, HTTP_STATUS_CODE } from "@/utils/status";
+import { BASE_URL } from "@/config";
+import { checkHomePage } from "@/utils/taro-utils";
+import { removeJWT } from "@/services/jwt";
 
 const checkHttpStatus = (response: API.Response) => {
   // stop loading
@@ -28,7 +28,7 @@ const checkSuccess = (data: API.ResponseData) => {
   }
 
   // token expire
-  if(data.code === API_STATUS_CODE.TOKEN_EXPIRE) {
+  if (data.code === API_STATUS_CODE.TOKEN_EXPIRE) {
     handleJWTExpired()
       .then(() => {
         return data
@@ -46,8 +46,8 @@ const checkSuccess = (data: API.ResponseData) => {
 async function handleJWTExpired() {
   console.log('网络请求：JWT过期，重新登录')
   removeJWT()
-  if(!checkHomePage()) {
-    await Taro.reLaunch({url: '/pages/home/index/index'})
+  if (!checkHomePage()) {
+    await Taro.reLaunch({ url: '/pages/home/index/index' })
   }
 }
 
@@ -96,11 +96,11 @@ export default {
   },
 
   get(url: string, options?: { [key: string]: any; params?: object }) {
-    return this.request(url, {...options});
+    return this.request(url, { ...options });
   },
 
   delete(url: string, options?: { [key: string]: any; params?: object }) {
-    const res = this.request(url, {...options}, 'DELETE');
+    const res = this.request(url, { ...options }, 'DELETE');
     return res
   },
 

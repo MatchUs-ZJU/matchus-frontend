@@ -79,7 +79,7 @@ import moneyIcon from './wallet-money.svg'
 import halfCircle from './wallet-half-circle.svg'
 import knife from './wallet-knife.svg'
 import productFeedback from './product-feedback.svg'
-import FeedbackGift from './feedback-gift.svg'
+import FeedbackGift from './feedback-gift.png'
 import submitOkIcon from './CheckCircle.svg'
 
 

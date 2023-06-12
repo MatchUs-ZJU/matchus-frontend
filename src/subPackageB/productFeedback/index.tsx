@@ -8,6 +8,7 @@ import FeedbackImageBox from "@/components/activity-card/feedback-image-cell/fee
 import { sendProductFeedback } from "@/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import PageCheckbox from "@/components/person-info/page-chekoutbox";
+import classnames from "classnames";
 
 const productFeedbackInfo = () => {
   const [checked, setChecked] = useState([]);
@@ -21,6 +22,7 @@ const productFeedbackInfo = () => {
   const { feedback } = match
   const [wordCount, setWordCount] = useState(0);
   const maxWordCount = 200; // 最大字数限制
+  const [inputFocus, setInputFocus] = useState(false)
 
   const handleTextareaChange = (e) => {
     const value = e.target.value;
@@ -67,12 +69,20 @@ const productFeedbackInfo = () => {
         <View className="part">
           <View className="title-one"> 产品优化建议（必填）</View>
           <View className="border"></View>
-          <Textarea
-            className="content-text"
-            placeholder="详细的建议能帮助我们更好地优化哦~"
-            value={opinion}
-            onInput={handleTextareaChange} maxlength={200}
-          />
+          <View className={classnames('row textarea-wrapper', { 'textarea-wrapper-focus': inputFocus })}>
+            <Field>
+              <Textarea
+                autoHeight
+                className='content-text'
+                placeholder='详细的建议能帮助我们更好地优化哦~'
+                value={opinion}
+                onInput={handleTextareaChange}
+                maxlength={200}
+                onFocus={() => setInputFocus(true)}
+                onBlur={() => setInputFocus(false)}
+              />
+            </Field>
+          </View>
           <View className="word-count">{`${wordCount}/${maxWordCount}`}</View>
         </View>
         <View className="part part-two">

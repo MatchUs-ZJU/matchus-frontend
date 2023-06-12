@@ -130,6 +130,7 @@
       padding-top: 36rpx;
       position: relative;
       height: 161PX;
+
       // display: flex;
       // flex-direction: row;
       // justify-content: center;
@@ -143,12 +144,12 @@
       // top: 138px;
       // background: #FFFFFF;
 
+
       .title-one {
-        width: 120PX;
+        width: 127PX;
         height: 16px;
-        padding-left: 17rpx;
+        padding-left: 15rpx;
         text-align: center;
-        margin: 0px 3px;
 
         /* 备注 */
         font-family: 'PingFang SC';
@@ -185,9 +186,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 96PX;
+        width: 103PX;
         height: 16px;
-        margin: 0px 3px;
 
         /* 备注 */
         font-family: 'PingFang SC';
@@ -205,7 +205,7 @@
         background-color: #FFFFFF;
         position: relative;
         z-index: 2;
-        padding-left: 17rpx;
+        padding-left: 15rpx;
         text-align: center;
       }
 
@@ -232,9 +232,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 168PX;
+        width: 175PX;
         height: 16px;
-        margin: 0px 3px;
 
         /* 备注 */
         font-family: 'PingFang SC';
@@ -253,7 +252,7 @@
         position: relative;
         z-index: 2;
         text-align: center;
-        padding-left: 17rpx;
+        padding-left: 15rpx;
       }
 
       .line-three {
@@ -300,6 +299,10 @@
           transform: scale(0.8);
         }
       }
+
+      .taroify-cell {
+        padding: var(--cell-vertical-padding, 14rpx) var(--cell-horizontal-padding, var(--padding-md, 20rpx));
+      }
     }
 
     .content-text {
@@ -307,8 +310,6 @@
       // width: 285px;
       height: 242.78rpx;
       top: 25.22rpx;
-      padding-top: 10px;
-      padding-left: 7px;
 
       /* H3-Regular */
       font-family: 'PingFang SC';
