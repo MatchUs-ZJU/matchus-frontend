@@ -48,7 +48,7 @@ const productFeedbackInfo = () => {
     const contact = selectedValue === '是';
 
     dispatch(sendProductFeedback({ imageIds: imageIds, opinion: opinion, contact: contact }));
-    Taro.navigateTo({ url: '/pages/user/submitOK/index' });
+    Taro.navigateTo({ url: '/subPackageB/submitOK/index' });
   };
 
   return (

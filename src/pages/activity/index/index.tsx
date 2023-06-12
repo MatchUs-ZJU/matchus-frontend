@@ -166,7 +166,7 @@ const Index = () => {
         className='help'
         onClick={
           async () => {
-            await Taro.navigateTo({ url: '/pages/user/productFeedback/index' });
+            await Taro.navigateTo({ url: '/subPackageB/productFeedback/index' });
           }
         }
       >

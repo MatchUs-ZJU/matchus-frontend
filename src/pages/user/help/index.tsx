@@ -50,7 +50,7 @@ const Index = () => {
         </View>
         <View className='feedback' onClick={() => {
           Taro.navigateTo({
-            url: '/pages/user/productFeedback/index'
+            url: '/subPackageB/productFeedback/index'
           })
         }}>
           <Button className='report-btn'>

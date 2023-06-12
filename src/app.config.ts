@@ -19,8 +19,6 @@ export default defineAppConfig({
     'pages/user/survey-info/index',
     'pages/user/survey-info-edit/index',
     'pages/user/wallet/index',
-    'pages/user/productFeedback/index',
-    'pages/user/submitOK/index',
   ],
   subPackages: [
     {
@@ -36,7 +34,8 @@ export default defineAppConfig({
       root: 'subPackageB',
       pages: [
         'user/personal-info-modify/index',
-        'user/personal-info-fill/index',
+        'productFeedback/index',
+        'submitOK/index'
       ]
     }
   ],
