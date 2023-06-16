@@ -94,7 +94,7 @@ const SurveyInfoEdit = () => {
           if (!specialRequest.answer) specialRequest.answer = ''
           let answer = specialRequest.answer.split('┋')
           specialRequest.choices = specialRequest.choices.map((item) => {
-            if (answer && answer.indexOf(`${item.choiceIndex}`) !== -1) {
+            if (answer && answer.indexOf(`${item.id}`) !== -1) {
               return { ...item, checked: true }
             } else {
               return { ...item, checked: false }
@@ -304,7 +304,7 @@ const SurveyInfoEdit = () => {
                       let res = 0;
                       let newSpecialRequest = {
                         ...specialRequest, choices: specialRequest.choices.map((_item) => {
-                          if (_item.choiceIndex !== item.choiceIndex) {
+                          if (_item.id !== item.id) {
                             return _item;
                           } else {
                             if (!item.checked && checkedCount >= (specialRequest.limit ?? 1000)) {
