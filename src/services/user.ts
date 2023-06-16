@@ -225,3 +225,15 @@ export const getVoucherReadInfo = async () => {
     }
   })
 }
+
+export const postProductfeedback = async (data) => {
+  console.log('网络请求：上传用户的产品反馈信息')
+  return request.post(`/app/productFeedback`, {
+    data,
+    header: {
+      Authorization: getJWT()
+    }
+  })
+}
+
+

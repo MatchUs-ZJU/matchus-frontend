@@ -1,0 +1,202 @@
+@import '../../../app';
+
+.big-container {
+  overflow-y: hidden;
+  height: 720PX;
+  position: relative;
+  margin: 29rpx;
+  background: #FFFFFF;
+  border-radius: 8px;
+
+  .up-container {
+    height: 556px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+      position: absolute;
+      width: 82px;
+      height: 82px;
+
+      /* Inside auto layout */
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      transform: scale(2);
+    }
+
+    .frame-two {
+      margin-top: 10px;
+      top: 387rpx;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0px;
+      gap: 12px;
+
+      width: 174px;
+      height: 58px;
+      flex: none;
+      order: 1;
+      flex-grow: 0;
+
+      .txt-one {
+        position: absolute;
+        /* left: 50%; */
+        /* top: 50%; */
+        margin-left: 35rpx;
+        margin-top: 241rpx;
+        width: 345rpx;
+        height: 24px;
+
+        font-family: 'PingFang SC';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 34px;
+        line-height: 24px;
+        /* identical to box height, or 141% */
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.05em;
+
+        color: #918AE3;
+
+
+        /* Inside auto layout */
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+
+      }
+
+      .txt-two {
+        margin-left: 26rpx;
+        margin-top: 372rpx;
+        width: 390rpx;
+        height: 22rpx;
+        gap: 16PX;
+
+        font-family: 'PingFang SC';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 34px;
+        line-height: 22px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: -0.02em;
+
+        /* Black */
+        color: #000000;
+
+        opacity: 0.5;
+
+        /* Inside auto layout */
+        flex: none;
+        order: 1;
+        flex-grow: 0;
+      }
+    }
+  }
+
+  .down-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 12px;
+
+    height: 72px;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+
+    .close-btn {
+      position: absolute;
+      width: 348rpx;
+      height: 88rpx;
+      left: 88PX;
+      top: 440PX;
+
+      /* Inside auto layout */
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+
+
+      /* Frame 37 */
+
+      box-sizing: border-box;
+
+      /* Auto layout */
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 105px;
+      gap: 10px;
+
+      background: #F5F4FF;
+      border-radius: 40rpx;
+
+      .txt {
+        text-align: center;
+        width: 72px;
+        height: 48px;
+
+        font-family: 'PingFang SC';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 48px;
+        /* identical to box height, or 133% */
+
+        color: #918AE3;
+
+
+        /* Inside auto layout */
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+      }
+
+    }
+
+    .bye {
+      position: absolute;
+      top: 502PX;
+      left: 136PX;
+      width: 227rpx;
+      height: 32px;
+
+      font-family: 'PingFang SC';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 32px;
+      /* identical to box height, or 133% */
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.05em;
+
+      color: rgba(0, 0, 0, 0.3);
+
+
+      /* Inside auto layout */
+      flex: none;
+      order: 1;
+      flex-grow: 0;
+
+      .txt {
+        text-align: center;
+      }
+    }
+  }
+}
