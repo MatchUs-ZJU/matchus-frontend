@@ -88,17 +88,20 @@ const SurveyInfoEdit = () => {
       if(surveyDetail.specialRequests == null){
         setSpecialRequest(undefined)
       } else {
-        let specialRequest = surveyDetail.specialRequests[0]
-        if (!specialRequest.answer) specialRequest.answer = ''
-        let answer = specialRequest.answer.split('┋')
-        specialRequest.choices = specialRequest.choices.map((item) => {
-          if (answer && answer.indexOf(`${item.choiceIndex}`) !== -1) {
-            return { ...item, checked: true }
-          } else {
-            return { ...item, checked: false }
-          }
-        }).sort((a, b) => a.choiceIndex - b.choiceIndex)
-        setSpecialRequest({ ...specialRequest })
+        if(surveyDetail.specialRequests==null||surveyDetail.specialRequests.length==0) setSpecialRequest(undefined)
+        else {
+          let specialRequest = surveyDetail.specialRequests[0]
+          if (!specialRequest.answer) specialRequest.answer = ''
+          let answer = specialRequest.answer.split('┋')
+          specialRequest.choices = specialRequest.choices.map((item) => {
+            if (answer && answer.indexOf(`${item.choiceIndex}`) !== -1) {
+              return { ...item, checked: true }
+            } else {
+              return { ...item, checked: false }
+            }
+          }).sort((a, b) => a.choiceIndex - b.choiceIndex)
+          setSpecialRequest({ ...specialRequest })
+        }
       }
       setChosenOptional([...chosen])
       setUnchosenOptional([...unChosen])
