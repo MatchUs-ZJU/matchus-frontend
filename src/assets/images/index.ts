@@ -78,12 +78,15 @@ import AnalysisHeartbrokenImage from './analysis-heartbroken.svg'
 import moneyIcon from './wallet-money.svg'
 import halfCircle from './wallet-half-circle.svg'
 import knife from './wallet-knife.svg'
+import productFeedback from './product-feedback.svg'
+import FeedbackGift from './feedback-gift.svg'
+import submitOkIcon from './CheckCircle.svg'
 
 
 export const welcomeImage = welcome
 export { HeartsIcon, TrumpetIcon, TwoPeopleIcon, UploadIcon, StepIcon, StepGreyIcon, HeartBeatIcon, MaleIcon, FemaleIcon, CopyIcon, QaQuestionIcon, QaAnswerIcon, QaReachActiveFund, QaReachGreyFund, QaActiveReach, QaGreyReach, QaGreyFund, QaGreySteps, FullLike, BlankLike, ActivityHelp, WhiteInfo, ChooseAcceptChosen, ChooseAcceptUnchosen, ChooseRejectChosen, ChooseRejectUnchosen }
 export { reportImage, FeedBackImage, HeaderImage, SloganImage, AnonymousImage, AboutUsTopImage, ChooseResultTopImageSuccess, ChooseResultFootImageSuccess, ChooseResultTopImageFailure, ChooseResultFootImageFailure, MatchResultTopImage, Rules }
-export { artiService, commonQuestions, report }
+export { artiService, commonQuestions, report, productFeedback, FeedbackGift }
 export {
   SurveyIcon, PersonalInfoIcon, SurveyMatchIcon, SurveyUserIcon, SurveySortBtn, SurveyAddItem,
   LockedIcon, IdentityIcon,
@@ -96,6 +99,7 @@ export const aboutusIcon = aboutus
 export { LoveIcon, DoubleLoveIcon, CloverIcon }
 export { AnalysisHeaderImage, AnalysisHeartbrokenImage }
 export { moneyIcon, halfCircle, knife }
+export { submitOkIcon }
 
 
 

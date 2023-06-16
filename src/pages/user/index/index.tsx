@@ -295,7 +295,7 @@ const User = () => {
         <Cell.Group inset>
           <Cell
             icon={<Image src={helpIcon} className='left-icon' />}
-            title='帮助与客服'
+            title='帮助与反馈'
             rightIcon={<Arrow size='16' />}
             align='center'
             clickable

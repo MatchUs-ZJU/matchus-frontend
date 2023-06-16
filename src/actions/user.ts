@@ -1,5 +1,5 @@
 import Taro from "@tarojs/taro";
-import { USER_IMAGE_DELETE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_SAVE } from "@/constants";
+import { USER_IMAGE_DELETE, USER_IMAGE_SAVE, USER_PERSONINFO_SAVE, USER_SAVE, PRODUCT_FEEDBACK_SAVE } from "@/constants";
 import {
   decodePhoneNumber, delPersonalImage, getPersonalImage,
   getPersonInfo, getSurveyDetail,
@@ -8,7 +8,7 @@ import {
   identifyUserInfo,
   login, personalUserInfo, postPersonalImage, postPersonalInfo, postSurveyDetail, postUserNeedNotify, putPersonalImage,
   register, updateUserAvatar, updateUserFaculty,
-  updateUserInfo, getVoucherReadInfo
+  updateUserInfo, getVoucherReadInfo, postProductfeedback
 } from "@/services/user";
 import { removeJWT, setJWT } from "@/services/jwt";
 import {
@@ -19,7 +19,8 @@ import {
   INDUSTRY,
   INTEREST, QUESTION_TYPE,
   TEMPERAMENT,
-  TOAST_SHOW_TIME
+  TOAST_SHOW_TIME,
+
 } from "@/utils/constant";
 import {
   deletePersonInfoImage,
@@ -555,7 +556,7 @@ export const uploadMultiPersonImages = async (data) => {
 
   return photoUrls
 }
- 
+
 // 单张
 export const deletePersonalImages = (data) => {
   return async dispatch => {
@@ -744,6 +745,37 @@ export const fetchVoucherReadInfo = () => {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+}
+
+//上传产品反馈
+export const productFeedbackSave = (payload) => {
+  return {
+    type: PRODUCT_FEEDBACK_SAVE,
+    payload
+  }
+}
+
+export const sendProductFeedback = (data) => {
+  console.log("sendFeedback", data)
+  return async dispatch => {
+    console.log("上传反馈")
+    try {
+      let res = await postProductfeedback(data)
+      dispatch(productFeedbackSave(res.data))
+      if (res && res.code === 0) {
+        console.log("上传反馈成功")
+        await Taro.showToast({
+          title: '反馈成功',
+          duration: 1000,
+          icon: 'success'
+        })
+      } else {
+        console.log("上传反馈失败")
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 }
